@@ -39,13 +39,13 @@ function loadProperties() {
 let _redis = null;
 function getRedis() {
   if (_redis) return _redis;
-  if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) return null;
+  // Support both Upstash native vars and Vercel-injected KV_ vars
+  const url   = process.env.UPSTASH_REDIS_REST_URL  || process.env.KV_REST_API_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN;
+  if (!url || !token) return null;
   try {
     const { Redis } = require('@upstash/redis');
-    _redis = new Redis({
-      url:   process.env.UPSTASH_REDIS_REST_URL,
-      token: process.env.UPSTASH_REDIS_REST_TOKEN,
-    });
+    _redis = new Redis({ url, token });
     return _redis;
   } catch (e) {
     console.error('Redis init error:', e.message);
@@ -54,7 +54,10 @@ function getRedis() {
 }
 
 function isKvConfigured() {
-  return !!(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN);
+  return !!(
+    (process.env.UPSTASH_REDIS_REST_URL  || process.env.KV_REST_API_URL) &&
+    (process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN)
+  );
 }
 
 async function loadSubscribers() {
