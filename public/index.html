@@ -519,7 +519,7 @@
 
 <div class="section">
   <div class="section-head">
-    <div class="section-title" data-i18n="sectionTitle">Топ объектов по AI-оценке</div>
+    <div class="section-title" data-i18n="sectionTitle">Топ объектов</div>
     <div class="result-count" id="result-count"></div>
   </div>
   <div id="data-source-badge" style="display:none;align-items:center;gap:6px;font-size:11px;color:var(--muted);margin-bottom:1rem;"></div>
@@ -752,7 +752,7 @@ function updateDataBadge() {
     var d = new Date(dataUpdatedAt);
     var ago = Math.round((Date.now() - d.getTime()) / 60000);
     var agoStr = ago < 60 ? ago + ' мин. назад' : Math.round(ago/60) + ' ч. назад';
-    badge.innerHTML = '<span style="color:var(--success)">●</span> Данные с Циан · обновлено ' + agoStr;
+    badge.innerHTML = '';
     badge.style.display = 'flex';
   } else {
     badge.innerHTML = '<span style="color:var(--warn)">●</span> Демо-данные · <a href="#" onclick="return false;" style="color:var(--accent)">запустите scraper.js для реальных данных</a>';
@@ -1158,7 +1158,7 @@ var T = {
     mln: 'млн ₽', approxUsd: '≈ $',
     locked: 'доступна в подписке PRO', unlockBtn: 'Открыть доступ',
     emptyMsg: 'Нет объектов по выбранным фильтрам.',
-    sectionTitle: 'Топ объектов по AI-оценке',
+    sectionTitle: 'Топ объектов',
     rankBest: '★ Лучшая сделка', rankSilver: '★ Серебро', rankBronze: '★ Бронза',
   },
   en: {
