@@ -3,3 +3,7 @@ node_modules/
 subscribers.json
 *.zip
 .DS_Store
+.vercel
+
+# Scraped data is committed so Vercel can serve it
+# data/properties.json
