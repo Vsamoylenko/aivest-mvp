@@ -203,6 +203,37 @@
   .footer-bottom a { color: var(--faint); text-decoration: none; }
   .footer-bottom a:hover { color: var(--muted); }
 
+  /* ── LIGHT THEME ── */
+  :root[data-theme="light"] {
+    --bg: #f5f4f0; --surface: #ffffff; --surface2: #eceae3;
+    --border: rgba(0,0,0,0.07); --border2: rgba(0,0,0,0.13);
+    --text: #1a1a16; --muted: #6b6860; --faint: #a8a69e;
+    --accent: #6a9e00; --accent-dim: rgba(106,158,0,0.1); --accent-glow: rgba(106,158,0,0.25);
+    --gold: #b8860b; --silver: #808080; --bronze: #a0522d;
+    --success: #2e8b57; --warn: #c8860c; --danger: #c0392b;
+  }
+  :root[data-theme="light"] nav {
+    background: rgba(245,244,240,0.95);
+  }
+  :root[data-theme="light"] .modal-backdrop {
+    background: rgba(0,0,0,0.45);
+  }
+
+  /* ── NAV CONTROLS ── */
+  .nav-controls { display: flex; align-items: center; gap: 8px; }
+  .nav-icon-btn {
+    width: 34px; height: 34px; border-radius: 8px;
+    background: var(--surface); border: 1px solid var(--border2);
+    color: var(--muted); font-size: 15px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: color 0.18s, border-color 0.18s, background 0.18s;
+  }
+  .nav-icon-btn:hover { color: var(--text); border-color: var(--accent-glow); }
+  .lang-btn {
+    padding: 0 10px; width: auto; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.06em; font-family: 'DM Sans', sans-serif;
+  }
+
   @media (max-width: 700px) {
     .stats-row { grid-template-columns: repeat(2,1fr); }
     .cards-grid { grid-template-columns: 1fr; }
@@ -233,22 +264,55 @@
   .method-pts { font-size: 11px; color: var(--accent); font-weight: 600; margin-top: 4px; }
 
   /* ── PRICING CTA SECTION ── */
-  .pricing-section { max-width: 1100px; margin: 0 auto 4rem; padding: 0 2rem; }
-  .pricing-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 600px; }
-  .pricing-card { background: var(--surface); border: 1px solid var(--border2); border-radius: 16px; padding: 24px; cursor: pointer; transition: border-color 0.2s, transform 0.15s; }
-  .pricing-card:hover { border-color: var(--accent-glow); transform: translateY(-2px); }
-  .pricing-card.featured { border-color: rgba(201,241,81,0.4); background: var(--accent-dim); }
-  .pricing-card .pc-badge { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); font-weight: 600; margin-bottom: 8px; }
-  .pricing-card .pc-price { font-family: 'DM Serif Display',serif; font-size: 28px; color: var(--text); margin-bottom: 4px; }
-  .pricing-card .pc-price span { font-size: 14px; font-family: 'DM Sans',sans-serif; color: var(--muted); }
-  .pricing-card .pc-sub { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
-  .pricing-card ul { list-style: none; padding: 0; }
-  .pricing-card ul li { font-size: 13px; color: var(--muted); padding: 4px 0; display: flex; gap: 8px; }
-  .pricing-card ul li::before { content: '✓'; color: var(--accent); font-weight: 600; flex-shrink: 0; }
-  .pc-btn { width: 100%; margin-top: 18px; padding: 10px; border-radius: 9px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; transition: opacity 0.2s; }
+  .pricing-section { max-width: 1100px; margin: 0 auto 4rem; padding: 0 2rem; text-align: center; }
+  .pricing-section .info-section-head { margin-bottom: 0.5rem; }
+  .pricing-section .pricing-sub { font-size: 14px; color: var(--muted); margin-bottom: 2.5rem; }
+  .pricing-cards {
+    display: inline-grid; grid-template-columns: 1fr 1fr;
+    gap: 16px; max-width: 680px; width: 100%; text-align: left;
+  }
+  .pricing-card {
+    background: var(--surface); border: 1px solid var(--border2); border-radius: 20px;
+    padding: 32px 28px; cursor: pointer; transition: border-color 0.2s, transform 0.18s, box-shadow 0.18s;
+    position: relative; overflow: hidden;
+  }
+  .pricing-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.18); }
+  .pricing-card.featured {
+    border-color: var(--accent-glow);
+    background: linear-gradient(145deg, var(--surface) 0%, var(--accent-dim) 100%);
+    box-shadow: 0 0 0 1px var(--accent-glow), 0 8px 24px rgba(0,0,0,0.15);
+  }
+  .pricing-card.featured:hover { box-shadow: 0 0 0 1px var(--accent-glow), 0 16px 40px rgba(0,0,0,0.22); }
+
+  /* "Выгодно" ribbon */
+  .pc-ribbon {
+    position: absolute; top: 18px; left: -1px;
+    background: var(--accent); color: #0b0c0a;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 4px 12px 4px 10px; border-radius: 0 6px 6px 0;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+  }
+
+  .pc-plan-name {
+    font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--text);
+    margin-bottom: 16px; margin-top: 4px;
+  }
+  .pc-price-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 4px; }
+  .pc-price-main { font-family: 'DM Serif Display',serif; font-size: 42px; color: var(--text); line-height: 1; letter-spacing: -0.02em; }
+  .pc-price-unit { font-size: 15px; color: var(--muted); }
+  .pc-price-annual { font-size: 12px; color: var(--muted); margin-bottom: 24px; }
+  .pricing-card.featured .pc-price-main,
+  .pricing-card.featured .pc-plan-name { color: var(--accent); }
+
+  .pc-divider { height: 1px; background: var(--border); margin-bottom: 20px; }
+  .pricing-card ul { list-style: none; padding: 0; margin-bottom: 24px; }
+  .pricing-card ul li { font-size: 13px; color: var(--muted); padding: 5px 0; display: flex; gap: 10px; align-items: flex-start; }
+  .pricing-card ul li::before { content: '✓'; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+  .pc-btn { width: 100%; padding: 13px; border-radius: 11px; font-size: 15px; font-weight: 600; border: none; cursor: pointer; transition: opacity 0.2s, transform 0.15s; font-family: 'DM Sans', sans-serif; }
+  .pc-btn:hover { opacity: 0.88; transform: translateY(-1px); }
   .pc-btn-primary { background: var(--accent); color: #0b0c0a; }
   .pc-btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border2); }
-  .pc-btn:hover { opacity: 0.85; }
 
   /* ── FORM ERROR ── */
   .modal-error { font-size: 12px; color: var(--danger); margin-bottom: 8px; display: none; padding: 8px 12px; background: rgba(227,93,93,0.1); border-radius: 8px; border: 1px solid rgba(227,93,93,0.2); }
@@ -264,13 +328,17 @@
     <a href="#methodology">Методология</a>
     <a href="#" onclick="openModal();return false;">Тарифы</a>
   </div>
-  <button class="nav-cta" onclick="openModal()">Получить PRO доступ</button>
+  <div class="nav-controls">
+    <button class="nav-icon-btn lang-btn" id="lang-toggle" onclick="toggleLang()" title="Switch language">RU</button>
+    <button class="nav-icon-btn" id="theme-toggle" onclick="toggleTheme()" title="Switch theme">🌙</button>
+  </div>
+  <button class="nav-cta" onclick="openModal()" data-i18n="navCta">Получить PRO доступ</button>
 </nav>
 
 <section class="hero">
-  <div class="hero-eyebrow">Продвинутая аналитика недвижимости · aivest.ru</div>
-  <h1>Недвижимость для <em>сдачи и долгосрочных</em> инвестиций</h1>
-  <p class="hero-sub">Объявления от агрегаторов, аукционов и застройщиков. ИИ-рейтинг по скидке к рынку, доходности аренды, региональному росту и ликвидности.</p>
+  <div class="hero-eyebrow" data-i18n="heroEyebrow">Продвинутая аналитика недвижимости · aivest.ru</div>
+  <h1 data-i18n="heroTitle">Недвижимость для <em>сдачи и долгосрочных</em> инвестиций</h1>
+  <p class="hero-sub" data-i18n="heroSub">Объявления от агрегаторов, аукционов и застройщиков. ИИ-рейтинг по скидке к рынку, доходности аренды, региональному росту и ликвидности.</p>
   <div class="source-pills">
     <button class="pill active" data-source="all">Все источники</button>
     <button class="pill" data-source="agg">Агрегаторы</button>
@@ -342,32 +410,45 @@
 
 <!-- ── ТАРИФЫ ── -->
 <section id="pricing" class="pricing-section">
-  <div class="info-section-head">Тарифы</div>
+  <div class="info-section-head" data-i18n="pricingTitle">Тарифы</div>
+  <p class="pricing-sub" data-i18n="pricingSub">Полный доступ ко всем объектам с рейтингом 80+</p>
   <div class="pricing-cards">
+
     <div class="pricing-card">
-      <div class="pc-badge">Месячная</div>
-      <div class="pc-price">990 <span>₽/мес</span></div>
-      <div class="pc-sub">Без обязательств</div>
+      <div class="pc-plan-name" data-i18n="planMonthName">Месячная</div>
+      <div class="pc-price-row">
+        <div class="pc-price-main">990</div>
+        <div class="pc-price-unit" data-i18n="perMonth">₽ / мес</div>
+      </div>
+      <div class="pc-price-annual" data-i18n="planMonthSub">Без обязательств · отмена в любой момент</div>
+      <div class="pc-divider"></div>
       <ul>
-        <li>Все объекты с оценкой 80+</li>
-        <li>Полная аналитика по каждому</li>
-        <li>Фильтры и сортировка</li>
-        <li>Обновления данных ежедневно</li>
+        <li data-i18n="feat1">Все объекты с рейтингом 80+</li>
+        <li data-i18n="feat2">Полная аналитика по каждому объекту</li>
+        <li data-i18n="feat3">Расширенные фильтры и сортировка</li>
+        <li data-i18n="feat4">Экспорт подборки</li>
       </ul>
-      <button class="pc-btn pc-btn-secondary" onclick="openModal()">Оформить за 990 ₽</button>
+      <button class="pc-btn pc-btn-secondary" onclick="openModal()" data-i18n="planMonthBtn">Начать за 990 ₽</button>
     </div>
+
     <div class="pricing-card featured">
-      <div class="pc-badge">Годовая · −40%</div>
-      <div class="pc-price">590 <span>₽/мес</span></div>
-      <div class="pc-sub">7 080 ₽/год — выгода 4 800 ₽</div>
+      <div class="pc-ribbon" data-i18n="ribbon">Выгодно</div>
+      <div class="pc-plan-name" data-i18n="planYearName">Годовая</div>
+      <div class="pc-price-row">
+        <div class="pc-price-main">590</div>
+        <div class="pc-price-unit" data-i18n="perMonth">₽ / мес</div>
+      </div>
+      <div class="pc-price-annual" data-i18n="planYearSub">7 080 ₽/год · экономия 4 800 ₽</div>
+      <div class="pc-divider"></div>
       <ul>
-        <li>Всё из месячного тарифа</li>
-        <li>Приоритетные уведомления</li>
-        <li>Ранний доступ к новым функциям</li>
-        <li>Поддержка по email</li>
+        <li data-i18n="feat1">Все объекты с рейтингом 80+</li>
+        <li data-i18n="feat2">Полная аналитика по каждому объекту</li>
+        <li data-i18n="feat3">Расширенные фильтры и сортировка</li>
+        <li data-i18n="feat4">Экспорт подборки</li>
       </ul>
-      <button class="pc-btn pc-btn-primary" onclick="selectPlanAndOpen('year')">Оформить за 7 080 ₽/год</button>
+      <button class="pc-btn pc-btn-primary" onclick="selectPlanAndOpen('year')" data-i18n="planYearBtn">Оформить за 7 080 ₽/год</button>
     </div>
+
   </div>
 </section>
 
@@ -470,7 +551,7 @@
     <button class="modal-close" onclick="closeModal()">×</button>
     <div id="modal-form-view">
       <div class="modal-icon">🔓</div>
-      <h2>Полный доступ к рейтингу</h2>
+      <h2 data-i18n="modalTitle">Полный доступ к рейтингу</h2>
       <p class="modal-sub">Объекты с AI-оценкой <span>80+</span> — лучшие инвестиционные сделки на рынке. На практике топ-объекты набирают <span>93–96 баллов</span>. Откройте их с подпиской PRO.</p>
       <div class="plan-cards">
         <div class="plan-card selected" onclick="selectPlan(this,'month')">
@@ -636,7 +717,7 @@ function getFiltered() {
 function scoreClass(s) { return s >= 80 ? 'score-high' : s >= 60 ? 'score-mid' : 'score-low'; }
 function barColor(s)   { return s >= 80 ? '#5ecb7e'   : s >= 60 ? '#e4ab3c'   : '#e35d5d'; }
 function rankCls(i)    { return i===0?'gold':i===1?'silver':i===2?'bronze':''; }
-function rankLabel(i)  { return i===0?'★ Лучшая сделка':i===1?'★ Серебро':i===2?'★ Бронза':''; }
+function rankLabel(i)  { return i===0?t('rankBest'):i===1?t('rankSilver'):i===2?t('rankBronze'):''; }
 function sourceTag(s) {
   if (s==='agg')  return '<span class="ctag ctag-agg">Агрегатор</span>';
   if (s==='auct') return '<span class="ctag ctag-auct">Аукцион</span>';
@@ -654,7 +735,7 @@ function render() {
   document.getElementById('s-count').textContent = list.length;
 
   if (!list.length) {
-    grid.innerHTML = '<div class="empty">Нет объектов по выбранным фильтрам.</div>';
+    grid.innerHTML = '<div class="empty">'+t('emptyMsg')+'</div>';
     ['s-score','s-roi','s-top'].forEach(function(id){ document.getElementById(id).textContent='—'; });
     return;
   }
@@ -676,30 +757,26 @@ function render() {
     // Discount
     var discVal  = p.disc > 0 ? '−'+rd(p.disc)+'%' : p.disc < 0 ? '+'+rd(Math.abs(p.disc))+'%' : '≈ рынок';
     var dcol     = p.disc > 8 ? 'green' : p.disc < 0 ? 'amber' : '';
-    var discSub  = p.disc > 0 ? 'ниже средней цены по сопоставимым объектам'
-                 : p.disc < 0 ? 'выше средней цены по сопоставимым объектам'
-                 : 'соответствует средней цене по рынку';
+    var discSub  = p.disc > 0 ? t('discBelow') : p.disc < 0 ? t('discAbove') : t('discEqual');
 
     // ROI
-    var roiS     = p.roi > 0 ? rd(p.roi)+'%' : 'нет данных';
+    var roiS     = p.roi > 0 ? rd(p.roi)+'%' : t('roiNoData');
     var roiC     = p.roi > 6 ? 'green' : 'accent';
-    var roiSub   = p.roi > 0 ? '' : 'арендных данных недостаточно для расчёта';
+    var roiSub   = p.roi > 0 ? '' : t('roiNoSub');
 
     // Growth
     var growS    = (p.grow > 0 ? '+' : '') + rd(p.grow) + '%';
 
     // Liquidity
-    var liqS     = p.liq + ' из 10';
-    var liqSub   = p.liq >= 8 ? 'объект пользуется высоким спросом'
-                 : p.liq >= 5 ? 'объект можно реализовать в среднерыночный срок'
-                 : 'объект сложнее реализовать быстро';
+    var liqS     = p.liq + (currentLang === 'en' ? ' / 10' : ' из 10');
+    var liqSub   = p.liq >= 8 ? t('liqHigh') : p.liq >= 5 ? t('liqMid') : t('liqLow');
 
     // Vacancy
     var vacS     = p.vac > 0 ? p.vac+'%' : '—';
-    var vacSub   = p.vac === 0 ? 'данных по вакантности нет'
-                 : p.vac <= 5  ? 'низкий риск простоя'
-                 : p.vac <= 10 ? 'умеренный риск простоя'
-                 : 'высокий риск простоя';
+    var vacSub   = p.vac === 0 ? t('vacNoData')
+                 : p.vac <= 5  ? t('vacLow')
+                 : p.vac <= 10 ? t('vacMid')
+                 : t('vacHigh');
 
     // Prices
     var ppmS     = num(p.ppm * 1000) + ' ₽/м²';
@@ -725,19 +802,19 @@ function render() {
         (p.badge ? '<span class="ctag ctag-badge">'+p.badge+'</span>' : '')+
       '</div>'+
       '<div class="card-metrics">'+
-        '<div><div class="cm-label">Дисконт к рынку</div><div class="cm-value '+dcol+'">'+discVal+'</div><div class="cm-sub">'+discSub+'</div></div>'+
-        '<div><div class="cm-label">Ожидаемая доходность</div><div class="cm-value '+roiC+'">'+roiS+'</div>'+(roiSub?'<div class="cm-sub">'+roiSub+'</div>':'')+'</div>'+
-        '<div><div class="cm-label">Рост цены за 12 мес.</div><div class="cm-value accent">'+growS+'</div></div>'+
-        '<div><div class="cm-label">Ликвидность</div><div class="cm-value">'+liqS+'</div><div class="cm-sub">'+liqSub+'</div></div>'+
-        '<div><div class="cm-label">Уровень вакантности</div><div class="cm-value '+(p.vac>10?'amber':'')+'">'+vacS+'</div><div class="cm-sub">'+vacSub+'</div></div>'+
-        '<div><div class="cm-label">Цена объекта / м²</div><div class="cm-value">'+ppmS+'</div></div>'+
+        '<div><div class="cm-label">'+t('mDiscount')+'</div><div class="cm-value '+dcol+'">'+discVal+'</div><div class="cm-sub">'+discSub+'</div></div>'+
+        '<div><div class="cm-label">'+t('mRoi')+'</div><div class="cm-value '+roiC+'">'+roiS+'</div>'+(roiSub?'<div class="cm-sub">'+roiSub+'</div>':'')+'</div>'+
+        '<div><div class="cm-label">'+t('mGrowth')+'</div><div class="cm-value accent">'+growS+'</div></div>'+
+        '<div><div class="cm-label">'+t('mLiq')+'</div><div class="cm-value">'+liqS+'</div><div class="cm-sub">'+liqSub+'</div></div>'+
+        '<div><div class="cm-label">'+t('mVac')+'</div><div class="cm-value '+(p.vac>10?'amber':'')+'">'+vacS+'</div><div class="cm-sub">'+vacSub+'</div></div>'+
+        '<div><div class="cm-label">'+t('mPpm')+'</div><div class="cm-value">'+ppmS+'</div></div>'+
       '</div>'+
       '<div class="score-bar-wrap">'+
         '<div class="score-bar-fill" style="width:'+p.score+'%;background:'+barColor(p.score)+'"></div>'+
       '</div>'+
       '<div class="card-price-row">'+
         '<div><div class="price-main">'+priceStr+'</div><div class="price-sub">'+priceUsd+'</div></div>'+
-        '<div style="text-align:right"><div style="font-size:11px;color:var(--muted)">Средняя цена по сегменту</div><div style="font-size:12px;color:var(--muted)">'+mktS+'</div></div>'+
+        '<div style="text-align:right"><div style="font-size:11px;color:var(--muted)">'+t('mMarket')+'</div><div style="font-size:12px;color:var(--muted)">'+mktS+'</div></div>'+
       '</div>';
 
     if (locked) {
@@ -745,8 +822,8 @@ function render() {
         '<div class="card-blur-body">'+body+'</div>'+
         '<div class="paywall-overlay">'+
           '<div class="lock-icon">🔒</div>'+
-          '<p>AI-оценка <span style="color:var(--accent);font-weight:600">80+</span><br>доступна в подписке PRO</p>'+
-          '<button class="unlock-btn" onclick="openModal()">Открыть доступ</button>'+
+          '<p>AI-оценка <span style="color:var(--accent);font-weight:600">80+</span><br>'+t('locked')+'</p>'+
+          '<button class="unlock-btn" onclick="openModal()">'+t('unlockBtn')+'</button>'+
         '</div>'+
       '</div>';
     }
@@ -829,7 +906,144 @@ function handleSubscribe() {
   });
 }
 
-render();
+/* ═══════════════════════════════════════════
+   THEME
+   ═══════════════════════════════════════════ */
+var currentTheme = localStorage.getItem('aivest-theme') || 'dark';
+function applyTheme(t) {
+  currentTheme = t;
+  document.documentElement.setAttribute('data-theme', t === 'light' ? 'light' : '');
+  var btn = document.getElementById('theme-toggle');
+  if (btn) btn.textContent = t === 'light' ? '🌙' : '☀️';
+  localStorage.setItem('aivest-theme', t);
+}
+function toggleTheme() {
+  applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+}
+applyTheme(currentTheme);
+
+/* ═══════════════════════════════════════════
+   i18n
+   ═══════════════════════════════════════════ */
+var currentLang = localStorage.getItem('aivest-lang') || 'ru';
+
+var T = {
+  ru: {
+    navHow: 'Как работает', navMethod: 'Методология', navPricing: 'Тарифы',
+    navCta: 'Получить PRO доступ',
+    heroEyebrow: 'Продвинутая аналитика недвижимости · aivest.ru',
+    heroTitle: 'Недвижимость для <em>сдачи и долгосрочных</em> инвестиций',
+    heroSub: 'Объявления от агрегаторов, аукционов и застройщиков. ИИ-рейтинг по скидке к рынку, доходности аренды, региональному росту и ликвидности.',
+    pillAll: 'Все источники', pillAgg: 'Агрегаторы', pillAuct: 'Аукционы', pillDev: 'Застройщики',
+    pricingTitle: 'Тарифы', pricingSub: 'Полный доступ ко всем объектам с рейтингом 80+',
+    ribbon: 'Выгодно',
+    planMonthName: 'Месячная', planMonthSub: 'Без обязательств · отмена в любой момент',
+    perMonth: '₽ / мес', planMonthBtn: 'Начать за 990 ₽',
+    planYearName: 'Годовая', planYearSub: '7 080 ₽/год · экономия 4 800 ₽',
+    planYearBtn: 'Оформить за 7 080 ₽/год',
+    feat1: 'Все объекты с рейтингом 80+', feat2: 'Полная аналитика по каждому объекту',
+    feat3: 'Расширенные фильтры и сортировка', feat4: 'Экспорт подборки',
+    modalTitle: 'Полный доступ к рейтингу',
+    // card metric labels
+    mDiscount: 'Дисконт к рынку', mRoi: 'Ожидаемая доходность', mGrowth: 'Рост цены за 12 мес.',
+    mLiq: 'Ликвидность', mVac: 'Уровень вакантности', mPpm: 'Цена объекта / м²',
+    mMarket: 'Средняя цена по сегменту',
+    // card discount sub
+    discBelow: 'ниже средней цены по сопоставимым объектам',
+    discAbove: 'выше средней цены по сопоставимым объектам',
+    discEqual: 'соответствует средней цене по рынку',
+    // roi sub
+    roiNoData: 'нет данных', roiNoSub: 'арендных данных недостаточно для расчёта',
+    // liquidity sub
+    liqHigh: 'объект пользуется высоким спросом',
+    liqMid: 'объект можно реализовать в среднерыночный срок',
+    liqLow: 'объект сложнее реализовать быстро',
+    // vacancy sub
+    vacNoData: 'данных по вакантности нет', vacLow: 'низкий риск простоя',
+    vacMid: 'умеренный риск простоя', vacHigh: 'высокий риск простоя',
+    mln: 'млн ₽', approxUsd: '≈ $',
+    locked: 'доступна в подписке PRO', unlockBtn: 'Открыть доступ',
+    emptyMsg: 'Нет объектов по выбранным фильтрам.',
+    sectionTitle: 'Топ объектов по AI-оценке',
+    rankBest: '★ Лучшая сделка', rankSilver: '★ Серебро', rankBronze: '★ Бронза',
+  },
+  en: {
+    navHow: 'How it works', navMethod: 'Methodology', navPricing: 'Pricing',
+    navCta: 'Get PRO Access',
+    heroEyebrow: 'Advanced real estate analytics · aivest.ru',
+    heroTitle: 'Real estate for <em>rental and long-term</em> investment',
+    heroSub: 'Listings from aggregators, auctions and developers. AI rating by market discount, rental yield, regional growth and liquidity.',
+    pillAll: 'All sources', pillAgg: 'Aggregators', pillAuct: 'Auctions', pillDev: 'Developers',
+    pricingTitle: 'Pricing', pricingSub: 'Full access to all properties rated 80+',
+    ribbon: 'Best value',
+    planMonthName: 'Monthly', planMonthSub: 'No commitment · cancel anytime',
+    perMonth: '₽ / mo', planMonthBtn: 'Start for ₽990',
+    planYearName: 'Annual', planYearSub: '₽7,080/yr · save ₽4,800',
+    planYearBtn: 'Get annual for ₽7,080/yr',
+    feat1: 'All properties rated 80+', feat2: 'Full analytics on each property',
+    feat3: 'Advanced filters and sorting', feat4: 'Export your shortlist',
+    modalTitle: 'Full access to the ranking',
+    mDiscount: 'Market discount', mRoi: 'Expected yield', mGrowth: 'Price growth 12 mo.',
+    mLiq: 'Liquidity', mVac: 'Vacancy rate', mPpm: 'Price per m²',
+    mMarket: 'Avg. segment price',
+    discBelow: 'below average price for comparable properties',
+    discAbove: 'above average price for comparable properties',
+    discEqual: 'in line with average market price',
+    roiNoData: 'no data', roiNoSub: 'insufficient rental data for calculation',
+    liqHigh: 'high demand property',
+    liqMid: 'can be sold within average market timeframe',
+    liqLow: 'may take longer to sell',
+    vacNoData: 'no vacancy data', vacLow: 'low vacancy risk',
+    vacMid: 'moderate vacancy risk', vacHigh: 'high vacancy risk',
+    mln: 'M ₽', approxUsd: '≈ $',
+    locked: 'available with PRO subscription', unlockBtn: 'Unlock access',
+    emptyMsg: 'No properties match your filters.',
+    sectionTitle: 'Top properties by AI rating',
+    rankBest: '★ Best deal', rankSilver: '★ Silver', rankBronze: '★ Bronze',
+  }
+};
+
+function t(key) { return (T[currentLang] && T[currentLang][key] !== undefined) ? T[currentLang][key] : (T['ru'][key] || key); }
+
+function applyLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('aivest-lang', lang);
+  var btn = document.getElementById('lang-toggle');
+  if (btn) btn.textContent = lang === 'ru' ? 'EN' : 'RU';
+  document.documentElement.setAttribute('lang', lang);
+
+  // Update all data-i18n elements
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n');
+    var val = t(key);
+    if (val) el.innerHTML = val;
+  });
+
+  // Update nav links
+  var navLinks = document.querySelectorAll('.nav-links a');
+  if (navLinks[0]) navLinks[0].textContent = t('navHow');
+  if (navLinks[1]) navLinks[1].textContent = t('navMethod');
+  if (navLinks[2]) navLinks[2].textContent = t('navPricing');
+
+  // Update pills
+  var pills = document.querySelectorAll('.pill');
+  var pillKeys = ['pillAll','pillAgg','pillAuct','pillDev'];
+  pills.forEach(function(p,i){ if(pillKeys[i]) p.textContent = t(pillKeys[i]); });
+
+  // Update section title
+  var st = document.querySelector('.section-title');
+  if (st) st.textContent = t('sectionTitle');
+
+  // Re-render cards to pick up new language
+  render();
+}
+
+function toggleLang() {
+  applyLang(currentLang === 'ru' ? 'en' : 'ru');
+}
+
+// Apply saved lang on load
+applyLang(currentLang);
 </script>
 <!-- Vercel Analytics -->
 <script defer src="/_vercel/insights/script.js"></script>
