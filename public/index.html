@@ -275,8 +275,8 @@
   .pricing-section .info-section-head { margin-bottom: 0.5rem; }
   .pricing-section .pricing-sub { font-size: 14px; color: var(--muted); margin-bottom: 2.5rem; }
   .pricing-cards {
-    display: inline-grid; grid-template-columns: 1fr 1fr 1fr;
-    gap: 16px; max-width: 1000px; width: 100%; text-align: left;
+    display: inline-grid; grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 16px; max-width: 1320px; width: 100%; text-align: left;
   }
   .pricing-card {
     background: var(--surface); border: 1px solid var(--border2); border-radius: 20px;
@@ -322,6 +322,22 @@
   .pc-price-old {
     font-size: 15px; color: var(--faint);
     text-decoration: line-through; margin-right: 6px;
+  }
+  .pricing-card.gold {
+    border-color: rgba(228,188,106,0.5);
+    background: linear-gradient(145deg, var(--surface) 0%, rgba(228,188,106,0.07) 100%);
+    box-shadow: 0 0 0 1px rgba(228,188,106,0.3), 0 8px 24px rgba(0,0,0,0.2);
+  }
+  .pricing-card.gold:hover { box-shadow: 0 0 0 1px rgba(228,188,106,0.5), 0 16px 40px rgba(0,0,0,0.25); }
+  .pricing-card.gold .pc-plan-name,
+  .pricing-card.gold .pc-price-main { color: var(--gold); }
+  .pc-ribbon-gold {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(90deg, #b8860b, #e4bc6a, #b8860b);
+    color: #1a1400;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 11px 16px; text-align: center;
+    border-radius: 0 0 20px 20px;
   }
   .pricing-card.free {
     opacity: 0.75;
@@ -483,6 +499,27 @@
       </ul>
       <button class="pc-btn pc-btn-secondary" onclick="openModal()" data-i18n="planMonthBtn">Оформить за 660 ₽</button>
       <div class="pc-ribbon-sale">АКЦИЯ — РАННИЙ ДОСТУП</div>
+    </div>
+
+    <div class="pricing-card gold" style="padding-bottom: 58px;">
+      <div class="pc-plan-name">Бессрочная</div>
+      <div class="pc-price-row">
+        <span class="pc-price-old" style="color:rgba(228,188,106,0.4)">20 000</span>
+        <div class="pc-price-main">14 900</div>
+        <div class="pc-price-unit">₽</div>
+      </div>
+      <div class="pc-price-annual" style="color:var(--gold);opacity:.8">Один раз — навсегда</div>
+      <div class="pc-divider"></div>
+      <ul>
+        <li style="color:var(--gold);opacity:.9">Все объекты с рейтингом 60+</li>
+        <li style="color:var(--gold);opacity:.9">Все будущие обновления</li>
+        <li style="color:var(--gold);opacity:.9">Приоритетная поддержка</li>
+      </ul>
+      <button class="pc-btn" onclick="selectPlanAndOpen('lifetime')"
+        style="background:linear-gradient(90deg,#b8860b,#e4bc6a,#b8860b);color:#1a1400;font-weight:700">
+        Оформить за 14 900 ₽
+      </button>
+      <div class="pc-ribbon-gold">⭐ Лучший выбор</div>
     </div>
 
     <div class="pricing-card featured" style="padding-bottom: 58px;">
@@ -1284,9 +1321,9 @@ var T = {
     pricingTitle: 'Тарифы', pricingSub: 'Полный доступ ко всем объектам с рейтингом 60+',
     ribbon: 'Выгодно',
     planMonthName: 'Месячная', planMonthSub: 'Без обязательств · отмена в любой момент',
-    perMonth: '₽ / мес', planMonthBtn: 'Оформить за 990 ₽',
+    perMonth: '₽ / мес', planMonthBtn: 'Оформить за 660 ₽',
     planYearName: 'Годовая', planYearSub: '5 880 ₽/год · экономия до 6 000 ₽',
-    planYearBtn: 'Оформить за 7 080 ₽/год',
+    planYearBtn: 'Оформить за 5 880 ₽/год',
     feat1: 'Все объекты с рейтингом 60+', feat2: 'Полная аналитика по каждому объекту',
     feat3: 'Расширенные фильтры и сортировка', feat4: 'Экспорт подборки',
     modalTitle: 'Полный доступ к рейтингу',
