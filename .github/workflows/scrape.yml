@@ -31,20 +31,24 @@ jobs:
           SCRAPER_DELAY: 1200
 
       - name: Check results
+        id: check
         run: |
-          COUNT=$(node -e "const d=require('./data/properties.json'); console.log(d.totalCount)")
-          echo "✅ Scraped $COUNT properties"
-          if [ "$COUNT" -lt 50 ]; then
-            echo "❌ Too few — possible block"
-            exit 1
+          if [ ! -f data/properties.json ]; then
+            echo "count=0" >> $GITHUB_OUTPUT
+            echo "⚠️ No data file — Cian may be blocking this IP"
+          else
+            COUNT=$(node -e "const d=require('./data/properties.json'); console.log(d.totalCount)")
+            echo "count=$COUNT" >> $GITHUB_OUTPUT
+            echo "✅ Scraped $COUNT properties"
           fi
 
       - name: Commit & push data
+        if: ${{ steps.check.outputs.count > 50 }}
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/properties.json
-          git diff --staged --quiet || git commit -m "chore: scrape update $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git diff --staged --quiet || git commit -m "chore: scrape update $(date -u '+%Y-%m-%d %H:%M UTC') — ${{ steps.check.outputs.count }} props"
           git push
 
       - name: Trigger Vercel redeploy

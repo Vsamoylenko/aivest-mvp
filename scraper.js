@@ -169,6 +169,17 @@ function parseOffer(raw, cityConfig) {
 }
 
 // ── Fetch one page ────────────────────────────────────────────────────────────
+// Rotate user agents to reduce blocking
+const USER_AGENTS = [
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+  'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0',
+];
+let uaIndex = 0;
+function nextUA() { return USER_AGENTS[(uaIndex++) % USER_AGENTS.length]; }
+
 async function fetchPage(regionId, queryType, page, roomsCount = null) {
   const jsonQuery = {
     _type:          queryType,
@@ -185,15 +196,27 @@ async function fetchPage(regionId, queryType, page, roomsCount = null) {
     { jsonQuery },
     {
       headers: {
-        'Content-Type': 'application/json',
-        'User-Agent':   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-        'Referer':      'https://cian.ru/',
-        'Accept':       'application/json',
+        'Content-Type':  'application/json',
+        'User-Agent':    nextUA(),
+        'Referer':       'https://cian.ru/',
+        'Accept':        'application/json, text/plain, */*',
+        'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8',
+        'Origin':        'https://cian.ru',
+        'sec-ch-ua':     '"Chromium";v="124", "Google Chrome";v="124"',
+        'sec-ch-ua-platform': '"Windows"',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-site',
       },
       timeout: 20000,
+      maxRedirects: 5,
     }
   );
-  return res.data?.data?.offersSerialized || [];
+
+  if (res.status !== 200) throw new Error(`HTTP ${res.status}`);
+  const offers = res.data?.data?.offersSerialized;
+  if (!offers) throw new Error(`No offersSerialized. Keys: ${Object.keys(res.data || {}).join(',')}`);
+  return offers;
 }
 
 // ── Scrape one query segment ──────────────────────────────────────────────────
@@ -221,8 +244,16 @@ async function scrapeSegment(city, queryType, label, roomsCount, allProps, seen)
       process.stdout.write(`${page}(+${pageAdded}) `);
       await sleep(DELAY_MS);
     } catch (err) {
-      process.stdout.write(`❌ `);
-      await sleep(2000);
+      const errMsg = err.response
+        ? `HTTP ${err.response.status}`
+        : err.message?.slice(0, 60);
+      process.stdout.write(`❌(${errMsg}) `);
+      // If blocked (403/429/503) — stop this segment early
+      if (err.response?.status === 403 || err.response?.status === 503) {
+        process.stdout.write(`\n  ⛔ Blocked, skipping segment\n`);
+        break;
+      }
+      await sleep(3000);
     }
   }
   process.stdout.write(`→ итого +${added}\n`);
@@ -264,6 +295,11 @@ async function scrape() {
   const deduped = [...new Map(allProps.map(p => [p.cianId, p])).values()];
   deduped.sort((a, b) => b.score - a.score);
   deduped.forEach((p, i) => { p.id = i + 1; });
+
+  if (deduped.length === 0) {
+    console.log('\n⚠️  0 properties scraped — keeping existing data unchanged');
+    return null;
+  }
 
   const output = {
     updatedAt:  new Date().toISOString(),
