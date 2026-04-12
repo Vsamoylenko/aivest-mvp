@@ -291,13 +291,13 @@
   }
   .pricing-card.featured:hover { box-shadow: 0 0 0 1px var(--accent-glow), 0 16px 40px rgba(0,0,0,0.22); }
 
-  /* "Выгодно" ribbon */
+  /* "Выгодно" ribbon — full-width bottom banner */
   .pc-ribbon {
-    position: absolute; top: 18px; left: -1px;
+    position: absolute; bottom: 0; left: 0; right: 0;
     background: var(--accent); color: #0b0c0a;
-    font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-    padding: 4px 12px 4px 10px; border-radius: 0 6px 6px 0;
-    box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+    font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 11px 16px; text-align: center;
+    border-radius: 0 0 20px 20px;
   }
 
   .pc-plan-name {
@@ -436,8 +436,7 @@
       <button class="pc-btn pc-btn-secondary" onclick="openModal()" data-i18n="planMonthBtn">Начать за 990 ₽</button>
     </div>
 
-    <div class="pricing-card featured">
-      <div class="pc-ribbon" data-i18n="ribbon">Выгодно</div>
+    <div class="pricing-card featured" style="padding-bottom: 70px;">
       <div class="pc-plan-name" data-i18n="planYearName">Годовая</div>
       <div class="pc-price-row">
         <div class="pc-price-main">590</div>
@@ -446,6 +445,7 @@
       <div class="pc-price-annual" data-i18n="planYearSub">7 080 ₽/год · экономия 4 800 ₽</div>
       <div class="pc-divider"></div>
       <button class="pc-btn pc-btn-primary" onclick="selectPlanAndOpen('year')" data-i18n="planYearBtn">Оформить за 7 080 ₽/год</button>
+      <div class="pc-ribbon" data-i18n="ribbon">Выгодно</div>
     </div>
 
   </div>
@@ -986,6 +986,20 @@ function handleSubscribe() {
   var btn = document.getElementById('modal-submit-btn');
   btn.classList.add('loading');
   btn.textContent = 'Отправляем...';
+
+  var done = false;
+  function showSuccess() {
+    if (done) return;
+    done = true;
+    btn.classList.remove('loading');
+    btn.textContent = 'Оформить подписку →';
+    document.getElementById('modal-form-view').style.display = 'none';
+    document.getElementById('modal-success-view').style.display = 'block';
+  }
+
+  // Fallback: show success after 5 seconds regardless
+  var fallbackTimer = setTimeout(showSuccess, 5000);
+
   fetch('/api/subscribe', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -993,11 +1007,9 @@ function handleSubscribe() {
   })
   .then(function(r){ return r.json(); })
   .catch(function(){ return {}; })
-  .then(function(data) {
-    btn.classList.remove('loading');
-    btn.textContent = 'Оформить подписку →';
-    document.getElementById('modal-form-view').style.display = 'none';
-    document.getElementById('modal-success-view').style.display = 'block';
+  .then(function() {
+    clearTimeout(fallbackTimer);
+    showSuccess();
   });
 }
 

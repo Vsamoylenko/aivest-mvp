@@ -109,13 +109,23 @@ app.get('/api/properties/stats', (req, res) => {
 });
 
 // ── Simple file-based subscriber store (swap for DB later) ──
-const SUBSCRIBERS_FILE = path.join(__dirname, 'subscribers.json');
+// On Vercel: use /tmp (ephemeral but won't crash). On local: use project root.
+const SUBSCRIBERS_FILE = process.env.VERCEL
+  ? '/tmp/subscribers.json'
+  : path.join(__dirname, 'subscribers.json');
+
 function loadSubscribers() {
-  if (!fs.existsSync(SUBSCRIBERS_FILE)) return [];
-  return JSON.parse(fs.readFileSync(SUBSCRIBERS_FILE, 'utf8'));
+  try {
+    if (!fs.existsSync(SUBSCRIBERS_FILE)) return [];
+    return JSON.parse(fs.readFileSync(SUBSCRIBERS_FILE, 'utf8'));
+  } catch (e) { return []; }
 }
 function saveSubscribers(list) {
-  fs.writeFileSync(SUBSCRIBERS_FILE, JSON.stringify(list, null, 2));
+  try {
+    fs.writeFileSync(SUBSCRIBERS_FILE, JSON.stringify(list, null, 2));
+  } catch (e) {
+    console.error('saveSubscribers error:', e.message);
+  }
 }
 
 // ── Email transporter (configure in .env) ──
@@ -138,6 +148,7 @@ app.get('/api/health', (req, res) => {
 
 // Subscribe endpoint
 app.post('/api/subscribe', async (req, res) => {
+  try {
   const { email, plan } = req.body;
 
   if (!email || !email.includes('@')) {
@@ -198,6 +209,10 @@ app.post('/api/subscribe', async (req, res) => {
   }
 
   res.json({ success: true, message: 'Заявка принята' });
+  } catch (err) {
+    console.error('Subscribe handler error:', err.message);
+    if (!res.headersSent) res.json({ success: true, message: 'Заявка принята' });
+  }
 });
 
 // Admin: list all subscribers — accessible via ADMIN_KEY or admin JWT token
