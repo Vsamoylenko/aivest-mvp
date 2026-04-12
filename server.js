@@ -34,7 +34,7 @@ app.get('/api/properties', (req, res) => {
   let props = data.properties || [];
 
   // Filters
-  const { city, type, minScore, maxPrice, source, sort, page = 1, limit = 100 } = req.query;
+  const { city, type, minScore, maxPrice, source, sort, page = 1, limit = 1000 } = req.query;
   if (city && city !== 'all')       props = props.filter(p => p.city === city);
   if (type && type !== 'all')       props = props.filter(p => p.type === type);
   if (source && source !== 'all')   props = props.filter(p => p.source === source);
@@ -54,7 +54,7 @@ app.get('/api/properties', (req, res) => {
 
   // Pagination
   const pageNum   = parseInt(page);
-  const limitNum  = Math.min(parseInt(limit), 200);
+  const limitNum  = Math.min(parseInt(limit), 2000);
   const total     = props.length;
   const paginated = props.slice((pageNum - 1) * limitNum, pageNum * limitNum);
 

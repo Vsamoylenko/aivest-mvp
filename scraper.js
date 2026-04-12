@@ -44,7 +44,7 @@ const CATEGORY_TYPE = {
   landSale:            'land',
 };
 
-const SOURCE_TAG = 'cian';
+const SOURCE_TAG = 'agg'; // Cian is an aggregator
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }

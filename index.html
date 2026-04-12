@@ -448,7 +448,6 @@
   <button class="pill" data-source="agg">Агрегаторы</button>
   <button class="pill" data-source="auct">Аукционы</button>
   <button class="pill" data-source="dev">Застройщики</button>
-  <button class="pill" data-source="cian">Циан</button>
 </div>
 
 <div class="filter-bar">
@@ -688,7 +687,7 @@ function loadFromAPI() {
   var grid = document.getElementById('cards-grid');
   if (grid) grid.innerHTML = '<div class="empty" style="display:flex;align-items:center;gap:10px;justify-content:center"><span style="animation:spin 1s linear infinite;display:inline-block">⟳</span> Загружаем данные с Циан...</div>';
 
-  fetch('/api/properties?limit=200&sort=score')
+  fetch('/api/properties?limit=1000&sort=score')
     .then(function(r) { return r.json(); })
     .then(function(data) {
       if (data && data.properties && data.properties.length > 0) {
@@ -764,7 +763,6 @@ function sourceTag(s) {
   if (s==='agg')  return '<span class="ctag ctag-agg">Агрегатор</span>';
   if (s==='auct') return '<span class="ctag ctag-auct">Аукцион</span>';
   if (s==='dev')  return '<span class="ctag ctag-dev">Застройщик</span>';
-  if (s==='cian') return '<span class="ctag ctag-agg">Циан</span>';
   return '';
 }
 function typeLabel(t) { return {apartment:'Квартира',commercial:'Коммерческая',house:'Дом',land:'Земля',newbuild:'Новостройка'}[t]||t; }
