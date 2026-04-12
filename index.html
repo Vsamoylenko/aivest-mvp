@@ -34,6 +34,13 @@
     background: var(--accent); color: #0b0c0a; border: none; cursor: pointer; transition: opacity 0.2s; white-space: nowrap;
   }
   .nav-cta:hover { opacity: 0.88; }
+  .nav-login-btn {
+    padding: 7px 16px; border-radius: 8px; font-size: 13px; font-weight: 500;
+    background: transparent; color: var(--muted); border: 1px solid var(--border2);
+    cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  }
+  .nav-login-btn:hover { color: var(--text); border-color: var(--accent-glow); }
+  .nav-login-btn.logged-in { color: var(--accent); border-color: var(--accent-glow); }
 
   .hero { padding: 5rem 2rem 3rem; max-width: 860px; margin: 0 auto; text-align: center; }
   .hero-eyebrow {
@@ -329,7 +336,7 @@
 <body>
 
 <nav>
-  <div class="nav-logo"><span class="ai">AI</span>vest.ru</div>
+  <a href="https://aivest.ru" class="nav-logo" style="text-decoration:none;"><span class="ai">AI</span>vest.ru</a>
   <div class="nav-links">
     <a href="#how-it-works">Как работает</a>
     <a href="#methodology">Методология</a>
@@ -339,7 +346,8 @@
     <button class="nav-icon-btn lang-btn" id="lang-toggle" onclick="toggleLang()" title="Switch language">RU</button>
     <button class="nav-icon-btn" id="theme-toggle" onclick="toggleTheme()" title="Switch theme">🌙</button>
   </div>
-  <button class="nav-cta" onclick="openModal()" data-i18n="navCta">Получить PRO доступ</button>
+  <button class="nav-login-btn" id="nav-login-btn" onclick="openLoginModal()">Войти</button>
+  <button class="nav-cta" id="nav-cta-btn" onclick="openModal()" data-i18n="navCta">Получить PRO доступ</button>
 </nav>
 
 <section class="hero">
@@ -479,9 +487,10 @@
     <label>Мин. оценка</label>
     <select id="f-score">
       <option value="0">Любая</option>
+      <option value="50">50+</option>
       <option value="60">60+</option>
       <option value="70">70+</option>
-      <option value="60">60+ (PRO)</option>
+      <option value="80">80+</option>
     </select>
   </div>
   <div class="fgroup">
@@ -543,6 +552,28 @@
     <p>© 2026 AIvest.ru — Информация на сайте не является индивидуальной инвестиционной рекомендацией. Все оценки формируются автоматически на основе рыночных данных и моделей анализа. Перед принятием решения рекомендуем самостоятельно проверять объект и ключевые допущения расчёта.</p>
   </div>
 </footer>
+
+<!-- LOGIN MODAL -->
+<div class="modal-backdrop" id="login-modal-backdrop" onclick="handleLoginBackdropClick(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeLoginModal()">×</button>
+    <div id="login-form-view">
+      <div class="modal-icon">🔑</div>
+      <h2 id="login-modal-title">Войти в AIvest</h2>
+      <p class="modal-sub" id="login-modal-sub">Введите email и пароль для входа в аккаунт.</p>
+      <input class="modal-input" id="login-email" type="email" placeholder="Email" onkeydown="if(event.key==='Enter')handleLogin()">
+      <input class="modal-input" id="login-password" type="password" placeholder="Пароль" onkeydown="if(event.key==='Enter')handleLogin()" style="margin-bottom:10px;">
+      <div class="modal-error" id="login-error"></div>
+      <button class="modal-submit" id="login-submit-btn" onclick="handleLogin()">Войти →</button>
+      <p class="modal-note" style="margin-top:12px;">Нет аккаунта? <a href="#" onclick="closeLoginModal();openModal();return false;" style="color:var(--accent)">Оформить подписку</a></p>
+    </div>
+    <div class="modal-success" id="login-success-view">
+      <div class="success-icon">✅</div>
+      <h3 id="login-success-title">Добро пожаловать!</h3>
+      <p id="login-success-msg">Вы успешно вошли. Все объекты с оценкой 60+ теперь доступны.</p>
+    </div>
+  </div>
+</div>
 
 <!-- PAYWALL MODAL -->
 <div class="modal-backdrop" id="modal-backdrop" onclick="handleBackdropClick(event)">
@@ -675,10 +706,12 @@ var RAW = [
   { id:28, title:"ЖК «Грин Парк» — 1-комн., Казань",    city:"Казань",          area:44,    floor:"9/18",  type:"newbuild",   source:"dev",  price:5.4,  ppm:122,   mkt:150,  rent:30,  vac:4,  grow:9.8,  liq:8,  badge:"Новостройка" }
 ];
 
-var RAW_PROPS  = RAW.map(calcScore); // fallback mock data
-var PROPS      = RAW_PROPS.slice();  // active dataset (replaced by API data when available)
+var RAW_PROPS    = RAW.map(calcScore);
+var PROPS        = RAW_PROPS.slice();
 var activeSource = 'all';
-var isPro = false;
+var isPro        = false;
+var renderPage   = 1;
+var RENDER_BATCH = 50;
 var dataSource = 'mock'; // 'mock' | 'cian'
 var dataUpdatedAt = null;
 
@@ -768,7 +801,8 @@ function sourceTag(s) {
 function typeLabel(t) { return {apartment:'Квартира',commercial:'Коммерческая',house:'Дом',land:'Земля',newbuild:'Новостройка'}[t]||t; }
 function num(n)       { return Math.round(n).toLocaleString('ru-RU'); }
 
-function render() {
+function render(resetPage) {
+  if (resetPage !== false) renderPage = 1;
   var list = getFiltered();
   var grid = document.getElementById('cards-grid');
 
@@ -787,7 +821,8 @@ function render() {
   document.getElementById('s-roi').textContent   = avgRoi + '%';
   document.getElementById('s-top').textContent   = list[0].score + ' / 100';
 
-  grid.innerHTML = list.map(function(p, i) {
+  var visible = list.slice(0, renderPage * RENDER_BATCH);
+  grid.innerHTML = visible.map(function(p, i) {
     var locked = !isPro && p.score >= 60;
     var rc     = rankCls(i);
     var rcc    = i < 3 ? 'rank-'+(i+1) : '';
@@ -871,6 +906,24 @@ function render() {
     }
     return '<div class="prop-card '+rcc+(p.cianUrl?' has-link':'')+'" '+(p.cianUrl?'onclick="window.open(\''+p.cianUrl+'\',\'_blank\')"':'')+'>'+body+'</div>';
   }).join('');
+
+  // "Show more" button
+  var existing = document.getElementById('load-more-btn');
+  if (existing) existing.remove();
+  var shown = Math.min(renderPage * RENDER_BATCH, list.length);
+  if (shown < list.length) {
+    var btn = document.createElement('div');
+    btn.id = 'load-more-btn';
+    btn.style.cssText = 'text-align:center;margin:2rem 0;';
+    btn.innerHTML = '<button onclick="loadMore()" style="padding:12px 32px;border-radius:10px;background:var(--surface);border:1px solid var(--border2);color:var(--text);font-size:14px;font-weight:500;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor=\'var(--accent-glow)\'" onmouseout="this.style.borderColor=\'var(--border2)\'">'
+      + 'Показать ещё · осталось ' + (list.length - shown) + '</button>';
+    grid.parentNode.insertBefore(btn, grid.nextSibling);
+  }
+}
+
+function loadMore() {
+  renderPage++;
+  render(false);
 }
 
 /* SOURCE PILLS */
@@ -879,7 +932,7 @@ document.querySelectorAll('.pill').forEach(function(btn) {
     document.querySelectorAll('.pill').forEach(function(b){ b.classList.remove('active'); });
     btn.classList.add('active');
     activeSource = btn.dataset.source;
-    render();
+    render(true);
   });
 });
 ['f-type','f-city','f-score','f-price','f-sort'].forEach(function(id) {
@@ -947,6 +1000,93 @@ function handleSubscribe() {
     document.getElementById('modal-success-view').style.display = 'block';
   });
 }
+
+/* ═══════════════════════════════════════════
+   AUTH
+   ═══════════════════════════════════════════ */
+var authToken  = localStorage.getItem('aivest-token') || null;
+var authEmail  = localStorage.getItem('aivest-email') || null;
+var authRole   = localStorage.getItem('aivest-role') || null;
+
+function applyAuth() {
+  if (authToken && authEmail) {
+    isPro = true;
+    var btn = document.getElementById('nav-login-btn');
+    var cta = document.getElementById('nav-cta-btn');
+    if (btn) { btn.textContent = authEmail.split('@')[0]; btn.classList.add('logged-in'); btn.onclick = logout; }
+    if (cta && authRole === 'admin') { cta.textContent = 'Админ'; cta.onclick = function(){ window.open('/api/admin/subscribers?key=' + authToken, '_blank'); }; }
+    else if (cta) { cta.style.display = 'none'; }
+  }
+}
+
+function logout() {
+  if (!confirm('Выйти из аккаунта?')) return;
+  localStorage.removeItem('aivest-token');
+  localStorage.removeItem('aivest-email');
+  localStorage.removeItem('aivest-role');
+  authToken = null; authEmail = null; authRole = null;
+  isPro = false;
+  var btn = document.getElementById('nav-login-btn');
+  var cta = document.getElementById('nav-cta-btn');
+  if (btn) { btn.textContent = 'Войти'; btn.classList.remove('logged-in'); btn.onclick = openLoginModal; }
+  if (cta) { cta.style.display = ''; cta.textContent = 'Получить PRO доступ'; cta.onclick = openModal; }
+  render();
+}
+
+function openLoginModal() {
+  document.getElementById('login-modal-backdrop').classList.add('open');
+  document.getElementById('login-form-view').style.display = '';
+  document.getElementById('login-success-view').style.display = 'none';
+  document.getElementById('login-error').style.display = 'none';
+  document.getElementById('login-email').value = '';
+  document.getElementById('login-password').value = '';
+}
+function closeLoginModal() { document.getElementById('login-modal-backdrop').classList.remove('open'); }
+function handleLoginBackdropClick(e) { if (e.target === document.getElementById('login-modal-backdrop')) closeLoginModal(); }
+
+function handleLogin() {
+  var email    = document.getElementById('login-email').value.trim();
+  var password = document.getElementById('login-password').value;
+  var errEl    = document.getElementById('login-error');
+  var btn      = document.getElementById('login-submit-btn');
+  errEl.style.display = 'none';
+  if (!email || !email.includes('@')) { errEl.textContent = 'Введите корректный email'; errEl.style.display = 'block'; return; }
+  btn.classList.add('loading'); btn.textContent = 'Проверяем...';
+  fetch('/api/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: email, password: password })
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data) {
+    btn.classList.remove('loading'); btn.textContent = 'Войти →';
+    if (data.success) {
+      authToken = data.token; authEmail = data.email; authRole = data.role;
+      localStorage.setItem('aivest-token', authToken);
+      localStorage.setItem('aivest-email', authEmail);
+      localStorage.setItem('aivest-role', authRole);
+      applyAuth();
+      var title = document.getElementById('login-success-title');
+      var msg   = document.getElementById('login-success-msg');
+      if (title) title.textContent = data.role === 'admin' ? '👋 Добро пожаловать, Admin!' : '✅ Добро пожаловать!';
+      if (msg)   msg.textContent   = data.role === 'admin' ? 'Вы вошли как администратор.' : 'Все объекты с оценкой 60+ теперь доступны.';
+      document.getElementById('login-form-view').style.display = 'none';
+      document.getElementById('login-success-view').style.display = 'block';
+      setTimeout(function(){ closeLoginModal(); render(); }, 1500);
+    } else {
+      errEl.textContent = data.error || 'Неверный email или пароль';
+      errEl.style.display = 'block';
+    }
+  })
+  .catch(function() {
+    btn.classList.remove('loading'); btn.textContent = 'Войти →';
+    errEl.textContent = 'Ошибка соединения. Попробуйте снова.';
+    errEl.style.display = 'block';
+  });
+}
+
+// Apply auth on load
+applyAuth();
 
 /* ═══════════════════════════════════════════
    THEME

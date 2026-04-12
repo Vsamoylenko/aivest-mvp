@@ -26,6 +26,30 @@ function loadProperties() {
   catch (e) { return null; }
 }
 
+// POST /api/login — authenticate admin or pro subscriber
+app.post('/api/login', (req, res) => {
+  const { email, password } = req.body;
+  if (!email) return res.status(400).json({ error: 'Email обязателен' });
+
+  // Admin login
+  const adminEmail = process.env.ADMIN_EMAIL || 'vl.an.samoylenko@gmail.com';
+  const adminPass  = process.env.ADMIN_PASS  || 'adminpass';
+  if (email.toLowerCase() === adminEmail.toLowerCase() && password === adminPass) {
+    const token = Buffer.from(`${email}:admin:${Date.now()}:${process.env.ADMIN_KEY || 'aivest-key'}`).toString('base64');
+    return res.json({ success: true, token, role: 'admin', email });
+  }
+
+  // PRO subscriber login (email only, no password needed if activated)
+  const subscribers = loadSubscribers();
+  const sub = subscribers.find(s => s.email.toLowerCase() === email.toLowerCase() && s.status === 'active');
+  if (sub) {
+    const token = Buffer.from(`${email}:pro:${Date.now()}:${process.env.ADMIN_KEY || 'aivest-key'}`).toString('base64');
+    return res.json({ success: true, token, role: 'pro', email });
+  }
+
+  res.status(401).json({ error: 'Неверный email или пароль' });
+});
+
 // GET /api/properties — return scraped properties with optional filters
 app.get('/api/properties', (req, res) => {
   const data = loadProperties();
@@ -176,13 +200,59 @@ app.post('/api/subscribe', async (req, res) => {
   res.json({ success: true, message: 'Заявка принята' });
 });
 
-// Admin: list all subscribers (protect with a secret key in production)
+// Admin: list all subscribers — accessible via ADMIN_KEY or admin JWT token
 app.get('/api/admin/subscribers', (req, res) => {
-  const key = req.query.key;
-  if (key !== process.env.ADMIN_KEY) {
-    return res.status(403).json({ error: 'Forbidden' });
+  const key   = req.query.key;
+  const token = req.query.key || req.headers['x-admin-token'];
+
+  // Allow ADMIN_KEY or a valid admin token
+  let authorized = (key === process.env.ADMIN_KEY);
+  if (!authorized && token) {
+    try {
+      const decoded = Buffer.from(token, 'base64').toString('utf8');
+      const [, role, , k] = decoded.split(':');
+      authorized = role === 'admin' && k === (process.env.ADMIN_KEY || 'aivest-key');
+    } catch {}
   }
-  res.json(loadSubscribers());
+
+  if (!authorized) return res.status(403).send(`
+    <html><body style="font-family:sans-serif;padding:2rem;background:#0b0c0a;color:#ede9df">
+      <h2 style="color:#e35d5d">403 — Нет доступа</h2>
+      <p>Войдите в аккаунт администратора для просмотра подписчиков.</p>
+    </body></html>
+  `);
+
+  const subs = loadSubscribers();
+  // Return HTML table for easy viewing in browser
+  if (req.headers.accept?.includes('text/html') || req.query.format !== 'json') {
+    const rows = subs.map(s => `
+      <tr>
+        <td>${s.email}</td>
+        <td>${s.plan === 'year' ? 'Годовая' : 'Месячная'}</td>
+        <td><span style="color:${s.status==='active'?'#5ecb7e':'#e4ab3c'}">${s.status}</span></td>
+        <td>${new Date(s.createdAt).toLocaleString('ru-RU')}</td>
+        <td>${s.activatedAt ? new Date(s.activatedAt).toLocaleString('ru-RU') : '—'}</td>
+      </tr>`).join('');
+    return res.send(`
+      <html><head><title>AIvest — Подписчики</title>
+      <style>body{font-family:'Segoe UI',sans-serif;background:#0b0c0a;color:#ede9df;padding:2rem}
+      h2{color:#c9f151;margin-bottom:1.5rem}
+      table{width:100%;border-collapse:collapse}
+      th{text-align:left;padding:10px 14px;border-bottom:1px solid #333;color:#7d7b6e;font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+      td{padding:10px 14px;border-bottom:1px solid #1a1c14;font-size:14px}
+      tr:hover td{background:#141510}
+      .count{color:#7d7b6e;font-size:13px;margin-bottom:1rem}</style></head>
+      <body>
+        <h2>AIvest · Подписчики</h2>
+        <p class="count">Всего: ${subs.length} · Активных: ${subs.filter(s=>s.status==='active').length}</p>
+        <table>
+          <thead><tr><th>Email</th><th>Тариф</th><th>Статус</th><th>Дата заявки</th><th>Активирован</th></tr></thead>
+          <tbody>${rows || '<tr><td colspan="5" style="color:#4a4840;text-align:center;padding:2rem">Нет подписчиков</td></tr>'}</tbody>
+        </table>
+      </body></html>
+    `);
+  }
+  res.json(subs);
 });
 
 // Admin: activate subscriber (mark as paid)
