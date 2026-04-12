@@ -35,49 +35,50 @@ function loadProperties() {
 //    Key  "subscribers"  → JSON array of subscriber objects
 // ═══════════════════════════════════════════════════════
 
+// Upstash Redis client (lazy init so server starts even without env vars)
+let _redis = null;
+function getRedis() {
+  if (_redis) return _redis;
+  if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) return null;
+  try {
+    const { Redis } = require('@upstash/redis');
+    _redis = new Redis({
+      url:   process.env.UPSTASH_REDIS_REST_URL,
+      token: process.env.UPSTASH_REDIS_REST_TOKEN,
+    });
+    return _redis;
+  } catch (e) {
+    console.error('Redis init error:', e.message);
+    return null;
+  }
+}
+
 function isKvConfigured() {
-  return !!(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN);
-}
-
-async function kvGet(key) {
-  const res = await fetch(`${process.env.KV_REST_API_URL}/get/${key}`, {
-    headers: { Authorization: `Bearer ${process.env.KV_REST_API_TOKEN}` },
-  });
-  const json = await res.json();
-  return json.result ?? null;
-}
-
-async function kvSet(key, value) {
-  await fetch(`${process.env.KV_REST_API_URL}/set/${key}`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${process.env.KV_REST_API_TOKEN}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ value }),
-  });
+  return !!(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN);
 }
 
 async function loadSubscribers() {
-  if (isKvConfigured()) {
+  const redis = getRedis();
+  if (redis) {
     try {
-      const raw = await kvGet('subscribers');
-      if (raw) return typeof raw === 'string' ? JSON.parse(raw) : raw;
-      return [];
+      const raw = await redis.get('subscribers');
+      if (!raw) return [];
+      return typeof raw === 'string' ? JSON.parse(raw) : raw;
     } catch (e) {
-      console.error('KV loadSubscribers error:', e.message);
+      console.error('Redis loadSubscribers error:', e.message);
     }
   }
   return loadSubscribersFile();
 }
 
 async function saveSubscribers(list) {
-  if (isKvConfigured()) {
+  const redis = getRedis();
+  if (redis) {
     try {
-      await kvSet('subscribers', JSON.stringify(list));
+      await redis.set('subscribers', JSON.stringify(list));
       return;
     } catch (e) {
-      console.error('KV saveSubscribers error:', e.message);
+      console.error('Redis saveSubscribers error:', e.message);
     }
   }
   saveSubscribersFile(list);
@@ -296,7 +297,7 @@ app.get('/api/admin/subscribers', async (req, res) => {
       </style></head>
       <body>
         <h2>AIvest · Подписчики</h2>
-        <div class="badge">${isKvConfigured() ? '✅ Vercel KV' : '⚠ Временное хранилище — настройте KV'}</div>
+        <div class="badge">${isKvConfigured() ? '✅ Upstash Redis' : '⚠ Временное хранилище — настройте Upstash'}</div>
         <p class="count">Всего: ${subs.length} · Активных: ${subs.filter(s=>s.status==='active').length}</p>
         <table>
           <thead><tr><th>Email</th><th>Тариф</th><th>Статус</th><th>Дата заявки</th><th>Активирован</th></tr></thead>
@@ -373,5 +374,5 @@ app.listen(PORT, () => {
   console.log(`\n🏠 AIvest.ru запущен на http://localhost:${PORT}`);
   console.log(`📧 SMTP: ${process.env.SMTP_HOST || 'не настроен'}`);
   console.log(`🔑 Admin key: ${process.env.ADMIN_KEY ? '✓ задан' : '⚠ не задан!'}`);
-  console.log(`🗄  Vercel KV: ${isKvConfigured() ? '✓ подключён' : '⚠ не настроен (файловый fallback)'}\n`);
+  console.log(`🗄  Upstash Redis: ${isKvConfigured() ? '✓ подключён' : '⚠ не настроен (файловый fallback)'}\n`);
 });
