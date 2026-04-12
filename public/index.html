@@ -275,8 +275,8 @@
   .pricing-section .info-section-head { margin-bottom: 0.5rem; }
   .pricing-section .pricing-sub { font-size: 14px; color: var(--muted); margin-bottom: 2.5rem; }
   .pricing-cards {
-    display: inline-grid; grid-template-columns: 1fr 1fr;
-    gap: 16px; max-width: 680px; width: 100%; text-align: left;
+    display: inline-grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px; max-width: 1000px; width: 100%; text-align: left;
   }
   .pricing-card {
     background: var(--surface); border: 1px solid var(--border2); border-radius: 20px;
@@ -299,6 +299,22 @@
     padding: 11px 16px; text-align: center;
     border-radius: 0 0 20px 20px;
   }
+  .pc-ribbon-free {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: var(--surface2); color: var(--faint);
+    font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 11px 16px; text-align: center;
+    border-radius: 0 0 20px 20px;
+    border-top: 1px solid var(--border);
+  }
+  .pricing-card.free {
+    opacity: 0.75;
+    border-color: var(--border);
+    cursor: default;
+  }
+  .pricing-card.free:hover { transform: none; box-shadow: none; }
+  .pricing-card.free .pc-price-main { color: var(--muted); }
+  .pricing-card.free .pc-plan-name { color: var(--muted); }
 
   .pc-plan-name {
     font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--text);
@@ -418,6 +434,21 @@
   <div class="info-section-head" data-i18n="pricingTitle">Тарифы</div>
   <p class="pricing-sub" data-i18n="pricingSub">Полный доступ ко всем объектам с рейтингом 60+</p>
   <div class="pricing-cards">
+
+    <div class="pricing-card free" style="padding-bottom: 58px;">
+      <div class="pc-plan-name">Бесплатно</div>
+      <div class="pc-price-row">
+        <div class="pc-price-main" style="color:var(--muted)">0</div>
+        <div class="pc-price-unit">₽ / мес</div>
+      </div>
+      <div class="pc-price-annual">Без регистрации</div>
+      <div class="pc-divider"></div>
+      <ul>
+        <li style="color:var(--faint)">Все объекты с рейтингом до 60</li>
+        <li style="color:var(--faint)">Базовые фильтры</li>
+      </ul>
+      <div class="pc-ribbon-free">Всегда доступно</div>
+    </div>
 
     <div class="pricing-card">
       <div class="pc-plan-name" data-i18n="planMonthName">Месячная</div>
