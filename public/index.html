@@ -561,11 +561,11 @@
     <label>Сортировка</label>
     <select id="f-sort">
       <option value="score">Оценка</option>
-      <option value="roi">Доходность аренды</option>
-      <option value="discount">Скидка к рынку</option>
-      <option value="growth">Рост цен</option>
-      <option value="price_asc">Цена ↑</option>
-      <option value="price_desc">Цена ↓</option>
+      <option value="roi" class="pro-sort">🔒 Доходность аренды</option>
+      <option value="discount" class="pro-sort">🔒 Скидка к рынку</option>
+      <option value="growth" class="pro-sort">🔒 Рост цен</option>
+      <option value="price_asc" class="pro-sort">🔒 Цена ↑</option>
+      <option value="price_desc" class="pro-sort">🔒 Цена ↓</option>
     </select>
   </div>
 </div>
@@ -667,6 +667,23 @@
       <h3>Заявка принята!</h3>
       <p>Мы свяжемся с вами по email с инструкцией по оплате и активации доступа.</p>
     </div>
+  </div>
+</div>
+
+<!-- ── ЛИЧНЫЙ КАБИНЕТ ── -->
+<div class="modal-backdrop" id="profile-modal-backdrop" onclick="if(event.target===this)closeProfile()">
+  <div class="modal" style="max-width:380px">
+    <button class="modal-close" onclick="closeProfile()">×</button>
+    <div style="text-align:center;margin-bottom:1.5rem">
+      <div style="font-size:36px;margin-bottom:.5rem">👤</div>
+      <h2 style="font-size:18px;margin-bottom:4px" id="profile-email-display">—</h2>
+      <span id="profile-role-badge" style="font-size:11px;padding:3px 10px;border-radius:99px;font-weight:600;letter-spacing:.06em;text-transform:uppercase"></span>
+    </div>
+    <div style="background:var(--surface2);border-radius:12px;padding:16px 20px;margin-bottom:1.5rem">
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:8px">Подписка</div>
+      <div id="profile-sub-info" style="font-size:15px;color:var(--text)">—</div>
+    </div>
+    <button onclick="logout()" style="width:100%;padding:11px;border-radius:10px;background:transparent;border:1px solid var(--border2);color:var(--muted);font-size:14px;cursor:pointer;font-family:inherit">Выйти из аккаунта</button>
   </div>
 </div>
 
@@ -1086,27 +1103,94 @@ var authEmail  = localStorage.getItem('aivest-email') || null;
 var authRole   = localStorage.getItem('aivest-role') || null;
 
 function applyAuth() {
+  var sortSel = document.getElementById('f-sort');
   if (authToken && authEmail) {
     isPro = true;
     var btn = document.getElementById('nav-login-btn');
     var cta = document.getElementById('nav-cta-btn');
-    if (btn) { btn.textContent = authEmail.split('@')[0]; btn.classList.add('logged-in'); btn.onclick = logout; }
+    if (btn) { btn.textContent = authEmail.split('@')[0]; btn.classList.add('logged-in'); btn.onclick = openProfile; }
     if (cta && authRole === 'admin') { cta.textContent = 'Админ'; cta.onclick = function(){ window.open('/api/admin/subscribers?key=' + authToken, '_blank'); }; }
     else if (cta) { cta.style.display = 'none'; }
+    // Unlock sort options for PRO
+    if (sortSel) {
+      Array.from(sortSel.options).forEach(function(opt) {
+        opt.text = opt.text.replace('🔒 ', '');
+        opt.disabled = false;
+      });
+    }
+  } else {
+    // Lock sort options for free users
+    if (sortSel) {
+      Array.from(sortSel.options).forEach(function(opt) {
+        if (opt.value !== 'score') {
+          if (!opt.text.startsWith('🔒')) opt.text = '🔒 ' + opt.text;
+          opt.disabled = true;
+        }
+      });
+      sortSel.value = 'score';
+    }
   }
+}
+
+function openProfile() {
+  var emailEl = document.getElementById('profile-email-display');
+  var badge   = document.getElementById('profile-role-badge');
+  var subInfo = document.getElementById('profile-sub-info');
+  if (emailEl) emailEl.textContent = authEmail || '—';
+  if (badge) {
+    if (authRole === 'admin') {
+      badge.textContent = 'Администратор';
+      badge.style.background = 'rgba(201,241,81,0.15)';
+      badge.style.color = 'var(--accent)';
+      badge.style.border = '1px solid var(--accent-glow)';
+    } else {
+      badge.textContent = 'PRO';
+      badge.style.background = 'rgba(94,203,126,0.15)';
+      badge.style.color = '#5ecb7e';
+      badge.style.border = '1px solid rgba(94,203,126,0.3)';
+    }
+  }
+  if (subInfo) {
+    if (authRole === 'admin') {
+      subInfo.innerHTML = '<span style="color:var(--accent)">∞ Бессрочный доступ</span>';
+    } else {
+      var activatedAt = localStorage.getItem('aivest-activated');
+      if (activatedAt) {
+        var activated = new Date(activatedAt);
+        var plan = localStorage.getItem('aivest-plan') || 'month';
+        var expiry = new Date(activated);
+        if (plan === 'year') expiry.setFullYear(expiry.getFullYear() + 1);
+        else expiry.setMonth(expiry.getMonth() + 1);
+        var now = new Date();
+        var daysLeft = Math.ceil((expiry - now) / (1000*60*60*24));
+        subInfo.innerHTML = 'Активна до <strong>' + expiry.toLocaleDateString('ru-RU') + '</strong>'
+          + '<br><span style="color:var(--muted);font-size:13px">Осталось дней: ' + Math.max(0, daysLeft) + '</span>';
+      } else {
+        subInfo.innerHTML = '<span style="color:var(--success)">✓ Подписка активна</span>';
+      }
+    }
+  }
+  document.getElementById('profile-modal-backdrop').classList.add('open');
+}
+function closeProfile() {
+  document.getElementById('profile-modal-backdrop').classList.remove('open');
 }
 
 function logout() {
   if (!confirm('Выйти из аккаунта?')) return;
+  closeProfile();
   localStorage.removeItem('aivest-token');
   localStorage.removeItem('aivest-email');
   localStorage.removeItem('aivest-role');
+  localStorage.removeItem('aivest-activated');
+  localStorage.removeItem('aivest-plan');
   authToken = null; authEmail = null; authRole = null;
   isPro = false;
   var btn = document.getElementById('nav-login-btn');
   var cta = document.getElementById('nav-cta-btn');
   if (btn) { btn.textContent = 'Войти'; btn.classList.remove('logged-in'); btn.onclick = openLoginModal; }
   if (cta) { cta.style.display = ''; cta.textContent = 'Получить PRO доступ'; cta.onclick = openModal; }
+  applyAuth();
   render();
 }
 
@@ -1142,6 +1226,9 @@ function handleLogin() {
       localStorage.setItem('aivest-token', authToken);
       localStorage.setItem('aivest-email', authEmail);
       localStorage.setItem('aivest-role', authRole);
+      if (data.activatedAt) localStorage.setItem('aivest-activated', data.activatedAt);
+      if (data.plan) localStorage.setItem('aivest-plan', data.plan);
+      else if (!localStorage.getItem('aivest-activated')) localStorage.setItem('aivest-activated', new Date().toISOString());
       applyAuth();
       var title = document.getElementById('login-success-title');
       var msg   = document.getElementById('login-success-msg');

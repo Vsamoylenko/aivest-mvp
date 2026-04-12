@@ -140,7 +140,7 @@ app.post('/api/login', async (req, res) => {
   const sub = subscribers.find(s => s.email.toLowerCase() === email.toLowerCase() && s.status === 'active');
   if (sub) {
     const token = Buffer.from(`${email}:pro:${Date.now()}:${process.env.ADMIN_KEY || 'aivest-key'}`).toString('base64');
-    return res.json({ success: true, token, role: 'pro', email });
+    return res.json({ success: true, token, role: 'pro', email, activatedAt: sub.activatedAt, plan: sub.plan });
   }
 
   res.status(401).json({ error: 'Неверный email или пароль' });
