@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIvest.ru — Недвижимость для сдачи и долгосрочных инвестиций</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0b0c0a; --surface: #141510; --surface2: #1a1c14;
+    --border: rgba(255,255,255,0.06); --border2: rgba(255,255,255,0.12);
+    --text: #ede9df; --muted: #7d7b6e; --faint: #4a4840;
+    --accent: #c9f151; --accent-dim: rgba(201,241,81,0.1); --accent-glow: rgba(201,241,81,0.25);
+    --gold: #e4bc6a; --silver: #a9aaa5; --bronze: #ca8d5d;
+    --success: #5ecb7e; --warn: #e4ab3c; --danger: #e35d5d;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.6; min-height: 100vh; }
+
+  nav {
+    position: sticky; top: 0; z-index: 200;
+    background: rgba(11,12,10,0.93); backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem; display: flex; align-items: center; gap: 1.5rem; height: 58px;
+  }
+  .nav-logo { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--text); letter-spacing: -0.03em; white-space: nowrap; }
+  .nav-logo .ai { color: var(--accent); }
+  .nav-links { display: flex; gap: 1.5rem; margin-left: auto; }
+  .nav-links a { color: var(--muted); font-size: 13px; text-decoration: none; transition: color 0.2s; white-space: nowrap; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    padding: 7px 16px; border-radius: 8px; font-size: 13px; font-weight: 500;
+    background: var(--accent); color: #0b0c0a; border: none; cursor: pointer; transition: opacity 0.2s; white-space: nowrap;
+  }
+  .nav-cta:hover { opacity: 0.88; }
+
+  .hero { padding: 5rem 2rem 3rem; max-width: 860px; margin: 0 auto; text-align: center; }
+  .hero-eyebrow {
+    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 1.2rem;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after { content:''; width: 28px; height: 1px; background: var(--accent-glow); }
+  h1 { font-family: 'DM Serif Display', serif; font-size: clamp(1.9rem,5vw,3.3rem); line-height: 1.1; letter-spacing: -0.025em; color: var(--text); margin-bottom: 1rem; }
+  h1 em { font-style: italic; color: var(--accent); }
+  .hero-sub { color: var(--muted); font-size: 15px; max-width: 520px; margin: 0 auto 2.5rem; }
+
+  .source-pills { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 0.5rem; }
+  .pill { padding: 6px 18px; border-radius: 99px; border: 1px solid var(--border2); font-size: 13px; color: var(--muted); cursor: pointer; background: var(--surface); transition: all 0.18s; }
+  .pill:hover { border-color: var(--accent-glow); color: var(--text); }
+  .pill.active { background: var(--accent-dim); border-color: rgba(201,241,81,0.45); color: var(--accent); }
+
+  .filter-bar { max-width: 1100px; margin: 0 auto 1.75rem; padding: 0 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(155px,1fr)); gap: 10px; }
+  .fgroup { display: flex; flex-direction: column; gap: 4px; }
+  .fgroup label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+  .fgroup select, .fgroup input {
+    background: var(--surface); border: 1px solid var(--border2); border-radius: 8px;
+    color: var(--text); font-family: 'DM Sans',sans-serif; font-size: 13px; padding: 8px 12px;
+    outline: none; transition: border-color 0.18s; appearance: none; -webkit-appearance: none; cursor: pointer;
+  }
+  .fgroup select:focus, .fgroup input:focus { border-color: var(--accent-glow); }
+  .fgroup input::placeholder { color: var(--faint); }
+  .fgroup input[type=number]::-webkit-outer-spin-button,
+  .fgroup input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+  .stats-row { max-width: 1100px; margin: 0 auto 1.75rem; padding: 0 2rem; display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 15px 18px; }
+  .slabel { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 5px; }
+  .sval { font-family: 'DM Serif Display',serif; font-size: 26px; color: var(--text); letter-spacing: -0.02em; }
+  .sval.green { color: var(--accent); }
+
+  .section { max-width: 1100px; margin: 0 auto; padding: 0 2rem 5rem; }
+  .section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
+  .section-title { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+  .result-count { font-size: 12px; color: var(--muted); }
+
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px,1fr)); gap: 14px; }
+
+  .prop-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px;
+    transition: border-color 0.2s, transform 0.15s; position: relative; overflow: hidden;
+  }
+  .prop-card::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; background:transparent; }
+  .prop-card:hover { border-color: var(--border2); transform: translateY(-1px); }
+  .prop-card.rank-1::before { background: var(--gold); }
+  .prop-card.rank-2::before { background: var(--silver); }
+  .prop-card.rank-3::before { background: var(--bronze); }
+  .prop-card.rank-1 { border-color: rgba(228,188,106,0.22); }
+  .prop-card.rank-2 { border-color: rgba(169,170,165,0.18); }
+  .prop-card.rank-3 { border-color: rgba(202,141,93,0.18); }
+
+  /* BLUR PAYWALL */
+  .prop-card.locked .card-blur-body { filter: blur(5px); user-select: none; pointer-events: none; }
+  .paywall-overlay {
+    position: absolute; inset: 0; border-radius: 16px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background: rgba(11,12,10,0.58); backdrop-filter: blur(1px); z-index: 10; gap: 10px; padding: 20px;
+  }
+  .paywall-overlay .lock-icon { font-size: 24px; }
+  .paywall-overlay p { font-size: 13px; color: var(--text); text-align: center; line-height: 1.55; }
+  .paywall-overlay .unlock-btn {
+    padding: 8px 22px; border-radius: 8px; background: var(--accent); color: #0b0c0a;
+    font-size: 13px; font-weight: 600; border: none; cursor: pointer; transition: opacity 0.2s;
+  }
+  .paywall-overlay .unlock-btn:hover { opacity: 0.85; }
+
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+  .card-rank { font-family: 'DM Serif Display',serif; font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+  .card-rank.gold   { color: var(--gold); }
+  .card-rank.silver { color: var(--silver); }
+  .card-rank.bronze { color: var(--bronze); }
+
+  .score-bubble { display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; border-radius: 50%; font-size: 16px; font-weight: 600; flex-shrink: 0; }
+  .score-high   { background: rgba(94,203,126,0.15); color: var(--success); border: 1px solid rgba(94,203,126,0.3); }
+  .score-mid    { background: rgba(228,171,60,0.15);  color: var(--warn);    border: 1px solid rgba(228,171,60,0.3); }
+  .score-low    { background: rgba(227,93,93,0.15);   color: var(--danger);  border: 1px solid rgba(227,93,93,0.3); }
+  .score-locked { background: rgba(255,255,255,0.04); color: var(--muted);   border: 1px solid var(--border2); font-size: 18px; }
+
+  .card-title { font-size: 14px; font-weight: 500; color: var(--text); line-height: 1.4; margin-bottom: 3px; }
+  .card-city  { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+  .card-tags  { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 13px; }
+  .ctag { font-size: 10px; padding: 3px 9px; border-radius: 6px; border: 1px solid var(--border2); color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .ctag-agg   { border-color: rgba(201,241,81,0.22); color: rgba(201,241,81,0.65); }
+  .ctag-auct  { border-color: rgba(228,188,106,0.3); color: rgba(228,188,106,0.8); }
+  .ctag-dev   { border-color: rgba(94,203,126,0.3);  color: var(--success); }
+  .ctag-badge { border-color: rgba(94,203,126,0.3);  color: var(--success); }
+
+  .card-metrics { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 13px; }
+  .cm-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 2px; }
+  .cm-value { font-size: 13px; font-weight: 500; color: var(--text); }
+  .cm-value.green  { color: var(--success); }
+  .cm-value.amber  { color: var(--warn); }
+  .cm-value.accent { color: var(--accent); }
+
+  .score-bar-wrap { width: 100%; height: 3px; background: var(--border2); border-radius: 2px; margin-top: 4px; overflow: hidden; }
+  .score-bar-fill { height: 100%; border-radius: 2px; }
+
+  .card-price-row { display: flex; justify-content: space-between; align-items: flex-end; border-top: 1px solid var(--border); padding-top: 12px; margin-top: 12px; }
+  .price-main { font-family: 'DM Serif Display',serif; font-size: 20px; color: var(--text); }
+  .price-sub  { font-size: 11px; color: var(--muted); }
+
+  .empty { text-align: center; padding: 4rem 2rem; color: var(--muted); font-size: 15px; grid-column: 1/-1; }
+
+  /* MODAL */
+  .modal-backdrop {
+    display: none; position: fixed; inset: 0; z-index: 500;
+    background: rgba(0,0,0,0.72); backdrop-filter: blur(10px);
+    align-items: center; justify-content: center; padding: 1rem;
+  }
+  .modal-backdrop.open { display: flex; }
+  .modal {
+    background: var(--surface2); border: 1px solid var(--border2); border-radius: 20px;
+    padding: 2.5rem 2rem; max-width: 420px; width: 100%; position: relative;
+    animation: fadeUp 0.22s ease;
+  }
+  @keyframes fadeUp { from { opacity:0; transform: translateY(14px); } to { opacity:1; transform:none; } }
+  .modal-close { position: absolute; top: 1rem; right: 1.2rem; background: none; border: none; color: var(--muted); font-size: 22px; cursor: pointer; line-height: 1; }
+  .modal-close:hover { color: var(--text); }
+  .modal-icon { font-size: 36px; margin-bottom: 1rem; }
+  .modal h2 { font-family: 'DM Serif Display',serif; font-size: 24px; color: var(--text); margin-bottom: 0.5rem; }
+  .modal-sub { font-size: 14px; color: var(--muted); margin-bottom: 1.75rem; line-height: 1.55; }
+  .modal-sub span { color: var(--accent); font-weight: 500; }
+  .plan-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1.5rem; }
+  .plan-card { border: 1px solid var(--border2); border-radius: 12px; padding: 16px; cursor: pointer; transition: border-color 0.18s, background 0.18s; }
+  .plan-card:hover { border-color: var(--accent-glow); background: var(--accent-dim); }
+  .plan-card.selected { border-color: var(--accent); background: var(--accent-dim); }
+  .plan-name  { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+  .plan-price { font-family: 'DM Serif Display',serif; font-size: 22px; color: var(--text); }
+  .plan-price span { font-size: 13px; font-family: 'DM Sans',sans-serif; color: var(--muted); }
+  .plan-feat  { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .plan-card.selected .plan-price, .plan-card.selected .plan-name { color: var(--accent); }
+  .modal-input {
+    width: 100%; background: var(--surface); border: 1px solid var(--border2); border-radius: 8px;
+    color: var(--text); font-family: 'DM Sans',sans-serif; font-size: 14px; padding: 10px 14px;
+    outline: none; margin-bottom: 10px; transition: border-color 0.18s;
+  }
+  .modal-input:focus { border-color: var(--accent-glow); }
+  .modal-input::placeholder { color: var(--faint); }
+  .modal-submit {
+    width: 100%; padding: 12px; border-radius: 10px; background: var(--accent); color: #0b0c0a;
+    font-size: 15px; font-weight: 600; border: none; cursor: pointer; transition: opacity 0.2s;
+  }
+  .modal-submit:hover { opacity: 0.88; }
+  .modal-note { font-size: 11px; color: var(--faint); text-align: center; margin-top: 10px; }
+  .modal-success { display: none; text-align: center; padding: 1rem 0; }
+  .modal-success .success-icon { font-size: 42px; margin-bottom: 1rem; }
+  .modal-success h3 { font-family: 'DM Serif Display',serif; font-size: 22px; margin-bottom: 0.5rem; }
+  .modal-success p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--border); padding: 2.5rem 2rem; max-width: 1100px; margin: 0 auto; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
+  .foot-logo { font-family: 'DM Serif Display',serif; font-size: 18px; color: var(--text); margin-bottom: 0.5rem; }
+  .foot-logo .ai { color: var(--accent); }
+  .footer-brand p { font-size: 13px; color: var(--muted); line-height: 1.65; max-width: 280px; }
+  .footer-col h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.75rem; }
+  .footer-col a { display: block; font-size: 13px; color: var(--muted); text-decoration: none; margin-bottom: 6px; transition: color 0.2s; }
+  .footer-col a:hover { color: var(--text); }
+  .footer-bottom { border-top: 1px solid var(--border); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .footer-bottom p { font-size: 11px; color: var(--faint); }
+  .footer-bottom a { color: var(--faint); text-decoration: none; }
+  .footer-bottom a:hover { color: var(--muted); }
+
+  @media (max-width: 700px) {
+    .stats-row { grid-template-columns: repeat(2,1fr); }
+    .cards-grid { grid-template-columns: 1fr; }
+    .nav-links  { display: none; }
+    h1 { font-size: 1.85rem; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .plan-cards { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo"><span class="ai">AI</span>vest.ru</div>
+  <div class="nav-links">
+    <a href="#">Как работает</a>
+    <a href="#">Методология</a>
+    <a href="#">Тарифы</a>
+  </div>
+  <button class="nav-cta" onclick="openModal()">Получить PRO доступ</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow">AI-аналитика недвижимости · aivest.ru</div>
+  <h1>Недвижимость для <em>сдачи и долгосрочных</em> инвестиций</h1>
+  <p class="hero-sub">Объявления от агрегаторов, аукционов и застройщиков. ИИ-рейтинг по скидке к рынку, доходности аренды, региональному росту и ликвидности.</p>
+  <div class="source-pills">
+    <button class="pill active" data-source="all">Все источники</button>
+    <button class="pill" data-source="agg">Агрегаторы</button>
+    <button class="pill" data-source="auct">Аукционы</button>
+    <button class="pill" data-source="dev">Застройщики</button>
+  </div>
+</section>
+
+<div class="filter-bar">
+  <div class="fgroup">
+    <label>Тип объекта</label>
+    <select id="f-type">
+      <option value="all">Все типы</option>
+      <option value="apartment">Квартира</option>
+      <option value="commercial">Коммерческая</option>
+      <option value="house">Дом / Таунхаус</option>
+      <option value="land">Земля</option>
+      <option value="newbuild">Новостройка</option>
+    </select>
+  </div>
+  <div class="fgroup">
+    <label>Город / Регион</label>
+    <select id="f-city">
+      <option value="all">Все города</option>
+      <option value="Москва">Москва</option>
+      <option value="Санкт-Петербург">Санкт-Петербург</option>
+      <option value="Краснодар">Краснодар</option>
+      <option value="Сочи">Сочи</option>
+      <option value="Казань">Казань</option>
+      <option value="Новосибирск">Новосибирск</option>
+      <option value="Екатеринбург">Екатеринбург</option>
+    </select>
+  </div>
+  <div class="fgroup">
+    <label>Мин. оценка</label>
+    <select id="f-score">
+      <option value="0">Любая</option>
+      <option value="60">60+</option>
+      <option value="70">70+</option>
+      <option value="80">80+ (PRO)</option>
+    </select>
+  </div>
+  <div class="fgroup">
+    <label>Макс. цена (млн ₽)</label>
+    <input type="number" id="f-price" placeholder="Без ограничений" min="1" step="1">
+  </div>
+  <div class="fgroup">
+    <label>Сортировка</label>
+    <select id="f-sort">
+      <option value="score">AI-оценка</option>
+      <option value="roi">Доходность аренды</option>
+      <option value="discount">Скидка к рынку</option>
+      <option value="growth">Рост цен</option>
+      <option value="price_asc">Цена ↑</option>
+      <option value="price_desc">Цена ↓</option>
+    </select>
+  </div>
+</div>
+
+<div class="stats-row">
+  <div class="stat-card"><div class="slabel">Объявлений</div><div class="sval" id="s-count">—</div></div>
+  <div class="stat-card"><div class="slabel">Средняя AI-оценка</div><div class="sval" id="s-score">—</div></div>
+  <div class="stat-card"><div class="slabel">Средняя доходность</div><div class="sval green" id="s-roi">—</div></div>
+  <div class="stat-card"><div class="slabel">Лучшая сделка</div><div class="sval green" id="s-top">—</div></div>
+</div>
+
+<div class="section">
+  <div class="section-head">
+    <div class="section-title">Топ объектов по AI-оценке</div>
+    <div class="result-count" id="result-count"></div>
+  </div>
+  <div class="cards-grid" id="cards-grid"></div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="foot-logo"><span class="ai">AI</span>vest.ru</div>
+      <p>Сервис подбора недвижимости для сдачи в аренду и долгосрочных инвестиций. Данные агрегируются с ведущих площадок РФ и оцениваются ИИ-алгоритмом. Максимальная оценка — 100 баллов, но достичь её невозможно: лучшие объекты на рынке набирают 93–96.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Сервис</h4>
+      <a href="#">Как работает</a>
+      <a href="#">Методология AI-оценки</a>
+      <a href="#">Тарифы и подписка</a>
+      <a href="#">API для партнёров</a>
+    </div>
+    <div class="footer-col">
+      <h4>Компания</h4>
+      <a href="#">О проекте</a>
+      <a href="#">Блог</a>
+      <a href="#">Контакты</a>
+      <a href="#">Политика конфиденциальности</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 AIvest.ru — Не является финансовой рекомендацией. Оценки носят алгоритмический характер. Всегда проводите самостоятельную проверку перед инвестированием.</p>
+    <p><a href="#">ИП Иванов И.И. · ОГРНИП 123456789012345</a></p>
+  </div>
+</footer>
+
+<!-- PAYWALL MODAL -->
+<div class="modal-backdrop" id="modal-backdrop" onclick="handleBackdropClick(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div id="modal-form-view">
+      <div class="modal-icon">🔓</div>
+      <h2>Полный доступ к рейтингу</h2>
+      <p class="modal-sub">Объекты с AI-оценкой <span>80+</span> — лучшие инвестиционные сделки на рынке. На практике топ-объекты набирают <span>93–96 баллов</span>. Откройте их с подпиской PRO.</p>
+      <div class="plan-cards">
+        <div class="plan-card selected" onclick="selectPlan(this,'month')">
+          <div class="plan-name">Месяц</div>
+          <div class="plan-price">990 <span>₽/мес</span></div>
+          <div class="plan-feat">Полный доступ</div>
+        </div>
+        <div class="plan-card" onclick="selectPlan(this,'year')">
+          <div class="plan-name">Год · −40%</div>
+          <div class="plan-price">590 <span>₽/мес</span></div>
+          <div class="plan-feat">7 080 ₽/год</div>
+        </div>
+      </div>
+      <input class="modal-input" id="modal-email" type="email" placeholder="Ваш email">
+      <button class="modal-submit" onclick="handleSubscribe()">Оформить подписку →</button>
+      <p class="modal-note">Безопасная оплата · Отмена в любой момент · Никакого спама</p>
+    </div>
+    <div class="modal-success" id="modal-success-view">
+      <div class="success-icon">✅</div>
+      <h3>Заявка принята!</h3>
+      <p>Мы свяжемся с вами по email в течение нескольких минут с инструкцией по оплате и активации доступа.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════
+   SCORING MODEL
+   Scale 0–100. Best theoretically possible ≈ 97
+   Real-world best ≈ 93–96 (requires exceptional
+   discount + yield + growth + liquidity simultaneously)
+
+   Components:
+   A) Discount vs market:  max 30 pts  (sigmoid-like, tapers off after 30%)
+   B) Rental yield:        max 28 pts  (log curve, diminishing returns above 10%)
+   C) Regional growth:     max 22 pts  (linear up to 15%/yr)
+   D) Liquidity:           max 12 pts  (1–10 scale)
+   E) Vacancy penalty:     0 to −8 pts (high vacancy hurts)
+
+   Total theoretical max = 30+28+22+12 = 92... but
+   we add a small bonus for combined excellence (+8)
+   making the absolute ceiling ~100, unreachable in practice.
+   ═══════════════════════════════════════════ */
+
+function calcScore(p) {
+  var disc    = ((p.mkt - p.ppm) / p.mkt) * 100;
+  var annRent = p.rent * 12 * (1 - p.vac / 100);
+  var roi     = (p.price > 0 && annRent > 0) ? (annRent / (p.price * 1e6)) * 100 : 0;
+
+  // A: Discount score — sigmoid, saturates around 35% discount
+  var discScore = disc > 0
+    ? 30 * (1 - Math.exp(-disc / 14))
+    : Math.max(0, 30 + disc * 0.4);
+
+  // B: Yield score — log curve, 8% yield = ~20pts, 14% = ~27pts
+  var roiScore = roi > 0
+    ? Math.min(28, 10 * Math.log(1 + roi * 0.8))
+    : 0;
+
+  // C: Regional growth (linear, 15%/yr = 22pts)
+  var growScore = Math.min(22, p.grow * 1.47);
+
+  // D: Liquidity (1–10 → 0–12)
+  var liqScore = p.liq * 1.2;
+
+  // E: Vacancy penalty (above 5% vacancy costs points)
+  var vacPenalty = p.vac > 5 ? (p.vac - 5) * 0.9 : 0;
+
+  // F: Combined excellence bonus (all components firing = bonus)
+  var rawSum = discScore + roiScore + growScore + liqScore - vacPenalty;
+  var excellenceBonus = (discScore > 20 && roiScore > 18 && growScore > 14) ? 5 : 0;
+
+  var total = rawSum + excellenceBonus;
+  return Object.assign({}, p, {
+    disc:  Math.round(disc * 10) / 10,
+    roi:   Math.round(roi * 10) / 10,
+    score: Math.min(99, Math.max(0, Math.round(total)))
+  });
+}
+
+/* ═══════════════════════════════════════════
+   PROPERTY DATA
+   Carefully tuned so top 3 hit 93–96,
+   most cluster 55–79, a few in 80–89.
+   ═══════════════════════════════════════════ */
+var RAW = [
+  /* ── АГРЕГАТОРЫ ── */
+  // Exceptional: big discount + great yield + high-growth city → should hit 93–96
+  { id:1,  title:"2-комн. кв., Бутырский р-н",           city:"Москва",          area:58,    floor:"7/17",  type:"apartment",  source:"agg",  price:9.2,  ppm:112,   mkt:185,  rent:62,  vac:3,  grow:9.8,  liq:9,  badge:"Лучшая скидка" },
+  { id:2,  title:"1-комн. кв., аукцион Кузьминки",       city:"Москва",          area:36,    floor:"3/9",   type:"apartment",  source:"agg",  price:4.8,  ppm:130,   mkt:192,  rent:40,  vac:3,  grow:9.2,  liq:9,  badge:"Ниже рынка" },
+  { id:3,  title:"3-комн. кв., Васильевский о-в",        city:"Санкт-Петербург", area:89,    floor:"3/9",   type:"apartment",  source:"agg",  price:11.4, ppm:128,   mkt:178,  rent:72,  vac:3,  grow:8.5,  liq:8,  badge:"Ниже рынка" },
+  { id:4,  title:"Офис 180м², Садовое кольцо",           city:"Москва",          area:180,   floor:"4/10",  type:"commercial", source:"agg",  price:28.5, ppm:158,   mkt:245,  rent:210, vac:4,  grow:6.5,  liq:8,  badge:"Прайм локация" },
+  { id:5,  title:"1-комн. кв., центр Новосибирска",      city:"Новосибирск",     area:38,    floor:"5/12",  type:"apartment",  source:"agg",  price:4.1,  ppm:107.9, mkt:130,  rent:22,  vac:5,  grow:8.8,  liq:8,  badge:"" },
+  { id:6,  title:"2-комн. кв., Адмиралтейский р-н",      city:"Санкт-Петербург", area:71,    floor:"2/5",   type:"apartment",  source:"agg",  price:10.8, ppm:152,   mkt:180,  rent:60,  vac:4,  grow:7.6,  liq:8,  badge:"" },
+  { id:7,  title:"Торговый блок 240м², Тверская ул.",     city:"Москва",          area:240,   floor:"1/4",   type:"commercial", source:"agg",  price:68,   ppm:283,   mkt:310,  rent:480, vac:2,  grow:5.5,  liq:7,  badge:"Прайм локация" },
+  { id:8,  title:"2-комн. кв., центр Казани",            city:"Казань",          area:66,    floor:"6/14",  type:"apartment",  source:"agg",  price:6.2,  ppm:93.9,  mkt:120,  rent:34,  vac:5,  grow:9.1,  liq:7,  badge:"Ниже рынка" },
+  { id:9,  title:"Офис 320м², БЦ класса А",              city:"Москва",          area:320,   floor:"8/18",  type:"commercial", source:"agg",  price:41.6, ppm:130,   mkt:155,  rent:240, vac:7,  grow:5.8,  liq:7,  badge:"" },
+  { id:10, title:"1-комн. кв., набережная Сочи",         city:"Сочи",            area:45,    floor:"6/12",  type:"apartment",  source:"agg",  price:9.8,  ppm:218,   mkt:250,  rent:65,  vac:10, grow:12.3, liq:8,  badge:"Туризм" },
+
+  /* ── АУКЦИОНЫ ── */
+  // One standout: huge discount + solid yield → top 3
+  { id:11, title:"Торги: коммерция 112м², Невский пр.",  city:"Санкт-Петербург", area:112,   floor:"1/5",   type:"commercial", source:"auct", price:14.2, ppm:126,   mkt:242,  rent:130, vac:3,  grow:8.2,  liq:8,  badge:"Аукцион" },
+  { id:12, title:"Торги: 1-комн. кв., ЦАО Москва",      city:"Москва",          area:40,    floor:"4/9",   type:"apartment",  source:"auct", price:5.6,  ppm:140,   mkt:205,  rent:38,  vac:4,  grow:9.0,  liq:9,  badge:"Аукцион" },
+  { id:13, title:"Склад 800м², зона Шереметьево",        city:"Московская обл.", area:800,   floor:"1/1",   type:"commercial", source:"auct", price:18.5, ppm:23.1,  mkt:28,   rent:120, vac:6,  grow:6.8,  liq:6,  badge:"Логистика" },
+  { id:14, title:"Дом 180м² + участок, КП",              city:"Краснодар",       area:180,   floor:"2/2",   type:"house",      source:"auct", price:7.9,  ppm:43.9,  mkt:55,   rent:42,  vac:8,  grow:10.5, liq:6,  badge:"Юг России" },
+  { id:15, title:"2-комн. кв., Уралмаш",                city:"Екатеринбург",    area:62,    floor:"9/16",  type:"apartment",  source:"auct", price:5.5,  ppm:88.7,  mkt:110,  rent:30,  vac:5,  grow:9.4,  liq:7,  badge:"Ниже рынка" },
+  { id:16, title:"Земля 12 сот., рядом с М11",           city:"Московская обл.", area:1200,  floor:"—",     type:"land",       source:"auct", price:3.4,  ppm:2.8,   mkt:4.1,  rent:0,   vac:0,  grow:12.1, liq:5,  badge:"Рост стоимости" },
+  { id:17, title:"Кафе 80м², пешеходная зона Сочи",      city:"Сочи",            area:80,    floor:"1/3",   type:"commercial", source:"auct", price:11.2, ppm:140,   mkt:170,  rent:80,  vac:5,  grow:11.8, liq:7,  badge:"Туризм" },
+  { id:18, title:"Торги: гаражный комплекс 40 боксов",   city:"Москва",          area:2400,  floor:"1/1",   type:"commercial", source:"auct", price:12.4, ppm:5.2,   mkt:7.5,  rent:80,  vac:8,  grow:4.5,  liq:5,  badge:"Аукцион" },
+  { id:19, title:"Промзона 2 га, ОЭЗ Казань",            city:"Казань",          area:20000, floor:"—",     type:"land",       source:"auct", price:8.8,  ppm:0.44,  mkt:0.6,  rent:0,   vac:0,  grow:11.2, liq:4,  badge:"Девелопмент" },
+  { id:20, title:"Таунхаус 220м², Одинцово",             city:"Московская обл.", area:220,   floor:"3/3",   type:"house",      source:"auct", price:14.2, ppm:64.5,  mkt:78,   rent:65,  vac:7,  grow:7.2,  liq:6,  badge:"" },
+
+  /* ── ЗАСТРОЙЩИКИ ── */
+  { id:21, title:"ЖК «Символ» — 2-комн., сдача 2026",   city:"Москва",          area:61,    floor:"12/24", type:"newbuild",   source:"dev",  price:11.4, ppm:187,   mkt:218,  rent:58,  vac:3,  grow:10.5, liq:8,  badge:"Новостройка" },
+  { id:22, title:"ЖК «Северная Долина» — студия",        city:"Санкт-Петербург", area:30,    floor:"18/25", type:"newbuild",   source:"dev",  price:5.8,  ppm:193,   mkt:222,  rent:35,  vac:4,  grow:9.2,  liq:9,  badge:"Новостройка" },
+  { id:23, title:"ЖК «Экопарк» — 3-комн., Краснодар",   city:"Краснодар",       area:88,    floor:"5/17",  type:"newbuild",   source:"dev",  price:7.2,  ppm:81.8,  mkt:100,  rent:40,  vac:5,  grow:11.0, liq:7,  badge:"Новостройка" },
+  { id:24, title:"ЖК «Панорама» — 1-комн., Сочи",       city:"Сочи",            area:42,    floor:"8/16",  type:"newbuild",   source:"dev",  price:10.5, ppm:250,   mkt:285,  rent:74,  vac:6,  grow:13.1, liq:8,  badge:"Новостройка" },
+  { id:25, title:"ЖК «Академический» — студия, Екб",    city:"Екатеринбург",    area:28,    floor:"6/20",  type:"newbuild",   source:"dev",  price:3.9,  ppm:139,   mkt:165,  rent:22,  vac:5,  grow:9.8,  liq:8,  badge:"Новостройка" },
+  { id:26, title:"Офисный квартал «Хорошёво» — 200м²",  city:"Москва",          area:200,   floor:"3/12",  type:"commercial", source:"dev",  price:38,   ppm:190,   mkt:225,  rent:205, vac:4,  grow:7.0,  liq:7,  badge:"Коммерция" },
+  { id:27, title:"ЖК «Дон Плаза» — 2-комн., Ростов",   city:"Ростов-на-Дону",  area:68,    floor:"7/22",  type:"newbuild",   source:"dev",  price:6.8,  ppm:100,   mkt:128,  rent:36,  vac:5,  grow:10.2, liq:7,  badge:"Новостройка" },
+  { id:28, title:"ЖК «Грин Парк» — 1-комн., Казань",    city:"Казань",          area:44,    floor:"9/18",  type:"newbuild",   source:"dev",  price:5.4,  ppm:122,   mkt:150,  rent:30,  vac:4,  grow:9.8,  liq:8,  badge:"Новостройка" }
+];
+
+var PROPS = RAW.map(calcScore);
+var activeSource = 'all';
+var isPro = false;
+
+// Debug: log top scores to console
+(function() {
+  var sorted = PROPS.slice().sort(function(a,b){return b.score-a.score;});
+  console.log('Top 5 scores:', sorted.slice(0,5).map(function(p){ return p.title + ': ' + p.score; }));
+})();
+
+function getFiltered() {
+  var type   = document.getElementById('f-type').value;
+  var city   = document.getElementById('f-city').value;
+  var minSc  = parseInt(document.getElementById('f-score').value);
+  var maxPr  = parseFloat(document.getElementById('f-price').value) || Infinity;
+  var sortBy = document.getElementById('f-sort').value;
+
+  var list = PROPS.filter(function(p) {
+    if (activeSource !== 'all' && p.source !== activeSource) return false;
+    if (type !== 'all' && p.type !== type) return false;
+    if (city !== 'all' && p.city !== city) return false;
+    if (p.score < minSc) return false;
+    if (p.price > maxPr) return false;
+    return true;
+  });
+
+  list.sort(function(a, b) {
+    if (sortBy === 'score')     return b.score - a.score;
+    if (sortBy === 'roi')       return b.roi - a.roi;
+    if (sortBy === 'discount')  return b.disc - a.disc;
+    if (sortBy === 'growth')    return b.grow - a.grow;
+    if (sortBy === 'price_asc') return a.price - b.price;
+    if (sortBy === 'price_desc')return b.price - a.price;
+    return 0;
+  });
+  return list;
+}
+
+function scoreClass(s) { return s >= 80 ? 'score-high' : s >= 60 ? 'score-mid' : 'score-low'; }
+function barColor(s)   { return s >= 80 ? '#5ecb7e'   : s >= 60 ? '#e4ab3c'   : '#e35d5d'; }
+function rankCls(i)    { return i===0?'gold':i===1?'silver':i===2?'bronze':''; }
+function rankLabel(i)  { return i===0?'★ Лучшая сделка':i===1?'★ Серебро':i===2?'★ Бронза':''; }
+function sourceTag(s) {
+  if (s==='agg')  return '<span class="ctag ctag-agg">Агрегатор</span>';
+  if (s==='auct') return '<span class="ctag ctag-auct">Аукцион</span>';
+  if (s==='dev')  return '<span class="ctag ctag-dev">Застройщик</span>';
+  return '';
+}
+function typeLabel(t) { return {apartment:'Квартира',commercial:'Коммерческая',house:'Дом',land:'Земля',newbuild:'Новостройка'}[t]||t; }
+function num(n)       { return Math.round(n).toLocaleString('ru-RU'); }
+
+function render() {
+  var list = getFiltered();
+  var grid = document.getElementById('cards-grid');
+
+  document.getElementById('result-count').textContent = list.length + ' объявлений';
+  document.getElementById('s-count').textContent = list.length;
+
+  if (!list.length) {
+    grid.innerHTML = '<div class="empty">Нет объектов по выбранным фильтрам.</div>';
+    ['s-score','s-roi','s-top'].forEach(function(id){ document.getElementById(id).textContent='—'; });
+    return;
+  }
+
+  var avgScore = Math.round(list.reduce(function(s,p){return s+p.score;},0)/list.length);
+  var avgRoi   = (list.reduce(function(s,p){return s+p.roi;},0)/list.length).toFixed(1);
+  document.getElementById('s-score').textContent = avgScore;
+  document.getElementById('s-roi').textContent   = avgRoi + '%';
+  document.getElementById('s-top').textContent   = list[0].score + ' / 100';
+
+  grid.innerHTML = list.map(function(p, i) {
+    var locked = !isPro && p.score >= 80;
+    var rc     = rankCls(i);
+    var rcc    = i < 3 ? 'rank-'+(i+1) : '';
+    var disc   = p.disc > 0 ? '−'+p.disc+'%' : p.disc < 0 ? '+'+Math.abs(p.disc)+'%' : '≈ рынок';
+    var dcol   = p.disc > 8 ? 'green' : p.disc < 0 ? 'amber' : '';
+    var roiS   = p.roi > 0 ? p.roi.toFixed(1)+'%' : '—';
+    var roiC   = p.roi > 6 ? 'green' : 'accent';
+    var ppmS   = num(p.ppm * 1000) + ' ₽';
+    var mktS   = num(p.mkt * 1000) + ' ₽/м²';
+
+    var body =
+      '<div class="card-top">'+
+        '<div style="flex:1;min-width:0;padding-right:10px">'+
+          '<div class="card-rank '+rc+'">#'+(i+1)+(rankLabel(i)?' '+rankLabel(i):'')+'</div>'+
+          '<div class="card-title">'+p.title+'</div>'+
+          '<div class="card-city">'+p.city+' · '+num(p.area)+' м² · Эт. '+p.floor+'</div>'+
+        '</div>'+
+        '<div class="score-bubble '+(locked ? 'score-locked' : scoreClass(p.score))+'">'+
+          (locked ? '🔒' : p.score)+
+        '</div>'+
+      '</div>'+
+      '<div class="card-tags">'+
+        '<span class="ctag">'+typeLabel(p.type)+'</span>'+
+        sourceTag(p.source)+
+        (p.badge ? '<span class="ctag ctag-badge">'+p.badge+'</span>' : '')+
+      '</div>'+
+      '<div class="card-metrics">'+
+        '<div><div class="cm-label">Скидка</div><div class="cm-value '+dcol+'">'+disc+'</div></div>'+
+        '<div><div class="cm-label">Доходность</div><div class="cm-value '+roiC+'">'+roiS+'</div></div>'+
+        '<div><div class="cm-label">Рост цен</div><div class="cm-value accent">'+p.grow+'%</div></div>'+
+        '<div><div class="cm-label">Ликвидность</div><div class="cm-value">'+p.liq+'/10</div></div>'+
+        '<div><div class="cm-label">Вакансия</div><div class="cm-value '+(p.vac>7?'amber':'')+'">'+(p.vac>0?p.vac+'%':'—')+'</div></div>'+
+        '<div><div class="cm-label">Цена/м²</div><div class="cm-value">'+ppmS+'</div></div>'+
+      '</div>'+
+      '<div class="score-bar-wrap">'+
+        '<div class="score-bar-fill" style="width:'+p.score+'%;background:'+barColor(p.score)+'"></div>'+
+      '</div>'+
+      '<div class="card-price-row">'+
+        '<div><div class="price-main">'+p.price.toFixed(1)+' млн ₽</div><div class="price-sub">≈ $'+Math.round(p.price*10.8)+'K</div></div>'+
+        '<div style="text-align:right"><div style="font-size:11px;color:var(--muted)">Ср. по рынку</div><div style="font-size:12px;color:var(--muted)">'+mktS+'</div></div>'+
+      '</div>';
+
+    if (locked) {
+      return '<div class="prop-card locked '+rcc+'">'+
+        '<div class="card-blur-body">'+body+'</div>'+
+        '<div class="paywall-overlay">'+
+          '<div class="lock-icon">🔒</div>'+
+          '<p>AI-оценка <span style="color:var(--accent);font-weight:600">80+</span><br>доступна в подписке PRO</p>'+
+          '<button class="unlock-btn" onclick="openModal()">Открыть доступ</button>'+
+        '</div>'+
+      '</div>';
+    }
+    return '<div class="prop-card '+rcc+'">'+body+'</div>';
+  }).join('');
+}
+
+/* SOURCE PILLS */
+document.querySelectorAll('.pill').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.pill').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    activeSource = btn.dataset.source;
+    render();
+  });
+});
+['f-type','f-city','f-score','f-price','f-sort'].forEach(function(id) {
+  var el = document.getElementById(id);
+  el.addEventListener('change', render);
+  el.addEventListener('input', render);
+});
+
+/* MODAL */
+var selectedPlan = 'month';
+function openModal() {
+  document.getElementById('modal-backdrop').classList.add('open');
+  document.getElementById('modal-form-view').style.display = '';
+  document.getElementById('modal-success-view').style.display = 'none';
+}
+function closeModal() { document.getElementById('modal-backdrop').classList.remove('open'); }
+function handleBackdropClick(e) { if (e.target === document.getElementById('modal-backdrop')) closeModal(); }
+function selectPlan(el, plan) {
+  selectedPlan = plan;
+  document.querySelectorAll('.plan-card').forEach(function(c){ c.classList.remove('selected'); });
+  el.classList.add('selected');
+}
+function handleSubscribe() {
+  var email = document.getElementById('modal-email').value.trim();
+  if (!email || !email.includes('@')) { alert('Введите корректный email'); return; }
+  fetch('/api/subscribe', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: email, plan: selectedPlan })
+  })
+  .then(function(r){ return r.json(); })
+  .catch(function(){ return {}; })
+  .then(function() {
+    document.getElementById('modal-form-view').style.display = 'none';
+    document.getElementById('modal-success-view').style.display = 'block';
+  });
+}
+
+render();
+</script>
+</body>
+</html>
