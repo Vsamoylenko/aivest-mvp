@@ -1,8 +1,6 @@
 // AIvest.ru — Backend Server
 // Node.js + Express MVP
 // ─────────────────────────────────────────────────────
-// npm install express nodemailer dotenv cors googleapis
-// node server.js
 
 require('dotenv').config();
 const express    = require('express');
@@ -10,7 +8,6 @@ const cors       = require('cors');
 const nodemailer = require('nodemailer');
 const path       = require('path');
 const fs         = require('fs');
-const { google } = require('googleapis');
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
@@ -19,7 +16,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// ── Properties data (scraped from Cian) ──
+// ── Properties data ──
 const PROPERTIES_FILE = path.join(__dirname, 'data', 'properties.json');
 function loadProperties() {
   if (!fs.existsSync(PROPERTIES_FILE)) return null;
@@ -28,148 +25,69 @@ function loadProperties() {
 }
 
 // ═══════════════════════════════════════════════════════
-//  SUBSCRIBER STORE — Google Sheets (primary) + file fallback
+//  SUBSCRIBER STORE — Vercel KV (primary) + file fallback
 //
-//  Required env vars:
-//    GOOGLE_SHEETS_ID            — spreadsheet ID from the URL
-//    GOOGLE_SERVICE_ACCOUNT_EMAIL — service account email
-//    GOOGLE_PRIVATE_KEY          — private key (with \n as newlines)
+//  Vercel KV env vars are injected automatically when you
+//  link a KV store to the project in the Vercel dashboard:
+//    KV_URL, KV_REST_API_URL, KV_REST_API_TOKEN, KV_REST_API_READ_ONLY_TOKEN
 //
-//  Sheet columns: A=Email  B=Тариф  C=Дата заявки  D=Статус  E=Активирован
-//  Row 1 = headers (created automatically on first write)
+//  Data layout:
+//    Key  "subscribers"  → JSON array of subscriber objects
 // ═══════════════════════════════════════════════════════
 
-const SHEET_ID   = process.env.GOOGLE_SHEETS_ID;
-const SHEET_NAME = 'Подписчики';
-const HEADER_ROW = ['Email', 'Тариф', 'Дата заявки', 'Статус', 'Активирован'];
-
-function getSheetsClient() {
-  if (!SHEET_ID || !process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL || !process.env.GOOGLE_PRIVATE_KEY) return null;
-  try {
-    const auth = new google.auth.JWT(
-      process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-      null,
-      process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
-      ['https://www.googleapis.com/auth/spreadsheets']
-    );
-    return google.sheets({ version: 'v4', auth });
-  } catch (e) {
-    console.error('Sheets auth error:', e.message);
-    return null;
-  }
+function isKvConfigured() {
+  return !!(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN);
 }
 
-// Ensure header row exists
-async function ensureHeader(sheets) {
-  try {
-    const r = await sheets.spreadsheets.values.get({
-      spreadsheetId: SHEET_ID,
-      range: `${SHEET_NAME}!A1:E1`,
-    });
-    if (!r.data.values || !r.data.values[0] || r.data.values[0][0] !== 'Email') {
-      await sheets.spreadsheets.values.update({
-        spreadsheetId: SHEET_ID,
-        range: `${SHEET_NAME}!A1:E1`,
-        valueInputOption: 'RAW',
-        requestBody: { values: [HEADER_ROW] },
-      });
-    }
-  } catch (e) {
-    console.error('ensureHeader error:', e.message);
-  }
+async function kvGet(key) {
+  const res = await fetch(`${process.env.KV_REST_API_URL}/get/${key}`, {
+    headers: { Authorization: `Bearer ${process.env.KV_REST_API_TOKEN}` },
+  });
+  const json = await res.json();
+  return json.result ?? null;
+}
+
+async function kvSet(key, value) {
+  await fetch(`${process.env.KV_REST_API_URL}/set/${key}`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${process.env.KV_REST_API_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ value }),
+  });
 }
 
 async function loadSubscribers() {
-  const sheets = getSheetsClient();
-  if (sheets) {
+  if (isKvConfigured()) {
     try {
-      await ensureHeader(sheets);
-      const r = await sheets.spreadsheets.values.get({
-        spreadsheetId: SHEET_ID,
-        range: `${SHEET_NAME}!A2:E`,
-      });
-      const rows = r.data.values || [];
-      return rows
-        .filter(row => row[0])
-        .map(row => ({
-          email:       row[0] || '',
-          plan:        row[1] || 'month',
-          createdAt:   row[2] || new Date().toISOString(),
-          status:      row[3] || 'pending',
-          activatedAt: row[4] || null,
-        }));
+      const raw = await kvGet('subscribers');
+      if (raw) return typeof raw === 'string' ? JSON.parse(raw) : raw;
+      return [];
     } catch (e) {
-      console.error('Sheets loadSubscribers error:', e.message);
+      console.error('KV loadSubscribers error:', e.message);
     }
   }
-  // Fallback: local file
   return loadSubscribersFile();
 }
 
-async function appendSubscriber(sub) {
-  const sheets = getSheetsClient();
-  if (sheets) {
+async function saveSubscribers(list) {
+  if (isKvConfigured()) {
     try {
-      await ensureHeader(sheets);
-      await sheets.spreadsheets.values.append({
-        spreadsheetId: SHEET_ID,
-        range: `${SHEET_NAME}!A:E`,
-        valueInputOption: 'RAW',
-        requestBody: {
-          values: [[sub.email, sub.plan, sub.createdAt, sub.status, sub.activatedAt || '']],
-        },
-      });
-      console.log('Sheets: appended subscriber', sub.email);
+      await kvSet('subscribers', JSON.stringify(list));
       return;
     } catch (e) {
-      console.error('Sheets appendSubscriber error:', e.message);
+      console.error('KV saveSubscribers error:', e.message);
     }
   }
-  // Fallback: local file
-  const list = loadSubscribersFile();
-  if (!list.find(s => s.email === sub.email)) {
-    list.push(sub);
-    saveSubscribersFile(list);
-  }
-}
-
-async function activateSubscriber(email) {
-  const activatedAt = new Date().toISOString();
-  const sheets = getSheetsClient();
-  if (sheets) {
-    try {
-      const r = await sheets.spreadsheets.values.get({
-        spreadsheetId: SHEET_ID,
-        range: `${SHEET_NAME}!A:A`,
-      });
-      const rows = r.data.values || [];
-      const rowIdx = rows.findIndex(r => r[0]?.toLowerCase() === email.toLowerCase());
-      if (rowIdx > 0) { // skip header (index 0)
-        const rowNum = rowIdx + 1;
-        await sheets.spreadsheets.values.update({
-          spreadsheetId: SHEET_ID,
-          range: `${SHEET_NAME}!D${rowNum}:E${rowNum}`,
-          valueInputOption: 'RAW',
-          requestBody: { values: [['active', activatedAt]] },
-        });
-        console.log('Sheets: activated subscriber', email);
-        return activatedAt;
-      }
-    } catch (e) {
-      console.error('Sheets activateSubscriber error:', e.message);
-    }
-  }
-  // Fallback: local file
-  const list = loadSubscribersFile();
-  const sub = list.find(s => s.email === email);
-  if (sub) { sub.status = 'active'; sub.activatedAt = activatedAt; saveSubscribersFile(list); }
-  return activatedAt;
+  saveSubscribersFile(list);
 }
 
 // ── Local file fallback ──
 const SUBSCRIBERS_FILE = process.env.VERCEL
   ? '/tmp/subscribers.json'
   : path.join(__dirname, 'subscribers.json');
+
 function loadSubscribersFile() {
   try {
     if (!fs.existsSync(SUBSCRIBERS_FILE)) return [];
@@ -198,7 +116,7 @@ app.get('/api/health', (req, res) => {
   res.json({
     status: 'ok',
     time: new Date().toISOString(),
-    sheets: !!(SHEET_ID && process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL),
+    kv: isKvConfigured(),
   });
 });
 
@@ -281,10 +199,12 @@ app.post('/api/subscribe', async (req, res) => {
       ? 'Годовая подписка — 7 080 ₽/год (590 ₽/мес)'
       : 'Месячная подписка — 990 ₽/мес';
 
-    // Save to Google Sheets (or file fallback)
-    const existing = (await loadSubscribers()).find(s => s.email.toLowerCase() === email.toLowerCase());
+    // Save to KV (or file fallback)
+    const subscribers = await loadSubscribers();
+    const existing = subscribers.find(s => s.email.toLowerCase() === email.toLowerCase());
     if (!existing) {
-      await appendSubscriber({ email, plan, createdAt: new Date().toISOString(), status: 'pending' });
+      subscribers.push({ email, plan, createdAt: new Date().toISOString(), status: 'pending' });
+      await saveSubscribers(subscribers);
     }
 
     // Email to admin
@@ -298,8 +218,6 @@ app.post('/api/subscribe', async (req, res) => {
           <p><strong>Email:</strong> ${email}</p>
           <p><strong>Тариф:</strong> ${planLabel}</p>
           <p><strong>Дата:</strong> ${new Date().toLocaleString('ru-RU')}</p>
-          <hr>
-          <p>Посмотреть все заявки: <a href="${process.env.SITE_URL || 'https://aivest.ru'}/api/admin/subscribers">панель управления</a></p>
         `
       });
     } catch (err) { console.error('Email error (admin):', err.message); }
@@ -317,7 +235,7 @@ app.post('/api/subscribe', async (req, res) => {
             <p><strong>Тариф:</strong> ${planLabel}</p>
             <p>Мы свяжемся с вами по email с инструкцией по оплате и активации доступа.</p>
             <hr style="border:none;border-top:1px solid #eee;margin:20px 0">
-            <p style="font-size:12px;color:#888">AIvest.ru — Недвижимость для сдачи и долгосрочных инвестиций</p>
+            <p style="font-size:12px;color:#888">AIvest.ru</p>
           </div>
         `
       });
@@ -347,12 +265,11 @@ app.get('/api/admin/subscribers', async (req, res) => {
   if (!authorized) return res.status(403).send(`
     <html><body style="font-family:sans-serif;padding:2rem;background:#0b0c0a;color:#ede9df">
       <h2 style="color:#e35d5d">403 — Нет доступа</h2>
-      <p>Войдите в аккаунт администратора для просмотра подписчиков.</p>
+      <p>Войдите в аккаунт администратора.</p>
     </body></html>
   `);
 
   const subs = await loadSubscribers();
-  const sheetsConfigured = !!(SHEET_ID && process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL);
 
   if (req.headers.accept?.includes('text/html') || req.query.format !== 'json') {
     const rows = subs.map(s => `
@@ -368,7 +285,9 @@ app.get('/api/admin/subscribers', async (req, res) => {
       <style>
         body{font-family:'Segoe UI',sans-serif;background:#0b0c0a;color:#ede9df;padding:2rem}
         h2{color:#c9f151;margin-bottom:.5rem}
-        .storage{font-size:12px;color:${sheetsConfigured?'#5ecb7e':'#e4ab3c'};margin-bottom:1.5rem}
+        .badge{display:inline-block;font-size:11px;padding:3px 10px;border-radius:99px;margin-bottom:1.5rem;
+               background:${isKvConfigured()?'rgba(94,203,126,.15)':'rgba(228,171,60,.15)'};
+               color:${isKvConfigured()?'#5ecb7e':'#e4ab3c'};border:1px solid currentColor}
         table{width:100%;border-collapse:collapse}
         th{text-align:left;padding:10px 14px;border-bottom:1px solid #333;color:#7d7b6e;font-size:12px;text-transform:uppercase;letter-spacing:.08em}
         td{padding:10px 14px;border-bottom:1px solid #1a1c14;font-size:14px}
@@ -377,7 +296,7 @@ app.get('/api/admin/subscribers', async (req, res) => {
       </style></head>
       <body>
         <h2>AIvest · Подписчики</h2>
-        <p class="storage">${sheetsConfigured ? '✅ Google Sheets подключён' : '⚠ Google Sheets не настроен (временное хранилище)'}</p>
+        <div class="badge">${isKvConfigured() ? '✅ Vercel KV' : '⚠ Временное хранилище — настройте KV'}</div>
         <p class="count">Всего: ${subs.length} · Активных: ${subs.filter(s=>s.status==='active').length}</p>
         <table>
           <thead><tr><th>Email</th><th>Тариф</th><th>Статус</th><th>Дата заявки</th><th>Активирован</th></tr></thead>
@@ -398,7 +317,10 @@ app.post('/api/admin/activate', async (req, res) => {
   const sub = subscribers.find(s => s.email.toLowerCase() === email.toLowerCase());
   if (!sub) return res.status(404).json({ error: 'Не найден' });
 
-  const activatedAt = await activateSubscriber(email);
+  sub.status      = 'active';
+  sub.activatedAt = new Date().toISOString();
+  await saveSubscribers(subscribers);
+
   const token = Buffer.from(`${email}:${Date.now()}:${process.env.ADMIN_KEY}`).toString('base64');
 
   try {
@@ -451,5 +373,5 @@ app.listen(PORT, () => {
   console.log(`\n🏠 AIvest.ru запущен на http://localhost:${PORT}`);
   console.log(`📧 SMTP: ${process.env.SMTP_HOST || 'не настроен'}`);
   console.log(`🔑 Admin key: ${process.env.ADMIN_KEY ? '✓ задан' : '⚠ не задан!'}`);
-  console.log(`📊 Google Sheets: ${SHEET_ID ? '✓ ' + SHEET_ID : '⚠ не настроен'}\n`);
+  console.log(`🗄  Vercel KV: ${isKvConfigured() ? '✓ подключён' : '⚠ не настроен (файловый fallback)'}\n`);
 });
