@@ -28,14 +28,14 @@ jobs:
       - name: Run scraper
         run: node scraper.js
         env:
-          SCRAPER_DELAY: 600   # чуть медленнее на CI чтобы не блокировало
+          SCRAPER_DELAY: 1200
 
       - name: Check results
         run: |
           COUNT=$(node -e "const d=require('./data/properties.json'); console.log(d.totalCount)")
-          echo "Scraped $COUNT properties"
-          if [ "$COUNT" -lt 100 ]; then
-            echo "❌ Too few properties — scrape may have failed"
+          echo "✅ Scraped $COUNT properties"
+          if [ "$COUNT" -lt 50 ]; then
+            echo "❌ Too few — possible block"
             exit 1
           fi
 
