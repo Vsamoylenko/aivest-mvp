@@ -772,7 +772,7 @@ function loadFromAPI() {
   var grid = document.getElementById('cards-grid');
   if (grid) grid.innerHTML = '<div class="empty" style="display:flex;align-items:center;gap:10px;justify-content:center"><span style="animation:spin 1s linear infinite;display:inline-block">⟳</span> Загружаем данные с Циан...</div>';
 
-  fetch('/api/properties?limit=1000&sort=score')
+  fetch('/api/properties?limit=10000&sort=score')
     .then(function(r) { return r.json(); })
     .then(function(data) {
       if (data && data.properties && data.properties.length > 0) {
