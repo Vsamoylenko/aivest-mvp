@@ -19,7 +19,7 @@ const OUT_FILE   = path.join(DATA_DIR, 'properties.json');
 const MAX_PAGES  = 28;
 const DELAY_MS   = parseInt(process.env.SCRAPER_DELAY || '800');
 
-const CITIES = [
+const ALL_CITIES = [
   { name: 'Москва',          regionId: 1,    cityId: 1,    rentPpm: 850,  growth: 9.8  },
   { name: 'Санкт-Петербург', regionId: 2,    cityId: 2,    rentPpm: 680,  growth: 8.5  },
   { name: 'Краснодар',       regionId: 4820, cityId: 4820, rentPpm: 430,  growth: 11.0 },
@@ -28,6 +28,11 @@ const CITIES = [
   { name: 'Новосибирск',     regionId: 4897, cityId: 4897, rentPpm: 370,  growth: 8.8  },
   { name: 'Екатеринбург',    regionId: 4743, cityId: 4743, rentPpm: 400,  growth: 9.4  },
 ];
+
+// --city=Москва фильтрует только один город, --merge сохраняет остальные из старого файла
+const cityArg = (process.argv.find(a => a.startsWith('--city=')) || '').replace('--city=', '');
+const mergeMode = process.argv.includes('--merge');
+const CITIES = cityArg ? ALL_CITIES.filter(c => c.name === cityArg) : ALL_CITIES;
 
 // For Moscow: split by rooms to get many more results
 // null = no room filter (for houses/commercial/land)
@@ -301,11 +306,22 @@ async function scrape() {
     return null;
   }
 
+  // --merge: keep other cities from existing file, replace only scraped cities
+  let finalProps = deduped;
+  if (mergeMode && cityArg && fs.existsSync(OUT_FILE)) {
+    const old = JSON.parse(fs.readFileSync(OUT_FILE, 'utf8'));
+    const oldOthers = (old.properties || []).filter(p => p.city !== cityArg);
+    finalProps = [...deduped, ...oldOthers];
+    finalProps.sort((a, b) => b.score - a.score);
+    finalProps.forEach((p, i) => { p.id = i + 1; });
+    console.log(`   Merge: ${deduped.length} новых (${cityArg}) + ${oldOthers.length} старых других городов = ${finalProps.length} итого`);
+  }
+
   const output = {
     updatedAt:  new Date().toISOString(),
-    totalCount: deduped.length,
-    cities:     CITIES.map(c => c.name),
-    properties: deduped,
+    totalCount: finalProps.length,
+    cities:     ALL_CITIES.map(c => c.name),
+    properties: finalProps,
   };
 
   fs.writeFileSync(OUT_FILE, JSON.stringify(output));
