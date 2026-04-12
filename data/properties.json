@@ -1,6 +1,6 @@
 {
   "updatedAt": "2026-04-12T14:55:25.184Z",
-  "totalCount": 490,
+  "totalCount": 488,
   "cities": [
     "Москва",
     "Санкт-Петербург",
@@ -13,74 +13,6 @@
   "properties": [
     {
       "id": 1,
-      "cianId": 327303884,
-      "cianUrl": "https://www.cian.ru/sale/flat/327303884/?mlSearchSessionGuid=4b3eb783c493c4936a924dd669b0bb67",
-      "title": "Новостройка, р-н Якиманка",
-      "city": "Москва",
-      "district": "р-н Якиманка",
-      "metro": "м. Боровицкая",
-      "area": 150,
-      "floor": "3/4",
-      "type": "newbuild",
-      "source": "agg",
-      "price": 3.9,
-      "ppm": 26,
-      "mkt": 240,
-      "rent": 127,
-      "vac": 4,
-      "grow": 9.8,
-      "liq": 9,
-      "badge": "Ниже рынка",
-      "score": 88,
-      "disc": 89.1,
-      "roi": 37.6,
-      "photos": [
-        "https://images.cdn-cian.ru/images/2820842515-1.jpg",
-        "https://images.cdn-cian.ru/images/2817084895-1.jpg",
-        "https://images.cdn-cian.ru/images/2817084909-1.jpg",
-        "https://images.cdn-cian.ru/images/2817084916-1.jpg",
-        "https://images.cdn-cian.ru/images/2817084926-1.jpg"
-      ],
-      "description": "Светлая 3-комнатная квартира площадью 149,6 кв. м, расположенная на 3 этаже в новом жилом квартале \"Золотой-2\" от Capital Group - прямо напротив Кремля. Окна шикарной кухни-гостиной площадью 41,4 кв. ",
-      "addedAt": "2026-03-13T22:11:14.000Z",
-      "scrapedAt": "2026-04-12T14:54:26.990Z"
-    },
-    {
-      "id": 2,
-      "cianId": 328649583,
-      "cianUrl": "https://www.cian.ru/sale/flat/328649583/?mlSearchSessionGuid=70ba3e0cc8a0bbd94673427b2d1dddf7",
-      "title": "Студия кв., р-н Пресненский",
-      "city": "Москва",
-      "district": "р-н Пресненский",
-      "metro": "м. Баррикадная",
-      "area": 332,
-      "floor": "1/9",
-      "type": "apartment",
-      "source": "agg",
-      "price": 12.9,
-      "ppm": 39,
-      "mkt": 240,
-      "rent": 282,
-      "vac": 4,
-      "grow": 9.8,
-      "liq": 9,
-      "badge": "Ниже рынка",
-      "score": 88,
-      "disc": 83.8,
-      "roi": 25.2,
-      "photos": [
-        "https://images.cdn-cian.ru/images/kvartira-moskva-granatnyy-pereulok-2849755577-1.jpg",
-        "https://images.cdn-cian.ru/images/kvartira-moskva-granatnyy-pereulok-2849756041-1.jpg",
-        "https://images.cdn-cian.ru/images/kvartira-moskva-granatnyy-pereulok-2849756157-1.jpg",
-        "https://images.cdn-cian.ru/images/kvartira-moskva-granatnyy-pereulok-2849756466-1.jpg",
-        "https://images.cdn-cian.ru/images/kvartira-moskva-granatnyy-pereulok-2849756524-1.jpg"
-      ],
-      "description": "Эксклюзивная двухуровневая резиденция площадью 332,2 м² с индивидуальным вторым входом, после авторского ремонта в жилом комплексе класса deluxe Гранатный 6. Адрес, который говорит о вкусе, статусе и ",
-      "addedAt": "2026-04-07T09:23:49.000Z",
-      "scrapedAt": "2026-04-12T14:54:32.931Z"
-    },
-    {
-      "id": 3,
       "cianId": 320332917,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/320332917/?mlSearchSessionGuid=81ed783a85b68e8e10aa538c4111d755",
       "title": "2-комн. кв., Прикубанский",
@@ -114,7 +46,7 @@
       "scrapedAt": "2026-04-12T14:54:44.274Z"
     },
     {
-      "id": 4,
+      "id": 2,
       "cianId": 303473961,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/303473961/?mlSearchSessionGuid=227741585983b9c4bc7c9a549a29e0a0",
       "title": "1-комн. кв., Прикубанский",
@@ -148,7 +80,7 @@
       "scrapedAt": "2026-04-12T14:54:49.855Z"
     },
     {
-      "id": 5,
+      "id": 3,
       "cianId": 304344308,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/304344308/?mlSearchSessionGuid=d301778f8f3a1250d5e0a6a4c8515c19",
       "title": "2-комн. кв., Прикубанский",
@@ -182,7 +114,7 @@
       "scrapedAt": "2026-04-12T14:54:47.012Z"
     },
     {
-      "id": 6,
+      "id": 4,
       "cianId": 328173970,
       "cianUrl": "https://sochi.cian.ru/sale/flat/328173970/?mlSearchSessionGuid=8dcecfd41ac450fd3b8e3edeca574249",
       "title": "3-комн. кв., р-н Центральный",
@@ -216,7 +148,7 @@
       "scrapedAt": "2026-04-12T14:54:52.941Z"
     },
     {
-      "id": 7,
+      "id": 5,
       "cianId": 327950374,
       "cianUrl": "https://sochi.cian.ru/sale/flat/327950374/?mlSearchSessionGuid=d8f8f6883588d119e02ed5e0dfa51e78",
       "title": "2-комн. кв., р-н Центральный",
@@ -250,7 +182,7 @@
       "scrapedAt": "2026-04-12T14:54:55.952Z"
     },
     {
-      "id": 8,
+      "id": 6,
       "cianId": 328150583,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/328150583/?mlSearchSessionGuid=81ed783a85b68e8e10aa538c4111d755",
       "title": "1-комн. кв., Центральный",
@@ -284,7 +216,7 @@
       "scrapedAt": "2026-04-12T14:54:44.275Z"
     },
     {
-      "id": 9,
+      "id": 7,
       "cianId": 314886208,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/314886208/?mlSearchSessionGuid=81ed783a85b68e8e10aa538c4111d755",
       "title": "1-комн. кв., Прикубанский",
@@ -318,7 +250,7 @@
       "scrapedAt": "2026-04-12T14:54:44.275Z"
     },
     {
-      "id": 10,
+      "id": 8,
       "cianId": 327029483,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/327029483/?mlSearchSessionGuid=227741585983b9c4bc7c9a549a29e0a0",
       "title": "1-комн. кв., Прикубанский",
@@ -352,7 +284,7 @@
       "scrapedAt": "2026-04-12T14:54:49.855Z"
     },
     {
-      "id": 11,
+      "id": 9,
       "cianId": 324895174,
       "cianUrl": "https://sochi.cian.ru/sale/flat/324895174/?mlSearchSessionGuid=7cb03abc8a83456ed3ef1eff496948c8",
       "title": "1-комн. кв., р-н Центральный",
@@ -386,7 +318,7 @@
       "scrapedAt": "2026-04-12T14:54:58.638Z"
     },
     {
-      "id": 12,
+      "id": 10,
       "cianId": 328713817,
       "cianUrl": "https://ekb.cian.ru/sale/flat/328713817/?mlSearchSessionGuid=acc69c560c33d45b0d6b5dbfc0646a80",
       "title": "3-комн. кв., р-н Орджоникидзевский",
@@ -420,7 +352,7 @@
       "scrapedAt": "2026-04-12T14:55:21.351Z"
     },
     {
-      "id": 13,
+      "id": 11,
       "cianId": 286886078,
       "cianUrl": "https://www.cian.ru/sale/flat/286886078/?mlSearchSessionGuid=4b3eb783c493c4936a924dd669b0bb67",
       "title": "Новостройка, р-н Северный",
@@ -454,7 +386,7 @@
       "scrapedAt": "2026-04-12T14:54:26.990Z"
     },
     {
-      "id": 14,
+      "id": 12,
       "cianId": 319248592,
       "cianUrl": "https://spb.cian.ru/sale/flat/319248592/?mlSearchSessionGuid=d839d220ba3856c3d87d98c7cb530b56",
       "title": "1-комн. кв., р-н Приморский",
@@ -488,7 +420,7 @@
       "scrapedAt": "2026-04-12T14:54:35.660Z"
     },
     {
-      "id": 15,
+      "id": 13,
       "cianId": 321437057,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/321437057/?mlSearchSessionGuid=81ed783a85b68e8e10aa538c4111d755",
       "title": "2-комн. кв., Прикубанский",
@@ -522,7 +454,7 @@
       "scrapedAt": "2026-04-12T14:54:44.275Z"
     },
     {
-      "id": 16,
+      "id": 14,
       "cianId": 311091605,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/311091605/?mlSearchSessionGuid=d301778f8f3a1250d5e0a6a4c8515c19",
       "title": "1-комн. кв., Прикубанский",
@@ -556,7 +488,7 @@
       "scrapedAt": "2026-04-12T14:54:47.012Z"
     },
     {
-      "id": 17,
+      "id": 15,
       "cianId": 274940758,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/274940758/?mlSearchSessionGuid=d301778f8f3a1250d5e0a6a4c8515c19",
       "title": "2-комн. кв., Прикубанский",
@@ -590,7 +522,7 @@
       "scrapedAt": "2026-04-12T14:54:47.012Z"
     },
     {
-      "id": 18,
+      "id": 16,
       "cianId": 300140119,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/300140119/?mlSearchSessionGuid=d301778f8f3a1250d5e0a6a4c8515c19",
       "title": "Квартира, Прикубанский",
@@ -624,7 +556,7 @@
       "scrapedAt": "2026-04-12T14:54:47.012Z"
     },
     {
-      "id": 19,
+      "id": 17,
       "cianId": 327700249,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/327700249/?mlSearchSessionGuid=227741585983b9c4bc7c9a549a29e0a0",
       "title": "2-комн. кв., Прикубанский",
@@ -658,7 +590,7 @@
       "scrapedAt": "2026-04-12T14:54:49.855Z"
     },
     {
-      "id": 20,
+      "id": 18,
       "cianId": 328618180,
       "cianUrl": "https://ekb.cian.ru/sale/flat/328618180/?mlSearchSessionGuid=a6e5ee7a07b95045b951193ce5b97ee5",
       "title": "3-комн. кв., р-н Чкаловский",
@@ -692,7 +624,7 @@
       "scrapedAt": "2026-04-12T14:55:18.526Z"
     },
     {
-      "id": 21,
+      "id": 19,
       "cianId": 325337065,
       "cianUrl": "https://ekb.cian.ru/sale/flat/325337065/?mlSearchSessionGuid=d07345c8cc78cb5f73154abf8ec33f2a",
       "title": "Квартира, р-н Чкаловский",
@@ -726,7 +658,7 @@
       "scrapedAt": "2026-04-12T14:55:23.971Z"
     },
     {
-      "id": 22,
+      "id": 20,
       "cianId": 326894750,
       "cianUrl": "https://spb.cian.ru/sale/flat/326894750/?mlSearchSessionGuid=d839d220ba3856c3d87d98c7cb530b56",
       "title": "2-комн. кв., р-н Калининский",
@@ -760,7 +692,7 @@
       "scrapedAt": "2026-04-12T14:54:35.660Z"
     },
     {
-      "id": 23,
+      "id": 21,
       "cianId": 318122785,
       "cianUrl": "https://spb.cian.ru/sale/flat/318122785/?mlSearchSessionGuid=d839d220ba3856c3d87d98c7cb530b56",
       "title": "2-комн. кв., р-н Курортный",
@@ -794,7 +726,7 @@
       "scrapedAt": "2026-04-12T14:54:35.660Z"
     },
     {
-      "id": 24,
+      "id": 22,
       "cianId": 327787700,
       "cianUrl": "https://spb.cian.ru/sale/flat/327787700/?mlSearchSessionGuid=3bfe9b90cb2609491bf4c2f83d4068be",
       "title": "1-комн. кв., р-н Московский",
@@ -828,7 +760,7 @@
       "scrapedAt": "2026-04-12T14:54:38.545Z"
     },
     {
-      "id": 25,
+      "id": 23,
       "cianId": 327777534,
       "cianUrl": "https://spb.cian.ru/sale/flat/327777534/?mlSearchSessionGuid=a3d2d04df4d22484951af9e4becc9803",
       "title": "Студия кв., р-н Центральный",
@@ -859,7 +791,7 @@
       "scrapedAt": "2026-04-12T14:54:41.371Z"
     },
     {
-      "id": 26,
+      "id": 24,
       "cianId": 324083274,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/324083274/?mlSearchSessionGuid=d301778f8f3a1250d5e0a6a4c8515c19",
       "title": "1-комн. кв., Центральный",
@@ -893,7 +825,7 @@
       "scrapedAt": "2026-04-12T14:54:47.012Z"
     },
     {
-      "id": 27,
+      "id": 25,
       "cianId": 328438419,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/328438419/?mlSearchSessionGuid=227741585983b9c4bc7c9a549a29e0a0",
       "title": "Новостройка, Карасунский",
@@ -927,7 +859,7 @@
       "scrapedAt": "2026-04-12T14:54:49.855Z"
     },
     {
-      "id": 28,
+      "id": 26,
       "cianId": 326385021,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/326385021/?mlSearchSessionGuid=572d3e333144b27efd1ca39fdea8daa4",
       "title": "1-комн. кв., р-н Ленинский",
@@ -961,7 +893,7 @@
       "scrapedAt": "2026-04-12T14:55:12.819Z"
     },
     {
-      "id": 29,
+      "id": 27,
       "cianId": 324902676,
       "cianUrl": "https://ekb.cian.ru/sale/flat/324902676/?mlSearchSessionGuid=d07345c8cc78cb5f73154abf8ec33f2a",
       "title": "3-комн. кв., р-н Чкаловский",
@@ -995,7 +927,7 @@
       "scrapedAt": "2026-04-12T14:55:23.971Z"
     },
     {
-      "id": 30,
+      "id": 28,
       "cianId": 328104551,
       "cianUrl": "https://spb.cian.ru/sale/flat/328104551/?mlSearchSessionGuid=3bfe9b90cb2609491bf4c2f83d4068be",
       "title": "1-комн. кв., р-н Красногвардейский",
@@ -1029,7 +961,7 @@
       "scrapedAt": "2026-04-12T14:54:38.545Z"
     },
     {
-      "id": 31,
+      "id": 29,
       "cianId": 323124908,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/323124908/?mlSearchSessionGuid=81ed783a85b68e8e10aa538c4111d755",
       "title": "1-комн. кв., Прикубанский",
@@ -1063,7 +995,7 @@
       "scrapedAt": "2026-04-12T14:54:44.275Z"
     },
     {
-      "id": 32,
+      "id": 30,
       "cianId": 309538292,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/309538292/?mlSearchSessionGuid=81ed783a85b68e8e10aa538c4111d755",
       "title": "Новостройка, Прикубанский",
@@ -1097,7 +1029,7 @@
       "scrapedAt": "2026-04-12T14:54:44.275Z"
     },
     {
-      "id": 33,
+      "id": 31,
       "cianId": 326507133,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/326507133/?mlSearchSessionGuid=81ed783a85b68e8e10aa538c4111d755",
       "title": "2-комн. кв., Карасунский",
@@ -1131,7 +1063,7 @@
       "scrapedAt": "2026-04-12T14:54:44.275Z"
     },
     {
-      "id": 34,
+      "id": 32,
       "cianId": 328644939,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/328644939/?mlSearchSessionGuid=d301778f8f3a1250d5e0a6a4c8515c19",
       "title": "2-комн. кв., Прикубанский",
@@ -1164,7 +1096,7 @@
       "scrapedAt": "2026-04-12T14:54:47.012Z"
     },
     {
-      "id": 35,
+      "id": 33,
       "cianId": 328644947,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/328644947/?mlSearchSessionGuid=d301778f8f3a1250d5e0a6a4c8515c19",
       "title": "1-комн. кв., Прикубанский",
@@ -1198,7 +1130,7 @@
       "scrapedAt": "2026-04-12T14:54:47.012Z"
     },
     {
-      "id": 36,
+      "id": 34,
       "cianId": 294358228,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/294358228/?mlSearchSessionGuid=d301778f8f3a1250d5e0a6a4c8515c19",
       "title": "1-комн. кв., Западный",
@@ -1232,7 +1164,7 @@
       "scrapedAt": "2026-04-12T14:54:47.012Z"
     },
     {
-      "id": 37,
+      "id": 35,
       "cianId": 326351478,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/326351478/?mlSearchSessionGuid=572d3e333144b27efd1ca39fdea8daa4",
       "title": "2-комн. кв., р-н Ленинский",
@@ -1266,7 +1198,7 @@
       "scrapedAt": "2026-04-12T14:55:12.819Z"
     },
     {
-      "id": 38,
+      "id": 36,
       "cianId": 314145138,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/314145138/?mlSearchSessionGuid=572d3e333144b27efd1ca39fdea8daa4",
       "title": "3-комн. кв., р-н Октябрьский",
@@ -1300,7 +1232,7 @@
       "scrapedAt": "2026-04-12T14:55:12.821Z"
     },
     {
-      "id": 39,
+      "id": 37,
       "cianId": 318212931,
       "cianUrl": "https://ekb.cian.ru/sale/flat/318212931/?mlSearchSessionGuid=a6e5ee7a07b95045b951193ce5b97ee5",
       "title": "2-комн. кв., р-н Чкаловский",
@@ -1334,7 +1266,7 @@
       "scrapedAt": "2026-04-12T14:55:18.526Z"
     },
     {
-      "id": 40,
+      "id": 38,
       "cianId": 326359242,
       "cianUrl": "https://ekb.cian.ru/sale/flat/326359242/?mlSearchSessionGuid=acc69c560c33d45b0d6b5dbfc0646a80",
       "title": "2-комн. кв., р-н Железнодорожный",
@@ -1368,7 +1300,7 @@
       "scrapedAt": "2026-04-12T14:55:21.351Z"
     },
     {
-      "id": 41,
+      "id": 39,
       "cianId": 306639806,
       "cianUrl": "https://ekb.cian.ru/sale/flat/306639806/?mlSearchSessionGuid=d07345c8cc78cb5f73154abf8ec33f2a",
       "title": "Новостройка, р-н Академический",
@@ -1402,7 +1334,7 @@
       "scrapedAt": "2026-04-12T14:55:23.971Z"
     },
     {
-      "id": 42,
+      "id": 40,
       "cianId": 323245720,
       "cianUrl": "https://ekb.cian.ru/sale/flat/323245720/?mlSearchSessionGuid=d07345c8cc78cb5f73154abf8ec33f2a",
       "title": "3-комн. кв., р-н Орджоникидзевский",
@@ -1436,7 +1368,7 @@
       "scrapedAt": "2026-04-12T14:55:23.971Z"
     },
     {
-      "id": 43,
+      "id": 41,
       "cianId": 325689882,
       "cianUrl": "https://spb.cian.ru/sale/flat/325689882/?mlSearchSessionGuid=3bfe9b90cb2609491bf4c2f83d4068be",
       "title": "2-комн. кв., р-н Приморский",
@@ -1470,7 +1402,7 @@
       "scrapedAt": "2026-04-12T14:54:38.545Z"
     },
     {
-      "id": 44,
+      "id": 42,
       "cianId": 323124359,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/323124359/?mlSearchSessionGuid=81ed783a85b68e8e10aa538c4111d755",
       "title": "2-комн. кв., Прикубанский",
@@ -1504,7 +1436,7 @@
       "scrapedAt": "2026-04-12T14:54:44.275Z"
     },
     {
-      "id": 45,
+      "id": 43,
       "cianId": 327819279,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/327819279/?mlSearchSessionGuid=81ed783a85b68e8e10aa538c4111d755",
       "title": "1-комн. кв., Прикубанский",
@@ -1538,7 +1470,7 @@
       "scrapedAt": "2026-04-12T14:54:44.275Z"
     },
     {
-      "id": 46,
+      "id": 44,
       "cianId": 328339847,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/328339847/?mlSearchSessionGuid=81ed783a85b68e8e10aa538c4111d755",
       "title": "1-комн. кв., Прикубанский",
@@ -1572,7 +1504,7 @@
       "scrapedAt": "2026-04-12T14:54:44.275Z"
     },
     {
-      "id": 47,
+      "id": 45,
       "cianId": 327164286,
       "cianUrl": "https://sochi.cian.ru/sale/flat/327164286/?mlSearchSessionGuid=8dcecfd41ac450fd3b8e3edeca574249",
       "title": "2-комн. кв., р-н Хостинский",
@@ -1606,7 +1538,7 @@
       "scrapedAt": "2026-04-12T14:54:52.941Z"
     },
     {
-      "id": 48,
+      "id": 46,
       "cianId": 328281639,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/328281639/?mlSearchSessionGuid=572d3e333144b27efd1ca39fdea8daa4",
       "title": "1-комн. кв., р-н Калининский",
@@ -1640,7 +1572,7 @@
       "scrapedAt": "2026-04-12T14:55:12.820Z"
     },
     {
-      "id": 49,
+      "id": 47,
       "cianId": 315792065,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/315792065/?mlSearchSessionGuid=400520f8bfd41936e68e7f015d1c304d",
       "title": "3-комн. кв., р-н Советский",
@@ -1674,7 +1606,7 @@
       "scrapedAt": "2026-04-12T14:55:15.660Z"
     },
     {
-      "id": 50,
+      "id": 48,
       "cianId": 315795281,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/315795281/?mlSearchSessionGuid=400520f8bfd41936e68e7f015d1c304d",
       "title": "2-комн. кв., р-н Советский",
@@ -1708,7 +1640,7 @@
       "scrapedAt": "2026-04-12T14:55:15.660Z"
     },
     {
-      "id": 51,
+      "id": 49,
       "cianId": 326994061,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/326994061/?mlSearchSessionGuid=400520f8bfd41936e68e7f015d1c304d",
       "title": "2-комн. кв., р-н Советский",
@@ -1742,7 +1674,7 @@
       "scrapedAt": "2026-04-12T14:55:15.661Z"
     },
     {
-      "id": 52,
+      "id": 50,
       "cianId": 328747858,
       "cianUrl": "https://ekb.cian.ru/sale/flat/328747858/?mlSearchSessionGuid=d07345c8cc78cb5f73154abf8ec33f2a",
       "title": "4-комн. кв., р-н Кировский",
@@ -1776,7 +1708,7 @@
       "scrapedAt": "2026-04-12T14:55:23.971Z"
     },
     {
-      "id": 53,
+      "id": 51,
       "cianId": 327729571,
       "cianUrl": "https://ekb.cian.ru/sale/flat/327729571/?mlSearchSessionGuid=d07345c8cc78cb5f73154abf8ec33f2a",
       "title": "2-комн. кв., р-н Кировский",
@@ -1810,7 +1742,7 @@
       "scrapedAt": "2026-04-12T14:55:23.971Z"
     },
     {
-      "id": 54,
+      "id": 52,
       "cianId": 328175669,
       "cianUrl": "https://spb.cian.ru/sale/flat/328175669/?mlSearchSessionGuid=d839d220ba3856c3d87d98c7cb530b56",
       "title": "3-комн. кв., р-н Красногвардейский",
@@ -1844,7 +1776,7 @@
       "scrapedAt": "2026-04-12T14:54:35.660Z"
     },
     {
-      "id": 55,
+      "id": 53,
       "cianId": 327035951,
       "cianUrl": "https://spb.cian.ru/sale/flat/327035951/?mlSearchSessionGuid=3bfe9b90cb2609491bf4c2f83d4068be",
       "title": "Квартира, р-н Фрунзенский",
@@ -1878,7 +1810,7 @@
       "scrapedAt": "2026-04-12T14:54:38.545Z"
     },
     {
-      "id": 56,
+      "id": 54,
       "cianId": 321107159,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/321107159/?mlSearchSessionGuid=81ed783a85b68e8e10aa538c4111d755",
       "title": "1-комн. кв., Карасунский",
@@ -1912,7 +1844,7 @@
       "scrapedAt": "2026-04-12T14:54:44.275Z"
     },
     {
-      "id": 57,
+      "id": 55,
       "cianId": 295219699,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/295219699/?mlSearchSessionGuid=227741585983b9c4bc7c9a549a29e0a0",
       "title": "1-комн. кв., Прикубанский",
@@ -1946,7 +1878,7 @@
       "scrapedAt": "2026-04-12T14:54:49.855Z"
     },
     {
-      "id": 58,
+      "id": 56,
       "cianId": 324891630,
       "cianUrl": "https://sochi.cian.ru/sale/flat/324891630/?mlSearchSessionGuid=8dcecfd41ac450fd3b8e3edeca574249",
       "title": "1-комн. кв., р-н Хостинский",
@@ -1980,7 +1912,7 @@
       "scrapedAt": "2026-04-12T14:54:52.941Z"
     },
     {
-      "id": 59,
+      "id": 57,
       "cianId": 313709565,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/313709565/?mlSearchSessionGuid=572d3e333144b27efd1ca39fdea8daa4",
       "title": "2-комн. кв., р-н Ленинский",
@@ -2014,7 +1946,7 @@
       "scrapedAt": "2026-04-12T14:55:12.821Z"
     },
     {
-      "id": 60,
+      "id": 58,
       "cianId": 328375161,
       "cianUrl": "https://ekb.cian.ru/sale/flat/328375161/?mlSearchSessionGuid=a6e5ee7a07b95045b951193ce5b97ee5",
       "title": "2-комн. кв., р-н Академический",
@@ -2048,7 +1980,7 @@
       "scrapedAt": "2026-04-12T14:55:18.526Z"
     },
     {
-      "id": 61,
+      "id": 59,
       "cianId": 328354491,
       "cianUrl": "https://ekb.cian.ru/sale/flat/328354491/?mlSearchSessionGuid=d07345c8cc78cb5f73154abf8ec33f2a",
       "title": "1-комн. кв., р-н Ленинский",
@@ -2082,7 +2014,7 @@
       "scrapedAt": "2026-04-12T14:55:23.971Z"
     },
     {
-      "id": 62,
+      "id": 60,
       "cianId": 328411859,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/328411859/?mlSearchSessionGuid=81ed783a85b68e8e10aa538c4111d755",
       "title": "1-комн. кв., Прикубанский",
@@ -2116,7 +2048,7 @@
       "scrapedAt": "2026-04-12T14:54:44.275Z"
     },
     {
-      "id": 63,
+      "id": 61,
       "cianId": 326206872,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/326206872/?mlSearchSessionGuid=81ed783a85b68e8e10aa538c4111d755",
       "title": "Новостройка, Прикубанский",
@@ -2150,7 +2082,7 @@
       "scrapedAt": "2026-04-12T14:54:44.275Z"
     },
     {
-      "id": 64,
+      "id": 62,
       "cianId": 301218515,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/301218515/?mlSearchSessionGuid=d301778f8f3a1250d5e0a6a4c8515c19",
       "title": "1-комн. кв., Прикубанский",
@@ -2184,7 +2116,7 @@
       "scrapedAt": "2026-04-12T14:54:47.012Z"
     },
     {
-      "id": 65,
+      "id": 63,
       "cianId": 325562374,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/325562374/?mlSearchSessionGuid=d301778f8f3a1250d5e0a6a4c8515c19",
       "title": "2-комн. кв., Прикубанский",
@@ -2218,7 +2150,7 @@
       "scrapedAt": "2026-04-12T14:54:47.012Z"
     },
     {
-      "id": 66,
+      "id": 64,
       "cianId": 292145659,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/292145659/?mlSearchSessionGuid=227741585983b9c4bc7c9a549a29e0a0",
       "title": "1-комн. кв., Центральный",
@@ -2252,7 +2184,7 @@
       "scrapedAt": "2026-04-12T14:54:49.855Z"
     },
     {
-      "id": 67,
+      "id": 65,
       "cianId": 301220914,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/301220914/?mlSearchSessionGuid=227741585983b9c4bc7c9a549a29e0a0",
       "title": "1-комн. кв., Прикубанский",
@@ -2286,7 +2218,7 @@
       "scrapedAt": "2026-04-12T14:54:49.855Z"
     },
     {
-      "id": 68,
+      "id": 66,
       "cianId": 328680957,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/328680957/?mlSearchSessionGuid=0733d21e499ec768ec03509a44d3bd92",
       "title": "1-комн. кв., р-н Первомайский",
@@ -2320,7 +2252,7 @@
       "scrapedAt": "2026-04-12T14:55:10.030Z"
     },
     {
-      "id": 69,
+      "id": 67,
       "cianId": 324961149,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/324961149/?mlSearchSessionGuid=0733d21e499ec768ec03509a44d3bd92",
       "title": "Новостройка, р-н Заельцовский",
@@ -2354,7 +2286,7 @@
       "scrapedAt": "2026-04-12T14:55:10.030Z"
     },
     {
-      "id": 70,
+      "id": 68,
       "cianId": 328417008,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/328417008/?mlSearchSessionGuid=572d3e333144b27efd1ca39fdea8daa4",
       "title": "Квартира, р-н Ленинский",
@@ -2388,7 +2320,7 @@
       "scrapedAt": "2026-04-12T14:55:12.821Z"
     },
     {
-      "id": 71,
+      "id": 69,
       "cianId": 315713740,
       "cianUrl": "https://spb.cian.ru/sale/flat/315713740/?mlSearchSessionGuid=3bfe9b90cb2609491bf4c2f83d4068be",
       "title": "Новостройка, р-н Невский",
@@ -2422,7 +2354,7 @@
       "scrapedAt": "2026-04-12T14:54:38.545Z"
     },
     {
-      "id": 72,
+      "id": 70,
       "cianId": 313817972,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/313817972/?mlSearchSessionGuid=81ed783a85b68e8e10aa538c4111d755",
       "title": "1-комн. кв., Прикубанский",
@@ -2456,7 +2388,7 @@
       "scrapedAt": "2026-04-12T14:54:44.274Z"
     },
     {
-      "id": 73,
+      "id": 71,
       "cianId": 327839032,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/327839032/?mlSearchSessionGuid=227741585983b9c4bc7c9a549a29e0a0",
       "title": "2-комн. кв., Прикубанский",
@@ -2490,7 +2422,7 @@
       "scrapedAt": "2026-04-12T14:54:49.855Z"
     },
     {
-      "id": 74,
+      "id": 72,
       "cianId": 328687098,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/328687098/?mlSearchSessionGuid=227741585983b9c4bc7c9a549a29e0a0",
       "title": "1-комн. кв., Прикубанский",
@@ -2524,7 +2456,7 @@
       "scrapedAt": "2026-04-12T14:54:49.855Z"
     },
     {
-      "id": 75,
+      "id": 73,
       "cianId": 328791331,
       "cianUrl": "https://sochi.cian.ru/sale/flat/328791331/?mlSearchSessionGuid=8dcecfd41ac450fd3b8e3edeca574249",
       "title": "Квартира, р-н Хостинский",
@@ -2558,7 +2490,7 @@
       "scrapedAt": "2026-04-12T14:54:52.941Z"
     },
     {
-      "id": 76,
+      "id": 74,
       "cianId": 322151459,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/322151459/?mlSearchSessionGuid=572d3e333144b27efd1ca39fdea8daa4",
       "title": "3-комн. кв., р-н Ленинский",
@@ -2592,7 +2524,7 @@
       "scrapedAt": "2026-04-12T14:55:12.821Z"
     },
     {
-      "id": 77,
+      "id": 75,
       "cianId": 328506686,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/328506686/?mlSearchSessionGuid=572d3e333144b27efd1ca39fdea8daa4",
       "title": "1-комн. кв., р-н Первомайский",
@@ -2626,7 +2558,7 @@
       "scrapedAt": "2026-04-12T14:55:12.821Z"
     },
     {
-      "id": 78,
+      "id": 76,
       "cianId": 324971900,
       "cianUrl": "https://ekb.cian.ru/sale/flat/324971900/?mlSearchSessionGuid=acc69c560c33d45b0d6b5dbfc0646a80",
       "title": "Новостройка, р-н Верх-Исетский",
@@ -2660,7 +2592,7 @@
       "scrapedAt": "2026-04-12T14:55:21.351Z"
     },
     {
-      "id": 79,
+      "id": 77,
       "cianId": 327031069,
       "cianUrl": "https://ekb.cian.ru/sale/flat/327031069/?mlSearchSessionGuid=acc69c560c33d45b0d6b5dbfc0646a80",
       "title": "2-комн. кв., р-н Кировский",
@@ -2694,7 +2626,7 @@
       "scrapedAt": "2026-04-12T14:55:21.351Z"
     },
     {
-      "id": 80,
+      "id": 78,
       "cianId": 324349900,
       "cianUrl": "https://ekb.cian.ru/sale/flat/324349900/?mlSearchSessionGuid=d07345c8cc78cb5f73154abf8ec33f2a",
       "title": "2-комн. кв., р-н Кировский",
@@ -2728,7 +2660,7 @@
       "scrapedAt": "2026-04-12T14:55:23.971Z"
     },
     {
-      "id": 81,
+      "id": 79,
       "cianId": 316313450,
       "cianUrl": "https://spb.cian.ru/sale/flat/316313450/?mlSearchSessionGuid=d839d220ba3856c3d87d98c7cb530b56",
       "title": "1-комн. кв., р-н Приморский",
@@ -2762,7 +2694,7 @@
       "scrapedAt": "2026-04-12T14:54:35.660Z"
     },
     {
-      "id": 82,
+      "id": 80,
       "cianId": 327607830,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/327607830/?mlSearchSessionGuid=81ed783a85b68e8e10aa538c4111d755",
       "title": "2-комн. кв., Прикубанский",
@@ -2796,7 +2728,7 @@
       "scrapedAt": "2026-04-12T14:54:44.274Z"
     },
     {
-      "id": 83,
+      "id": 81,
       "cianId": 323124492,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/323124492/?mlSearchSessionGuid=81ed783a85b68e8e10aa538c4111d755",
       "title": "1-комн. кв., Прикубанский",
@@ -2830,7 +2762,7 @@
       "scrapedAt": "2026-04-12T14:54:44.275Z"
     },
     {
-      "id": 84,
+      "id": 82,
       "cianId": 310208206,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/310208206/?mlSearchSessionGuid=d301778f8f3a1250d5e0a6a4c8515c19",
       "title": "Новостройка, Прикубанский",
@@ -2864,7 +2796,7 @@
       "scrapedAt": "2026-04-12T14:54:47.012Z"
     },
     {
-      "id": 85,
+      "id": 83,
       "cianId": 322655653,
       "cianUrl": "https://sochi.cian.ru/sale/flat/322655653/?mlSearchSessionGuid=8dcecfd41ac450fd3b8e3edeca574249",
       "title": "3-комн. кв., р-н Хостинский",
@@ -2898,7 +2830,7 @@
       "scrapedAt": "2026-04-12T14:54:52.941Z"
     },
     {
-      "id": 86,
+      "id": 84,
       "cianId": 323750987,
       "cianUrl": "https://sochi.cian.ru/sale/flat/323750987/?mlSearchSessionGuid=d8f8f6883588d119e02ed5e0dfa51e78",
       "title": "1-комн. кв., р-н Хостинский",
@@ -2932,7 +2864,7 @@
       "scrapedAt": "2026-04-12T14:54:55.952Z"
     },
     {
-      "id": 87,
+      "id": 85,
       "cianId": 324651962,
       "cianUrl": "https://sochi.cian.ru/sale/flat/324651962/?mlSearchSessionGuid=7cb03abc8a83456ed3ef1eff496948c8",
       "title": "1-комн. кв., р-н Хостинский",
@@ -2966,7 +2898,7 @@
       "scrapedAt": "2026-04-12T14:54:58.638Z"
     },
     {
-      "id": 88,
+      "id": 86,
       "cianId": 325033252,
       "cianUrl": "https://kazan.cian.ru/sale/flat/325033252/?mlSearchSessionGuid=58bea5d2ca456008fe24046e61f2e887",
       "title": "2-комн. кв., р-н Вахитовский",
@@ -3000,7 +2932,7 @@
       "scrapedAt": "2026-04-12T14:55:01.678Z"
     },
     {
-      "id": 89,
+      "id": 87,
       "cianId": 313627032,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/313627032/?mlSearchSessionGuid=0733d21e499ec768ec03509a44d3bd92",
       "title": "Новостройка, р-н Заельцовский",
@@ -3034,7 +2966,7 @@
       "scrapedAt": "2026-04-12T14:55:10.030Z"
     },
     {
-      "id": 90,
+      "id": 88,
       "cianId": 328662329,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/328662329/?mlSearchSessionGuid=0733d21e499ec768ec03509a44d3bd92",
       "title": "2-комн. кв., р-н Октябрьский",
@@ -3068,7 +3000,7 @@
       "scrapedAt": "2026-04-12T14:55:10.030Z"
     },
     {
-      "id": 91,
+      "id": 89,
       "cianId": 326945931,
       "cianUrl": "https://ekb.cian.ru/sale/flat/326945931/?mlSearchSessionGuid=a6e5ee7a07b95045b951193ce5b97ee5",
       "title": "1-комн. кв., р-н Кировский",
@@ -3102,7 +3034,7 @@
       "scrapedAt": "2026-04-12T14:55:18.526Z"
     },
     {
-      "id": 92,
+      "id": 90,
       "cianId": 328661321,
       "cianUrl": "https://ekb.cian.ru/sale/flat/328661321/?mlSearchSessionGuid=acc69c560c33d45b0d6b5dbfc0646a80",
       "title": "Квартира, р-н Орджоникидзевский",
@@ -3136,7 +3068,7 @@
       "scrapedAt": "2026-04-12T14:55:21.351Z"
     },
     {
-      "id": 93,
+      "id": 91,
       "cianId": 297265141,
       "cianUrl": "https://ekb.cian.ru/sale/flat/297265141/?mlSearchSessionGuid=d07345c8cc78cb5f73154abf8ec33f2a",
       "title": "Новостройка, р-н Верх-Исетский",
@@ -3170,7 +3102,7 @@
       "scrapedAt": "2026-04-12T14:55:23.971Z"
     },
     {
-      "id": 94,
+      "id": 92,
       "cianId": 328602565,
       "cianUrl": "https://spb.cian.ru/sale/flat/328602565/?mlSearchSessionGuid=d839d220ba3856c3d87d98c7cb530b56",
       "title": "3-комн. кв., р-н Фрунзенский",
@@ -3204,7 +3136,7 @@
       "scrapedAt": "2026-04-12T14:54:35.660Z"
     },
     {
-      "id": 95,
+      "id": 93,
       "cianId": 324911262,
       "cianUrl": "https://spb.cian.ru/sale/flat/324911262/?mlSearchSessionGuid=3bfe9b90cb2609491bf4c2f83d4068be",
       "title": "Студия кв., р-н Центральный",
@@ -3238,7 +3170,7 @@
       "scrapedAt": "2026-04-12T14:54:38.545Z"
     },
     {
-      "id": 96,
+      "id": 94,
       "cianId": 328717954,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/328717954/?mlSearchSessionGuid=d301778f8f3a1250d5e0a6a4c8515c19",
       "title": "1-комн. кв., Прикубанский",
@@ -3272,7 +3204,7 @@
       "scrapedAt": "2026-04-12T14:54:47.012Z"
     },
     {
-      "id": 97,
+      "id": 95,
       "cianId": 327786228,
       "cianUrl": "https://sochi.cian.ru/sale/flat/327786228/?mlSearchSessionGuid=d8f8f6883588d119e02ed5e0dfa51e78",
       "title": "Новостройка, р-н Адлерский",
@@ -3306,7 +3238,7 @@
       "scrapedAt": "2026-04-12T14:54:55.952Z"
     },
     {
-      "id": 98,
+      "id": 96,
       "cianId": 300415565,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/300415565/?mlSearchSessionGuid=0733d21e499ec768ec03509a44d3bd92",
       "title": "Новостройка, р-н Заельцовский",
@@ -3340,7 +3272,7 @@
       "scrapedAt": "2026-04-12T14:55:10.030Z"
     },
     {
-      "id": 99,
+      "id": 97,
       "cianId": 327954954,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/327954954/?mlSearchSessionGuid=0733d21e499ec768ec03509a44d3bd92",
       "title": "3-комн. кв., р-н Октябрьский",
@@ -3374,7 +3306,7 @@
       "scrapedAt": "2026-04-12T14:55:10.030Z"
     },
     {
-      "id": 100,
+      "id": 98,
       "cianId": 326920820,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/326920820/?mlSearchSessionGuid=572d3e333144b27efd1ca39fdea8daa4",
       "title": "1-комн. кв., р-н Калининский",
@@ -3408,7 +3340,7 @@
       "scrapedAt": "2026-04-12T14:55:12.820Z"
     },
     {
-      "id": 101,
+      "id": 99,
       "cianId": 328631136,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/328631136/?mlSearchSessionGuid=572d3e333144b27efd1ca39fdea8daa4",
       "title": "2-комн. кв., Новосибирск",
@@ -3442,7 +3374,7 @@
       "scrapedAt": "2026-04-12T14:55:12.821Z"
     },
     {
-      "id": 102,
+      "id": 100,
       "cianId": 324548999,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/324548999/?mlSearchSessionGuid=400520f8bfd41936e68e7f015d1c304d",
       "title": "Новостройка, р-н Ленинский",
@@ -3474,7 +3406,7 @@
       "scrapedAt": "2026-04-12T14:55:15.660Z"
     },
     {
-      "id": 103,
+      "id": 101,
       "cianId": 326513443,
       "cianUrl": "https://www.cian.ru/sale/flat/326513443/?mlSearchSessionGuid=4b3eb783c493c4936a924dd669b0bb67",
       "title": "1-комн. кв., НАО (Новомосковский)",
@@ -3508,7 +3440,7 @@
       "scrapedAt": "2026-04-12T14:54:26.989Z"
     },
     {
-      "id": 104,
+      "id": 102,
       "cianId": 324088338,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/324088338/?mlSearchSessionGuid=81ed783a85b68e8e10aa538c4111d755",
       "title": "Новостройка, Центральный",
@@ -3542,7 +3474,7 @@
       "scrapedAt": "2026-04-12T14:54:44.275Z"
     },
     {
-      "id": 105,
+      "id": 103,
       "cianId": 313472153,
       "cianUrl": "https://sochi.cian.ru/sale/flat/313472153/?mlSearchSessionGuid=d8f8f6883588d119e02ed5e0dfa51e78",
       "title": "3-комн. кв., р-н Центральный",
@@ -3576,7 +3508,7 @@
       "scrapedAt": "2026-04-12T14:54:55.952Z"
     },
     {
-      "id": 106,
+      "id": 104,
       "cianId": 327766622,
       "cianUrl": "https://sochi.cian.ru/sale/flat/327766622/?mlSearchSessionGuid=7cb03abc8a83456ed3ef1eff496948c8",
       "title": "2-комн. кв., р-н Центральный",
@@ -3610,7 +3542,7 @@
       "scrapedAt": "2026-04-12T14:54:58.638Z"
     },
     {
-      "id": 107,
+      "id": 105,
       "cianId": 307613081,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/307613081/?mlSearchSessionGuid=400520f8bfd41936e68e7f015d1c304d",
       "title": "Новостройка, р-н Заельцовский",
@@ -3644,7 +3576,7 @@
       "scrapedAt": "2026-04-12T14:55:15.661Z"
     },
     {
-      "id": 108,
+      "id": 106,
       "cianId": 328738124,
       "cianUrl": "https://ekb.cian.ru/sale/flat/328738124/?mlSearchSessionGuid=a6e5ee7a07b95045b951193ce5b97ee5",
       "title": "2-комн. кв., р-н Орджоникидзевский",
@@ -3678,7 +3610,7 @@
       "scrapedAt": "2026-04-12T14:55:18.526Z"
     },
     {
-      "id": 109,
+      "id": 107,
       "cianId": 328631696,
       "cianUrl": "https://ekb.cian.ru/sale/flat/328631696/?mlSearchSessionGuid=d07345c8cc78cb5f73154abf8ec33f2a",
       "title": "1-комн. кв., р-н Орджоникидзевский",
@@ -3712,7 +3644,7 @@
       "scrapedAt": "2026-04-12T14:55:23.971Z"
     },
     {
-      "id": 110,
+      "id": 108,
       "cianId": 327874228,
       "cianUrl": "https://ekb.cian.ru/sale/flat/327874228/?mlSearchSessionGuid=d07345c8cc78cb5f73154abf8ec33f2a",
       "title": "2-комн. кв., р-н Верх-Исетский",
@@ -3746,7 +3678,7 @@
       "scrapedAt": "2026-04-12T14:55:23.971Z"
     },
     {
-      "id": 111,
+      "id": 109,
       "cianId": 328411186,
       "cianUrl": "https://kazan.cian.ru/sale/flat/328411186/?mlSearchSessionGuid=58bea5d2ca456008fe24046e61f2e887",
       "title": "2-комн. кв., р-н Советский",
@@ -3780,7 +3712,7 @@
       "scrapedAt": "2026-04-12T14:55:01.678Z"
     },
     {
-      "id": 112,
+      "id": 110,
       "cianId": 328659545,
       "cianUrl": "https://kazan.cian.ru/sale/flat/328659545/?mlSearchSessionGuid=2a132d361cc9f5ec4445523302f186bd",
       "title": "4-комн. кв., р-н Московский",
@@ -3814,7 +3746,7 @@
       "scrapedAt": "2026-04-12T14:55:04.523Z"
     },
     {
-      "id": 113,
+      "id": 111,
       "cianId": 322393014,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/322393014/?mlSearchSessionGuid=572d3e333144b27efd1ca39fdea8daa4",
       "title": "2-комн. кв., р-н Октябрьский",
@@ -3848,7 +3780,7 @@
       "scrapedAt": "2026-04-12T14:55:12.820Z"
     },
     {
-      "id": 114,
+      "id": 112,
       "cianId": 328527241,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/328527241/?mlSearchSessionGuid=572d3e333144b27efd1ca39fdea8daa4",
       "title": "1-комн. кв., р-н Железнодорожный",
@@ -3882,7 +3814,7 @@
       "scrapedAt": "2026-04-12T14:55:12.820Z"
     },
     {
-      "id": 115,
+      "id": 113,
       "cianId": 322401254,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/322401254/?mlSearchSessionGuid=400520f8bfd41936e68e7f015d1c304d",
       "title": "2-комн. кв., р-н Первомайский",
@@ -3916,7 +3848,7 @@
       "scrapedAt": "2026-04-12T14:55:15.661Z"
     },
     {
-      "id": 116,
+      "id": 114,
       "cianId": 328660158,
       "cianUrl": "https://spb.cian.ru/sale/flat/328660158/?mlSearchSessionGuid=d839d220ba3856c3d87d98c7cb530b56",
       "title": "Квартира, р-н Центральный",
@@ -3950,7 +3882,7 @@
       "scrapedAt": "2026-04-12T14:54:35.660Z"
     },
     {
-      "id": 117,
+      "id": 115,
       "cianId": 327117022,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/327117022/?mlSearchSessionGuid=d301778f8f3a1250d5e0a6a4c8515c19",
       "title": "Квартира, Прикубанский",
@@ -3984,7 +3916,7 @@
       "scrapedAt": "2026-04-12T14:54:47.012Z"
     },
     {
-      "id": 118,
+      "id": 116,
       "cianId": 328740975,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/328740975/?mlSearchSessionGuid=d301778f8f3a1250d5e0a6a4c8515c19",
       "title": "2-комн. кв., Прикубанский",
@@ -4018,7 +3950,7 @@
       "scrapedAt": "2026-04-12T14:54:47.012Z"
     },
     {
-      "id": 119,
+      "id": 117,
       "cianId": 325268518,
       "cianUrl": "https://sochi.cian.ru/sale/flat/325268518/?mlSearchSessionGuid=8dcecfd41ac450fd3b8e3edeca574249",
       "title": "Новостройка, р-н Адлерский",
@@ -4052,7 +3984,7 @@
       "scrapedAt": "2026-04-12T14:54:52.941Z"
     },
     {
-      "id": 120,
+      "id": 118,
       "cianId": 320512394,
       "cianUrl": "https://kazan.cian.ru/sale/flat/320512394/?mlSearchSessionGuid=55523c21b1b8b61a3955c46ccf943d6a",
       "title": "3-комн. кв., р-н Вахитовский",
@@ -4086,7 +4018,7 @@
       "scrapedAt": "2026-04-12T14:55:07.265Z"
     },
     {
-      "id": 121,
+      "id": 119,
       "cianId": 320984757,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/320984757/?mlSearchSessionGuid=0733d21e499ec768ec03509a44d3bd92",
       "title": "3-комн. кв., р-н Октябрьский",
@@ -4120,7 +4052,7 @@
       "scrapedAt": "2026-04-12T14:55:10.030Z"
     },
     {
-      "id": 122,
+      "id": 120,
       "cianId": 320176600,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/320176600/?mlSearchSessionGuid=0733d21e499ec768ec03509a44d3bd92",
       "title": "2-комн. кв., р-н Ленинский",
@@ -4154,7 +4086,7 @@
       "scrapedAt": "2026-04-12T14:55:10.030Z"
     },
     {
-      "id": 123,
+      "id": 121,
       "cianId": 324206638,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/324206638/?mlSearchSessionGuid=400520f8bfd41936e68e7f015d1c304d",
       "title": "2-комн. кв., р-н Октябрьский",
@@ -4188,7 +4120,7 @@
       "scrapedAt": "2026-04-12T14:55:15.660Z"
     },
     {
-      "id": 124,
+      "id": 122,
       "cianId": 322531915,
       "cianUrl": "https://ekb.cian.ru/sale/flat/322531915/?mlSearchSessionGuid=acc69c560c33d45b0d6b5dbfc0646a80",
       "title": "Новостройка, р-н Верх-Исетский",
@@ -4222,7 +4154,7 @@
       "scrapedAt": "2026-04-12T14:55:21.351Z"
     },
     {
-      "id": 125,
+      "id": 123,
       "cianId": 328101331,
       "cianUrl": "https://ekb.cian.ru/sale/flat/328101331/?mlSearchSessionGuid=acc69c560c33d45b0d6b5dbfc0646a80",
       "title": "3-комн. кв., р-н Верх-Исетский",
@@ -4256,7 +4188,7 @@
       "scrapedAt": "2026-04-12T14:55:21.351Z"
     },
     {
-      "id": 126,
+      "id": 124,
       "cianId": 328295615,
       "cianUrl": "https://ekb.cian.ru/sale/flat/328295615/?mlSearchSessionGuid=d07345c8cc78cb5f73154abf8ec33f2a",
       "title": "1-комн. кв., р-н Академический",
@@ -4290,7 +4222,7 @@
       "scrapedAt": "2026-04-12T14:55:23.971Z"
     },
     {
-      "id": 127,
+      "id": 125,
       "cianId": 328664290,
       "cianUrl": "https://ekb.cian.ru/sale/flat/328664290/?mlSearchSessionGuid=d07345c8cc78cb5f73154abf8ec33f2a",
       "title": "Квартира, р-н Чкаловский",
@@ -4324,7 +4256,7 @@
       "scrapedAt": "2026-04-12T14:55:23.971Z"
     },
     {
-      "id": 128,
+      "id": 126,
       "cianId": 328852485,
       "cianUrl": "https://spb.cian.ru/sale/flat/328852485/?mlSearchSessionGuid=d839d220ba3856c3d87d98c7cb530b56",
       "title": "Квартира, р-н Выборгский",
@@ -4358,7 +4290,7 @@
       "scrapedAt": "2026-04-12T14:54:35.660Z"
     },
     {
-      "id": 129,
+      "id": 127,
       "cianId": 328427087,
       "cianUrl": "https://spb.cian.ru/sale/flat/328427087/?mlSearchSessionGuid=d839d220ba3856c3d87d98c7cb530b56",
       "title": "2-комн. кв., р-н Выборгский",
@@ -4392,7 +4324,7 @@
       "scrapedAt": "2026-04-12T14:54:35.660Z"
     },
     {
-      "id": 130,
+      "id": 128,
       "cianId": 315400232,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/315400232/?mlSearchSessionGuid=227741585983b9c4bc7c9a549a29e0a0",
       "title": "2-комн. кв., Прикубанский",
@@ -4426,7 +4358,7 @@
       "scrapedAt": "2026-04-12T14:54:49.855Z"
     },
     {
-      "id": 131,
+      "id": 129,
       "cianId": 327057856,
       "cianUrl": "https://sochi.cian.ru/sale/flat/327057856/?mlSearchSessionGuid=d8f8f6883588d119e02ed5e0dfa51e78",
       "title": "3-комн. кв., р-н Центральный",
@@ -4460,7 +4392,7 @@
       "scrapedAt": "2026-04-12T14:54:55.952Z"
     },
     {
-      "id": 132,
+      "id": 130,
       "cianId": 327234454,
       "cianUrl": "https://kazan.cian.ru/sale/flat/327234454/?mlSearchSessionGuid=58bea5d2ca456008fe24046e61f2e887",
       "title": "2-комн. кв., р-н Авиастроительный",
@@ -4494,7 +4426,7 @@
       "scrapedAt": "2026-04-12T14:55:01.678Z"
     },
     {
-      "id": 133,
+      "id": 131,
       "cianId": 328380202,
       "cianUrl": "https://kazan.cian.ru/sale/flat/328380202/?mlSearchSessionGuid=58bea5d2ca456008fe24046e61f2e887",
       "title": "3-комн. кв., р-н Советский",
@@ -4528,7 +4460,7 @@
       "scrapedAt": "2026-04-12T14:55:01.678Z"
     },
     {
-      "id": 134,
+      "id": 132,
       "cianId": 328679636,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/328679636/?mlSearchSessionGuid=0733d21e499ec768ec03509a44d3bd92",
       "title": "2-комн. кв., р-н Заельцовский",
@@ -4562,7 +4494,7 @@
       "scrapedAt": "2026-04-12T14:55:10.030Z"
     },
     {
-      "id": 135,
+      "id": 133,
       "cianId": 328773680,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/328773680/?mlSearchSessionGuid=572d3e333144b27efd1ca39fdea8daa4",
       "title": "1-комн. кв., р-н Первомайский",
@@ -4596,7 +4528,7 @@
       "scrapedAt": "2026-04-12T14:55:12.821Z"
     },
     {
-      "id": 136,
+      "id": 134,
       "cianId": 328834563,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/328834563/?mlSearchSessionGuid=400520f8bfd41936e68e7f015d1c304d",
       "title": "2-комн. кв., р-н Дзержинский",
@@ -4630,7 +4562,7 @@
       "scrapedAt": "2026-04-12T14:55:15.661Z"
     },
     {
-      "id": 137,
+      "id": 135,
       "cianId": 322868922,
       "cianUrl": "https://ekb.cian.ru/sale/flat/322868922/?mlSearchSessionGuid=a6e5ee7a07b95045b951193ce5b97ee5",
       "title": "Новостройка, р-н Железнодорожный",
@@ -4664,7 +4596,7 @@
       "scrapedAt": "2026-04-12T14:55:18.526Z"
     },
     {
-      "id": 138,
+      "id": 136,
       "cianId": 319766101,
       "cianUrl": "https://spb.cian.ru/sale/flat/319766101/?mlSearchSessionGuid=d839d220ba3856c3d87d98c7cb530b56",
       "title": "Студия кв., р-н Петроградский",
@@ -4698,7 +4630,7 @@
       "scrapedAt": "2026-04-12T14:54:35.660Z"
     },
     {
-      "id": 139,
+      "id": 137,
       "cianId": 328226786,
       "cianUrl": "https://spb.cian.ru/sale/flat/328226786/?mlSearchSessionGuid=3bfe9b90cb2609491bf4c2f83d4068be",
       "title": "Студия кв., р-н Петроградский",
@@ -4732,7 +4664,7 @@
       "scrapedAt": "2026-04-12T14:54:38.545Z"
     },
     {
-      "id": 140,
+      "id": 138,
       "cianId": 319249371,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/319249371/?mlSearchSessionGuid=81ed783a85b68e8e10aa538c4111d755",
       "title": "2-комн. кв., Прикубанский",
@@ -4766,7 +4698,7 @@
       "scrapedAt": "2026-04-12T14:54:44.275Z"
     },
     {
-      "id": 141,
+      "id": 139,
       "cianId": 297079336,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/297079336/?mlSearchSessionGuid=d301778f8f3a1250d5e0a6a4c8515c19",
       "title": "Новостройка, Прикубанский",
@@ -4800,7 +4732,7 @@
       "scrapedAt": "2026-04-12T14:54:47.012Z"
     },
     {
-      "id": 142,
+      "id": 140,
       "cianId": 328165743,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/328165743/?mlSearchSessionGuid=227741585983b9c4bc7c9a549a29e0a0",
       "title": "3-комн. кв., Карасунский",
@@ -4834,7 +4766,7 @@
       "scrapedAt": "2026-04-12T14:54:49.854Z"
     },
     {
-      "id": 143,
+      "id": 141,
       "cianId": 321626827,
       "cianUrl": "https://sochi.cian.ru/sale/flat/321626827/?mlSearchSessionGuid=8dcecfd41ac450fd3b8e3edeca574249",
       "title": "Студия кв., р-н Центральный",
@@ -4868,7 +4800,7 @@
       "scrapedAt": "2026-04-12T14:54:52.941Z"
     },
     {
-      "id": 144,
+      "id": 142,
       "cianId": 328320387,
       "cianUrl": "https://sochi.cian.ru/sale/flat/328320387/?mlSearchSessionGuid=d8f8f6883588d119e02ed5e0dfa51e78",
       "title": "3-комн. кв., р-н Хостинский",
@@ -4902,7 +4834,7 @@
       "scrapedAt": "2026-04-12T14:54:55.952Z"
     },
     {
-      "id": 145,
+      "id": 143,
       "cianId": 319738574,
       "cianUrl": "https://sochi.cian.ru/sale/flat/319738574/?mlSearchSessionGuid=7cb03abc8a83456ed3ef1eff496948c8",
       "title": "2-комн. кв., р-н Хостинский",
@@ -4936,7 +4868,7 @@
       "scrapedAt": "2026-04-12T14:54:58.638Z"
     },
     {
-      "id": 146,
+      "id": 144,
       "cianId": 324695971,
       "cianUrl": "https://sochi.cian.ru/sale/flat/324695971/?mlSearchSessionGuid=7cb03abc8a83456ed3ef1eff496948c8",
       "title": "2-комн. кв., р-н Центральный",
@@ -4970,7 +4902,7 @@
       "scrapedAt": "2026-04-12T14:54:58.638Z"
     },
     {
-      "id": 147,
+      "id": 145,
       "cianId": 326649833,
       "cianUrl": "https://kazan.cian.ru/sale/flat/326649833/?mlSearchSessionGuid=58bea5d2ca456008fe24046e61f2e887",
       "title": "Квартира, р-н Московский",
@@ -5004,7 +4936,7 @@
       "scrapedAt": "2026-04-12T14:55:01.678Z"
     },
     {
-      "id": 148,
+      "id": 146,
       "cianId": 314818468,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/314818468/?mlSearchSessionGuid=572d3e333144b27efd1ca39fdea8daa4",
       "title": "1-комн. кв., р-н Октябрьский",
@@ -5038,7 +4970,7 @@
       "scrapedAt": "2026-04-12T14:55:12.820Z"
     },
     {
-      "id": 149,
+      "id": 147,
       "cianId": 326689246,
       "cianUrl": "https://ekb.cian.ru/sale/flat/326689246/?mlSearchSessionGuid=acc69c560c33d45b0d6b5dbfc0646a80",
       "title": "3-комн. кв., р-н Кировский",
@@ -5072,7 +5004,7 @@
       "scrapedAt": "2026-04-12T14:55:21.351Z"
     },
     {
-      "id": 150,
+      "id": 148,
       "cianId": 308885390,
       "cianUrl": "https://spb.cian.ru/sale/flat/308885390/?mlSearchSessionGuid=d839d220ba3856c3d87d98c7cb530b56",
       "title": "Новостройка, р-н Невский",
@@ -5106,7 +5038,7 @@
       "scrapedAt": "2026-04-12T14:54:35.660Z"
     },
     {
-      "id": 151,
+      "id": 149,
       "cianId": 328800500,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/328800500/?mlSearchSessionGuid=d301778f8f3a1250d5e0a6a4c8515c19",
       "title": "1-комн. кв., Западный",
@@ -5140,7 +5072,7 @@
       "scrapedAt": "2026-04-12T14:54:47.012Z"
     },
     {
-      "id": 152,
+      "id": 150,
       "cianId": 327008288,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/327008288/?mlSearchSessionGuid=227741585983b9c4bc7c9a549a29e0a0",
       "title": "2-комн. кв., Прикубанский",
@@ -5174,7 +5106,7 @@
       "scrapedAt": "2026-04-12T14:54:49.855Z"
     },
     {
-      "id": 153,
+      "id": 151,
       "cianId": 328804579,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/328804579/?mlSearchSessionGuid=227741585983b9c4bc7c9a549a29e0a0",
       "title": "1-комн. кв., Прикубанский",
@@ -5208,7 +5140,7 @@
       "scrapedAt": "2026-04-12T14:54:49.855Z"
     },
     {
-      "id": 154,
+      "id": 152,
       "cianId": 321928369,
       "cianUrl": "https://sochi.cian.ru/sale/flat/321928369/?mlSearchSessionGuid=d8f8f6883588d119e02ed5e0dfa51e78",
       "title": "3-комн. кв., р-н Адлерский",
@@ -5242,7 +5174,7 @@
       "scrapedAt": "2026-04-12T14:54:55.952Z"
     },
     {
-      "id": 155,
+      "id": 153,
       "cianId": 322392273,
       "cianUrl": "https://kazan.cian.ru/sale/flat/322392273/?mlSearchSessionGuid=2a132d361cc9f5ec4445523302f186bd",
       "title": "Новостройка, р-н Приволжский",
@@ -5276,7 +5208,7 @@
       "scrapedAt": "2026-04-12T14:55:04.523Z"
     },
     {
-      "id": 156,
+      "id": 154,
       "cianId": 326448457,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/326448457/?mlSearchSessionGuid=0733d21e499ec768ec03509a44d3bd92",
       "title": "Новостройка, р-н Калининский",
@@ -5308,7 +5240,7 @@
       "scrapedAt": "2026-04-12T14:55:10.030Z"
     },
     {
-      "id": 157,
+      "id": 155,
       "cianId": 327963547,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/327963547/?mlSearchSessionGuid=0733d21e499ec768ec03509a44d3bd92",
       "title": "2-комн. кв., р-н Кировский",
@@ -5342,7 +5274,7 @@
       "scrapedAt": "2026-04-12T14:55:10.030Z"
     },
     {
-      "id": 158,
+      "id": 156,
       "cianId": 327059799,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/327059799/?mlSearchSessionGuid=400520f8bfd41936e68e7f015d1c304d",
       "title": "1-комн. кв., р-н Железнодорожный",
@@ -5376,7 +5308,7 @@
       "scrapedAt": "2026-04-12T14:55:15.661Z"
     },
     {
-      "id": 159,
+      "id": 157,
       "cianId": 326199592,
       "cianUrl": "https://ekb.cian.ru/sale/flat/326199592/?mlSearchSessionGuid=acc69c560c33d45b0d6b5dbfc0646a80",
       "title": "Новостройка, р-н Чкаловский",
@@ -5410,7 +5342,7 @@
       "scrapedAt": "2026-04-12T14:55:21.351Z"
     },
     {
-      "id": 160,
+      "id": 158,
       "cianId": 324115969,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/324115969/?mlSearchSessionGuid=d301778f8f3a1250d5e0a6a4c8515c19",
       "title": "1-комн. кв., Центральный",
@@ -5444,7 +5376,7 @@
       "scrapedAt": "2026-04-12T14:54:47.012Z"
     },
     {
-      "id": 161,
+      "id": 159,
       "cianId": 310209028,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/310209028/?mlSearchSessionGuid=d301778f8f3a1250d5e0a6a4c8515c19",
       "title": "Новостройка, Прикубанский",
@@ -5478,7 +5410,7 @@
       "scrapedAt": "2026-04-12T14:54:47.012Z"
     },
     {
-      "id": 162,
+      "id": 160,
       "cianId": 322899521,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/322899521/?mlSearchSessionGuid=227741585983b9c4bc7c9a549a29e0a0",
       "title": "1-комн. кв., Прикубанский",
@@ -5512,7 +5444,7 @@
       "scrapedAt": "2026-04-12T14:54:49.855Z"
     },
     {
-      "id": 163,
+      "id": 161,
       "cianId": 328571615,
       "cianUrl": "https://sochi.cian.ru/sale/flat/328571615/?mlSearchSessionGuid=8dcecfd41ac450fd3b8e3edeca574249",
       "title": "1-комн. кв., р-н Хостинский",
@@ -5546,7 +5478,7 @@
       "scrapedAt": "2026-04-12T14:54:52.941Z"
     },
     {
-      "id": 164,
+      "id": 162,
       "cianId": 327373839,
       "cianUrl": "https://kazan.cian.ru/sale/flat/327373839/?mlSearchSessionGuid=2a132d361cc9f5ec4445523302f186bd",
       "title": "1-комн. кв., р-н Авиастроительный",
@@ -5580,7 +5512,7 @@
       "scrapedAt": "2026-04-12T14:55:04.523Z"
     },
     {
-      "id": 165,
+      "id": 163,
       "cianId": 310160752,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/310160752/?mlSearchSessionGuid=0733d21e499ec768ec03509a44d3bd92",
       "title": "Новостройка, р-н Заельцовский",
@@ -5614,7 +5546,7 @@
       "scrapedAt": "2026-04-12T14:55:10.030Z"
     },
     {
-      "id": 166,
+      "id": 164,
       "cianId": 325449838,
       "cianUrl": "https://ekb.cian.ru/sale/flat/325449838/?mlSearchSessionGuid=acc69c560c33d45b0d6b5dbfc0646a80",
       "title": "Новостройка, р-н Академический",
@@ -5648,7 +5580,7 @@
       "scrapedAt": "2026-04-12T14:55:21.351Z"
     },
     {
-      "id": 167,
+      "id": 165,
       "cianId": 324162913,
       "cianUrl": "https://spb.cian.ru/sale/flat/324162913/?mlSearchSessionGuid=3bfe9b90cb2609491bf4c2f83d4068be",
       "title": "Новостройка, р-н Пушкинский",
@@ -5682,7 +5614,7 @@
       "scrapedAt": "2026-04-12T14:54:38.545Z"
     },
     {
-      "id": 168,
+      "id": 166,
       "cianId": 328456002,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/328456002/?mlSearchSessionGuid=81ed783a85b68e8e10aa538c4111d755",
       "title": "Новостройка, Прикубанский",
@@ -5716,7 +5648,7 @@
       "scrapedAt": "2026-04-12T14:54:44.275Z"
     },
     {
-      "id": 169,
+      "id": 167,
       "cianId": 327119074,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/327119074/?mlSearchSessionGuid=81ed783a85b68e8e10aa538c4111d755",
       "title": "Новостройка, Прикубанский",
@@ -5750,7 +5682,7 @@
       "scrapedAt": "2026-04-12T14:54:44.275Z"
     },
     {
-      "id": 170,
+      "id": 168,
       "cianId": 326650281,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/326650281/?mlSearchSessionGuid=d301778f8f3a1250d5e0a6a4c8515c19",
       "title": "Новостройка, Прикубанский",
@@ -5784,7 +5716,7 @@
       "scrapedAt": "2026-04-12T14:54:47.012Z"
     },
     {
-      "id": 171,
+      "id": 169,
       "cianId": 287405651,
       "cianUrl": "https://sochi.cian.ru/sale/flat/287405651/?mlSearchSessionGuid=d8f8f6883588d119e02ed5e0dfa51e78",
       "title": "2-комн. кв., р-н Центральный",
@@ -5818,7 +5750,7 @@
       "scrapedAt": "2026-04-12T14:54:55.952Z"
     },
     {
-      "id": 172,
+      "id": 170,
       "cianId": 326641595,
       "cianUrl": "https://ekb.cian.ru/sale/flat/326641595/?mlSearchSessionGuid=a6e5ee7a07b95045b951193ce5b97ee5",
       "title": "Новостройка, р-н Верх-Исетский",
@@ -5852,7 +5784,7 @@
       "scrapedAt": "2026-04-12T14:55:18.526Z"
     },
     {
-      "id": 173,
+      "id": 171,
       "cianId": 326979720,
       "cianUrl": "https://ekb.cian.ru/sale/flat/326979720/?mlSearchSessionGuid=a6e5ee7a07b95045b951193ce5b97ee5",
       "title": "Новостройка, р-н Железнодорожный",
@@ -5886,7 +5818,7 @@
       "scrapedAt": "2026-04-12T14:55:18.527Z"
     },
     {
-      "id": 174,
+      "id": 172,
       "cianId": 327268533,
       "cianUrl": "https://ekb.cian.ru/sale/flat/327268533/?mlSearchSessionGuid=d07345c8cc78cb5f73154abf8ec33f2a",
       "title": "Квартира, р-н Чкаловский",
@@ -5920,7 +5852,7 @@
       "scrapedAt": "2026-04-12T14:55:23.971Z"
     },
     {
-      "id": 175,
+      "id": 173,
       "cianId": 325816045,
       "cianUrl": "https://ekb.cian.ru/sale/flat/325816045/?mlSearchSessionGuid=d07345c8cc78cb5f73154abf8ec33f2a",
       "title": "1-комн. кв., р-н Чкаловский",
@@ -5954,7 +5886,7 @@
       "scrapedAt": "2026-04-12T14:55:23.971Z"
     },
     {
-      "id": 176,
+      "id": 174,
       "cianId": 326959918,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/326959918/?mlSearchSessionGuid=81ed783a85b68e8e10aa538c4111d755",
       "title": "2-комн. кв., Прикубанский",
@@ -5988,7 +5920,7 @@
       "scrapedAt": "2026-04-12T14:54:44.275Z"
     },
     {
-      "id": 177,
+      "id": 175,
       "cianId": 318478921,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/318478921/?mlSearchSessionGuid=d301778f8f3a1250d5e0a6a4c8515c19",
       "title": "Новостройка, Прикубанский",
@@ -6022,7 +5954,7 @@
       "scrapedAt": "2026-04-12T14:54:47.012Z"
     },
     {
-      "id": 178,
+      "id": 176,
       "cianId": 327113129,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/327113129/?mlSearchSessionGuid=227741585983b9c4bc7c9a549a29e0a0",
       "title": "2-комн. кв., Прикубанский",
@@ -6056,7 +5988,7 @@
       "scrapedAt": "2026-04-12T14:54:49.855Z"
     },
     {
-      "id": 179,
+      "id": 177,
       "cianId": 300859362,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/300859362/?mlSearchSessionGuid=227741585983b9c4bc7c9a549a29e0a0",
       "title": "2-комн. кв., Прикубанский",
@@ -6090,7 +6022,7 @@
       "scrapedAt": "2026-04-12T14:54:49.855Z"
     },
     {
-      "id": 180,
+      "id": 178,
       "cianId": 301209525,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/301209525/?mlSearchSessionGuid=227741585983b9c4bc7c9a549a29e0a0",
       "title": "1-комн. кв., Карасунский",
@@ -6124,7 +6056,7 @@
       "scrapedAt": "2026-04-12T14:54:49.855Z"
     },
     {
-      "id": 181,
+      "id": 179,
       "cianId": 327550012,
       "cianUrl": "https://sochi.cian.ru/sale/flat/327550012/?mlSearchSessionGuid=8dcecfd41ac450fd3b8e3edeca574249",
       "title": "1-комн. кв., р-н Центральный",
@@ -6158,7 +6090,7 @@
       "scrapedAt": "2026-04-12T14:54:52.941Z"
     },
     {
-      "id": 182,
+      "id": 180,
       "cianId": 327220640,
       "cianUrl": "https://kazan.cian.ru/sale/flat/327220640/?mlSearchSessionGuid=55523c21b1b8b61a3955c46ccf943d6a",
       "title": "3-комн. кв., р-н Вахитовский",
@@ -6192,7 +6124,7 @@
       "scrapedAt": "2026-04-12T14:55:07.265Z"
     },
     {
-      "id": 183,
+      "id": 181,
       "cianId": 323649115,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/323649115/?mlSearchSessionGuid=572d3e333144b27efd1ca39fdea8daa4",
       "title": "Новостройка, р-н Заельцовский",
@@ -6226,7 +6158,7 @@
       "scrapedAt": "2026-04-12T14:55:12.820Z"
     },
     {
-      "id": 184,
+      "id": 182,
       "cianId": 305045993,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/305045993/?mlSearchSessionGuid=572d3e333144b27efd1ca39fdea8daa4",
       "title": "Новостройка, р-н Заельцовский",
@@ -6260,7 +6192,7 @@
       "scrapedAt": "2026-04-12T14:55:12.821Z"
     },
     {
-      "id": 185,
+      "id": 183,
       "cianId": 305045143,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/305045143/?mlSearchSessionGuid=400520f8bfd41936e68e7f015d1c304d",
       "title": "Новостройка, р-н Заельцовский",
@@ -6294,7 +6226,7 @@
       "scrapedAt": "2026-04-12T14:55:15.660Z"
     },
     {
-      "id": 186,
+      "id": 184,
       "cianId": 310780915,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/310780915/?mlSearchSessionGuid=400520f8bfd41936e68e7f015d1c304d",
       "title": "Новостройка, р-н Центральный",
@@ -6328,7 +6260,7 @@
       "scrapedAt": "2026-04-12T14:55:15.661Z"
     },
     {
-      "id": 187,
+      "id": 185,
       "cianId": 323878048,
       "cianUrl": "https://ekb.cian.ru/sale/flat/323878048/?mlSearchSessionGuid=acc69c560c33d45b0d6b5dbfc0646a80",
       "title": "Новостройка, р-н Ленинский",
@@ -6362,7 +6294,7 @@
       "scrapedAt": "2026-04-12T14:55:21.351Z"
     },
     {
-      "id": 188,
+      "id": 186,
       "cianId": 323637653,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/323637653/?mlSearchSessionGuid=81ed783a85b68e8e10aa538c4111d755",
       "title": "Новостройка, Прикубанский",
@@ -6396,7 +6328,7 @@
       "scrapedAt": "2026-04-12T14:54:44.275Z"
     },
     {
-      "id": 189,
+      "id": 187,
       "cianId": 326971090,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/326971090/?mlSearchSessionGuid=d301778f8f3a1250d5e0a6a4c8515c19",
       "title": "Новостройка, Центральный",
@@ -6430,7 +6362,7 @@
       "scrapedAt": "2026-04-12T14:54:47.012Z"
     },
     {
-      "id": 190,
+      "id": 188,
       "cianId": 327287920,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/327287920/?mlSearchSessionGuid=d301778f8f3a1250d5e0a6a4c8515c19",
       "title": "Новостройка, Карасунский",
@@ -6464,7 +6396,7 @@
       "scrapedAt": "2026-04-12T14:54:47.012Z"
     },
     {
-      "id": 191,
+      "id": 189,
       "cianId": 314976178,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/314976178/?mlSearchSessionGuid=227741585983b9c4bc7c9a549a29e0a0",
       "title": "3-комн. кв., Прикубанский",
@@ -6498,7 +6430,7 @@
       "scrapedAt": "2026-04-12T14:54:49.855Z"
     },
     {
-      "id": 192,
+      "id": 190,
       "cianId": 264068304,
       "cianUrl": "https://sochi.cian.ru/sale/flat/264068304/?mlSearchSessionGuid=8dcecfd41ac450fd3b8e3edeca574249",
       "title": "3-комн. кв., р-н Хостинский",
@@ -6532,7 +6464,7 @@
       "scrapedAt": "2026-04-12T14:54:52.941Z"
     },
     {
-      "id": 193,
+      "id": 191,
       "cianId": 305216353,
       "cianUrl": "https://sochi.cian.ru/sale/flat/305216353/?mlSearchSessionGuid=d8f8f6883588d119e02ed5e0dfa51e78",
       "title": "2-комн. кв., р-н Хостинский",
@@ -6566,7 +6498,7 @@
       "scrapedAt": "2026-04-12T14:54:55.952Z"
     },
     {
-      "id": 194,
+      "id": 192,
       "cianId": 328411181,
       "cianUrl": "https://kazan.cian.ru/sale/flat/328411181/?mlSearchSessionGuid=2a132d361cc9f5ec4445523302f186bd",
       "title": "Квартира, р-н Авиастроительный",
@@ -6600,7 +6532,7 @@
       "scrapedAt": "2026-04-12T14:55:04.523Z"
     },
     {
-      "id": 195,
+      "id": 193,
       "cianId": 326560665,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/326560665/?mlSearchSessionGuid=0733d21e499ec768ec03509a44d3bd92",
       "title": "Новостройка, р-н Октябрьский",
@@ -6634,7 +6566,7 @@
       "scrapedAt": "2026-04-12T14:55:10.030Z"
     },
     {
-      "id": 196,
+      "id": 194,
       "cianId": 328363940,
       "cianUrl": "https://ekb.cian.ru/sale/flat/328363940/?mlSearchSessionGuid=acc69c560c33d45b0d6b5dbfc0646a80",
       "title": "Новостройка, р-н Кировский",
@@ -6668,7 +6600,7 @@
       "scrapedAt": "2026-04-12T14:55:21.351Z"
     },
     {
-      "id": 197,
+      "id": 195,
       "cianId": 324360745,
       "cianUrl": "https://ekb.cian.ru/sale/flat/324360745/?mlSearchSessionGuid=acc69c560c33d45b0d6b5dbfc0646a80",
       "title": "3-комн. кв., р-н Кировский",
@@ -6702,7 +6634,7 @@
       "scrapedAt": "2026-04-12T14:55:21.351Z"
     },
     {
-      "id": 198,
+      "id": 196,
       "cianId": 328395727,
       "cianUrl": "https://ekb.cian.ru/sale/flat/328395727/?mlSearchSessionGuid=d07345c8cc78cb5f73154abf8ec33f2a",
       "title": "Квартира, м. Ботаническая",
@@ -6736,7 +6668,7 @@
       "scrapedAt": "2026-04-12T14:55:23.971Z"
     },
     {
-      "id": 199,
+      "id": 197,
       "cianId": 323946638,
       "cianUrl": "https://ekb.cian.ru/sale/flat/323946638/?mlSearchSessionGuid=d07345c8cc78cb5f73154abf8ec33f2a",
       "title": "Новостройка, р-н Верх-Исетский",
@@ -6770,7 +6702,7 @@
       "scrapedAt": "2026-04-12T14:55:23.971Z"
     },
     {
-      "id": 200,
+      "id": 198,
       "cianId": 328637016,
       "cianUrl": "https://ekb.cian.ru/sale/flat/328637016/?mlSearchSessionGuid=d07345c8cc78cb5f73154abf8ec33f2a",
       "title": "1-комн. кв., р-н Чкаловский",
@@ -6804,7 +6736,7 @@
       "scrapedAt": "2026-04-12T14:55:23.971Z"
     },
     {
-      "id": 201,
+      "id": 199,
       "cianId": 326629972,
       "cianUrl": "https://spb.cian.ru/sale/flat/326629972/?mlSearchSessionGuid=d839d220ba3856c3d87d98c7cb530b56",
       "title": "3-комн. кв., р-н Центральный",
@@ -6838,7 +6770,7 @@
       "scrapedAt": "2026-04-12T14:54:35.660Z"
     },
     {
-      "id": 202,
+      "id": 200,
       "cianId": 315649997,
       "cianUrl": "https://spb.cian.ru/sale/flat/315649997/?mlSearchSessionGuid=a3d2d04df4d22484951af9e4becc9803",
       "title": "Новостройка, р-н Кронштадтский",
@@ -6872,7 +6804,7 @@
       "scrapedAt": "2026-04-12T14:54:41.371Z"
     },
     {
-      "id": 203,
+      "id": 201,
       "cianId": 328707018,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/328707018/?mlSearchSessionGuid=227741585983b9c4bc7c9a549a29e0a0",
       "title": "3-комн. кв., Прикубанский",
@@ -6906,7 +6838,7 @@
       "scrapedAt": "2026-04-12T14:54:49.855Z"
     },
     {
-      "id": 204,
+      "id": 202,
       "cianId": 317716134,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/317716134/?mlSearchSessionGuid=227741585983b9c4bc7c9a549a29e0a0",
       "title": "Новостройка, Прикубанский",
@@ -6940,7 +6872,7 @@
       "scrapedAt": "2026-04-12T14:54:49.855Z"
     },
     {
-      "id": 205,
+      "id": 203,
       "cianId": 300863960,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/300863960/?mlSearchSessionGuid=227741585983b9c4bc7c9a549a29e0a0",
       "title": "1-комн. кв., Карасунский",
@@ -6974,7 +6906,7 @@
       "scrapedAt": "2026-04-12T14:54:49.855Z"
     },
     {
-      "id": 206,
+      "id": 204,
       "cianId": 321533642,
       "cianUrl": "https://sochi.cian.ru/sale/flat/321533642/?mlSearchSessionGuid=d8f8f6883588d119e02ed5e0dfa51e78",
       "title": "2-комн. кв., р-н Хостинский",
@@ -7008,7 +6940,7 @@
       "scrapedAt": "2026-04-12T14:54:55.952Z"
     },
     {
-      "id": 207,
+      "id": 205,
       "cianId": 321648328,
       "cianUrl": "https://kazan.cian.ru/sale/flat/321648328/?mlSearchSessionGuid=55523c21b1b8b61a3955c46ccf943d6a",
       "title": "1-комн. кв., р-н Советский",
@@ -7042,7 +6974,7 @@
       "scrapedAt": "2026-04-12T14:55:07.265Z"
     },
     {
-      "id": 208,
+      "id": 206,
       "cianId": 324817874,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/324817874/?mlSearchSessionGuid=400520f8bfd41936e68e7f015d1c304d",
       "title": "Новостройка, р-н Железнодорожный",
@@ -7076,7 +7008,7 @@
       "scrapedAt": "2026-04-12T14:55:15.660Z"
     },
     {
-      "id": 209,
+      "id": 207,
       "cianId": 325356438,
       "cianUrl": "https://ekb.cian.ru/sale/flat/325356438/?mlSearchSessionGuid=d07345c8cc78cb5f73154abf8ec33f2a",
       "title": "Новостройка, р-н Орджоникидзевский",
@@ -7110,7 +7042,7 @@
       "scrapedAt": "2026-04-12T14:55:23.971Z"
     },
     {
-      "id": 210,
+      "id": 208,
       "cianId": 328446018,
       "cianUrl": "https://www.cian.ru/sale/flat/328446018/?mlSearchSessionGuid=84a2295a79f670b23012196317165f63",
       "title": "4-комн. кв., р-н Раменки",
@@ -7144,7 +7076,7 @@
       "scrapedAt": "2026-04-12T14:54:30.126Z"
     },
     {
-      "id": 211,
+      "id": 209,
       "cianId": 323860170,
       "cianUrl": "https://sochi.cian.ru/sale/flat/323860170/?mlSearchSessionGuid=8dcecfd41ac450fd3b8e3edeca574249",
       "title": "2-комн. кв., р-н Центральный",
@@ -7178,7 +7110,7 @@
       "scrapedAt": "2026-04-12T14:54:52.941Z"
     },
     {
-      "id": 212,
+      "id": 210,
       "cianId": 326024206,
       "cianUrl": "https://sochi.cian.ru/sale/flat/326024206/?mlSearchSessionGuid=d8f8f6883588d119e02ed5e0dfa51e78",
       "title": "1-комн. кв., р-н Адлерский",
@@ -7212,7 +7144,7 @@
       "scrapedAt": "2026-04-12T14:54:55.952Z"
     },
     {
-      "id": 213,
+      "id": 211,
       "cianId": 326451215,
       "cianUrl": "https://kazan.cian.ru/sale/flat/326451215/?mlSearchSessionGuid=58bea5d2ca456008fe24046e61f2e887",
       "title": "3-комн. кв., р-н Московский",
@@ -7246,7 +7178,7 @@
       "scrapedAt": "2026-04-12T14:55:01.678Z"
     },
     {
-      "id": 214,
+      "id": 212,
       "cianId": 324817948,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/324817948/?mlSearchSessionGuid=400520f8bfd41936e68e7f015d1c304d",
       "title": "Новостройка, р-н Железнодорожный",
@@ -7280,7 +7212,7 @@
       "scrapedAt": "2026-04-12T14:55:15.660Z"
     },
     {
-      "id": 215,
+      "id": 213,
       "cianId": 328010874,
       "cianUrl": "https://ekb.cian.ru/sale/flat/328010874/?mlSearchSessionGuid=acc69c560c33d45b0d6b5dbfc0646a80",
       "title": "Новостройка, р-н Октябрьский",
@@ -7314,7 +7246,7 @@
       "scrapedAt": "2026-04-12T14:55:21.351Z"
     },
     {
-      "id": 216,
+      "id": 214,
       "cianId": 328102232,
       "cianUrl": "https://ekb.cian.ru/sale/flat/328102232/?mlSearchSessionGuid=acc69c560c33d45b0d6b5dbfc0646a80",
       "title": "2-комн. кв., р-н Кировский",
@@ -7348,7 +7280,7 @@
       "scrapedAt": "2026-04-12T14:55:21.351Z"
     },
     {
-      "id": 217,
+      "id": 215,
       "cianId": 323878170,
       "cianUrl": "https://ekb.cian.ru/sale/flat/323878170/?mlSearchSessionGuid=d07345c8cc78cb5f73154abf8ec33f2a",
       "title": "Новостройка, р-н Орджоникидзевский",
@@ -7382,7 +7314,7 @@
       "scrapedAt": "2026-04-12T14:55:23.971Z"
     },
     {
-      "id": 218,
+      "id": 216,
       "cianId": 322757584,
       "cianUrl": "https://www.cian.ru/sale/flat/322757584/?mlSearchSessionGuid=84a2295a79f670b23012196317165f63",
       "title": "Студия кв., р-н Раменки",
@@ -7416,7 +7348,7 @@
       "scrapedAt": "2026-04-12T14:54:30.126Z"
     },
     {
-      "id": 219,
+      "id": 217,
       "cianId": 327007613,
       "cianUrl": "https://sochi.cian.ru/sale/flat/327007613/?mlSearchSessionGuid=d8f8f6883588d119e02ed5e0dfa51e78",
       "title": "3-комн. кв., р-н Хостинский",
@@ -7450,7 +7382,7 @@
       "scrapedAt": "2026-04-12T14:54:55.952Z"
     },
     {
-      "id": 220,
+      "id": 218,
       "cianId": 325921162,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/325921162/?mlSearchSessionGuid=0733d21e499ec768ec03509a44d3bd92",
       "title": "2-комн. кв., р-н Дзержинский",
@@ -7484,7 +7416,7 @@
       "scrapedAt": "2026-04-12T14:55:10.030Z"
     },
     {
-      "id": 221,
+      "id": 219,
       "cianId": 324818276,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/324818276/?mlSearchSessionGuid=572d3e333144b27efd1ca39fdea8daa4",
       "title": "Новостройка, р-н Заельцовский",
@@ -7518,7 +7450,7 @@
       "scrapedAt": "2026-04-12T14:55:12.821Z"
     },
     {
-      "id": 222,
+      "id": 220,
       "cianId": 314924775,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/314924775/?mlSearchSessionGuid=400520f8bfd41936e68e7f015d1c304d",
       "title": "1-комн. кв., р-н Центральный",
@@ -7552,7 +7484,7 @@
       "scrapedAt": "2026-04-12T14:55:15.660Z"
     },
     {
-      "id": 223,
+      "id": 221,
       "cianId": 300415648,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/300415648/?mlSearchSessionGuid=400520f8bfd41936e68e7f015d1c304d",
       "title": "Новостройка, р-н Заельцовский",
@@ -7586,7 +7518,7 @@
       "scrapedAt": "2026-04-12T14:55:15.660Z"
     },
     {
-      "id": 224,
+      "id": 222,
       "cianId": 328618087,
       "cianUrl": "https://sochi.cian.ru/sale/flat/328618087/?mlSearchSessionGuid=d8f8f6883588d119e02ed5e0dfa51e78",
       "title": "2-комн. кв., р-н Хостинский",
@@ -7620,7 +7552,7 @@
       "scrapedAt": "2026-04-12T14:54:55.952Z"
     },
     {
-      "id": 225,
+      "id": 223,
       "cianId": 321774512,
       "cianUrl": "https://sochi.cian.ru/sale/flat/321774512/?mlSearchSessionGuid=7cb03abc8a83456ed3ef1eff496948c8",
       "title": "2-комн. кв., р-н Хостинский",
@@ -7654,7 +7586,7 @@
       "scrapedAt": "2026-04-12T14:54:58.638Z"
     },
     {
-      "id": 226,
+      "id": 224,
       "cianId": 324817955,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/324817955/?mlSearchSessionGuid=572d3e333144b27efd1ca39fdea8daa4",
       "title": "Новостройка, р-н Железнодорожный",
@@ -7688,7 +7620,7 @@
       "scrapedAt": "2026-04-12T14:55:12.820Z"
     },
     {
-      "id": 227,
+      "id": 225,
       "cianId": 327467886,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/327467886/?mlSearchSessionGuid=572d3e333144b27efd1ca39fdea8daa4",
       "title": "2-комн. кв., р-н Заельцовский",
@@ -7722,7 +7654,7 @@
       "scrapedAt": "2026-04-12T14:55:12.821Z"
     },
     {
-      "id": 228,
+      "id": 226,
       "cianId": 328663859,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/328663859/?mlSearchSessionGuid=572d3e333144b27efd1ca39fdea8daa4",
       "title": "3-комн. кв., р-н Ленинский",
@@ -7756,7 +7688,7 @@
       "scrapedAt": "2026-04-12T14:55:12.821Z"
     },
     {
-      "id": 229,
+      "id": 227,
       "cianId": 322171575,
       "cianUrl": "https://ekb.cian.ru/sale/flat/322171575/?mlSearchSessionGuid=a6e5ee7a07b95045b951193ce5b97ee5",
       "title": "Новостройка, р-н Октябрьский",
@@ -7790,7 +7722,7 @@
       "scrapedAt": "2026-04-12T14:55:18.526Z"
     },
     {
-      "id": 230,
+      "id": 228,
       "cianId": 323761752,
       "cianUrl": "https://ekb.cian.ru/sale/flat/323761752/?mlSearchSessionGuid=d07345c8cc78cb5f73154abf8ec33f2a",
       "title": "Новостройка, р-н Кировский",
@@ -7824,7 +7756,7 @@
       "scrapedAt": "2026-04-12T14:55:23.971Z"
     },
     {
-      "id": 231,
+      "id": 229,
       "cianId": 326900910,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/326900910/?mlSearchSessionGuid=81ed783a85b68e8e10aa538c4111d755",
       "title": "Новостройка, Центральный",
@@ -7858,7 +7790,7 @@
       "scrapedAt": "2026-04-12T14:54:44.274Z"
     },
     {
-      "id": 232,
+      "id": 230,
       "cianId": 328697616,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/328697616/?mlSearchSessionGuid=d301778f8f3a1250d5e0a6a4c8515c19",
       "title": "2-комн. кв., Прикубанский",
@@ -7892,7 +7824,7 @@
       "scrapedAt": "2026-04-12T14:54:47.012Z"
     },
     {
-      "id": 233,
+      "id": 231,
       "cianId": 323124839,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/323124839/?mlSearchSessionGuid=d301778f8f3a1250d5e0a6a4c8515c19",
       "title": "1-комн. кв., Прикубанский",
@@ -7926,7 +7858,7 @@
       "scrapedAt": "2026-04-12T14:54:47.012Z"
     },
     {
-      "id": 234,
+      "id": 232,
       "cianId": 326432336,
       "cianUrl": "https://sochi.cian.ru/sale/flat/326432336/?mlSearchSessionGuid=d8f8f6883588d119e02ed5e0dfa51e78",
       "title": "Квартира, р-н Адлерский",
@@ -7960,7 +7892,7 @@
       "scrapedAt": "2026-04-12T14:54:55.952Z"
     },
     {
-      "id": 235,
+      "id": 233,
       "cianId": 323757769,
       "cianUrl": "https://kazan.cian.ru/sale/flat/323757769/?mlSearchSessionGuid=2a132d361cc9f5ec4445523302f186bd",
       "title": "Квартира, р-н Московский",
@@ -7994,7 +7926,7 @@
       "scrapedAt": "2026-04-12T14:55:04.523Z"
     },
     {
-      "id": 236,
+      "id": 234,
       "cianId": 326560693,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/326560693/?mlSearchSessionGuid=0733d21e499ec768ec03509a44d3bd92",
       "title": "Новостройка, р-н Центральный",
@@ -8028,7 +7960,7 @@
       "scrapedAt": "2026-04-12T14:55:10.030Z"
     },
     {
-      "id": 237,
+      "id": 235,
       "cianId": 323145168,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/323145168/?mlSearchSessionGuid=0733d21e499ec768ec03509a44d3bd92",
       "title": "Новостройка, р-н Заельцовский",
@@ -8062,7 +7994,7 @@
       "scrapedAt": "2026-04-12T14:55:10.030Z"
     },
     {
-      "id": 238,
+      "id": 236,
       "cianId": 326829294,
       "cianUrl": "https://ekb.cian.ru/sale/flat/326829294/?mlSearchSessionGuid=d07345c8cc78cb5f73154abf8ec33f2a",
       "title": "2-комн. кв., р-н Чкаловский",
@@ -8096,7 +8028,7 @@
       "scrapedAt": "2026-04-12T14:55:23.971Z"
     },
     {
-      "id": 239,
+      "id": 237,
       "cianId": 326878984,
       "cianUrl": "https://www.cian.ru/sale/flat/326878984/?mlSearchSessionGuid=4b3eb783c493c4936a924dd669b0bb67",
       "title": "4-комн. кв., р-н Пресненский",
@@ -8130,7 +8062,7 @@
       "scrapedAt": "2026-04-12T14:54:26.990Z"
     },
     {
-      "id": 240,
+      "id": 238,
       "cianId": 328688853,
       "cianUrl": "https://spb.cian.ru/sale/flat/328688853/?mlSearchSessionGuid=3bfe9b90cb2609491bf4c2f83d4068be",
       "title": "1-комн. кв., р-н Василеостровский",
@@ -8164,7 +8096,7 @@
       "scrapedAt": "2026-04-12T14:54:38.545Z"
     },
     {
-      "id": 241,
+      "id": 239,
       "cianId": 316319481,
       "cianUrl": "https://sochi.cian.ru/sale/flat/316319481/?mlSearchSessionGuid=8dcecfd41ac450fd3b8e3edeca574249",
       "title": "Квартира, р-н Центральный",
@@ -8198,7 +8130,7 @@
       "scrapedAt": "2026-04-12T14:54:52.941Z"
     },
     {
-      "id": 242,
+      "id": 240,
       "cianId": 299547003,
       "cianUrl": "https://sochi.cian.ru/sale/flat/299547003/?mlSearchSessionGuid=8dcecfd41ac450fd3b8e3edeca574249",
       "title": "1-комн. кв., р-н Хостинский",
@@ -8232,7 +8164,7 @@
       "scrapedAt": "2026-04-12T14:54:52.941Z"
     },
     {
-      "id": 243,
+      "id": 241,
       "cianId": 328028230,
       "cianUrl": "https://sochi.cian.ru/sale/flat/328028230/?mlSearchSessionGuid=d8f8f6883588d119e02ed5e0dfa51e78",
       "title": "3-комн. кв., р-н Центральный",
@@ -8266,7 +8198,7 @@
       "scrapedAt": "2026-04-12T14:54:55.952Z"
     },
     {
-      "id": 244,
+      "id": 242,
       "cianId": 327948912,
       "cianUrl": "https://kazan.cian.ru/sale/flat/327948912/?mlSearchSessionGuid=58bea5d2ca456008fe24046e61f2e887",
       "title": "Квартира, р-н Ново-Савиновский",
@@ -8300,7 +8232,7 @@
       "scrapedAt": "2026-04-12T14:55:01.678Z"
     },
     {
-      "id": 245,
+      "id": 243,
       "cianId": 327876026,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/327876026/?mlSearchSessionGuid=0733d21e499ec768ec03509a44d3bd92",
       "title": "2-комн. кв., р-н Заельцовский",
@@ -8334,7 +8266,7 @@
       "scrapedAt": "2026-04-12T14:55:10.030Z"
     },
     {
-      "id": 246,
+      "id": 244,
       "cianId": 322462479,
       "cianUrl": "https://ekb.cian.ru/sale/flat/322462479/?mlSearchSessionGuid=d07345c8cc78cb5f73154abf8ec33f2a",
       "title": "Новостройка, р-н Октябрьский",
@@ -8368,7 +8300,7 @@
       "scrapedAt": "2026-04-12T14:55:23.971Z"
     },
     {
-      "id": 247,
+      "id": 245,
       "cianId": 324579080,
       "cianUrl": "https://sochi.cian.ru/sale/flat/324579080/?mlSearchSessionGuid=7cb03abc8a83456ed3ef1eff496948c8",
       "title": "2-комн. кв., р-н Хостинский",
@@ -8402,7 +8334,7 @@
       "scrapedAt": "2026-04-12T14:54:58.638Z"
     },
     {
-      "id": 248,
+      "id": 246,
       "cianId": 326671923,
       "cianUrl": "https://kazan.cian.ru/sale/flat/326671923/?mlSearchSessionGuid=2a132d361cc9f5ec4445523302f186bd",
       "title": "Новостройка, р-н Кировский",
@@ -8436,7 +8368,7 @@
       "scrapedAt": "2026-04-12T14:55:04.523Z"
     },
     {
-      "id": 249,
+      "id": 247,
       "cianId": 321718282,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/321718282/?mlSearchSessionGuid=572d3e333144b27efd1ca39fdea8daa4",
       "title": "Новостройка, р-н Заельцовский",
@@ -8470,7 +8402,7 @@
       "scrapedAt": "2026-04-12T14:55:12.820Z"
     },
     {
-      "id": 250,
+      "id": 248,
       "cianId": 323851887,
       "cianUrl": "https://ekb.cian.ru/sale/flat/323851887/?mlSearchSessionGuid=d07345c8cc78cb5f73154abf8ec33f2a",
       "title": "1-комн. кв., р-н Ленинский",
@@ -8504,7 +8436,7 @@
       "scrapedAt": "2026-04-12T14:55:23.971Z"
     },
     {
-      "id": 251,
+      "id": 249,
       "cianId": 320911458,
       "cianUrl": "https://sochi.cian.ru/sale/flat/320911458/?mlSearchSessionGuid=d8f8f6883588d119e02ed5e0dfa51e78",
       "title": "2-комн. кв., р-н Центральный",
@@ -8538,7 +8470,7 @@
       "scrapedAt": "2026-04-12T14:54:55.952Z"
     },
     {
-      "id": 252,
+      "id": 250,
       "cianId": 326784062,
       "cianUrl": "https://kazan.cian.ru/sale/flat/326784062/?mlSearchSessionGuid=55523c21b1b8b61a3955c46ccf943d6a",
       "title": "2-комн. кв., р-н Кировский",
@@ -8572,7 +8504,7 @@
       "scrapedAt": "2026-04-12T14:55:07.265Z"
     },
     {
-      "id": 253,
+      "id": 251,
       "cianId": 316336816,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/316336816/?mlSearchSessionGuid=400520f8bfd41936e68e7f015d1c304d",
       "title": "Квартира, р-н Калининский",
@@ -8606,7 +8538,7 @@
       "scrapedAt": "2026-04-12T14:55:15.660Z"
     },
     {
-      "id": 254,
+      "id": 252,
       "cianId": 326519996,
       "cianUrl": "https://ekb.cian.ru/sale/flat/326519996/?mlSearchSessionGuid=a6e5ee7a07b95045b951193ce5b97ee5",
       "title": "Новостройка, р-н Кировский",
@@ -8640,7 +8572,7 @@
       "scrapedAt": "2026-04-12T14:55:18.526Z"
     },
     {
-      "id": 255,
+      "id": 253,
       "cianId": 328369245,
       "cianUrl": "https://ekb.cian.ru/sale/flat/328369245/?mlSearchSessionGuid=d07345c8cc78cb5f73154abf8ec33f2a",
       "title": "2-комн. кв., р-н Чкаловский",
@@ -8674,7 +8606,7 @@
       "scrapedAt": "2026-04-12T14:55:23.971Z"
     },
     {
-      "id": 256,
+      "id": 254,
       "cianId": 327586985,
       "cianUrl": "https://spb.cian.ru/sale/flat/327586985/?mlSearchSessionGuid=d839d220ba3856c3d87d98c7cb530b56",
       "title": "2-комн. кв., р-н Калининский",
@@ -8708,7 +8640,7 @@
       "scrapedAt": "2026-04-12T14:54:35.660Z"
     },
     {
-      "id": 257,
+      "id": 255,
       "cianId": 328325571,
       "cianUrl": "https://spb.cian.ru/sale/flat/328325571/?mlSearchSessionGuid=d839d220ba3856c3d87d98c7cb530b56",
       "title": "1-комн. кв., р-н Центральный",
@@ -8742,7 +8674,7 @@
       "scrapedAt": "2026-04-12T14:54:35.660Z"
     },
     {
-      "id": 258,
+      "id": 256,
       "cianId": 311176058,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/311176058/?mlSearchSessionGuid=81ed783a85b68e8e10aa538c4111d755",
       "title": "1-комн. кв., Прикубанский",
@@ -8776,7 +8708,7 @@
       "scrapedAt": "2026-04-12T14:54:44.275Z"
     },
     {
-      "id": 259,
+      "id": 257,
       "cianId": 326903312,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/326903312/?mlSearchSessionGuid=0733d21e499ec768ec03509a44d3bd92",
       "title": "1-комн. кв., р-н Октябрьский",
@@ -8810,7 +8742,7 @@
       "scrapedAt": "2026-04-12T14:55:10.030Z"
     },
     {
-      "id": 260,
+      "id": 258,
       "cianId": 327304110,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/327304110/?mlSearchSessionGuid=0733d21e499ec768ec03509a44d3bd92",
       "title": "Новостройка, р-н Калининский",
@@ -8842,7 +8774,7 @@
       "scrapedAt": "2026-04-12T14:55:10.030Z"
     },
     {
-      "id": 261,
+      "id": 259,
       "cianId": 327556176,
       "cianUrl": "https://ekb.cian.ru/sale/flat/327556176/?mlSearchSessionGuid=a6e5ee7a07b95045b951193ce5b97ee5",
       "title": "Новостройка, р-н Октябрьский",
@@ -8876,7 +8808,7 @@
       "scrapedAt": "2026-04-12T14:55:18.526Z"
     },
     {
-      "id": 262,
+      "id": 260,
       "cianId": 326518274,
       "cianUrl": "https://ekb.cian.ru/sale/flat/326518274/?mlSearchSessionGuid=a6e5ee7a07b95045b951193ce5b97ee5",
       "title": "Новостройка, р-н Кировский",
@@ -8910,7 +8842,7 @@
       "scrapedAt": "2026-04-12T14:55:18.527Z"
     },
     {
-      "id": 263,
+      "id": 261,
       "cianId": 328475237,
       "cianUrl": "https://www.cian.ru/sale/flat/328475237/?mlSearchSessionGuid=4b3eb783c493c4936a924dd669b0bb67",
       "title": "Студия кв., р-н Пресненский",
@@ -8944,7 +8876,7 @@
       "scrapedAt": "2026-04-12T14:54:26.989Z"
     },
     {
-      "id": 264,
+      "id": 262,
       "cianId": 328651072,
       "cianUrl": "https://spb.cian.ru/sale/flat/328651072/?mlSearchSessionGuid=d839d220ba3856c3d87d98c7cb530b56",
       "title": "1-комн. кв., р-н Кировский",
@@ -8978,7 +8910,7 @@
       "scrapedAt": "2026-04-12T14:54:35.660Z"
     },
     {
-      "id": 265,
+      "id": 263,
       "cianId": 321563466,
       "cianUrl": "https://spb.cian.ru/sale/flat/321563466/?mlSearchSessionGuid=3bfe9b90cb2609491bf4c2f83d4068be",
       "title": "Квартира, р-н Василеостровский",
@@ -9012,7 +8944,7 @@
       "scrapedAt": "2026-04-12T14:54:38.545Z"
     },
     {
-      "id": 266,
+      "id": 264,
       "cianId": 325633255,
       "cianUrl": "https://sochi.cian.ru/sale/flat/325633255/?mlSearchSessionGuid=8dcecfd41ac450fd3b8e3edeca574249",
       "title": "1-комн. кв., р-н Адлерский",
@@ -9046,7 +8978,7 @@
       "scrapedAt": "2026-04-12T14:54:52.941Z"
     },
     {
-      "id": 267,
+      "id": 265,
       "cianId": 251204817,
       "cianUrl": "https://sochi.cian.ru/sale/flat/251204817/?mlSearchSessionGuid=d8f8f6883588d119e02ed5e0dfa51e78",
       "title": "2-комн. кв., р-н Хостинский",
@@ -9080,7 +9012,7 @@
       "scrapedAt": "2026-04-12T14:54:55.952Z"
     },
     {
-      "id": 268,
+      "id": 266,
       "cianId": 320331774,
       "cianUrl": "https://kazan.cian.ru/sale/flat/320331774/?mlSearchSessionGuid=2a132d361cc9f5ec4445523302f186bd",
       "title": "Новостройка, р-н Советский",
@@ -9114,7 +9046,7 @@
       "scrapedAt": "2026-04-12T14:55:04.523Z"
     },
     {
-      "id": 269,
+      "id": 267,
       "cianId": 328168278,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/328168278/?mlSearchSessionGuid=572d3e333144b27efd1ca39fdea8daa4",
       "title": "Новостройка, р-н Железнодорожный",
@@ -9148,7 +9080,7 @@
       "scrapedAt": "2026-04-12T14:55:12.821Z"
     },
     {
-      "id": 270,
+      "id": 268,
       "cianId": 328100808,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/328100808/?mlSearchSessionGuid=400520f8bfd41936e68e7f015d1c304d",
       "title": "3-комн. кв., р-н Железнодорожный",
@@ -9182,7 +9114,7 @@
       "scrapedAt": "2026-04-12T14:55:15.660Z"
     },
     {
-      "id": 271,
+      "id": 269,
       "cianId": 328776906,
       "cianUrl": "https://ekb.cian.ru/sale/flat/328776906/?mlSearchSessionGuid=a6e5ee7a07b95045b951193ce5b97ee5",
       "title": "1-комн. кв., р-н Железнодорожный",
@@ -9216,7 +9148,7 @@
       "scrapedAt": "2026-04-12T14:55:18.526Z"
     },
     {
-      "id": 272,
+      "id": 270,
       "cianId": 319767572,
       "cianUrl": "https://ekb.cian.ru/sale/flat/319767572/?mlSearchSessionGuid=acc69c560c33d45b0d6b5dbfc0646a80",
       "title": "3-комн. кв., р-н Ленинский",
@@ -9250,7 +9182,7 @@
       "scrapedAt": "2026-04-12T14:55:21.351Z"
     },
     {
-      "id": 273,
+      "id": 271,
       "cianId": 328624896,
       "cianUrl": "https://spb.cian.ru/sale/flat/328624896/?mlSearchSessionGuid=d839d220ba3856c3d87d98c7cb530b56",
       "title": "Квартира, р-н Московский",
@@ -9284,7 +9216,7 @@
       "scrapedAt": "2026-04-12T14:54:35.660Z"
     },
     {
-      "id": 274,
+      "id": 272,
       "cianId": 328555529,
       "cianUrl": "https://kazan.cian.ru/sale/flat/328555529/?mlSearchSessionGuid=58bea5d2ca456008fe24046e61f2e887",
       "title": "Квартира, р-н Авиастроительный",
@@ -9318,7 +9250,7 @@
       "scrapedAt": "2026-04-12T14:55:01.678Z"
     },
     {
-      "id": 275,
+      "id": 273,
       "cianId": 326019673,
       "cianUrl": "https://kazan.cian.ru/sale/flat/326019673/?mlSearchSessionGuid=2a132d361cc9f5ec4445523302f186bd",
       "title": "Новостройка, р-н Советский",
@@ -9352,7 +9284,7 @@
       "scrapedAt": "2026-04-12T14:55:04.523Z"
     },
     {
-      "id": 276,
+      "id": 274,
       "cianId": 327056052,
       "cianUrl": "https://kazan.cian.ru/sale/flat/327056052/?mlSearchSessionGuid=2a132d361cc9f5ec4445523302f186bd",
       "title": "1-комн. кв., р-н Советский",
@@ -9386,7 +9318,7 @@
       "scrapedAt": "2026-04-12T14:55:04.523Z"
     },
     {
-      "id": 277,
+      "id": 275,
       "cianId": 323560832,
       "cianUrl": "https://kazan.cian.ru/sale/flat/323560832/?mlSearchSessionGuid=55523c21b1b8b61a3955c46ccf943d6a",
       "title": "3-комн. кв., р-н Кировский",
@@ -9420,7 +9352,7 @@
       "scrapedAt": "2026-04-12T14:55:07.265Z"
     },
     {
-      "id": 278,
+      "id": 276,
       "cianId": 320002504,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/320002504/?mlSearchSessionGuid=0733d21e499ec768ec03509a44d3bd92",
       "title": "Квартира, р-н Первомайский",
@@ -9454,7 +9386,7 @@
       "scrapedAt": "2026-04-12T14:55:10.030Z"
     },
     {
-      "id": 279,
+      "id": 277,
       "cianId": 327201762,
       "cianUrl": "https://ekb.cian.ru/sale/flat/327201762/?mlSearchSessionGuid=acc69c560c33d45b0d6b5dbfc0646a80",
       "title": "Новостройка, р-н Октябрьский",
@@ -9488,7 +9420,7 @@
       "scrapedAt": "2026-04-12T14:55:21.351Z"
     },
     {
-      "id": 280,
+      "id": 278,
       "cianId": 300885495,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/300885495/?mlSearchSessionGuid=81ed783a85b68e8e10aa538c4111d755",
       "title": "Новостройка, Прикубанский",
@@ -9522,7 +9454,7 @@
       "scrapedAt": "2026-04-12T14:54:44.275Z"
     },
     {
-      "id": 281,
+      "id": 279,
       "cianId": 328222938,
       "cianUrl": "https://kazan.cian.ru/sale/flat/328222938/?mlSearchSessionGuid=58bea5d2ca456008fe24046e61f2e887",
       "title": "Квартира, р-н Советский",
@@ -9556,7 +9488,7 @@
       "scrapedAt": "2026-04-12T14:55:01.678Z"
     },
     {
-      "id": 282,
+      "id": 280,
       "cianId": 327446911,
       "cianUrl": "https://kazan.cian.ru/sale/flat/327446911/?mlSearchSessionGuid=58bea5d2ca456008fe24046e61f2e887",
       "title": "Квартира, р-н Приволжский",
@@ -9590,7 +9522,7 @@
       "scrapedAt": "2026-04-12T14:55:01.678Z"
     },
     {
-      "id": 283,
+      "id": 281,
       "cianId": 320610778,
       "cianUrl": "https://kazan.cian.ru/sale/flat/320610778/?mlSearchSessionGuid=2a132d361cc9f5ec4445523302f186bd",
       "title": "Новостройка, р-н Приволжский",
@@ -9624,7 +9556,7 @@
       "scrapedAt": "2026-04-12T14:55:04.523Z"
     },
     {
-      "id": 284,
+      "id": 282,
       "cianId": 319898887,
       "cianUrl": "https://www.cian.ru/sale/flat/319898887/?mlSearchSessionGuid=4b3eb783c493c4936a924dd669b0bb67",
       "title": "4-комн. кв., р-н Пресненский",
@@ -9658,7 +9590,7 @@
       "scrapedAt": "2026-04-12T14:54:26.990Z"
     },
     {
-      "id": 285,
+      "id": 283,
       "cianId": 326878985,
       "cianUrl": "https://www.cian.ru/sale/flat/326878985/?mlSearchSessionGuid=4b3eb783c493c4936a924dd669b0bb67",
       "title": "4-комн. кв., р-н Пресненский",
@@ -9692,7 +9624,7 @@
       "scrapedAt": "2026-04-12T14:54:26.990Z"
     },
     {
-      "id": 286,
+      "id": 284,
       "cianId": 328804225,
       "cianUrl": "https://spb.cian.ru/sale/flat/328804225/?mlSearchSessionGuid=d839d220ba3856c3d87d98c7cb530b56",
       "title": "Квартира, р-н Приморский",
@@ -9726,7 +9658,7 @@
       "scrapedAt": "2026-04-12T14:54:35.660Z"
     },
     {
-      "id": 287,
+      "id": 285,
       "cianId": 327750043,
       "cianUrl": "https://spb.cian.ru/sale/flat/327750043/?mlSearchSessionGuid=a3d2d04df4d22484951af9e4becc9803",
       "title": "Новостройка, р-н Красносельский",
@@ -9760,7 +9692,7 @@
       "scrapedAt": "2026-04-12T14:54:41.370Z"
     },
     {
-      "id": 288,
+      "id": 286,
       "cianId": 327207648,
       "cianUrl": "https://kazan.cian.ru/sale/flat/327207648/?mlSearchSessionGuid=58bea5d2ca456008fe24046e61f2e887",
       "title": "Новостройка, р-н Советский",
@@ -9794,7 +9726,7 @@
       "scrapedAt": "2026-04-12T14:55:01.678Z"
     },
     {
-      "id": 289,
+      "id": 287,
       "cianId": 327700981,
       "cianUrl": "https://kazan.cian.ru/sale/flat/327700981/?mlSearchSessionGuid=2a132d361cc9f5ec4445523302f186bd",
       "title": "1-комн. кв., р-н Авиастроительный",
@@ -9828,7 +9760,7 @@
       "scrapedAt": "2026-04-12T14:55:04.523Z"
     },
     {
-      "id": 290,
+      "id": 288,
       "cianId": 325452211,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/325452211/?mlSearchSessionGuid=0733d21e499ec768ec03509a44d3bd92",
       "title": "Квартира, р-н Дзержинский",
@@ -9861,7 +9793,7 @@
       "scrapedAt": "2026-04-12T14:55:10.030Z"
     },
     {
-      "id": 291,
+      "id": 289,
       "cianId": 316473661,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/316473661/?mlSearchSessionGuid=0733d21e499ec768ec03509a44d3bd92",
       "title": "1-комн. кв., р-н Калининский",
@@ -9895,7 +9827,7 @@
       "scrapedAt": "2026-04-12T14:55:10.030Z"
     },
     {
-      "id": 292,
+      "id": 290,
       "cianId": 327061599,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/327061599/?mlSearchSessionGuid=400520f8bfd41936e68e7f015d1c304d",
       "title": "3-комн. кв., р-н Заельцовский",
@@ -9929,7 +9861,7 @@
       "scrapedAt": "2026-04-12T14:55:15.660Z"
     },
     {
-      "id": 293,
+      "id": 291,
       "cianId": 326878987,
       "cianUrl": "https://www.cian.ru/sale/flat/326878987/?mlSearchSessionGuid=4b3eb783c493c4936a924dd669b0bb67",
       "title": "4-комн. кв., р-н Пресненский",
@@ -9963,7 +9895,7 @@
       "scrapedAt": "2026-04-12T14:54:26.990Z"
     },
     {
-      "id": 294,
+      "id": 292,
       "cianId": 328440078,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/328440078/?mlSearchSessionGuid=81ed783a85b68e8e10aa538c4111d755",
       "title": "Новостройка, Центральный",
@@ -9997,7 +9929,7 @@
       "scrapedAt": "2026-04-12T14:54:44.274Z"
     },
     {
-      "id": 295,
+      "id": 293,
       "cianId": 324531458,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/324531458/?mlSearchSessionGuid=81ed783a85b68e8e10aa538c4111d755",
       "title": "Новостройка, Карасунский",
@@ -10031,7 +9963,7 @@
       "scrapedAt": "2026-04-12T14:54:44.275Z"
     },
     {
-      "id": 296,
+      "id": 294,
       "cianId": 275606458,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/275606458/?mlSearchSessionGuid=d301778f8f3a1250d5e0a6a4c8515c19",
       "title": "1-комн. кв., Западный",
@@ -10065,7 +9997,7 @@
       "scrapedAt": "2026-04-12T14:54:47.012Z"
     },
     {
-      "id": 297,
+      "id": 295,
       "cianId": 327119352,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/327119352/?mlSearchSessionGuid=227741585983b9c4bc7c9a549a29e0a0",
       "title": "Новостройка, Прикубанский",
@@ -10099,7 +10031,7 @@
       "scrapedAt": "2026-04-12T14:54:49.854Z"
     },
     {
-      "id": 298,
+      "id": 296,
       "cianId": 307998057,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/307998057/?mlSearchSessionGuid=227741585983b9c4bc7c9a549a29e0a0",
       "title": "Новостройка, Прикубанский",
@@ -10133,7 +10065,7 @@
       "scrapedAt": "2026-04-12T14:54:49.855Z"
     },
     {
-      "id": 299,
+      "id": 297,
       "cianId": 326882496,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/326882496/?mlSearchSessionGuid=0733d21e499ec768ec03509a44d3bd92",
       "title": "Новостройка, р-н Дзержинский",
@@ -10167,7 +10099,7 @@
       "scrapedAt": "2026-04-12T14:55:10.030Z"
     },
     {
-      "id": 300,
+      "id": 298,
       "cianId": 323226592,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/323226592/?mlSearchSessionGuid=400520f8bfd41936e68e7f015d1c304d",
       "title": "Новостройка, р-н Заельцовский",
@@ -10201,7 +10133,7 @@
       "scrapedAt": "2026-04-12T14:55:15.660Z"
     },
     {
-      "id": 301,
+      "id": 299,
       "cianId": 313293393,
       "cianUrl": "https://www.cian.ru/sale/flat/313293393/?mlSearchSessionGuid=4b3eb783c493c4936a924dd669b0bb67",
       "title": "3-комн. кв., р-н Пресненский",
@@ -10235,7 +10167,7 @@
       "scrapedAt": "2026-04-12T14:54:26.989Z"
     },
     {
-      "id": 302,
+      "id": 300,
       "cianId": 327542673,
       "cianUrl": "https://www.cian.ru/sale/flat/327542673/?mlSearchSessionGuid=4b3eb783c493c4936a924dd669b0bb67",
       "title": "Новостройка, р-н Можайский",
@@ -10269,7 +10201,7 @@
       "scrapedAt": "2026-04-12T14:54:26.989Z"
     },
     {
-      "id": 303,
+      "id": 301,
       "cianId": 328725993,
       "cianUrl": "https://www.cian.ru/sale/flat/328725993/?mlSearchSessionGuid=4b3eb783c493c4936a924dd669b0bb67",
       "title": "3-комн. кв., р-н Нагатинский затон",
@@ -10303,7 +10235,7 @@
       "scrapedAt": "2026-04-12T14:54:26.989Z"
     },
     {
-      "id": 304,
+      "id": 302,
       "cianId": 328442675,
       "cianUrl": "https://www.cian.ru/sale/flat/328442675/?mlSearchSessionGuid=4b3eb783c493c4936a924dd669b0bb67",
       "title": "Новостройка, р-н Очаково-Матвеевское",
@@ -10337,7 +10269,7 @@
       "scrapedAt": "2026-04-12T14:54:26.990Z"
     },
     {
-      "id": 305,
+      "id": 303,
       "cianId": 318815971,
       "cianUrl": "https://www.cian.ru/sale/flat/318815971/?mlSearchSessionGuid=4b3eb783c493c4936a924dd669b0bb67",
       "title": "3-комн. кв., р-н Пресненский",
@@ -10371,7 +10303,7 @@
       "scrapedAt": "2026-04-12T14:54:26.991Z"
     },
     {
-      "id": 306,
+      "id": 304,
       "cianId": 324547540,
       "cianUrl": "https://spb.cian.ru/sale/flat/324547540/?mlSearchSessionGuid=3bfe9b90cb2609491bf4c2f83d4068be",
       "title": "Новостройка, р-н Приморский",
@@ -10405,7 +10337,7 @@
       "scrapedAt": "2026-04-12T14:54:38.545Z"
     },
     {
-      "id": 307,
+      "id": 305,
       "cianId": 328503526,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/328503526/?mlSearchSessionGuid=227741585983b9c4bc7c9a549a29e0a0",
       "title": "Новостройка, Центральный",
@@ -10439,7 +10371,7 @@
       "scrapedAt": "2026-04-12T14:54:49.855Z"
     },
     {
-      "id": 308,
+      "id": 306,
       "cianId": 300752171,
       "cianUrl": "https://kazan.cian.ru/sale/flat/300752171/?mlSearchSessionGuid=2a132d361cc9f5ec4445523302f186bd",
       "title": "Новостройка, р-н Советский",
@@ -10473,7 +10405,7 @@
       "scrapedAt": "2026-04-12T14:55:04.523Z"
     },
     {
-      "id": 309,
+      "id": 307,
       "cianId": 328654598,
       "cianUrl": "https://www.cian.ru/sale/flat/328654598/?mlSearchSessionGuid=4b3eb783c493c4936a924dd669b0bb67",
       "title": "3-комн. кв., р-н Пресненский",
@@ -10507,7 +10439,7 @@
       "scrapedAt": "2026-04-12T14:54:26.989Z"
     },
     {
-      "id": 310,
+      "id": 308,
       "cianId": 327335860,
       "cianUrl": "https://www.cian.ru/sale/flat/327335860/?mlSearchSessionGuid=4b3eb783c493c4936a924dd669b0bb67",
       "title": "2-комн. кв., р-н Раменки",
@@ -10541,7 +10473,7 @@
       "scrapedAt": "2026-04-12T14:54:26.990Z"
     },
     {
-      "id": 311,
+      "id": 309,
       "cianId": 328558145,
       "cianUrl": "https://www.cian.ru/sale/flat/328558145/?mlSearchSessionGuid=4b3eb783c493c4936a924dd669b0bb67",
       "title": "Студия кв., р-н Раменки",
@@ -10575,7 +10507,7 @@
       "scrapedAt": "2026-04-12T14:54:26.990Z"
     },
     {
-      "id": 312,
+      "id": 310,
       "cianId": 320162571,
       "cianUrl": "https://www.cian.ru/sale/flat/320162571/?mlSearchSessionGuid=4b3eb783c493c4936a924dd669b0bb67",
       "title": "Новостройка, р-н Головинский",
@@ -10609,7 +10541,7 @@
       "scrapedAt": "2026-04-12T14:54:26.991Z"
     },
     {
-      "id": 313,
+      "id": 311,
       "cianId": 328251534,
       "cianUrl": "https://www.cian.ru/sale/flat/328251534/?mlSearchSessionGuid=84a2295a79f670b23012196317165f63",
       "title": "Студия кв., р-н Раменки",
@@ -10643,7 +10575,7 @@
       "scrapedAt": "2026-04-12T14:54:30.126Z"
     },
     {
-      "id": 314,
+      "id": 312,
       "cianId": 327571281,
       "cianUrl": "https://www.cian.ru/sale/flat/327571281/?mlSearchSessionGuid=84a2295a79f670b23012196317165f63",
       "title": "Новостройка, р-н Крылатское",
@@ -10677,7 +10609,7 @@
       "scrapedAt": "2026-04-12T14:54:30.126Z"
     },
     {
-      "id": 315,
+      "id": 313,
       "cianId": 328730157,
       "cianUrl": "https://www.cian.ru/sale/flat/328730157/?mlSearchSessionGuid=84a2295a79f670b23012196317165f63",
       "title": "Новостройка, р-н Покровское-Стрешнево",
@@ -10711,7 +10643,7 @@
       "scrapedAt": "2026-04-12T14:54:30.126Z"
     },
     {
-      "id": 316,
+      "id": 314,
       "cianId": 327323798,
       "cianUrl": "https://www.cian.ru/sale/flat/327323798/?mlSearchSessionGuid=70ba3e0cc8a0bbd94673427b2d1dddf7",
       "title": "Новостройка, р-н Печатники",
@@ -10745,7 +10677,7 @@
       "scrapedAt": "2026-04-12T14:54:32.931Z"
     },
     {
-      "id": 317,
+      "id": 315,
       "cianId": 321869586,
       "cianUrl": "https://www.cian.ru/sale/flat/321869586/?mlSearchSessionGuid=70ba3e0cc8a0bbd94673427b2d1dddf7",
       "title": "Новостройка, р-н Нагорный",
@@ -10779,7 +10711,7 @@
       "scrapedAt": "2026-04-12T14:54:32.931Z"
     },
     {
-      "id": 318,
+      "id": 316,
       "cianId": 328449504,
       "cianUrl": "https://www.cian.ru/sale/flat/328449504/?mlSearchSessionGuid=70ba3e0cc8a0bbd94673427b2d1dddf7",
       "title": "Новостройка, р-н Богородское",
@@ -10813,7 +10745,7 @@
       "scrapedAt": "2026-04-12T14:54:32.931Z"
     },
     {
-      "id": 319,
+      "id": 317,
       "cianId": 327386234,
       "cianUrl": "https://spb.cian.ru/sale/flat/327386234/?mlSearchSessionGuid=a3d2d04df4d22484951af9e4becc9803",
       "title": "4-комн. кв., р-н Адмиралтейский",
@@ -10847,7 +10779,7 @@
       "scrapedAt": "2026-04-12T14:54:41.371Z"
     },
     {
-      "id": 320,
+      "id": 318,
       "cianId": 328243152,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/328243152/?mlSearchSessionGuid=227741585983b9c4bc7c9a549a29e0a0",
       "title": "Новостройка, Прикубанский",
@@ -10881,7 +10813,7 @@
       "scrapedAt": "2026-04-12T14:54:49.855Z"
     },
     {
-      "id": 321,
+      "id": 319,
       "cianId": 300833474,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/300833474/?mlSearchSessionGuid=227741585983b9c4bc7c9a549a29e0a0",
       "title": "Новостройка, Центральный",
@@ -10915,7 +10847,7 @@
       "scrapedAt": "2026-04-12T14:54:49.855Z"
     },
     {
-      "id": 322,
+      "id": 320,
       "cianId": 313516323,
       "cianUrl": "https://ekb.cian.ru/sale/flat/313516323/?mlSearchSessionGuid=a6e5ee7a07b95045b951193ce5b97ee5",
       "title": "Новостройка, р-н Центр",
@@ -10949,7 +10881,7 @@
       "scrapedAt": "2026-04-12T14:55:18.526Z"
     },
     {
-      "id": 323,
+      "id": 321,
       "cianId": 323876707,
       "cianUrl": "https://ekb.cian.ru/sale/flat/323876707/?mlSearchSessionGuid=acc69c560c33d45b0d6b5dbfc0646a80",
       "title": "Новостройка, р-н Кировский",
@@ -10983,7 +10915,7 @@
       "scrapedAt": "2026-04-12T14:55:21.351Z"
     },
     {
-      "id": 324,
+      "id": 322,
       "cianId": 313517678,
       "cianUrl": "https://ekb.cian.ru/sale/flat/313517678/?mlSearchSessionGuid=d07345c8cc78cb5f73154abf8ec33f2a",
       "title": "Новостройка, р-н Академический",
@@ -11017,7 +10949,7 @@
       "scrapedAt": "2026-04-12T14:55:23.971Z"
     },
     {
-      "id": 325,
+      "id": 323,
       "cianId": 328004550,
       "cianUrl": "https://ekb.cian.ru/sale/flat/328004550/?mlSearchSessionGuid=d07345c8cc78cb5f73154abf8ec33f2a",
       "title": "Квартира, р-н Кировский",
@@ -11051,7 +10983,7 @@
       "scrapedAt": "2026-04-12T14:55:23.971Z"
     },
     {
-      "id": 326,
+      "id": 324,
       "cianId": 320702032,
       "cianUrl": "https://www.cian.ru/sale/flat/320702032/?mlSearchSessionGuid=4b3eb783c493c4936a924dd669b0bb67",
       "title": "Новостройка, р-н Обручевский",
@@ -11085,7 +11017,7 @@
       "scrapedAt": "2026-04-12T14:54:26.990Z"
     },
     {
-      "id": 327,
+      "id": 325,
       "cianId": 328670657,
       "cianUrl": "https://www.cian.ru/sale/flat/328670657/?mlSearchSessionGuid=4b3eb783c493c4936a924dd669b0bb67",
       "title": "3-комн. кв., р-н Пресненский",
@@ -11119,7 +11051,7 @@
       "scrapedAt": "2026-04-12T14:54:26.991Z"
     },
     {
-      "id": 328,
+      "id": 326,
       "cianId": 324832036,
       "cianUrl": "https://www.cian.ru/sale/flat/324832036/?mlSearchSessionGuid=4b3eb783c493c4936a924dd669b0bb67",
       "title": "Новостройка, р-н Алексеевский",
@@ -11153,7 +11085,7 @@
       "scrapedAt": "2026-04-12T14:54:26.991Z"
     },
     {
-      "id": 329,
+      "id": 327,
       "cianId": 324832256,
       "cianUrl": "https://www.cian.ru/sale/flat/324832256/?mlSearchSessionGuid=4b3eb783c493c4936a924dd669b0bb67",
       "title": "Новостройка, р-н Алексеевский",
@@ -11187,7 +11119,7 @@
       "scrapedAt": "2026-04-12T14:54:26.991Z"
     },
     {
-      "id": 330,
+      "id": 328,
       "cianId": 325742323,
       "cianUrl": "https://www.cian.ru/sale/flat/325742323/?mlSearchSessionGuid=84a2295a79f670b23012196317165f63",
       "title": "Новостройка, р-н Филевский парк",
@@ -11221,7 +11153,7 @@
       "scrapedAt": "2026-04-12T14:54:30.126Z"
     },
     {
-      "id": 331,
+      "id": 329,
       "cianId": 324952327,
       "cianUrl": "https://www.cian.ru/sale/flat/324952327/?mlSearchSessionGuid=84a2295a79f670b23012196317165f63",
       "title": "2-комн. кв., р-н Пресненский",
@@ -11255,7 +11187,7 @@
       "scrapedAt": "2026-04-12T14:54:30.126Z"
     },
     {
-      "id": 332,
+      "id": 330,
       "cianId": 327784817,
       "cianUrl": "https://www.cian.ru/sale/flat/327784817/?mlSearchSessionGuid=84a2295a79f670b23012196317165f63",
       "title": "Квартира, р-н Раменки",
@@ -11289,7 +11221,7 @@
       "scrapedAt": "2026-04-12T14:54:30.126Z"
     },
     {
-      "id": 333,
+      "id": 331,
       "cianId": 328685690,
       "cianUrl": "https://www.cian.ru/sale/flat/328685690/?mlSearchSessionGuid=70ba3e0cc8a0bbd94673427b2d1dddf7",
       "title": "3-комн. кв., р-н Басманный",
@@ -11323,7 +11255,7 @@
       "scrapedAt": "2026-04-12T14:54:32.931Z"
     },
     {
-      "id": 334,
+      "id": 332,
       "cianId": 328170717,
       "cianUrl": "https://www.cian.ru/sale/flat/328170717/?mlSearchSessionGuid=70ba3e0cc8a0bbd94673427b2d1dddf7",
       "title": "3-комн. кв., р-н Донской",
@@ -11357,7 +11289,7 @@
       "scrapedAt": "2026-04-12T14:54:32.931Z"
     },
     {
-      "id": 335,
+      "id": 333,
       "cianId": 326077650,
       "cianUrl": "https://spb.cian.ru/sale/flat/326077650/?mlSearchSessionGuid=d839d220ba3856c3d87d98c7cb530b56",
       "title": "2-комн. кв., р-н Выборгский",
@@ -11391,7 +11323,7 @@
       "scrapedAt": "2026-04-12T14:54:35.660Z"
     },
     {
-      "id": 336,
+      "id": 334,
       "cianId": 325166621,
       "cianUrl": "https://spb.cian.ru/sale/flat/325166621/?mlSearchSessionGuid=d839d220ba3856c3d87d98c7cb530b56",
       "title": "Новостройка, р-н Василеостровский",
@@ -11425,7 +11357,7 @@
       "scrapedAt": "2026-04-12T14:54:35.660Z"
     },
     {
-      "id": 337,
+      "id": 335,
       "cianId": 323514186,
       "cianUrl": "https://spb.cian.ru/sale/flat/323514186/?mlSearchSessionGuid=d839d220ba3856c3d87d98c7cb530b56",
       "title": "Новостройка, р-н Василеостровский",
@@ -11459,7 +11391,7 @@
       "scrapedAt": "2026-04-12T14:54:35.660Z"
     },
     {
-      "id": 338,
+      "id": 336,
       "cianId": 323388193,
       "cianUrl": "https://spb.cian.ru/sale/flat/323388193/?mlSearchSessionGuid=d839d220ba3856c3d87d98c7cb530b56",
       "title": "Новостройка, р-н Василеостровский",
@@ -11493,7 +11425,7 @@
       "scrapedAt": "2026-04-12T14:54:35.660Z"
     },
     {
-      "id": 339,
+      "id": 337,
       "cianId": 325166617,
       "cianUrl": "https://spb.cian.ru/sale/flat/325166617/?mlSearchSessionGuid=d839d220ba3856c3d87d98c7cb530b56",
       "title": "Новостройка, р-н Василеостровский",
@@ -11527,7 +11459,7 @@
       "scrapedAt": "2026-04-12T14:54:35.660Z"
     },
     {
-      "id": 340,
+      "id": 338,
       "cianId": 328816299,
       "cianUrl": "https://spb.cian.ru/sale/flat/328816299/?mlSearchSessionGuid=3bfe9b90cb2609491bf4c2f83d4068be",
       "title": "1-комн. кв., р-н Василеостровский",
@@ -11561,7 +11493,7 @@
       "scrapedAt": "2026-04-12T14:54:38.545Z"
     },
     {
-      "id": 341,
+      "id": 339,
       "cianId": 323514188,
       "cianUrl": "https://spb.cian.ru/sale/flat/323514188/?mlSearchSessionGuid=3bfe9b90cb2609491bf4c2f83d4068be",
       "title": "Новостройка, р-н Василеостровский",
@@ -11595,7 +11527,7 @@
       "scrapedAt": "2026-04-12T14:54:38.545Z"
     },
     {
-      "id": 342,
+      "id": 340,
       "cianId": 328563614,
       "cianUrl": "https://spb.cian.ru/sale/flat/328563614/?mlSearchSessionGuid=a3d2d04df4d22484951af9e4becc9803",
       "title": "Новостройка, р-н Василеостровский",
@@ -11629,7 +11561,7 @@
       "scrapedAt": "2026-04-12T14:54:41.370Z"
     },
     {
-      "id": 343,
+      "id": 341,
       "cianId": 328021657,
       "cianUrl": "https://spb.cian.ru/sale/flat/328021657/?mlSearchSessionGuid=a3d2d04df4d22484951af9e4becc9803",
       "title": "Новостройка, р-н Василеостровский",
@@ -11663,7 +11595,7 @@
       "scrapedAt": "2026-04-12T14:54:41.370Z"
     },
     {
-      "id": 344,
+      "id": 342,
       "cianId": 319861087,
       "cianUrl": "https://spb.cian.ru/sale/flat/319861087/?mlSearchSessionGuid=a3d2d04df4d22484951af9e4becc9803",
       "title": "Новостройка, р-н Фрунзенский",
@@ -11697,7 +11629,7 @@
       "scrapedAt": "2026-04-12T14:54:41.370Z"
     },
     {
-      "id": 345,
+      "id": 343,
       "cianId": 285457414,
       "cianUrl": "https://spb.cian.ru/sale/flat/285457414/?mlSearchSessionGuid=a3d2d04df4d22484951af9e4becc9803",
       "title": "Студия кв., р-н Центральный",
@@ -11731,7 +11663,7 @@
       "scrapedAt": "2026-04-12T14:54:41.371Z"
     },
     {
-      "id": 346,
+      "id": 344,
       "cianId": 316181907,
       "cianUrl": "https://sochi.cian.ru/sale/flat/316181907/?mlSearchSessionGuid=8dcecfd41ac450fd3b8e3edeca574249",
       "title": "3-комн. кв., р-н Хостинский",
@@ -11765,7 +11697,7 @@
       "scrapedAt": "2026-04-12T14:54:52.941Z"
     },
     {
-      "id": 347,
+      "id": 345,
       "cianId": 326719421,
       "cianUrl": "https://kazan.cian.ru/sale/flat/326719421/?mlSearchSessionGuid=58bea5d2ca456008fe24046e61f2e887",
       "title": "3-комн. кв., р-н Советский",
@@ -11799,7 +11731,7 @@
       "scrapedAt": "2026-04-12T14:55:01.678Z"
     },
     {
-      "id": 348,
+      "id": 346,
       "cianId": 322152464,
       "cianUrl": "https://kazan.cian.ru/sale/flat/322152464/?mlSearchSessionGuid=58bea5d2ca456008fe24046e61f2e887",
       "title": "1-комн. кв., р-н Авиастроительный",
@@ -11833,7 +11765,7 @@
       "scrapedAt": "2026-04-12T14:55:01.678Z"
     },
     {
-      "id": 349,
+      "id": 347,
       "cianId": 325115073,
       "cianUrl": "https://kazan.cian.ru/sale/flat/325115073/?mlSearchSessionGuid=58bea5d2ca456008fe24046e61f2e887",
       "title": "Новостройка, р-н Советский",
@@ -11867,7 +11799,7 @@
       "scrapedAt": "2026-04-12T14:55:01.678Z"
     },
     {
-      "id": 350,
+      "id": 348,
       "cianId": 328373852,
       "cianUrl": "https://kazan.cian.ru/sale/flat/328373852/?mlSearchSessionGuid=58bea5d2ca456008fe24046e61f2e887",
       "title": "1-комн. кв., р-н Вахитовский",
@@ -11901,7 +11833,7 @@
       "scrapedAt": "2026-04-12T14:55:01.678Z"
     },
     {
-      "id": 351,
+      "id": 349,
       "cianId": 318224337,
       "cianUrl": "https://kazan.cian.ru/sale/flat/318224337/?mlSearchSessionGuid=58bea5d2ca456008fe24046e61f2e887",
       "title": "Новостройка, р-н Приволжский",
@@ -11935,7 +11867,7 @@
       "scrapedAt": "2026-04-12T14:55:01.678Z"
     },
     {
-      "id": 352,
+      "id": 350,
       "cianId": 326496957,
       "cianUrl": "https://kazan.cian.ru/sale/flat/326496957/?mlSearchSessionGuid=58bea5d2ca456008fe24046e61f2e887",
       "title": "2-комн. кв., р-н Приволжский",
@@ -11969,7 +11901,7 @@
       "scrapedAt": "2026-04-12T14:55:01.678Z"
     },
     {
-      "id": 353,
+      "id": 351,
       "cianId": 325391783,
       "cianUrl": "https://kazan.cian.ru/sale/flat/325391783/?mlSearchSessionGuid=58bea5d2ca456008fe24046e61f2e887",
       "title": "Квартира, р-н Приволжский",
@@ -12003,7 +11935,7 @@
       "scrapedAt": "2026-04-12T14:55:01.678Z"
     },
     {
-      "id": 354,
+      "id": 352,
       "cianId": 327663309,
       "cianUrl": "https://kazan.cian.ru/sale/flat/327663309/?mlSearchSessionGuid=58bea5d2ca456008fe24046e61f2e887",
       "title": "Квартира, р-н Приволжский",
@@ -12037,7 +11969,7 @@
       "scrapedAt": "2026-04-12T14:55:01.678Z"
     },
     {
-      "id": 355,
+      "id": 353,
       "cianId": 328110072,
       "cianUrl": "https://kazan.cian.ru/sale/flat/328110072/?mlSearchSessionGuid=58bea5d2ca456008fe24046e61f2e887",
       "title": "Квартира, р-н Приволжский",
@@ -12071,7 +12003,7 @@
       "scrapedAt": "2026-04-12T14:55:01.678Z"
     },
     {
-      "id": 356,
+      "id": 354,
       "cianId": 325866336,
       "cianUrl": "https://kazan.cian.ru/sale/flat/325866336/?mlSearchSessionGuid=2a132d361cc9f5ec4445523302f186bd",
       "title": "Квартира, р-н Приволжский",
@@ -12105,7 +12037,7 @@
       "scrapedAt": "2026-04-12T14:55:04.523Z"
     },
     {
-      "id": 357,
+      "id": 355,
       "cianId": 328758241,
       "cianUrl": "https://kazan.cian.ru/sale/flat/328758241/?mlSearchSessionGuid=2a132d361cc9f5ec4445523302f186bd",
       "title": "1-комн. кв., р-н Авиастроительный",
@@ -12139,7 +12071,7 @@
       "scrapedAt": "2026-04-12T14:55:04.523Z"
     },
     {
-      "id": 358,
+      "id": 356,
       "cianId": 328425472,
       "cianUrl": "https://kazan.cian.ru/sale/flat/328425472/?mlSearchSessionGuid=2a132d361cc9f5ec4445523302f186bd",
       "title": "Квартира, р-н Ново-Савиновский",
@@ -12173,7 +12105,7 @@
       "scrapedAt": "2026-04-12T14:55:04.523Z"
     },
     {
-      "id": 359,
+      "id": 357,
       "cianId": 328745666,
       "cianUrl": "https://kazan.cian.ru/sale/flat/328745666/?mlSearchSessionGuid=2a132d361cc9f5ec4445523302f186bd",
       "title": "Квартира, р-н Приволжский",
@@ -12207,7 +12139,7 @@
       "scrapedAt": "2026-04-12T14:55:04.523Z"
     },
     {
-      "id": 360,
+      "id": 358,
       "cianId": 328653299,
       "cianUrl": "https://kazan.cian.ru/sale/flat/328653299/?mlSearchSessionGuid=2a132d361cc9f5ec4445523302f186bd",
       "title": "Квартира, р-н Авиастроительный",
@@ -12241,7 +12173,7 @@
       "scrapedAt": "2026-04-12T14:55:04.523Z"
     },
     {
-      "id": 361,
+      "id": 359,
       "cianId": 323205325,
       "cianUrl": "https://kazan.cian.ru/sale/flat/323205325/?mlSearchSessionGuid=2a132d361cc9f5ec4445523302f186bd",
       "title": "Новостройка, р-н Московский",
@@ -12275,7 +12207,7 @@
       "scrapedAt": "2026-04-12T14:55:04.523Z"
     },
     {
-      "id": 362,
+      "id": 360,
       "cianId": 327176516,
       "cianUrl": "https://kazan.cian.ru/sale/flat/327176516/?mlSearchSessionGuid=2a132d361cc9f5ec4445523302f186bd",
       "title": "1-комн. кв., р-н Приволжский",
@@ -12309,7 +12241,7 @@
       "scrapedAt": "2026-04-12T14:55:04.523Z"
     },
     {
-      "id": 363,
+      "id": 361,
       "cianId": 326193586,
       "cianUrl": "https://kazan.cian.ru/sale/flat/326193586/?mlSearchSessionGuid=55523c21b1b8b61a3955c46ccf943d6a",
       "title": "Квартира, р-н Советский",
@@ -12343,7 +12275,7 @@
       "scrapedAt": "2026-04-12T14:55:07.265Z"
     },
     {
-      "id": 364,
+      "id": 362,
       "cianId": 325201113,
       "cianUrl": "https://kazan.cian.ru/sale/flat/325201113/?mlSearchSessionGuid=55523c21b1b8b61a3955c46ccf943d6a",
       "title": "2-комн. кв., р-н Ново-Савиновский",
@@ -12377,7 +12309,7 @@
       "scrapedAt": "2026-04-12T14:55:07.265Z"
     },
     {
-      "id": 365,
+      "id": 363,
       "cianId": 324695234,
       "cianUrl": "https://kazan.cian.ru/sale/flat/324695234/?mlSearchSessionGuid=55523c21b1b8b61a3955c46ccf943d6a",
       "title": "Новостройка, р-н Московский",
@@ -12411,7 +12343,7 @@
       "scrapedAt": "2026-04-12T14:55:07.265Z"
     },
     {
-      "id": 366,
+      "id": 364,
       "cianId": 325547071,
       "cianUrl": "https://ekb.cian.ru/sale/flat/325547071/?mlSearchSessionGuid=a6e5ee7a07b95045b951193ce5b97ee5",
       "title": "2-комн. кв., р-н Центр",
@@ -12445,7 +12377,7 @@
       "scrapedAt": "2026-04-12T14:55:18.526Z"
     },
     {
-      "id": 367,
+      "id": 365,
       "cianId": 328458769,
       "cianUrl": "https://ekb.cian.ru/sale/flat/328458769/?mlSearchSessionGuid=a6e5ee7a07b95045b951193ce5b97ee5",
       "title": "3-комн. кв., р-н Октябрьский",
@@ -12479,7 +12411,7 @@
       "scrapedAt": "2026-04-12T14:55:18.527Z"
     },
     {
-      "id": 368,
+      "id": 366,
       "cianId": 326993014,
       "cianUrl": "https://ekb.cian.ru/sale/flat/326993014/?mlSearchSessionGuid=acc69c560c33d45b0d6b5dbfc0646a80",
       "title": "1-комн. кв., р-н Чкаловский",
@@ -12513,7 +12445,7 @@
       "scrapedAt": "2026-04-12T14:55:21.351Z"
     },
     {
-      "id": 369,
+      "id": 367,
       "cianId": 328484160,
       "cianUrl": "https://ekb.cian.ru/sale/flat/328484160/?mlSearchSessionGuid=acc69c560c33d45b0d6b5dbfc0646a80",
       "title": "4-комн. кв., р-н Октябрьский",
@@ -12547,7 +12479,7 @@
       "scrapedAt": "2026-04-12T14:55:21.351Z"
     },
     {
-      "id": 370,
+      "id": 368,
       "cianId": 327777973,
       "cianUrl": "https://ekb.cian.ru/sale/flat/327777973/?mlSearchSessionGuid=acc69c560c33d45b0d6b5dbfc0646a80",
       "title": "Новостройка, р-н Октябрьский",
@@ -12581,7 +12513,7 @@
       "scrapedAt": "2026-04-12T14:55:21.351Z"
     },
     {
-      "id": 371,
+      "id": 369,
       "cianId": 327785311,
       "cianUrl": "https://www.cian.ru/sale/flat/327785311/?mlSearchSessionGuid=4b3eb783c493c4936a924dd669b0bb67",
       "title": "Новостройка, р-н Даниловский",
@@ -12615,7 +12547,7 @@
       "scrapedAt": "2026-04-12T14:54:26.989Z"
     },
     {
-      "id": 372,
+      "id": 370,
       "cianId": 323000798,
       "cianUrl": "https://www.cian.ru/sale/flat/323000798/?mlSearchSessionGuid=84a2295a79f670b23012196317165f63",
       "title": "Студия кв., р-н Арбат",
@@ -12649,7 +12581,7 @@
       "scrapedAt": "2026-04-12T14:54:30.126Z"
     },
     {
-      "id": 373,
+      "id": 371,
       "cianId": 326582092,
       "cianUrl": "https://www.cian.ru/sale/flat/326582092/?mlSearchSessionGuid=84a2295a79f670b23012196317165f63",
       "title": "Студия кв., р-н Мещанский",
@@ -12683,7 +12615,7 @@
       "scrapedAt": "2026-04-12T14:54:30.126Z"
     },
     {
-      "id": 374,
+      "id": 372,
       "cianId": 328835611,
       "cianUrl": "https://www.cian.ru/sale/flat/328835611/?mlSearchSessionGuid=84a2295a79f670b23012196317165f63",
       "title": "2-комн. кв., р-н Беговой",
@@ -12717,7 +12649,7 @@
       "scrapedAt": "2026-04-12T14:54:30.126Z"
     },
     {
-      "id": 375,
+      "id": 373,
       "cianId": 327564269,
       "cianUrl": "https://www.cian.ru/sale/flat/327564269/?mlSearchSessionGuid=70ba3e0cc8a0bbd94673427b2d1dddf7",
       "title": "2-комн. кв., р-н Пресненский",
@@ -12751,7 +12683,7 @@
       "scrapedAt": "2026-04-12T14:54:32.931Z"
     },
     {
-      "id": 376,
+      "id": 374,
       "cianId": 324948386,
       "cianUrl": "https://www.cian.ru/sale/flat/324948386/?mlSearchSessionGuid=70ba3e0cc8a0bbd94673427b2d1dddf7",
       "title": "Новостройка, р-н Донской",
@@ -12785,7 +12717,7 @@
       "scrapedAt": "2026-04-12T14:54:32.931Z"
     },
     {
-      "id": 377,
+      "id": 375,
       "cianId": 326582339,
       "cianUrl": "https://www.cian.ru/sale/flat/326582339/?mlSearchSessionGuid=70ba3e0cc8a0bbd94673427b2d1dddf7",
       "title": "3-комн. кв., р-н Пресненский",
@@ -12819,7 +12751,7 @@
       "scrapedAt": "2026-04-12T14:54:32.931Z"
     },
     {
-      "id": 378,
+      "id": 376,
       "cianId": 323514000,
       "cianUrl": "https://spb.cian.ru/sale/flat/323514000/?mlSearchSessionGuid=d839d220ba3856c3d87d98c7cb530b56",
       "title": "Новостройка, р-н Красногвардейский",
@@ -12853,7 +12785,7 @@
       "scrapedAt": "2026-04-12T14:54:35.660Z"
     },
     {
-      "id": 379,
+      "id": 377,
       "cianId": 326511782,
       "cianUrl": "https://spb.cian.ru/sale/flat/326511782/?mlSearchSessionGuid=3bfe9b90cb2609491bf4c2f83d4068be",
       "title": "2-комн. кв., р-н Петроградский",
@@ -12887,7 +12819,7 @@
       "scrapedAt": "2026-04-12T14:54:38.545Z"
     },
     {
-      "id": 380,
+      "id": 378,
       "cianId": 327097365,
       "cianUrl": "https://spb.cian.ru/sale/flat/327097365/?mlSearchSessionGuid=3bfe9b90cb2609491bf4c2f83d4068be",
       "title": "Новостройка, р-н Василеостровский",
@@ -12921,7 +12853,7 @@
       "scrapedAt": "2026-04-12T14:54:38.545Z"
     },
     {
-      "id": 381,
+      "id": 379,
       "cianId": 324904028,
       "cianUrl": "https://spb.cian.ru/sale/flat/324904028/?mlSearchSessionGuid=3bfe9b90cb2609491bf4c2f83d4068be",
       "title": "Студия кв., р-н Петроградский",
@@ -12955,7 +12887,7 @@
       "scrapedAt": "2026-04-12T14:54:38.545Z"
     },
     {
-      "id": 382,
+      "id": 380,
       "cianId": 327447435,
       "cianUrl": "https://spb.cian.ru/sale/flat/327447435/?mlSearchSessionGuid=a3d2d04df4d22484951af9e4becc9803",
       "title": "3-комн. кв., р-н Петроградский",
@@ -12989,7 +12921,7 @@
       "scrapedAt": "2026-04-12T14:54:41.370Z"
     },
     {
-      "id": 383,
+      "id": 381,
       "cianId": 322639118,
       "cianUrl": "https://spb.cian.ru/sale/flat/322639118/?mlSearchSessionGuid=a3d2d04df4d22484951af9e4becc9803",
       "title": "3-комн. кв., р-н Центральный",
@@ -13023,7 +12955,7 @@
       "scrapedAt": "2026-04-12T14:54:41.370Z"
     },
     {
-      "id": 384,
+      "id": 382,
       "cianId": 325558688,
       "cianUrl": "https://spb.cian.ru/sale/flat/325558688/?mlSearchSessionGuid=a3d2d04df4d22484951af9e4becc9803",
       "title": "Новостройка, р-н Василеостровский",
@@ -13057,7 +12989,7 @@
       "scrapedAt": "2026-04-12T14:54:41.370Z"
     },
     {
-      "id": 385,
+      "id": 383,
       "cianId": 319861131,
       "cianUrl": "https://spb.cian.ru/sale/flat/319861131/?mlSearchSessionGuid=a3d2d04df4d22484951af9e4becc9803",
       "title": "Новостройка, р-н Фрунзенский",
@@ -13091,7 +13023,7 @@
       "scrapedAt": "2026-04-12T14:54:41.371Z"
     },
     {
-      "id": 386,
+      "id": 384,
       "cianId": 323514189,
       "cianUrl": "https://spb.cian.ru/sale/flat/323514189/?mlSearchSessionGuid=a3d2d04df4d22484951af9e4becc9803",
       "title": "Новостройка, р-н Василеостровский",
@@ -13125,7 +13057,7 @@
       "scrapedAt": "2026-04-12T14:54:41.371Z"
     },
     {
-      "id": 387,
+      "id": 385,
       "cianId": 283700739,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/283700739/?mlSearchSessionGuid=d301778f8f3a1250d5e0a6a4c8515c19",
       "title": "Новостройка, Центральный",
@@ -13159,7 +13091,7 @@
       "scrapedAt": "2026-04-12T14:54:47.012Z"
     },
     {
-      "id": 388,
+      "id": 386,
       "cianId": 326034419,
       "cianUrl": "https://sochi.cian.ru/sale/flat/326034419/?mlSearchSessionGuid=8dcecfd41ac450fd3b8e3edeca574249",
       "title": "2-комн. кв., р-н Хостинский",
@@ -13193,7 +13125,7 @@
       "scrapedAt": "2026-04-12T14:54:52.941Z"
     },
     {
-      "id": 389,
+      "id": 387,
       "cianId": 328510245,
       "cianUrl": "https://kazan.cian.ru/sale/flat/328510245/?mlSearchSessionGuid=58bea5d2ca456008fe24046e61f2e887",
       "title": "1-комн. кв., р-н Вахитовский",
@@ -13227,7 +13159,7 @@
       "scrapedAt": "2026-04-12T14:55:01.678Z"
     },
     {
-      "id": 390,
+      "id": 388,
       "cianId": 328467574,
       "cianUrl": "https://kazan.cian.ru/sale/flat/328467574/?mlSearchSessionGuid=58bea5d2ca456008fe24046e61f2e887",
       "title": "Новостройка, р-н Приволжский",
@@ -13261,7 +13193,7 @@
       "scrapedAt": "2026-04-12T14:55:01.678Z"
     },
     {
-      "id": 391,
+      "id": 389,
       "cianId": 328510423,
       "cianUrl": "https://kazan.cian.ru/sale/flat/328510423/?mlSearchSessionGuid=2a132d361cc9f5ec4445523302f186bd",
       "title": "Новостройка, р-н Кировский",
@@ -13295,7 +13227,7 @@
       "scrapedAt": "2026-04-12T14:55:04.523Z"
     },
     {
-      "id": 392,
+      "id": 390,
       "cianId": 301019667,
       "cianUrl": "https://kazan.cian.ru/sale/flat/301019667/?mlSearchSessionGuid=2a132d361cc9f5ec4445523302f186bd",
       "title": "Новостройка, р-н Советский",
@@ -13329,7 +13261,7 @@
       "scrapedAt": "2026-04-12T14:55:04.523Z"
     },
     {
-      "id": 393,
+      "id": 391,
       "cianId": 325168729,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/325168729/?mlSearchSessionGuid=400520f8bfd41936e68e7f015d1c304d",
       "title": "Квартира, р-н Кировский",
@@ -13363,7 +13295,7 @@
       "scrapedAt": "2026-04-12T14:55:15.660Z"
     },
     {
-      "id": 394,
+      "id": 392,
       "cianId": 328630771,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/328630771/?mlSearchSessionGuid=400520f8bfd41936e68e7f015d1c304d",
       "title": "2-комн. кв., р-н Дзержинский",
@@ -13397,7 +13329,7 @@
       "scrapedAt": "2026-04-12T14:55:15.660Z"
     },
     {
-      "id": 395,
+      "id": 393,
       "cianId": 328761677,
       "cianUrl": "https://ekb.cian.ru/sale/flat/328761677/?mlSearchSessionGuid=a6e5ee7a07b95045b951193ce5b97ee5",
       "title": "Новостройка, р-н Центр",
@@ -13431,7 +13363,7 @@
       "scrapedAt": "2026-04-12T14:55:18.526Z"
     },
     {
-      "id": 396,
+      "id": 394,
       "cianId": 326673722,
       "cianUrl": "https://ekb.cian.ru/sale/flat/326673722/?mlSearchSessionGuid=acc69c560c33d45b0d6b5dbfc0646a80",
       "title": "3-комн. кв., р-н Центр",
@@ -13465,7 +13397,7 @@
       "scrapedAt": "2026-04-12T14:55:21.351Z"
     },
     {
-      "id": 397,
+      "id": 395,
       "cianId": 313516523,
       "cianUrl": "https://ekb.cian.ru/sale/flat/313516523/?mlSearchSessionGuid=acc69c560c33d45b0d6b5dbfc0646a80",
       "title": "Новостройка, р-н Центр",
@@ -13499,7 +13431,7 @@
       "scrapedAt": "2026-04-12T14:55:21.351Z"
     },
     {
-      "id": 398,
+      "id": 396,
       "cianId": 319780490,
       "cianUrl": "https://ekb.cian.ru/sale/flat/319780490/?mlSearchSessionGuid=d07345c8cc78cb5f73154abf8ec33f2a",
       "title": "Новостройка, р-н Ленинский",
@@ -13533,7 +13465,7 @@
       "scrapedAt": "2026-04-12T14:55:23.971Z"
     },
     {
-      "id": 399,
+      "id": 397,
       "cianId": 320335475,
       "cianUrl": "https://www.cian.ru/sale/flat/320335475/?mlSearchSessionGuid=4b3eb783c493c4936a924dd669b0bb67",
       "title": "Новостройка, р-н Даниловский",
@@ -13567,7 +13499,7 @@
       "scrapedAt": "2026-04-12T14:54:26.989Z"
     },
     {
-      "id": 400,
+      "id": 398,
       "cianId": 323646647,
       "cianUrl": "https://www.cian.ru/sale/flat/323646647/?mlSearchSessionGuid=4b3eb783c493c4936a924dd669b0bb67",
       "title": "Новостройка, р-н Даниловский",
@@ -13601,7 +13533,7 @@
       "scrapedAt": "2026-04-12T14:54:26.990Z"
     },
     {
-      "id": 401,
+      "id": 399,
       "cianId": 323904693,
       "cianUrl": "https://www.cian.ru/sale/flat/323904693/?mlSearchSessionGuid=84a2295a79f670b23012196317165f63",
       "title": "4-комн. кв., р-н Арбат",
@@ -13635,7 +13567,7 @@
       "scrapedAt": "2026-04-12T14:54:30.126Z"
     },
     {
-      "id": 402,
+      "id": 400,
       "cianId": 313392531,
       "cianUrl": "https://www.cian.ru/sale/flat/313392531/?mlSearchSessionGuid=84a2295a79f670b23012196317165f63",
       "title": "4-комн. кв., р-н Хамовники",
@@ -13669,7 +13601,7 @@
       "scrapedAt": "2026-04-12T14:54:30.126Z"
     },
     {
-      "id": 403,
+      "id": 401,
       "cianId": 328533589,
       "cianUrl": "https://www.cian.ru/sale/flat/328533589/?mlSearchSessionGuid=84a2295a79f670b23012196317165f63",
       "title": "4-комн. кв., р-н Хорошевский",
@@ -13703,7 +13635,7 @@
       "scrapedAt": "2026-04-12T14:54:30.126Z"
     },
     {
-      "id": 404,
+      "id": 402,
       "cianId": 328476252,
       "cianUrl": "https://www.cian.ru/sale/flat/328476252/?mlSearchSessionGuid=84a2295a79f670b23012196317165f63",
       "title": "Новостройка, р-н Пресненский",
@@ -13737,7 +13669,7 @@
       "scrapedAt": "2026-04-12T14:54:30.126Z"
     },
     {
-      "id": 405,
+      "id": 403,
       "cianId": 327535313,
       "cianUrl": "https://www.cian.ru/sale/flat/327535313/?mlSearchSessionGuid=84a2295a79f670b23012196317165f63",
       "title": "4-комн. кв., р-н Раменки",
@@ -13771,7 +13703,7 @@
       "scrapedAt": "2026-04-12T14:54:30.126Z"
     },
     {
-      "id": 406,
+      "id": 404,
       "cianId": 320335397,
       "cianUrl": "https://www.cian.ru/sale/flat/320335397/?mlSearchSessionGuid=84a2295a79f670b23012196317165f63",
       "title": "Новостройка, р-н Даниловский",
@@ -13805,7 +13737,7 @@
       "scrapedAt": "2026-04-12T14:54:30.126Z"
     },
     {
-      "id": 407,
+      "id": 405,
       "cianId": 325333824,
       "cianUrl": "https://www.cian.ru/sale/flat/325333824/?mlSearchSessionGuid=84a2295a79f670b23012196317165f63",
       "title": "Студия кв., р-н Хорошевский",
@@ -13839,7 +13771,7 @@
       "scrapedAt": "2026-04-12T14:54:30.126Z"
     },
     {
-      "id": 408,
+      "id": 406,
       "cianId": 327029871,
       "cianUrl": "https://www.cian.ru/sale/flat/327029871/?mlSearchSessionGuid=84a2295a79f670b23012196317165f63",
       "title": "3-комн. кв., р-н Беговой",
@@ -13873,7 +13805,7 @@
       "scrapedAt": "2026-04-12T14:54:30.126Z"
     },
     {
-      "id": 409,
+      "id": 407,
       "cianId": 326686500,
       "cianUrl": "https://www.cian.ru/sale/flat/326686500/?mlSearchSessionGuid=70ba3e0cc8a0bbd94673427b2d1dddf7",
       "title": "Студия кв., р-н Хамовники",
@@ -13907,7 +13839,7 @@
       "scrapedAt": "2026-04-12T14:54:32.931Z"
     },
     {
-      "id": 410,
+      "id": 408,
       "cianId": 315335442,
       "cianUrl": "https://www.cian.ru/sale/flat/315335442/?mlSearchSessionGuid=70ba3e0cc8a0bbd94673427b2d1dddf7",
       "title": "2-комн. кв., р-н Тверской",
@@ -13941,7 +13873,7 @@
       "scrapedAt": "2026-04-12T14:54:32.931Z"
     },
     {
-      "id": 411,
+      "id": 409,
       "cianId": 328363665,
       "cianUrl": "https://spb.cian.ru/sale/flat/328363665/?mlSearchSessionGuid=d839d220ba3856c3d87d98c7cb530b56",
       "title": "Новостройка, р-н Московский",
@@ -13975,7 +13907,7 @@
       "scrapedAt": "2026-04-12T14:54:35.660Z"
     },
     {
-      "id": 412,
+      "id": 410,
       "cianId": 328830243,
       "cianUrl": "https://spb.cian.ru/sale/flat/328830243/?mlSearchSessionGuid=d839d220ba3856c3d87d98c7cb530b56",
       "title": "Квартира, р-н Московский",
@@ -14009,7 +13941,7 @@
       "scrapedAt": "2026-04-12T14:54:35.660Z"
     },
     {
-      "id": 413,
+      "id": 411,
       "cianId": 327184583,
       "cianUrl": "https://spb.cian.ru/sale/flat/327184583/?mlSearchSessionGuid=3bfe9b90cb2609491bf4c2f83d4068be",
       "title": "Новостройка, р-н Московский",
@@ -14043,7 +13975,7 @@
       "scrapedAt": "2026-04-12T14:54:38.545Z"
     },
     {
-      "id": 414,
+      "id": 412,
       "cianId": 327097286,
       "cianUrl": "https://spb.cian.ru/sale/flat/327097286/?mlSearchSessionGuid=3bfe9b90cb2609491bf4c2f83d4068be",
       "title": "Новостройка, р-н Василеостровский",
@@ -14077,7 +14009,7 @@
       "scrapedAt": "2026-04-12T14:54:38.545Z"
     },
     {
-      "id": 415,
+      "id": 413,
       "cianId": 319269697,
       "cianUrl": "https://spb.cian.ru/sale/flat/319269697/?mlSearchSessionGuid=a3d2d04df4d22484951af9e4becc9803",
       "title": "3-комн. кв., р-н Адмиралтейский",
@@ -14111,7 +14043,7 @@
       "scrapedAt": "2026-04-12T14:54:41.370Z"
     },
     {
-      "id": 416,
+      "id": 414,
       "cianId": 321666202,
       "cianUrl": "https://spb.cian.ru/sale/flat/321666202/?mlSearchSessionGuid=a3d2d04df4d22484951af9e4becc9803",
       "title": "4-комн. кв., р-н Петроградский",
@@ -14145,7 +14077,7 @@
       "scrapedAt": "2026-04-12T14:54:41.370Z"
     },
     {
-      "id": 417,
+      "id": 415,
       "cianId": 327986249,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/327986249/?mlSearchSessionGuid=d301778f8f3a1250d5e0a6a4c8515c19",
       "title": "Новостройка, Прикубанский",
@@ -14179,7 +14111,7 @@
       "scrapedAt": "2026-04-12T14:54:47.012Z"
     },
     {
-      "id": 418,
+      "id": 416,
       "cianId": 327986127,
       "cianUrl": "https://krasnodar.cian.ru/sale/flat/327986127/?mlSearchSessionGuid=d301778f8f3a1250d5e0a6a4c8515c19",
       "title": "Новостройка, Прикубанский",
@@ -14213,7 +14145,7 @@
       "scrapedAt": "2026-04-12T14:54:47.012Z"
     },
     {
-      "id": 419,
+      "id": 417,
       "cianId": 322171534,
       "cianUrl": "https://kazan.cian.ru/sale/flat/322171534/?mlSearchSessionGuid=58bea5d2ca456008fe24046e61f2e887",
       "title": "Новостройка, р-н Приволжский",
@@ -14247,7 +14179,7 @@
       "scrapedAt": "2026-04-12T14:55:01.678Z"
     },
     {
-      "id": 420,
+      "id": 418,
       "cianId": 316783974,
       "cianUrl": "https://kazan.cian.ru/sale/flat/316783974/?mlSearchSessionGuid=2a132d361cc9f5ec4445523302f186bd",
       "title": "Новостройка, р-н Вахитовский",
@@ -14281,7 +14213,7 @@
       "scrapedAt": "2026-04-12T14:55:04.523Z"
     },
     {
-      "id": 421,
+      "id": 419,
       "cianId": 303122646,
       "cianUrl": "https://kazan.cian.ru/sale/flat/303122646/?mlSearchSessionGuid=55523c21b1b8b61a3955c46ccf943d6a",
       "title": "Новостройка, р-н Советский",
@@ -14315,7 +14247,7 @@
       "scrapedAt": "2026-04-12T14:55:07.265Z"
     },
     {
-      "id": 422,
+      "id": 420,
       "cianId": 303560620,
       "cianUrl": "https://kazan.cian.ru/sale/flat/303560620/?mlSearchSessionGuid=55523c21b1b8b61a3955c46ccf943d6a",
       "title": "Новостройка, р-н Приволжский",
@@ -14349,7 +14281,7 @@
       "scrapedAt": "2026-04-12T14:55:07.265Z"
     },
     {
-      "id": 423,
+      "id": 421,
       "cianId": 328506772,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/328506772/?mlSearchSessionGuid=0733d21e499ec768ec03509a44d3bd92",
       "title": "Квартира, р-н Кировский",
@@ -14383,7 +14315,7 @@
       "scrapedAt": "2026-04-12T14:55:10.030Z"
     },
     {
-      "id": 424,
+      "id": 422,
       "cianId": 328050876,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/328050876/?mlSearchSessionGuid=0733d21e499ec768ec03509a44d3bd92",
       "title": "2-комн. кв., р-н Октябрьский",
@@ -14417,7 +14349,7 @@
       "scrapedAt": "2026-04-12T14:55:10.030Z"
     },
     {
-      "id": 425,
+      "id": 423,
       "cianId": 323875357,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/323875357/?mlSearchSessionGuid=0733d21e499ec768ec03509a44d3bd92",
       "title": "3-комн. кв., р-н Заельцовский",
@@ -14451,7 +14383,7 @@
       "scrapedAt": "2026-04-12T14:55:10.030Z"
     },
     {
-      "id": 426,
+      "id": 424,
       "cianId": 324818148,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/324818148/?mlSearchSessionGuid=572d3e333144b27efd1ca39fdea8daa4",
       "title": "Новостройка, р-н Заельцовский",
@@ -14485,7 +14417,7 @@
       "scrapedAt": "2026-04-12T14:55:12.820Z"
     },
     {
-      "id": 427,
+      "id": 425,
       "cianId": 305465369,
       "cianUrl": "https://ekb.cian.ru/sale/flat/305465369/?mlSearchSessionGuid=acc69c560c33d45b0d6b5dbfc0646a80",
       "title": "Студия кв., р-н Центр",
@@ -14519,7 +14451,7 @@
       "scrapedAt": "2026-04-12T14:55:21.351Z"
     },
     {
-      "id": 428,
+      "id": 426,
       "cianId": 328302300,
       "cianUrl": "https://www.cian.ru/sale/flat/328302300/?mlSearchSessionGuid=4b3eb783c493c4936a924dd669b0bb67",
       "title": "Студия кв., р-н Хорошевский",
@@ -14553,7 +14485,7 @@
       "scrapedAt": "2026-04-12T14:54:26.990Z"
     },
     {
-      "id": 429,
+      "id": 427,
       "cianId": 326081962,
       "cianUrl": "https://www.cian.ru/sale/flat/326081962/?mlSearchSessionGuid=84a2295a79f670b23012196317165f63",
       "title": "2-комн. кв., р-н Пресненский",
@@ -14587,7 +14519,7 @@
       "scrapedAt": "2026-04-12T14:54:30.126Z"
     },
     {
-      "id": 430,
+      "id": 428,
       "cianId": 328290917,
       "cianUrl": "https://www.cian.ru/sale/flat/328290917/?mlSearchSessionGuid=84a2295a79f670b23012196317165f63",
       "title": "Новостройка, р-н Тверской",
@@ -14621,7 +14553,7 @@
       "scrapedAt": "2026-04-12T14:54:30.126Z"
     },
     {
-      "id": 431,
+      "id": 429,
       "cianId": 326454486,
       "cianUrl": "https://www.cian.ru/sale/flat/326454486/?mlSearchSessionGuid=84a2295a79f670b23012196317165f63",
       "title": "Новостройка, р-н Замоскворечье",
@@ -14655,7 +14587,7 @@
       "scrapedAt": "2026-04-12T14:54:30.126Z"
     },
     {
-      "id": 432,
+      "id": 430,
       "cianId": 321777483,
       "cianUrl": "https://www.cian.ru/sale/flat/321777483/?mlSearchSessionGuid=84a2295a79f670b23012196317165f63",
       "title": "Студия кв., р-н Хамовники",
@@ -14689,7 +14621,7 @@
       "scrapedAt": "2026-04-12T14:54:30.126Z"
     },
     {
-      "id": 433,
+      "id": 431,
       "cianId": 323079305,
       "cianUrl": "https://www.cian.ru/sale/flat/323079305/?mlSearchSessionGuid=84a2295a79f670b23012196317165f63",
       "title": "3-комн. кв., р-н Дорогомилово",
@@ -14723,7 +14655,7 @@
       "scrapedAt": "2026-04-12T14:54:30.126Z"
     },
     {
-      "id": 434,
+      "id": 432,
       "cianId": 326106728,
       "cianUrl": "https://www.cian.ru/sale/flat/326106728/?mlSearchSessionGuid=70ba3e0cc8a0bbd94673427b2d1dddf7",
       "title": "Студия кв., р-н Хамовники",
@@ -14757,7 +14689,7 @@
       "scrapedAt": "2026-04-12T14:54:32.931Z"
     },
     {
-      "id": 435,
+      "id": 433,
       "cianId": 320103824,
       "cianUrl": "https://www.cian.ru/sale/flat/320103824/?mlSearchSessionGuid=70ba3e0cc8a0bbd94673427b2d1dddf7",
       "title": "Новостройка, р-н Дорогомилово",
@@ -14791,7 +14723,7 @@
       "scrapedAt": "2026-04-12T14:54:32.931Z"
     },
     {
-      "id": 436,
+      "id": 434,
       "cianId": 328202037,
       "cianUrl": "https://spb.cian.ru/sale/flat/328202037/?mlSearchSessionGuid=d839d220ba3856c3d87d98c7cb530b56",
       "title": "Новостройка, р-н Московский",
@@ -14825,7 +14757,7 @@
       "scrapedAt": "2026-04-12T14:54:35.660Z"
     },
     {
-      "id": 437,
+      "id": 435,
       "cianId": 327531219,
       "cianUrl": "https://spb.cian.ru/sale/flat/327531219/?mlSearchSessionGuid=3bfe9b90cb2609491bf4c2f83d4068be",
       "title": "3-комн. кв., р-н Василеостровский",
@@ -14859,7 +14791,7 @@
       "scrapedAt": "2026-04-12T14:54:38.545Z"
     },
     {
-      "id": 438,
+      "id": 436,
       "cianId": 327096134,
       "cianUrl": "https://spb.cian.ru/sale/flat/327096134/?mlSearchSessionGuid=3bfe9b90cb2609491bf4c2f83d4068be",
       "title": "Новостройка, р-н Петроградский",
@@ -14893,7 +14825,7 @@
       "scrapedAt": "2026-04-12T14:54:38.545Z"
     },
     {
-      "id": 439,
+      "id": 437,
       "cianId": 322240341,
       "cianUrl": "https://spb.cian.ru/sale/flat/322240341/?mlSearchSessionGuid=a3d2d04df4d22484951af9e4becc9803",
       "title": "3-комн. кв., р-н Петроградский",
@@ -14927,7 +14859,7 @@
       "scrapedAt": "2026-04-12T14:54:41.370Z"
     },
     {
-      "id": 440,
+      "id": 438,
       "cianId": 316287735,
       "cianUrl": "https://spb.cian.ru/sale/flat/316287735/?mlSearchSessionGuid=a3d2d04df4d22484951af9e4becc9803",
       "title": "1-комн. кв., р-н Петроградский",
@@ -14961,7 +14893,7 @@
       "scrapedAt": "2026-04-12T14:54:41.370Z"
     },
     {
-      "id": 441,
+      "id": 439,
       "cianId": 319520416,
       "cianUrl": "https://spb.cian.ru/sale/flat/319520416/?mlSearchSessionGuid=a3d2d04df4d22484951af9e4becc9803",
       "title": "4-комн. кв., р-н Петроградский",
@@ -14995,7 +14927,7 @@
       "scrapedAt": "2026-04-12T14:54:41.371Z"
     },
     {
-      "id": 442,
+      "id": 440,
       "cianId": 297763042,
       "cianUrl": "https://kazan.cian.ru/sale/flat/297763042/?mlSearchSessionGuid=58bea5d2ca456008fe24046e61f2e887",
       "title": "Новостройка, р-н Приволжский",
@@ -15029,7 +14961,7 @@
       "scrapedAt": "2026-04-12T14:55:01.678Z"
     },
     {
-      "id": 443,
+      "id": 441,
       "cianId": 322581123,
       "cianUrl": "https://kazan.cian.ru/sale/flat/322581123/?mlSearchSessionGuid=58bea5d2ca456008fe24046e61f2e887",
       "title": "Новостройка, р-н Приволжский",
@@ -15063,7 +14995,7 @@
       "scrapedAt": "2026-04-12T14:55:01.678Z"
     },
     {
-      "id": 444,
+      "id": 442,
       "cianId": 325841248,
       "cianUrl": "https://kazan.cian.ru/sale/flat/325841248/?mlSearchSessionGuid=2a132d361cc9f5ec4445523302f186bd",
       "title": "3-комн. кв., р-н Ново-Савиновский",
@@ -15097,7 +15029,7 @@
       "scrapedAt": "2026-04-12T14:55:04.523Z"
     },
     {
-      "id": 445,
+      "id": 443,
       "cianId": 322859313,
       "cianUrl": "https://kazan.cian.ru/sale/flat/322859313/?mlSearchSessionGuid=2a132d361cc9f5ec4445523302f186bd",
       "title": "2-комн. кв., р-н Вахитовский",
@@ -15131,7 +15063,7 @@
       "scrapedAt": "2026-04-12T14:55:04.523Z"
     },
     {
-      "id": 446,
+      "id": 444,
       "cianId": 291146756,
       "cianUrl": "https://kazan.cian.ru/sale/flat/291146756/?mlSearchSessionGuid=55523c21b1b8b61a3955c46ccf943d6a",
       "title": "Новостройка, р-н Кировский",
@@ -15165,7 +15097,7 @@
       "scrapedAt": "2026-04-12T14:55:07.265Z"
     },
     {
-      "id": 447,
+      "id": 445,
       "cianId": 323121149,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/323121149/?mlSearchSessionGuid=0733d21e499ec768ec03509a44d3bd92",
       "title": "3-комн. кв., р-н Центральный",
@@ -15199,7 +15131,7 @@
       "scrapedAt": "2026-04-12T14:55:10.030Z"
     },
     {
-      "id": 448,
+      "id": 446,
       "cianId": 314115172,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/314115172/?mlSearchSessionGuid=0733d21e499ec768ec03509a44d3bd92",
       "title": "Новостройка, р-н Октябрьский",
@@ -15233,7 +15165,7 @@
       "scrapedAt": "2026-04-12T14:55:10.030Z"
     },
     {
-      "id": 449,
+      "id": 447,
       "cianId": 317441098,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/317441098/?mlSearchSessionGuid=572d3e333144b27efd1ca39fdea8daa4",
       "title": "Новостройка, р-н Заельцовский",
@@ -15267,7 +15199,7 @@
       "scrapedAt": "2026-04-12T14:55:12.819Z"
     },
     {
-      "id": 450,
+      "id": 448,
       "cianId": 322361898,
       "cianUrl": "https://novosibirsk.cian.ru/sale/flat/322361898/?mlSearchSessionGuid=400520f8bfd41936e68e7f015d1c304d",
       "title": "Новостройка, р-н Заельцовский",
@@ -15301,7 +15233,7 @@
       "scrapedAt": "2026-04-12T14:55:15.660Z"
     },
     {
-      "id": 451,
+      "id": 449,
       "cianId": 323051014,
       "cianUrl": "https://ekb.cian.ru/sale/flat/323051014/?mlSearchSessionGuid=acc69c560c33d45b0d6b5dbfc0646a80",
       "title": "3-комн. кв., р-н Центр",
@@ -15335,7 +15267,7 @@
       "scrapedAt": "2026-04-12T14:55:21.351Z"
     },
     {
-      "id": 452,
+      "id": 450,
       "cianId": 327946745,
       "cianUrl": "https://www.cian.ru/sale/flat/327946745/?mlSearchSessionGuid=4b3eb783c493c4936a924dd669b0bb67",
       "title": "3-комн. кв., р-н Арбат",
@@ -15369,7 +15301,7 @@
       "scrapedAt": "2026-04-12T14:54:26.991Z"
     },
     {
-      "id": 453,
+      "id": 451,
       "cianId": 309775073,
       "cianUrl": "https://www.cian.ru/sale/flat/309775073/?mlSearchSessionGuid=70ba3e0cc8a0bbd94673427b2d1dddf7",
       "title": "Новостройка, р-н Пресненский",
@@ -15403,7 +15335,7 @@
       "scrapedAt": "2026-04-12T14:54:32.931Z"
     },
     {
-      "id": 454,
+      "id": 452,
       "cianId": 326886695,
       "cianUrl": "https://spb.cian.ru/sale/flat/326886695/?mlSearchSessionGuid=3bfe9b90cb2609491bf4c2f83d4068be",
       "title": "Студия кв., р-н Петроградский",
@@ -15437,7 +15369,7 @@
       "scrapedAt": "2026-04-12T14:54:38.545Z"
     },
     {
-      "id": 455,
+      "id": 453,
       "cianId": 327096152,
       "cianUrl": "https://spb.cian.ru/sale/flat/327096152/?mlSearchSessionGuid=3bfe9b90cb2609491bf4c2f83d4068be",
       "title": "Новостройка, р-н Петроградский",
@@ -15471,7 +15403,7 @@
       "scrapedAt": "2026-04-12T14:54:38.545Z"
     },
     {
-      "id": 456,
+      "id": 454,
       "cianId": 292149080,
       "cianUrl": "https://spb.cian.ru/sale/flat/292149080/?mlSearchSessionGuid=a3d2d04df4d22484951af9e4becc9803",
       "title": "3-комн. кв., р-н Петроградский",
@@ -15505,7 +15437,7 @@
       "scrapedAt": "2026-04-12T14:54:41.370Z"
     },
     {
-      "id": 457,
+      "id": 455,
       "cianId": 324359031,
       "cianUrl": "https://spb.cian.ru/sale/flat/324359031/?mlSearchSessionGuid=a3d2d04df4d22484951af9e4becc9803",
       "title": "4-комн. кв., р-н Петроградский",
@@ -15539,7 +15471,7 @@
       "scrapedAt": "2026-04-12T14:54:41.371Z"
     },
     {
-      "id": 458,
+      "id": 456,
       "cianId": 323167847,
       "cianUrl": "https://kazan.cian.ru/sale/flat/323167847/?mlSearchSessionGuid=58bea5d2ca456008fe24046e61f2e887",
       "title": "Новостройка, р-н Приволжский",
@@ -15573,7 +15505,7 @@
       "scrapedAt": "2026-04-12T14:55:01.678Z"
     },
     {
-      "id": 459,
+      "id": 457,
       "cianId": 289911809,
       "cianUrl": "https://kazan.cian.ru/sale/flat/289911809/?mlSearchSessionGuid=55523c21b1b8b61a3955c46ccf943d6a",
       "title": "3-комн. кв., р-н Ново-Савиновский",
@@ -15607,7 +15539,7 @@
       "scrapedAt": "2026-04-12T14:55:07.265Z"
     },
     {
-      "id": 460,
+      "id": 458,
       "cianId": 316064553,
       "cianUrl": "https://kazan.cian.ru/sale/flat/316064553/?mlSearchSessionGuid=55523c21b1b8b61a3955c46ccf943d6a",
       "title": "Новостройка, р-н Вахитовский",
@@ -15641,7 +15573,7 @@
       "scrapedAt": "2026-04-12T14:55:07.265Z"
     },
     {
-      "id": 461,
+      "id": 459,
       "cianId": 328622235,
       "cianUrl": "https://kazan.cian.ru/sale/flat/328622235/?mlSearchSessionGuid=55523c21b1b8b61a3955c46ccf943d6a",
       "title": "3-комн. кв., р-н Вахитовский",
@@ -15675,7 +15607,7 @@
       "scrapedAt": "2026-04-12T14:55:07.265Z"
     },
     {
-      "id": 462,
+      "id": 460,
       "cianId": 324867190,
       "cianUrl": "https://ekb.cian.ru/sale/flat/324867190/?mlSearchSessionGuid=a6e5ee7a07b95045b951193ce5b97ee5",
       "title": "Новостройка, р-н Центр",
@@ -15709,7 +15641,7 @@
       "scrapedAt": "2026-04-12T14:55:18.526Z"
     },
     {
-      "id": 463,
+      "id": 461,
       "cianId": 323132556,
       "cianUrl": "https://www.cian.ru/sale/flat/323132556/?mlSearchSessionGuid=84a2295a79f670b23012196317165f63",
       "title": "Новостройка, р-н Арбат",
@@ -15743,7 +15675,7 @@
       "scrapedAt": "2026-04-12T14:54:30.126Z"
     },
     {
-      "id": 464,
+      "id": 462,
       "cianId": 320949320,
       "cianUrl": "https://www.cian.ru/sale/flat/320949320/?mlSearchSessionGuid=84a2295a79f670b23012196317165f63",
       "title": "Студия кв., р-н Тверской",
@@ -15777,7 +15709,7 @@
       "scrapedAt": "2026-04-12T14:54:30.126Z"
     },
     {
-      "id": 465,
+      "id": 463,
       "cianId": 328373574,
       "cianUrl": "https://www.cian.ru/sale/flat/328373574/?mlSearchSessionGuid=70ba3e0cc8a0bbd94673427b2d1dddf7",
       "title": "Новостройка, р-н Пресненский",
@@ -15811,7 +15743,7 @@
       "scrapedAt": "2026-04-12T14:54:32.931Z"
     },
     {
-      "id": 466,
+      "id": 464,
       "cianId": 327104313,
       "cianUrl": "https://spb.cian.ru/sale/flat/327104313/?mlSearchSessionGuid=d839d220ba3856c3d87d98c7cb530b56",
       "title": "Новостройка, р-н Московский",
@@ -15845,7 +15777,7 @@
       "scrapedAt": "2026-04-12T14:54:35.660Z"
     },
     {
-      "id": 467,
+      "id": 465,
       "cianId": 325431557,
       "cianUrl": "https://spb.cian.ru/sale/flat/325431557/?mlSearchSessionGuid=3bfe9b90cb2609491bf4c2f83d4068be",
       "title": "3-комн. кв., р-н Центральный",
@@ -15879,7 +15811,7 @@
       "scrapedAt": "2026-04-12T14:54:38.545Z"
     },
     {
-      "id": 468,
+      "id": 466,
       "cianId": 326354180,
       "cianUrl": "https://spb.cian.ru/sale/flat/326354180/?mlSearchSessionGuid=3bfe9b90cb2609491bf4c2f83d4068be",
       "title": "1-комн. кв., р-н Адмиралтейский",
@@ -15913,7 +15845,7 @@
       "scrapedAt": "2026-04-12T14:54:38.545Z"
     },
     {
-      "id": 469,
+      "id": 467,
       "cianId": 291632305,
       "cianUrl": "https://spb.cian.ru/sale/flat/291632305/?mlSearchSessionGuid=a3d2d04df4d22484951af9e4becc9803",
       "title": "4-комн. кв., р-н Центральный",
@@ -15947,7 +15879,7 @@
       "scrapedAt": "2026-04-12T14:54:41.370Z"
     },
     {
-      "id": 470,
+      "id": 468,
       "cianId": 322974286,
       "cianUrl": "https://spb.cian.ru/sale/flat/322974286/?mlSearchSessionGuid=a3d2d04df4d22484951af9e4becc9803",
       "title": "4-комн. кв., р-н Петроградский",
@@ -15981,7 +15913,7 @@
       "scrapedAt": "2026-04-12T14:54:41.370Z"
     },
     {
-      "id": 471,
+      "id": 469,
       "cianId": 320518168,
       "cianUrl": "https://spb.cian.ru/sale/flat/320518168/?mlSearchSessionGuid=a3d2d04df4d22484951af9e4becc9803",
       "title": "2-комн. кв., р-н Петроградский",
@@ -16015,7 +15947,7 @@
       "scrapedAt": "2026-04-12T14:54:41.371Z"
     },
     {
-      "id": 472,
+      "id": 470,
       "cianId": 320518172,
       "cianUrl": "https://spb.cian.ru/sale/flat/320518172/?mlSearchSessionGuid=a3d2d04df4d22484951af9e4becc9803",
       "title": "4-комн. кв., р-н Петроградский",
@@ -16049,7 +15981,7 @@
       "scrapedAt": "2026-04-12T14:54:41.371Z"
     },
     {
-      "id": 473,
+      "id": 471,
       "cianId": 327744522,
       "cianUrl": "https://spb.cian.ru/sale/flat/327744522/?mlSearchSessionGuid=a3d2d04df4d22484951af9e4becc9803",
       "title": "3-комн. кв., р-н Петроградский",
@@ -16083,7 +16015,7 @@
       "scrapedAt": "2026-04-12T14:54:41.371Z"
     },
     {
-      "id": 474,
+      "id": 472,
       "cianId": 327767593,
       "cianUrl": "https://spb.cian.ru/sale/flat/327767593/?mlSearchSessionGuid=a3d2d04df4d22484951af9e4becc9803",
       "title": "2-комн. кв., р-н Петроградский",
@@ -16117,7 +16049,7 @@
       "scrapedAt": "2026-04-12T14:54:41.371Z"
     },
     {
-      "id": 475,
+      "id": 473,
       "cianId": 327744531,
       "cianUrl": "https://spb.cian.ru/sale/flat/327744531/?mlSearchSessionGuid=a3d2d04df4d22484951af9e4becc9803",
       "title": "4-комн. кв., р-н Петроградский",
@@ -16151,7 +16083,7 @@
       "scrapedAt": "2026-04-12T14:54:41.371Z"
     },
     {
-      "id": 476,
+      "id": 474,
       "cianId": 315245710,
       "cianUrl": "https://kazan.cian.ru/sale/flat/315245710/?mlSearchSessionGuid=55523c21b1b8b61a3955c46ccf943d6a",
       "title": "Новостройка, р-н Вахитовский",
@@ -16185,7 +16117,7 @@
       "scrapedAt": "2026-04-12T14:55:07.265Z"
     },
     {
-      "id": 477,
+      "id": 475,
       "cianId": 315245706,
       "cianUrl": "https://kazan.cian.ru/sale/flat/315245706/?mlSearchSessionGuid=55523c21b1b8b61a3955c46ccf943d6a",
       "title": "Новостройка, р-н Вахитовский",
@@ -16219,7 +16151,7 @@
       "scrapedAt": "2026-04-12T14:55:07.265Z"
     },
     {
-      "id": 478,
+      "id": 476,
       "cianId": 323825093,
       "cianUrl": "https://ekb.cian.ru/sale/flat/323825093/?mlSearchSessionGuid=a6e5ee7a07b95045b951193ce5b97ee5",
       "title": "4-комн. кв., р-н Центр",
@@ -16253,7 +16185,7 @@
       "scrapedAt": "2026-04-12T14:55:18.526Z"
     },
     {
-      "id": 479,
+      "id": 477,
       "cianId": 328568032,
       "cianUrl": "https://www.cian.ru/sale/flat/328568032/?mlSearchSessionGuid=4b3eb783c493c4936a924dd669b0bb67",
       "title": "4-комн. кв., р-н Хамовники",
@@ -16287,7 +16219,7 @@
       "scrapedAt": "2026-04-12T14:54:26.991Z"
     },
     {
-      "id": 480,
+      "id": 478,
       "cianId": 327495574,
       "cianUrl": "https://www.cian.ru/sale/flat/327495574/?mlSearchSessionGuid=4b3eb783c493c4936a924dd669b0bb67",
       "title": "4-комн. кв., р-н Хамовники",
@@ -16321,7 +16253,7 @@
       "scrapedAt": "2026-04-12T14:54:26.991Z"
     },
     {
-      "id": 481,
+      "id": 479,
       "cianId": 326780795,
       "cianUrl": "https://www.cian.ru/sale/flat/326780795/?mlSearchSessionGuid=70ba3e0cc8a0bbd94673427b2d1dddf7",
       "title": "Новостройка, р-н Якиманка",
@@ -16355,7 +16287,7 @@
       "scrapedAt": "2026-04-12T14:54:32.931Z"
     },
     {
-      "id": 482,
+      "id": 480,
       "cianId": 327891849,
       "cianUrl": "https://www.cian.ru/sale/flat/327891849/?mlSearchSessionGuid=70ba3e0cc8a0bbd94673427b2d1dddf7",
       "title": "Новостройка, р-н Хамовники",
@@ -16389,7 +16321,7 @@
       "scrapedAt": "2026-04-12T14:54:32.931Z"
     },
     {
-      "id": 483,
+      "id": 481,
       "cianId": 325180687,
       "cianUrl": "https://spb.cian.ru/sale/flat/325180687/?mlSearchSessionGuid=3bfe9b90cb2609491bf4c2f83d4068be",
       "title": "4-комн. кв., р-н Петроградский",
@@ -16423,7 +16355,7 @@
       "scrapedAt": "2026-04-12T14:54:38.545Z"
     },
     {
-      "id": 484,
+      "id": 482,
       "cianId": 325180688,
       "cianUrl": "https://spb.cian.ru/sale/flat/325180688/?mlSearchSessionGuid=3bfe9b90cb2609491bf4c2f83d4068be",
       "title": "2-комн. кв., р-н Петроградский",
@@ -16457,7 +16389,7 @@
       "scrapedAt": "2026-04-12T14:54:38.545Z"
     },
     {
-      "id": 485,
+      "id": 483,
       "cianId": 325431561,
       "cianUrl": "https://spb.cian.ru/sale/flat/325431561/?mlSearchSessionGuid=3bfe9b90cb2609491bf4c2f83d4068be",
       "title": "Студия кв., р-н Центральный",
@@ -16491,7 +16423,7 @@
       "scrapedAt": "2026-04-12T14:54:38.545Z"
     },
     {
-      "id": 486,
+      "id": 484,
       "cianId": 328054219,
       "cianUrl": "https://spb.cian.ru/sale/flat/328054219/?mlSearchSessionGuid=a3d2d04df4d22484951af9e4becc9803",
       "title": "Новостройка, р-н Петроградский",
@@ -16525,7 +16457,7 @@
       "scrapedAt": "2026-04-12T14:54:41.371Z"
     },
     {
-      "id": 487,
+      "id": 485,
       "cianId": 315399967,
       "cianUrl": "https://ekb.cian.ru/sale/flat/315399967/?mlSearchSessionGuid=a6e5ee7a07b95045b951193ce5b97ee5",
       "title": "3-комн. кв., р-н Центр",
@@ -16559,7 +16491,7 @@
       "scrapedAt": "2026-04-12T14:55:18.526Z"
     },
     {
-      "id": 488,
+      "id": 486,
       "cianId": 317939201,
       "cianUrl": "https://ekb.cian.ru/sale/flat/317939201/?mlSearchSessionGuid=a6e5ee7a07b95045b951193ce5b97ee5",
       "title": "4-комн. кв., р-н Центр",
@@ -16593,7 +16525,7 @@
       "scrapedAt": "2026-04-12T14:55:18.527Z"
     },
     {
-      "id": 489,
+      "id": 487,
       "cianId": 328826308,
       "cianUrl": "https://ekb.cian.ru/sale/flat/328826308/?mlSearchSessionGuid=acc69c560c33d45b0d6b5dbfc0646a80",
       "title": "4-комн. кв., р-н Центр",
@@ -16627,7 +16559,7 @@
       "scrapedAt": "2026-04-12T14:55:21.351Z"
     },
     {
-      "id": 490,
+      "id": 488,
       "cianId": 327096246,
       "cianUrl": "https://spb.cian.ru/sale/flat/327096246/?mlSearchSessionGuid=d839d220ba3856c3d87d98c7cb530b56",
       "title": "Новостройка, р-н Петроградский",

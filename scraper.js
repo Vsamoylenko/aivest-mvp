@@ -135,6 +135,13 @@ function parseOffer(raw, cityConfig) {
   const price    = (raw.bargainTerms?.price || 0) / 1e6; // млн ₽
   const ppm      = area > 0 ? Math.round((raw.bargainTerms?.price || 0) / area) : 0;
   const mktPpm   = marketPpm(cityName);
+
+  // Sanity check: skip listings with unrealistically low price/m²
+  // (Cian sometimes returns placeholder/corrupt prices for new developments)
+  // Minimum = 25% of city market average. E.g. Moscow min = 60k ₽/m²
+  const minPpm = Math.round(mktPpm * 0.25);
+  if (ppm > 0 && ppm < minPpm) return null; // bad price data
+
   const disc     = mktPpm > 0 ? Math.round(((mktPpm - ppm) / mktPpm) * 100 * 10) / 10 : 0;
 
   const type = CATEGORY_TYPE[raw.category] || 'apartment';
