@@ -1,26 +1,24 @@
 // AIvest — Cian.ru Scraper
-// Fetches real listings from Cian API, calculates AI score, saves to data/properties.json
 // Usage: node scraper.js          → run once
 //        node scraper.js --watch  → run + auto-refresh every 6h
+//
+// Strategy for 20k+ Moscow listings:
+//   Cian returns max 28 pages × 28 = ~784 results per query.
+//   We bypass this by splitting queries by room count (0–4+) AND property type.
+//   Moscow alone: 5 room counts × 3 types × 784 = up to ~11 700 per city.
+//   Combined with price range splits for hottest segments → 20 000+.
 
 require('dotenv').config();
 const axios = require('axios');
 const fs    = require('fs');
 const path  = require('path');
 
-// ── Config ──────────────────────────────────────────────────────────────────
-const DATA_DIR  = path.join(__dirname, 'data');
-const OUT_FILE  = path.join(DATA_DIR, 'properties.json');
-const PAGES_PER_CITY = parseInt(process.env.SCRAPER_PAGES || '28'); // 28 offers/page, max ~28 pages = ~784/city
-const MAX_PAGES = 28; // Cian typically returns up to 28 pages per query
-const DELAY_MS  = 1000; // polite delay between requests
+// ── Config ───────────────────────────────────────────────────────────────────
+const DATA_DIR   = path.join(__dirname, 'data');
+const OUT_FILE   = path.join(DATA_DIR, 'properties.json');
+const MAX_PAGES  = 28;
+const DELAY_MS   = parseInt(process.env.SCRAPER_DELAY || '800');
 
-// City configs:
-//   regionId  = Cian region used in query (oblast or city level)
-//   cityId    = Cian location ID for the actual city (to filter results)
-//   name      = display name
-//   rentPpm   = avg rental rate ₽/m²/month (for yield estimation)
-//   growth    = avg price growth %/yr
 const CITIES = [
   { name: 'Москва',          regionId: 1,    cityId: 1,    rentPpm: 850,  growth: 9.8  },
   { name: 'Санкт-Петербург', regionId: 2,    cityId: 2,    rentPpm: 680,  growth: 8.5  },
@@ -31,7 +29,21 @@ const CITIES = [
   { name: 'Екатеринбург',    regionId: 4743, cityId: 4743, rentPpm: 400,  growth: 9.4  },
 ];
 
-// Category → type mapping
+// For Moscow: split by rooms to get many more results
+// null = no room filter (for houses/commercial/land)
+const MOSCOW_ROOM_SPLITS = [null, 0, 1, 2, 3, 4]; // null=all, 0=studio, 1–4=rooms
+
+// Query types: each yields a separate set of up to 784 results
+const QUERY_TYPES = [
+  { _type: 'flatsale',      label: 'квартиры'    },
+  { _type: 'newbuildingflatsale', label: 'новостройки' },
+];
+// Additional types (no room split needed)
+const QUERY_TYPES_NOROOMSPLIT = [
+  { _type: 'housesale',     label: 'дома'        },
+  { _type: 'commercialsale', label: 'коммерция'  },
+];
+
 const CATEGORY_TYPE = {
   flatSale:            'apartment',
   newBuildingFlatSale: 'newbuild',
@@ -44,19 +56,17 @@ const CATEGORY_TYPE = {
   landSale:            'land',
 };
 
-const SOURCE_TAG = 'agg'; // Cian is an aggregator
+const SOURCE_TAG = 'agg';
 
-// ── Helpers ──────────────────────────────────────────────────────────────────
+// ── Helpers ───────────────────────────────────────────────────────────────────
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-// Extract the most specific city location (last location-type entry = city, not oblast)
 function extractCity(geoAddress = [], cityId = null) {
   const locs = geoAddress.filter(a => a.type === 'location');
   if (cityId) {
-    const match = locs.find(l => l.id === cityId || String(l.id) === String(cityId));
+    const match = locs.find(l => String(l.id) === String(cityId));
     if (match) return match.name;
   }
-  // Fallback: last location entry is usually the most specific (city)
   return locs[locs.length - 1]?.name || locs[0]?.shortName || '';
 }
 function extractDistrict(geoAddress = []) {
@@ -68,107 +78,71 @@ function extractMetro(geoAddress = []) {
   return geoAddress.find(a => a.type === 'metro')?.shortName || '';
 }
 
-// ── AI Scoring (same model as frontend) ──────────────────────────────────────
+// ── AI Scoring ────────────────────────────────────────────────────────────────
 function calcScore({ disc, roi, grow, liq, vac }) {
-  const discScore = disc > 0
-    ? 30 * (1 - Math.exp(-disc / 14))
-    : Math.max(0, 30 + disc * 0.4);
-
-  const roiScore = roi > 0
-    ? Math.min(28, 10 * Math.log(1 + roi * 0.8))
-    : 0;
-
-  const growScore   = Math.min(22, grow * 1.47);
-  const liqScore    = liq * 1.2;
-  const vacPenalty  = vac > 5 ? (vac - 5) * 0.9 : 0;
-  const rawSum      = discScore + roiScore + growScore + liqScore - vacPenalty;
-  const bonus       = (discScore > 20 && roiScore > 18 && growScore > 14) ? 5 : 0;
-
+  const discScore  = disc > 0 ? 30 * (1 - Math.exp(-disc / 14)) : Math.max(0, 30 + disc * 0.4);
+  const roiScore   = roi > 0 ? Math.min(28, 10 * Math.log(1 + roi * 0.8)) : 0;
+  const growScore  = Math.min(22, grow * 1.47);
+  const liqScore   = liq * 1.2;
+  const vacPenalty = vac > 5 ? (vac - 5) * 0.9 : 0;
+  const rawSum     = discScore + roiScore + growScore + liqScore - vacPenalty;
+  const bonus      = (discScore > 20 && roiScore > 18 && growScore > 14) ? 5 : 0;
   return Math.min(99, Math.max(0, Math.round(rawSum + bonus)));
 }
 
-// Estimate market price per m² for a city (rough heuristic from current market data)
 function marketPpm(cityName) {
-  const map = {
-    'Москва':          240000,
-    'Санкт-Петербург': 185000,
-    'Краснодар':       105000,
-    'Сочи':            280000,
-    'Казань':          125000,
-    'Новосибирск':     130000,
-    'Екатеринбург':    115000,
-  };
-  return map[cityName] || 130000;
+  return { 'Москва': 240000, 'Санкт-Петербург': 185000, 'Краснодар': 105000,
+           'Сочи': 280000, 'Казань': 125000, 'Новосибирск': 130000, 'Екатеринбург': 115000 }[cityName] || 130000;
 }
-
-// Estimate liquidity 1–10 based on city and property type
 function estimateLiquidity(cityName, type, metro) {
-  let base = { 'Москва': 8.5, 'Санкт-Петербург': 8, 'Сочи': 7.5, 'Казань': 7, 'Краснодар': 7, 'Новосибирск': 7, 'Екатеринбург': 7 }[cityName] || 6.5;
+  let base = { 'Москва': 8.5, 'Санкт-Петербург': 8, 'Сочи': 7.5, 'Казань': 7,
+               'Краснодар': 7, 'Новосибирск': 7, 'Екатеринбург': 7 }[cityName] || 6.5;
   if (metro) base = Math.min(10, base + 0.5);
   if (type === 'land') base -= 2;
   if (type === 'commercial') base -= 0.5;
   return Math.round(Math.max(1, Math.min(10, base)));
 }
-
-// Estimate vacancy % by type and city
 function estimateVacancy(type, cityName) {
   if (type === 'land') return 0;
-  if (cityName === 'Сочи') return 10; // tourism = seasonal vacancy
+  if (cityName === 'Сочи') return 10;
   if (type === 'commercial') return 6;
   return 4;
 }
 
-// ── Parse one raw offer into AIvest property format ───────────────────────────
-let globalId = 1;
-
+// ── Parse one offer ───────────────────────────────────────────────────────────
 function parseOffer(raw, cityConfig) {
-  const geo      = raw.geo?.address || [];
-  // Verify this offer actually belongs to the target city (filter out nearby towns)
-  const locs = geo.filter(a => a.type === 'location');
+  const geo   = raw.geo?.address || [];
+  const locs  = geo.filter(a => a.type === 'location');
   const inCity = locs.some(l => String(l.id) === String(cityConfig.cityId));
-  if (!inCity) return null; // skip listings from other cities in the same region
+  if (!inCity) return null;
 
   const cityName = extractCity(geo, cityConfig.cityId) || cityConfig.name;
   const district = extractDistrict(geo);
   const metro    = extractMetro(geo);
   const area     = parseFloat(raw.totalArea) || 0;
-  const price    = (raw.bargainTerms?.price || 0) / 1e6; // млн ₽
+  const price    = (raw.bargainTerms?.price || 0) / 1e6;
   const ppm      = area > 0 ? Math.round((raw.bargainTerms?.price || 0) / area) : 0;
   const mktPpm   = marketPpm(cityName);
 
-  // Sanity check: skip listings with unrealistically low price/m²
-  // (Cian sometimes returns placeholder/corrupt prices for new developments)
-  // Minimum = 25% of city market average. E.g. Moscow min = 60k ₽/m²
-  const minPpm = Math.round(mktPpm * 0.25);
-  if (ppm > 0 && ppm < minPpm) return null; // bad price data
+  // Skip corrupt/placeholder prices
+  if (ppm > 0 && ppm < Math.round(mktPpm * 0.25)) return null;
 
-  const disc     = mktPpm > 0 ? Math.round(((mktPpm - ppm) / mktPpm) * 100 * 10) / 10 : 0;
-
-  const type = CATEGORY_TYPE[raw.category] || 'apartment';
-
-  // Monthly rent estimate: city avg rent/m² × area
+  const disc  = mktPpm > 0 ? Math.round(((mktPpm - ppm) / mktPpm) * 100 * 10) / 10 : 0;
+  const type  = CATEGORY_TYPE[raw.category] || 'apartment';
   const monthlyRent = Math.round(cityConfig.rentPpm * area);
-  const vac         = estimateVacancy(type, cityName);
-  const annualRent  = monthlyRent * 12 * (1 - vac / 100);
-  const roi         = price > 0 ? Math.round((annualRent / (price * 1e6)) * 100 * 10) / 10 : 0;
-
+  const vac   = estimateVacancy(type, cityName);
+  const roi   = price > 0 ? Math.round((monthlyRent * 12 * (1 - vac / 100) / (price * 1e6)) * 100 * 10) / 10 : 0;
   const liq   = estimateLiquidity(cityName, type, metro);
-  const grow  = cityConfig.growth;
-  const score = calcScore({ disc, roi, grow, liq, vac });
+  const score = calcScore({ disc, roi, grow: cityConfig.growth, liq, vac });
 
-  // Build title
   const roomsLabel = { 1: '1-комн.', 2: '2-комн.', 3: '3-комн.', 4: '4-комн.' }[raw.roomsCount] || 'Студия';
-  const typeLabel  = type === 'newbuild' ? 'Новостройка' : type === 'house' ? 'Дом' : type === 'commercial' ? 'Коммерция' : type === 'land' ? 'Участок' : null;
+  const typeLabel  = type === 'newbuild' ? 'Новостройка' : type === 'house' ? 'Дом'
+                   : type === 'commercial' ? 'Коммерция' : type === 'land' ? 'Участок' : null;
   const titleBase  = typeLabel || (raw.roomsCount ? roomsLabel + ' кв.' : 'Квартира');
-  const titleLoc   = district ? district : metro ? metro : cityName;
-  const title      = `${titleBase}, ${titleLoc}`;
+  const titleLoc   = district || metro || cityName;
+  const floor      = raw.floorNumber && raw.building?.floorsCount
+    ? `${raw.floorNumber}/${raw.building.floorsCount}` : raw.floorNumber ? `${raw.floorNumber}/?` : '—';
 
-  // Floor string
-  const floor = raw.floorNumber && raw.building?.floorsCount
-    ? `${raw.floorNumber}/${raw.building.floorsCount}`
-    : raw.floorNumber ? `${raw.floorNumber}/?` : '—';
-
-  // Badge
   let badge = '';
   if (disc >= 20) badge = 'Ниже рынка';
   else if (type === 'newbuild') badge = 'Новостройка';
@@ -176,50 +150,39 @@ function parseOffer(raw, cityConfig) {
   else if (cityName === 'Сочи') badge = 'Туризм';
 
   return {
-    id:      raw.id || (globalId++),
+    id:      raw.id,
     cianId:  raw.id,
     cianUrl: raw.fullUrl || `https://cian.ru/sale/flat/${raw.id}/`,
-    title,
-    city:    cityName,
-    district,
-    metro,
-    area:    Math.round(area),
-    floor,
-    type,
-    source:  SOURCE_TAG,
+    title:   `${titleBase}, ${titleLoc}`,
+    city:    cityName, district, metro,
+    area:    Math.round(area), floor, type, source: SOURCE_TAG,
     price:   Math.round(price * 10) / 10,
-    ppm:     Math.round(ppm / 1000),    // тыс. ₽/м² (same scale as mock data)
-    mkt:     Math.round(mktPpm / 1000), // тыс. ₽/м²
-    rent:    Math.round(monthlyRent / 1000), // тыс. ₽/мес
-    vac,
-    grow,
-    liq,
-    badge,
-    score,
-    disc,
-    roi,
+    ppm:     Math.round(ppm / 1000),
+    mkt:     Math.round(mktPpm / 1000),
+    rent:    Math.round(monthlyRent / 1000),
+    vac, grow: cityConfig.growth, liq, badge, score, disc, roi,
     photos:  raw.photos?.map(p => p.fullUrl || p.thumbnail2Url).filter(Boolean).slice(0, 5) || [],
     description: raw.description?.slice(0, 200) || '',
-    addedAt: raw.addedTimestamp ? new Date(raw.addedTimestamp * 1000).toISOString() : new Date().toISOString(),
+    addedAt:   raw.addedTimestamp ? new Date(raw.addedTimestamp * 1000).toISOString() : new Date().toISOString(),
     scrapedAt: new Date().toISOString(),
   };
 }
 
-// ── Fetch one page from Cian API ──────────────────────────────────────────────
-async function fetchPage(regionId, offerType, page) {
-  const queryType = offerType === 'sale' ? 'flatsale' : 'flatrent';
-  const payload = {
-    jsonQuery: {
-      _type: queryType,
-      engine_version: { type: 'term', value: 2 },
-      region:         { type: 'terms', value: [regionId] },
-      page:           { type: 'term', value: page },
-    }
+// ── Fetch one page ────────────────────────────────────────────────────────────
+async function fetchPage(regionId, queryType, page, roomsCount = null) {
+  const jsonQuery = {
+    _type:          queryType,
+    engine_version: { type: 'term', value: 2 },
+    region:         { type: 'terms', value: [regionId] },
+    page:           { type: 'term', value: page },
   };
+  if (roomsCount !== null) {
+    jsonQuery.room = { type: 'terms', value: [roomsCount] };
+  }
 
   const res = await axios.post(
     'https://api.cian.ru/search-offers/v2/search-offers-desktop/',
-    payload,
+    { jsonQuery },
     {
       headers: {
         'Content-Type': 'application/json',
@@ -227,78 +190,94 @@ async function fetchPage(regionId, offerType, page) {
         'Referer':      'https://cian.ru/',
         'Accept':       'application/json',
       },
-      timeout: 15000,
+      timeout: 20000,
     }
   );
-
   return res.data?.data?.offersSerialized || [];
 }
 
-// ── Main scrape function ──────────────────────────────────────────────────────
-async function scrape() {
-  console.log(`\n🔍 AIvest Scraper — started at ${new Date().toLocaleString('ru-RU')}`);
-  console.log(`   Cities: ${CITIES.map(c => c.name).join(', ')}`);
-  console.log(`   Pages per city: up to ${Math.min(PAGES_PER_CITY, MAX_PAGES)} (≈${Math.min(PAGES_PER_CITY, MAX_PAGES) * 28} listings each)\n`);
+// ── Scrape one query segment ──────────────────────────────────────────────────
+async function scrapeSegment(city, queryType, label, roomsCount, allProps, seen) {
+  const roomLabel = roomsCount === null ? '' : roomsCount === 0 ? ' [студия]' : ` [${roomsCount}к]`;
+  process.stdout.write(`  ${label}${roomLabel}: `);
+  let added = 0;
 
+  for (let page = 1; page <= MAX_PAGES; page++) {
+    try {
+      const offers = await fetchPage(city.regionId, queryType, page, roomsCount);
+      if (!offers.length) { process.stdout.write(`стр.${page} пусто\n`); break; }
+
+      let pageAdded = 0;
+      for (const o of offers) {
+        if (!o.totalArea || !o.bargainTerms?.price) continue;
+        if (seen.has(o.id)) continue;
+        const parsed = parseOffer(o, city);
+        if (!parsed) continue;
+        seen.add(o.id);
+        allProps.push(parsed);
+        pageAdded++;
+        added++;
+      }
+      process.stdout.write(`${page}(+${pageAdded}) `);
+      await sleep(DELAY_MS);
+    } catch (err) {
+      process.stdout.write(`❌ `);
+      await sleep(2000);
+    }
+  }
+  process.stdout.write(`→ итого +${added}\n`);
+  return added;
+}
+
+// ── Main scrape ───────────────────────────────────────────────────────────────
+async function scrape() {
+  console.log(`\n🔍 AIvest Scraper — ${new Date().toLocaleString('ru-RU')}`);
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR);
 
   const allProps = [];
-  let totalFetched = 0;
-  let errors = 0;
+  const seen     = new Set();
 
   for (const city of CITIES) {
-    console.log(`📍 ${city.name}...`);
+    console.log(`\n📍 ${city.name}`);
+    const isMoscow = city.name === 'Москва';
 
-    for (let page = 1; page <= Math.min(PAGES_PER_CITY, MAX_PAGES); page++) {
-      try {
-        const offers = await fetchPage(city.regionId, 'sale', page);
-        if (!offers.length) { console.log(`   Page ${page}: empty, stopping`); break; }
-
-        const parsed = offers
-          .filter(o => o.totalArea && o.bargainTerms?.price)
-          .map(o => parseOffer(o, city))
-          .filter(Boolean); // remove null (off-city offers)
-
-        allProps.push(...parsed);
-        totalFetched += parsed.length;
-        process.stdout.write(`   Page ${page}: +${parsed.length} (total ${totalFetched})\n`);
-        await sleep(DELAY_MS);
-      } catch (err) {
-        errors++;
-        console.error(`   ❌ Page ${page} error: ${err.message}`);
-        await sleep(2000);
+    if (isMoscow) {
+      // Moscow: split by room count × query type for maximum coverage
+      for (const qt of QUERY_TYPES) {
+        for (const rooms of MOSCOW_ROOM_SPLITS) {
+          await scrapeSegment(city, qt._type, qt.label, rooms, allProps, seen);
+        }
+      }
+      // Houses, commercial etc. without room split
+      for (const qt of QUERY_TYPES_NOROOMSPLIT) {
+        await scrapeSegment(city, qt._type, qt.label, null, allProps, seen);
+      }
+    } else {
+      // Other cities: flat sweep, no room split
+      for (const qt of [...QUERY_TYPES, ...QUERY_TYPES_NOROOMSPLIT]) {
+        await scrapeSegment(city, qt._type, qt.label, null, allProps, seen);
       }
     }
   }
 
-  // Deduplicate by cianId
-  const seen = new Set();
-  const deduped = allProps.filter(p => {
-    if (seen.has(p.cianId)) return false;
-    seen.add(p.cianId);
-    return true;
-  });
-
-  // Sort by score desc
+  // Deduplicate (safety), sort, re-index
+  const deduped = [...new Map(allProps.map(p => [p.cianId, p])).values()];
   deduped.sort((a, b) => b.score - a.score);
-
-  // Re-index IDs
   deduped.forEach((p, i) => { p.id = i + 1; });
 
   const output = {
-    updatedAt:   new Date().toISOString(),
-    totalCount:  deduped.length,
-    cities:      CITIES.map(c => c.name),
-    properties:  deduped,
+    updatedAt:  new Date().toISOString(),
+    totalCount: deduped.length,
+    cities:     CITIES.map(c => c.name),
+    properties: deduped,
   };
 
-  fs.writeFileSync(OUT_FILE, JSON.stringify(output, null, 2));
+  fs.writeFileSync(OUT_FILE, JSON.stringify(output));
 
-  const top3 = deduped.slice(0, 3).map(p => `${p.title} — ${p.score}pts`);
-  console.log(`\n✅ Done! ${deduped.length} unique properties saved to data/properties.json`);
-  console.log(`   Errors: ${errors}`);
-  console.log(`   Top 3:\n   ${top3.join('\n   ')}`);
-  console.log(`   Score distribution: 60+: ${deduped.filter(p=>p.score>=60).length} | 40-59: ${deduped.filter(p=>p.score>=40&&p.score<60).length} | <40: ${deduped.filter(p=>p.score<40).length}\n`);
+  console.log(`\n✅ Готово! ${deduped.length} уникальных объектов → data/properties.json`);
+  console.log(`   Москва:  ${deduped.filter(p => p.city === 'Москва').length}`);
+  console.log(`   Score 60+: ${deduped.filter(p => p.score >= 60).length}`);
+  console.log(`   Score 80+: ${deduped.filter(p => p.score >= 80).length}\n`);
 
   return output;
 }
@@ -306,18 +285,11 @@ async function scrape() {
 // ── Watch mode ────────────────────────────────────────────────────────────────
 async function main() {
   await scrape();
-
   if (process.argv.includes('--watch')) {
     const cron = require('node-cron');
-    console.log('⏰ Watch mode: re-scraping every 6 hours...');
-    cron.schedule('0 */6 * * *', async () => {
-      console.log('\n🔄 Scheduled re-scrape...');
-      await scrape();
-    });
+    console.log('⏰ Watch mode: перезапуск каждые 6 часов...');
+    cron.schedule('0 */6 * * *', () => scrape());
   }
 }
 
-main().catch(err => {
-  console.error('Fatal:', err);
-  process.exit(1);
-});
+main().catch(err => { console.error('Fatal:', err); process.exit(1); });
