@@ -209,7 +209,49 @@
     h1 { font-size: 1.85rem; }
     .footer-grid { grid-template-columns: 1fr; }
     .plan-cards { grid-template-columns: 1fr; }
+    .how-grid { grid-template-columns: 1fr; }
+    .method-grid { grid-template-columns: 1fr; }
+    .pricing-cards { grid-template-columns: 1fr; }
   }
+
+  /* ── HOW IT WORKS ── */
+  .info-section { max-width: 1100px; margin: 0 auto 3rem; padding: 0 2rem; }
+  .info-section-head { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1.25rem; }
+  .how-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+  .how-step { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 22px; }
+  .how-num { width: 30px; height: 30px; border-radius: 50%; background: var(--accent-dim); border: 1px solid rgba(201,241,81,0.3); color: var(--accent); font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; flex-shrink: 0; }
+  .how-step h3 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 7px; }
+  .how-step p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+  /* ── METHODOLOGY ── */
+  .method-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
+  .method-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; display: flex; gap: 14px; align-items: flex-start; }
+  .method-icon { font-size: 22px; flex-shrink: 0; }
+  .method-card h4 { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .method-card p { font-size: 12px; color: var(--muted); line-height: 1.6; }
+  .method-pts { font-size: 11px; color: var(--accent); font-weight: 600; margin-top: 4px; }
+
+  /* ── PRICING CTA SECTION ── */
+  .pricing-section { max-width: 1100px; margin: 0 auto 4rem; padding: 0 2rem; }
+  .pricing-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 600px; }
+  .pricing-card { background: var(--surface); border: 1px solid var(--border2); border-radius: 16px; padding: 24px; cursor: pointer; transition: border-color 0.2s, transform 0.15s; }
+  .pricing-card:hover { border-color: var(--accent-glow); transform: translateY(-2px); }
+  .pricing-card.featured { border-color: rgba(201,241,81,0.4); background: var(--accent-dim); }
+  .pricing-card .pc-badge { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); font-weight: 600; margin-bottom: 8px; }
+  .pricing-card .pc-price { font-family: 'DM Serif Display',serif; font-size: 28px; color: var(--text); margin-bottom: 4px; }
+  .pricing-card .pc-price span { font-size: 14px; font-family: 'DM Sans',sans-serif; color: var(--muted); }
+  .pricing-card .pc-sub { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+  .pricing-card ul { list-style: none; padding: 0; }
+  .pricing-card ul li { font-size: 13px; color: var(--muted); padding: 4px 0; display: flex; gap: 8px; }
+  .pricing-card ul li::before { content: '✓'; color: var(--accent); font-weight: 600; flex-shrink: 0; }
+  .pc-btn { width: 100%; margin-top: 18px; padding: 10px; border-radius: 9px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; transition: opacity 0.2s; }
+  .pc-btn-primary { background: var(--accent); color: #0b0c0a; }
+  .pc-btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border2); }
+  .pc-btn:hover { opacity: 0.85; }
+
+  /* ── FORM ERROR ── */
+  .modal-error { font-size: 12px; color: var(--danger); margin-bottom: 8px; display: none; padding: 8px 12px; background: rgba(227,93,93,0.1); border-radius: 8px; border: 1px solid rgba(227,93,93,0.2); }
+  .modal-submit.loading { opacity: 0.6; pointer-events: none; }
 </style>
 </head>
 <body>
@@ -217,9 +259,9 @@
 <nav>
   <div class="nav-logo"><span class="ai">AI</span>vest.ru</div>
   <div class="nav-links">
-    <a href="#">Как работает</a>
-    <a href="#">Методология</a>
-    <a href="#">Тарифы</a>
+    <a href="#how-it-works">Как работает</a>
+    <a href="#methodology">Методология</a>
+    <a href="#" onclick="openModal();return false;">Тарифы</a>
   </div>
   <button class="nav-cta" onclick="openModal()">Получить PRO доступ</button>
 </nav>
@@ -233,6 +275,98 @@
     <button class="pill" data-source="agg">Агрегаторы</button>
     <button class="pill" data-source="auct">Аукционы</button>
     <button class="pill" data-source="dev">Застройщики</button>
+  </div>
+</section>
+
+<!-- ── КАК РАБОТАЕТ ── -->
+<section id="how-it-works" class="info-section">
+  <div class="info-section-head">Как работает</div>
+  <div class="how-grid">
+    <div class="how-step">
+      <div class="how-num">1</div>
+      <h3>Агрегация данных</h3>
+      <p>Собираем объявления с Циан, Авито, Яндекс.Недвижимость, аукционных площадок и застройщиков. Данные обновляются ежедневно.</p>
+    </div>
+    <div class="how-step">
+      <div class="how-num">2</div>
+      <h3>AI-оценка объекта</h3>
+      <p>Алгоритм рассчитывает скидку к рынку, доходность аренды, темп роста цен в регионе и ликвидность. Итог — балл от 0 до 100.</p>
+    </div>
+    <div class="how-step">
+      <div class="how-num">3</div>
+      <h3>PRO-доступ к лучшим</h3>
+      <p>Объекты с оценкой 80+ — редкие сделки, которые быстро уходят с рынка. Подписка PRO открывает полный список с детальной аналитикой.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── МЕТОДОЛОГИЯ ── -->
+<section id="methodology" class="info-section">
+  <div class="info-section-head">Методология AI-оценки</div>
+  <div class="method-grid">
+    <div class="method-card">
+      <div class="method-icon">📉</div>
+      <div>
+        <h4>Скидка к рынку</h4>
+        <p>Сравниваем цену объекта со средней ценой на аналоги в радиусе 1 км. Чем больше скидка — тем выше балл.</p>
+        <div class="method-pts">до 30 баллов</div>
+      </div>
+    </div>
+    <div class="method-card">
+      <div class="method-icon">💰</div>
+      <div>
+        <h4>Доходность аренды</h4>
+        <p>Годовой арендный доход за вычетом вакансии, делённый на стоимость объекта. Логарифмическая шкала — результат не завышается.</p>
+        <div class="method-pts">до 28 баллов</div>
+      </div>
+    </div>
+    <div class="method-card">
+      <div class="method-icon">📈</div>
+      <div>
+        <h4>Рост цен в регионе</h4>
+        <p>Среднегодовой прирост цен на жильё по данным Росстата и рыночной аналитики. Высокий рост = долгосрочная инвестиционная ценность.</p>
+        <div class="method-pts">до 22 баллов</div>
+      </div>
+    </div>
+    <div class="method-card">
+      <div class="method-icon">⚡</div>
+      <div>
+        <h4>Ликвидность</h4>
+        <p>Оцениваем скорость продажи аналогов, активность спроса и транспортную доступность. Объект должно быть легко продать при необходимости.</p>
+        <div class="method-pts">до 12 баллов</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ТАРИФЫ ── -->
+<section id="pricing" class="pricing-section">
+  <div class="info-section-head">Тарифы</div>
+  <div class="pricing-cards">
+    <div class="pricing-card">
+      <div class="pc-badge">Месячная</div>
+      <div class="pc-price">990 <span>₽/мес</span></div>
+      <div class="pc-sub">Без обязательств</div>
+      <ul>
+        <li>Все объекты с оценкой 80+</li>
+        <li>Полная аналитика по каждому</li>
+        <li>Фильтры и сортировка</li>
+        <li>Обновления данных ежедневно</li>
+      </ul>
+      <button class="pc-btn pc-btn-secondary" onclick="openModal()">Оформить за 990 ₽</button>
+    </div>
+    <div class="pricing-card featured">
+      <div class="pc-badge">Годовая · −40%</div>
+      <div class="pc-price">590 <span>₽/мес</span></div>
+      <div class="pc-sub">7 080 ₽/год — выгода 4 800 ₽</div>
+      <ul>
+        <li>Всё из месячного тарифа</li>
+        <li>Приоритетные уведомления</li>
+        <li>Ранний доступ к новым функциям</li>
+        <li>Поддержка по email</li>
+      </ul>
+      <button class="pc-btn pc-btn-primary" onclick="selectPlanAndOpen('year')">Оформить за 7 080 ₽/год</button>
+    </div>
   </div>
 </section>
 
@@ -306,21 +440,21 @@
   <div class="footer-grid">
     <div class="footer-brand">
       <div class="foot-logo"><span class="ai">AI</span>vest.ru</div>
-      <p>Сервис подбора недвижимости для сдачи в аренду и долгосрочных инвестиций. Данные агрегируются с ведущих площадок РФ и оцениваются ИИ-алгоритмом. Максимальная оценка — 100 баллов, но достичь её невозможно: лучшие объекты на рынке набирают 93–96.</p>
+      <p>Сервис подбора недвижимости для сдачи в аренду и долгосрочных инвестиций. Данные агрегируются с ведущих площадок РФ и оцениваются ИИ-алгоритмом. Максимальная оценка — 100 баллов. Лучшие объекты на рынке набирают 93–96.</p>
     </div>
     <div class="footer-col">
       <h4>Сервис</h4>
-      <a href="#">Как работает</a>
-      <a href="#">Методология AI-оценки</a>
-      <a href="#">Тарифы и подписка</a>
-      <a href="#">API для партнёров</a>
+      <a href="#how-it-works">Как работает</a>
+      <a href="#methodology">Методология AI-оценки</a>
+      <a href="#" onclick="openModal();return false;">Тарифы и подписка</a>
+      <a href="mailto:info@aivest.ru">API для партнёров</a>
     </div>
     <div class="footer-col">
       <h4>Компания</h4>
-      <a href="#">О проекте</a>
-      <a href="#">Блог</a>
-      <a href="#">Контакты</a>
-      <a href="#">Политика конфиденциальности</a>
+      <a href="#how-it-works">О проекте</a>
+      <a href="#methodology">Методология</a>
+      <a href="mailto:info@aivest.ru">Контакты</a>
+      <a href="#" onclick="openModal();return false;">Политика конфиденциальности</a>
     </div>
   </div>
   <div class="footer-bottom">
@@ -349,8 +483,9 @@
           <div class="plan-feat">7 080 ₽/год</div>
         </div>
       </div>
-      <input class="modal-input" id="modal-email" type="email" placeholder="Ваш email">
-      <button class="modal-submit" onclick="handleSubscribe()">Оформить подписку →</button>
+      <input class="modal-input" id="modal-email" type="email" placeholder="Ваш email" onkeydown="if(event.key==='Enter')handleSubscribe()">
+      <div class="modal-error" id="modal-error"></div>
+      <button class="modal-submit" id="modal-submit-btn" onclick="handleSubscribe()">Оформить подписку →</button>
       <p class="modal-note">Безопасная оплата · Отмена в любой момент · Никакого спама</p>
     </div>
     <div class="modal-success" id="modal-success-view">
@@ -615,9 +750,37 @@ function selectPlan(el, plan) {
   document.querySelectorAll('.plan-card').forEach(function(c){ c.classList.remove('selected'); });
   el.classList.add('selected');
 }
+function showModalError(msg) {
+  var el = document.getElementById('modal-error');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+function hideModalError() {
+  var el = document.getElementById('modal-error');
+  if (el) el.style.display = 'none';
+}
+function selectPlanAndOpen(plan) {
+  openModal();
+  setTimeout(function() {
+    var cards = document.querySelectorAll('.plan-card');
+    cards.forEach(function(c){ c.classList.remove('selected'); });
+    cards.forEach(function(c){
+      if (c.getAttribute('onclick') && c.getAttribute('onclick').includes(plan)) c.classList.add('selected');
+    });
+    selectedPlan = plan;
+  }, 50);
+}
 function handleSubscribe() {
+  hideModalError();
   var email = document.getElementById('modal-email').value.trim();
-  if (!email || !email.includes('@')) { alert('Введите корректный email'); return; }
+  if (!email || !email.includes('@')) {
+    showModalError('Введите корректный email-адрес');
+    document.getElementById('modal-email').focus();
+    return;
+  }
+  var btn = document.getElementById('modal-submit-btn');
+  btn.classList.add('loading');
+  btn.textContent = 'Отправляем...';
   fetch('/api/subscribe', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -625,7 +788,9 @@ function handleSubscribe() {
   })
   .then(function(r){ return r.json(); })
   .catch(function(){ return {}; })
-  .then(function() {
+  .then(function(data) {
+    btn.classList.remove('loading');
+    btn.textContent = 'Оформить подписку →';
     document.getElementById('modal-form-view').style.display = 'none';
     document.getElementById('modal-success-view').style.display = 'block';
   });
