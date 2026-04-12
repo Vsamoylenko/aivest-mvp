@@ -5,5 +5,5 @@ subscribers.json
 .DS_Store
 .vercel
 
-# Scraped data (generated locally, not committed)
-data/properties.json
+# Scraped data is committed so Vercel can serve it
+# data/properties.json
