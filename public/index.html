@@ -317,6 +317,13 @@
   /* ── FORM ERROR ── */
   .modal-error { font-size: 12px; color: var(--danger); margin-bottom: 8px; display: none; padding: 8px 12px; background: rgba(227,93,93,0.1); border-radius: 8px; border: 1px solid rgba(227,93,93,0.2); }
   .modal-submit.loading { opacity: 0.6; pointer-events: none; }
+
+  /* ── CARD LINK ── */
+  .prop-card.has-link { cursor: pointer; }
+  .card-cian-link { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--muted); text-decoration: none; margin-top: 8px; transition: color 0.18s; }
+  .card-cian-link:hover { color: var(--accent); }
+
+  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
@@ -512,9 +519,10 @@
 
 <div class="section">
   <div class="section-head">
-    <div class="section-title">Топ объектов по AI-оценке</div>
+    <div class="section-title" data-i18n="sectionTitle">Топ объектов по AI-оценке</div>
     <div class="result-count" id="result-count"></div>
   </div>
+  <div id="data-source-badge" style="display:none;align-items:center;gap:6px;font-size:11px;color:var(--muted);margin-bottom:1rem;"></div>
   <div class="cards-grid" id="cards-grid"></div>
 </div>
 
@@ -676,15 +684,57 @@ var RAW = [
   { id:28, title:"ЖК «Грин Парк» — 1-комн., Казань",    city:"Казань",          area:44,    floor:"9/18",  type:"newbuild",   source:"dev",  price:5.4,  ppm:122,   mkt:150,  rent:30,  vac:4,  grow:9.8,  liq:8,  badge:"Новостройка" }
 ];
 
-var PROPS = RAW.map(calcScore);
+var RAW_PROPS  = RAW.map(calcScore); // fallback mock data
+var PROPS      = RAW_PROPS.slice();  // active dataset (replaced by API data when available)
 var activeSource = 'all';
 var isPro = false;
+var dataSource = 'mock'; // 'mock' | 'cian'
+var dataUpdatedAt = null;
 
-// Debug: log top scores to console
-(function() {
-  var sorted = PROPS.slice().sort(function(a,b){return b.score-a.score;});
-  console.log('Top 5 scores:', sorted.slice(0,5).map(function(p){ return p.title + ': ' + p.score; }));
-})();
+// ── Load real data from API ──────────────────────────────────────────────────
+function loadFromAPI() {
+  var grid = document.getElementById('cards-grid');
+  if (grid) grid.innerHTML = '<div class="empty" style="display:flex;align-items:center;gap:10px;justify-content:center"><span style="animation:spin 1s linear infinite;display:inline-block">⟳</span> Загружаем данные с Циан...</div>';
+
+  fetch('/api/properties?limit=200&sort=score')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data && data.properties && data.properties.length > 0) {
+        PROPS = data.properties;
+        dataSource = 'cian';
+        dataUpdatedAt = data.updatedAt;
+        updateDataBadge();
+        console.log('Loaded', PROPS.length, 'real properties from Cian');
+      } else {
+        // No real data yet — keep mock
+        PROPS = RAW_PROPS.slice();
+        dataSource = 'mock';
+        updateDataBadge();
+      }
+      applyLang(currentLang);
+    })
+    .catch(function() {
+      PROPS = RAW_PROPS.slice();
+      dataSource = 'mock';
+      updateDataBadge();
+      applyLang(currentLang);
+    });
+}
+
+function updateDataBadge() {
+  var badge = document.getElementById('data-source-badge');
+  if (!badge) return;
+  if (dataSource === 'cian' && dataUpdatedAt) {
+    var d = new Date(dataUpdatedAt);
+    var ago = Math.round((Date.now() - d.getTime()) / 60000);
+    var agoStr = ago < 60 ? ago + ' мин. назад' : Math.round(ago/60) + ' ч. назад';
+    badge.innerHTML = '<span style="color:var(--success)">●</span> Данные с Циан · обновлено ' + agoStr;
+    badge.style.display = 'flex';
+  } else {
+    badge.innerHTML = '<span style="color:var(--warn)">●</span> Демо-данные · <a href="#" onclick="return false;" style="color:var(--accent)">запустите scraper.js для реальных данных</a>';
+    badge.style.display = 'flex';
+  }
+}
 
 function getFiltered() {
   var type   = document.getElementById('f-type').value;
@@ -722,6 +772,7 @@ function sourceTag(s) {
   if (s==='agg')  return '<span class="ctag ctag-agg">Агрегатор</span>';
   if (s==='auct') return '<span class="ctag ctag-auct">Аукцион</span>';
   if (s==='dev')  return '<span class="ctag ctag-dev">Застройщик</span>';
+  if (s==='cian') return '<span class="ctag ctag-agg">Циан</span>';
   return '';
 }
 function typeLabel(t) { return {apartment:'Квартира',commercial:'Коммерческая',house:'Дом',land:'Земля',newbuild:'Новостройка'}[t]||t; }
@@ -815,7 +866,8 @@ function render() {
       '<div class="card-price-row">'+
         '<div><div class="price-main">'+priceStr+'</div><div class="price-sub">'+priceUsd+'</div></div>'+
         '<div style="text-align:right"><div style="font-size:11px;color:var(--muted)">'+t('mMarket')+'</div><div style="font-size:12px;color:var(--muted)">'+mktS+'</div></div>'+
-      '</div>';
+      '</div>'+
+      (p.cianUrl ? '<a class="card-cian-link" href="'+p.cianUrl+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗ Открыть на Циан</a>' : '');
 
     if (locked) {
       return '<div class="prop-card locked '+rcc+'">'+
@@ -827,7 +879,7 @@ function render() {
         '</div>'+
       '</div>';
     }
-    return '<div class="prop-card '+rcc+'">'+body+'</div>';
+    return '<div class="prop-card '+rcc+(p.cianUrl?' has-link':'')+'" '+(p.cianUrl?'onclick="window.open(\''+p.cianUrl+'\',\'_blank\')"':'')+'>'+body+'</div>';
   }).join('');
 }
 
@@ -1042,8 +1094,8 @@ function toggleLang() {
   applyLang(currentLang === 'ru' ? 'en' : 'ru');
 }
 
-// Apply saved lang on load
-applyLang(currentLang);
+// Load real data from API, then apply lang and render
+loadFromAPI();
 </script>
 <!-- Vercel Analytics -->
 <script defer src="/_vercel/insights/script.js"></script>

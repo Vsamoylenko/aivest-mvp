@@ -18,6 +18,72 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public'))); // frontend goes in /public
 
+// ── Properties data (scraped from Cian) ──
+const PROPERTIES_FILE = path.join(__dirname, 'data', 'properties.json');
+function loadProperties() {
+  if (!fs.existsSync(PROPERTIES_FILE)) return null;
+  try { return JSON.parse(fs.readFileSync(PROPERTIES_FILE, 'utf8')); }
+  catch (e) { return null; }
+}
+
+// GET /api/properties — return scraped properties with optional filters
+app.get('/api/properties', (req, res) => {
+  const data = loadProperties();
+  if (!data) return res.json({ source: 'mock', properties: [], updatedAt: null });
+
+  let props = data.properties || [];
+
+  // Filters
+  const { city, type, minScore, maxPrice, source, sort, page = 1, limit = 100 } = req.query;
+  if (city && city !== 'all')       props = props.filter(p => p.city === city);
+  if (type && type !== 'all')       props = props.filter(p => p.type === type);
+  if (source && source !== 'all')   props = props.filter(p => p.source === source);
+  if (minScore)                     props = props.filter(p => p.score >= parseInt(minScore));
+  if (maxPrice)                     props = props.filter(p => p.price <= parseFloat(maxPrice));
+
+  // Sort
+  const sortFns = {
+    score:      (a, b) => b.score - a.score,
+    roi:        (a, b) => b.roi - a.roi,
+    discount:   (a, b) => b.disc - a.disc,
+    growth:     (a, b) => b.grow - a.grow,
+    price_asc:  (a, b) => a.price - b.price,
+    price_desc: (a, b) => b.price - a.price,
+  };
+  if (sortFns[sort]) props.sort(sortFns[sort]);
+
+  // Pagination
+  const pageNum   = parseInt(page);
+  const limitNum  = Math.min(parseInt(limit), 200);
+  const total     = props.length;
+  const paginated = props.slice((pageNum - 1) * limitNum, pageNum * limitNum);
+
+  res.json({
+    source:    'cian',
+    updatedAt: data.updatedAt,
+    total,
+    page:      pageNum,
+    limit:     limitNum,
+    properties: paginated,
+  });
+});
+
+// GET /api/properties/stats — aggregated stats
+app.get('/api/properties/stats', (req, res) => {
+  const data = loadProperties();
+  if (!data) return res.json({});
+  const props = data.properties || [];
+  res.json({
+    total:     props.length,
+    pro:       props.filter(p => p.score >= 80).length,
+    avgScore:  Math.round(props.reduce((s,p) => s + p.score, 0) / (props.length || 1)),
+    avgRoi:    +(props.reduce((s,p) => s + p.roi, 0) / (props.length || 1)).toFixed(1),
+    topScore:  props[0]?.score || 0,
+    updatedAt: data.updatedAt,
+    cities:    data.cities || [],
+  });
+});
+
 // ── Simple file-based subscriber store (swap for DB later) ──
 const SUBSCRIBERS_FILE = path.join(__dirname, 'subscribers.json');
 function loadSubscribers() {

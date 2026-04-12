@@ -3,5 +3,7 @@ node_modules/
 subscribers.json
 *.zip
 .DS_Store
-
 .vercel
+
+# Scraped data (generated locally, not committed)
+data/properties.json
