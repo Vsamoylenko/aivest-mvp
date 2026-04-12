@@ -544,13 +544,23 @@
     </select>
   </div>
   <div class="fgroup">
+    <label>Макс. оценка</label>
+    <select id="f-score-max">
+      <option value="100">Любая</option>
+      <option value="59">до 60</option>
+      <option value="69">до 70</option>
+      <option value="79">до 80</option>
+      <option value="89">до 90</option>
+    </select>
+  </div>
+  <div class="fgroup">
     <label>Макс. цена (млн ₽)</label>
     <input type="number" id="f-price" placeholder="Без ограничений" min="1" step="1">
   </div>
   <div class="fgroup">
     <label>Сортировка</label>
     <select id="f-sort">
-      <option value="score">AI-оценка</option>
+      <option value="score">Оценка</option>
       <option value="roi">Доходность аренды</option>
       <option value="discount">Скидка к рынку</option>
       <option value="growth">Рост цен</option>
@@ -816,6 +826,7 @@ function getFiltered() {
   var type   = document.getElementById('f-type').value;
   var city   = document.getElementById('f-city').value;
   var minSc  = parseInt(document.getElementById('f-score').value);
+  var maxSc  = parseInt(document.getElementById('f-score-max').value);
   var maxPr  = parseFloat(document.getElementById('f-price').value) || Infinity;
   var sortBy = document.getElementById('f-sort').value;
 
@@ -824,6 +835,7 @@ function getFiltered() {
     if (type !== 'all' && p.type !== type) return false;
     if (city !== 'all' && p.city !== city) return false;
     if (p.score < minSc) return false;
+    if (p.score > maxSc) return false;
     if (p.price > maxPr) return false;
     return true;
   });
@@ -987,7 +999,7 @@ document.querySelectorAll('.pill').forEach(function(btn) {
     render(true);
   });
 });
-['f-type','f-city','f-score','f-price','f-sort'].forEach(function(id) {
+['f-type','f-city','f-score','f-score-max','f-price','f-sort'].forEach(function(id) {
   var el = document.getElementById(id);
   el.addEventListener('change', render);
   el.addEventListener('input', render);
