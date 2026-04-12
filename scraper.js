@@ -11,8 +11,9 @@ const path  = require('path');
 // ── Config ──────────────────────────────────────────────────────────────────
 const DATA_DIR  = path.join(__dirname, 'data');
 const OUT_FILE  = path.join(DATA_DIR, 'properties.json');
-const PAGES_PER_CITY = parseInt(process.env.SCRAPER_PAGES || '3'); // 28 offers/page
-const DELAY_MS  = 1200; // polite delay between requests
+const PAGES_PER_CITY = parseInt(process.env.SCRAPER_PAGES || '28'); // 28 offers/page, max ~28 pages = ~784/city
+const MAX_PAGES = 28; // Cian typically returns up to 28 pages per query
+const DELAY_MS  = 1000; // polite delay between requests
 
 // City configs:
 //   regionId  = Cian region used in query (oblast or city level)
@@ -230,7 +231,7 @@ async function fetchPage(regionId, offerType, page) {
 async function scrape() {
   console.log(`\n🔍 AIvest Scraper — started at ${new Date().toLocaleString('ru-RU')}`);
   console.log(`   Cities: ${CITIES.map(c => c.name).join(', ')}`);
-  console.log(`   Pages per city: ${PAGES_PER_CITY} (≈${PAGES_PER_CITY * 28} listings each)\n`);
+  console.log(`   Pages per city: up to ${Math.min(PAGES_PER_CITY, MAX_PAGES)} (≈${Math.min(PAGES_PER_CITY, MAX_PAGES) * 28} listings each)\n`);
 
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR);
 
@@ -241,7 +242,7 @@ async function scrape() {
   for (const city of CITIES) {
     console.log(`📍 ${city.name}...`);
 
-    for (let page = 1; page <= PAGES_PER_CITY; page++) {
+    for (let page = 1; page <= Math.min(PAGES_PER_CITY, MAX_PAGES); page++) {
       try {
         const offers = await fetchPage(city.regionId, 'sale', page);
         if (!offers.length) { console.log(`   Page ${page}: empty, stopping`); break; }
@@ -290,7 +291,7 @@ async function scrape() {
   console.log(`\n✅ Done! ${deduped.length} unique properties saved to data/properties.json`);
   console.log(`   Errors: ${errors}`);
   console.log(`   Top 3:\n   ${top3.join('\n   ')}`);
-  console.log(`   Score distribution: 80+: ${deduped.filter(p=>p.score>=80).length} | 60-79: ${deduped.filter(p=>p.score>=60&&p.score<80).length} | <60: ${deduped.filter(p=>p.score<60).length}\n`);
+  console.log(`   Score distribution: 60+: ${deduped.filter(p=>p.score>=60).length} | 40-59: ${deduped.filter(p=>p.score>=40&&p.score<60).length} | <40: ${deduped.filter(p=>p.score<40).length}\n`);
 
   return output;
 }

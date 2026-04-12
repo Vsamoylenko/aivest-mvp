@@ -346,12 +346,6 @@
   <div class="hero-eyebrow" data-i18n="heroEyebrow">Продвинутая аналитика недвижимости · aivest.ru</div>
   <h1 data-i18n="heroTitle">Недвижимость для <em>сдачи и долгосрочных</em> инвестиций</h1>
   <p class="hero-sub" data-i18n="heroSub">Объявления от агрегаторов, аукционов и застройщиков. ИИ-рейтинг по скидке к рынку, доходности аренды, региональному росту и ликвидности.</p>
-  <div class="source-pills">
-    <button class="pill active" data-source="all">Все источники</button>
-    <button class="pill" data-source="agg">Агрегаторы</button>
-    <button class="pill" data-source="auct">Аукционы</button>
-    <button class="pill" data-source="dev">Застройщики</button>
-  </div>
 </section>
 
 <!-- ── КАК РАБОТАЕТ ── -->
@@ -371,7 +365,7 @@
     <div class="how-step">
       <div class="how-num">3</div>
       <h3>PRO-доступ к лучшим</h3>
-      <p>Объекты с оценкой 80+ — редкие сделки, которые быстро уходят с рынка. Подписка PRO открывает полный список с детальной аналитикой.</p>
+      <p>Объекты с оценкой 60+ — лучшие инвестиционные варианты на рынке. Подписка PRO открывает полный список с детальной аналитикой.</p>
     </div>
   </div>
 </section>
@@ -385,7 +379,6 @@
       <div>
         <h4>Скидка к рынку</h4>
         <p>Сравниваем цену объекта со средней ценой на аналоги в радиусе 1 км. Чем больше скидка — тем выше балл.</p>
-        <div class="method-pts">до 30 баллов</div>
       </div>
     </div>
     <div class="method-card">
@@ -393,7 +386,6 @@
       <div>
         <h4>Доходность аренды</h4>
         <p>Годовой арендный доход за вычетом вакансии, делённый на стоимость объекта. Логарифмическая шкала — результат не завышается.</p>
-        <div class="method-pts">до 28 баллов</div>
       </div>
     </div>
     <div class="method-card">
@@ -401,7 +393,6 @@
       <div>
         <h4>Рост цен в регионе</h4>
         <p>Среднегодовой прирост цен на жильё по данным Росстата и рыночной аналитики. Высокий рост = долгосрочная инвестиционная ценность.</p>
-        <div class="method-pts">до 22 баллов</div>
       </div>
     </div>
     <div class="method-card">
@@ -409,7 +400,6 @@
       <div>
         <h4>Ликвидность</h4>
         <p>Оцениваем скорость продажи аналогов, активность спроса и транспортную доступность. Объект должно быть легко продать при необходимости.</p>
-        <div class="method-pts">до 12 баллов</div>
       </div>
     </div>
   </div>
@@ -418,7 +408,7 @@
 <!-- ── ТАРИФЫ ── -->
 <section id="pricing" class="pricing-section">
   <div class="info-section-head" data-i18n="pricingTitle">Тарифы</div>
-  <p class="pricing-sub" data-i18n="pricingSub">Полный доступ ко всем объектам с рейтингом 80+</p>
+  <p class="pricing-sub" data-i18n="pricingSub">Полный доступ ко всем объектам с рейтингом 60+</p>
   <div class="pricing-cards">
 
     <div class="pricing-card">
@@ -430,7 +420,7 @@
       <div class="pc-price-annual" data-i18n="planMonthSub">Без обязательств · отмена в любой момент</div>
       <div class="pc-divider"></div>
       <ul>
-        <li data-i18n="feat1">Все объекты с рейтингом 80+</li>
+        <li data-i18n="feat1">Все объекты с рейтингом 60+</li>
         <li data-i18n="feat2">Полная аналитика по каждому объекту</li>
         <li data-i18n="feat3">Расширенные фильтры и сортировка</li>
         <li data-i18n="feat4">Экспорт подборки</li>
@@ -447,17 +437,19 @@
       </div>
       <div class="pc-price-annual" data-i18n="planYearSub">7 080 ₽/год · экономия 4 800 ₽</div>
       <div class="pc-divider"></div>
-      <ul>
-        <li data-i18n="feat1">Все объекты с рейтингом 80+</li>
-        <li data-i18n="feat2">Полная аналитика по каждому объекту</li>
-        <li data-i18n="feat3">Расширенные фильтры и сортировка</li>
-        <li data-i18n="feat4">Экспорт подборки</li>
-      </ul>
       <button class="pc-btn pc-btn-primary" onclick="selectPlanAndOpen('year')" data-i18n="planYearBtn">Оформить за 7 080 ₽/год</button>
     </div>
 
   </div>
 </section>
+
+<div class="source-pills" style="max-width:1100px;margin:0 auto 1.5rem;padding:0 2rem;justify-content:flex-start;">
+  <button class="pill active" data-source="all">Все источники</button>
+  <button class="pill" data-source="agg">Агрегаторы</button>
+  <button class="pill" data-source="auct">Аукционы</button>
+  <button class="pill" data-source="dev">Застройщики</button>
+  <button class="pill" data-source="cian">Циан</button>
+</div>
 
 <div class="filter-bar">
   <div class="fgroup">
@@ -490,7 +482,7 @@
       <option value="0">Любая</option>
       <option value="60">60+</option>
       <option value="70">70+</option>
-      <option value="80">80+ (PRO)</option>
+      <option value="60">60+ (PRO)</option>
     </select>
   </div>
   <div class="fgroup">
@@ -560,7 +552,7 @@
     <div id="modal-form-view">
       <div class="modal-icon">🔓</div>
       <h2 data-i18n="modalTitle">Полный доступ к рейтингу</h2>
-      <p class="modal-sub">Объекты с AI-оценкой <span>80+</span> — лучшие инвестиционные сделки на рынке. На практике топ-объекты набирают <span>93–96 баллов</span>. Откройте их с подпиской PRO.</p>
+      <p class="modal-sub">Объекты с AI-оценкой <span>60+</span> — перспективные инвестиционные объекты на рынке. Откройте полный список с детальной аналитикой по каждому.</p>
       <div class="plan-cards">
         <div class="plan-card selected" onclick="selectPlan(this,'month')">
           <div class="plan-name">Месяц</div>
@@ -798,7 +790,7 @@ function render() {
   document.getElementById('s-top').textContent   = list[0].score + ' / 100';
 
   grid.innerHTML = list.map(function(p, i) {
-    var locked = !isPro && p.score >= 80;
+    var locked = !isPro && p.score >= 60;
     var rc     = rankCls(i);
     var rcc    = i < 3 ? 'rank-'+(i+1) : '';
 
@@ -874,7 +866,7 @@ function render() {
         '<div class="card-blur-body">'+body+'</div>'+
         '<div class="paywall-overlay">'+
           '<div class="lock-icon">🔒</div>'+
-          '<p>AI-оценка <span style="color:var(--accent);font-weight:600">80+</span><br>'+t('locked')+'</p>'+
+          '<p>AI-оценка <span style="color:var(--accent);font-weight:600">60+</span><br>'+t('locked')+'</p>'+
           '<button class="unlock-btn" onclick="openModal()">'+t('unlockBtn')+'</button>'+
         '</div>'+
       '</div>';
@@ -987,13 +979,13 @@ var T = {
     heroTitle: 'Недвижимость для <em>сдачи и долгосрочных</em> инвестиций',
     heroSub: 'Объявления от агрегаторов, аукционов и застройщиков. ИИ-рейтинг по скидке к рынку, доходности аренды, региональному росту и ликвидности.',
     pillAll: 'Все источники', pillAgg: 'Агрегаторы', pillAuct: 'Аукционы', pillDev: 'Застройщики',
-    pricingTitle: 'Тарифы', pricingSub: 'Полный доступ ко всем объектам с рейтингом 80+',
+    pricingTitle: 'Тарифы', pricingSub: 'Полный доступ ко всем объектам с рейтингом 60+',
     ribbon: 'Выгодно',
     planMonthName: 'Месячная', planMonthSub: 'Без обязательств · отмена в любой момент',
     perMonth: '₽ / мес', planMonthBtn: 'Начать за 990 ₽',
     planYearName: 'Годовая', planYearSub: '7 080 ₽/год · экономия 4 800 ₽',
     planYearBtn: 'Оформить за 7 080 ₽/год',
-    feat1: 'Все объекты с рейтингом 80+', feat2: 'Полная аналитика по каждому объекту',
+    feat1: 'Все объекты с рейтингом 60+', feat2: 'Полная аналитика по каждому объекту',
     feat3: 'Расширенные фильтры и сортировка', feat4: 'Экспорт подборки',
     modalTitle: 'Полный доступ к рейтингу',
     // card metric labels
@@ -1026,13 +1018,13 @@ var T = {
     heroTitle: 'Real estate for <em>rental and long-term</em> investment',
     heroSub: 'Listings from aggregators, auctions and developers. AI rating by market discount, rental yield, regional growth and liquidity.',
     pillAll: 'All sources', pillAgg: 'Aggregators', pillAuct: 'Auctions', pillDev: 'Developers',
-    pricingTitle: 'Pricing', pricingSub: 'Full access to all properties rated 80+',
+    pricingTitle: 'Pricing', pricingSub: 'Full access to all properties rated 60+',
     ribbon: 'Best value',
     planMonthName: 'Monthly', planMonthSub: 'No commitment · cancel anytime',
     perMonth: '₽ / mo', planMonthBtn: 'Start for ₽990',
     planYearName: 'Annual', planYearSub: '₽7,080/yr · save ₽4,800',
     planYearBtn: 'Get annual for ₽7,080/yr',
-    feat1: 'All properties rated 80+', feat2: 'Full analytics on each property',
+    feat1: 'All properties rated 60+', feat2: 'Full analytics on each property',
     feat3: 'Advanced filters and sorting', feat4: 'Export your shortlist',
     modalTitle: 'Full access to the ranking',
     mDiscount: 'Market discount', mRoi: 'Expected yield', mGrowth: 'Price growth 12 mo.',
