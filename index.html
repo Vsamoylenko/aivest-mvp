@@ -645,7 +645,9 @@
           <div class="plan-feat">7 080 ₽/год</div>
         </div>
       </div>
-      <input class="modal-input" id="modal-email" type="email" placeholder="Ваш email" onkeydown="if(event.key==='Enter')handleSubscribe()">
+      <input class="modal-input" id="modal-name" type="text" placeholder="Ваше имя (необязательно)" style="margin-bottom:8px;">
+      <input class="modal-input" id="modal-email" type="email" placeholder="Email *" onkeydown="if(event.key==='Enter')handleSubscribe()">
+      <input class="modal-input" id="modal-tg" type="text" placeholder="Telegram @username (необязательно)" style="margin-top:8px;">
       <div class="modal-error" id="modal-error"></div>
       <button class="modal-submit" id="modal-submit-btn" onclick="handleSubscribe()">Оформить подписку →</button>
       <p class="modal-note">Безопасная оплата · Отмена в любой момент · Никакого спама</p>
@@ -1028,6 +1030,8 @@ function selectPlanAndOpen(plan) {
 function handleSubscribe() {
   hideModalError();
   var email = document.getElementById('modal-email').value.trim();
+  var name  = document.getElementById('modal-name').value.trim();
+  var tg    = document.getElementById('modal-tg').value.trim();
   if (!email || !email.includes('@')) {
     showModalError('Введите корректный email-адрес');
     document.getElementById('modal-email').focus();
@@ -1047,13 +1051,12 @@ function handleSubscribe() {
     document.getElementById('modal-success-view').style.display = 'block';
   }
 
-  // Fallback: show success after 5 seconds regardless
   var fallbackTimer = setTimeout(showSuccess, 5000);
 
   fetch('/api/subscribe', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: email, plan: selectedPlan })
+    body: JSON.stringify({ email: email, name: name, telegram: tg, plan: selectedPlan })
   })
   .then(function(r){ return r.json(); })
   .catch(function(){ return {}; })

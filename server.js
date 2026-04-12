@@ -196,18 +196,18 @@ app.get('/api/properties/stats', (req, res) => {
 // POST /api/subscribe
 app.post('/api/subscribe', async (req, res) => {
   try {
-    const { email, plan } = req.body;
+    const { email, plan, name, telegram } = req.body;
     if (!email || !email.includes('@')) return res.status(400).json({ error: 'Некорректный email' });
 
     const planLabel = plan === 'year'
-      ? 'Годовая подписка — 7 080 ₽/год (590 ₽/мес)'
-      : 'Месячная подписка — 990 ₽/мес';
+      ? 'Годовая подписка — 4 680 ₽/год (390 ₽/мес)'
+      : 'Месячная подписка — 660 ₽/мес';
 
     // Save to KV (or file fallback)
     const subscribers = await loadSubscribers();
     const existing = subscribers.find(s => s.email.toLowerCase() === email.toLowerCase());
     if (!existing) {
-      subscribers.push({ email, plan, createdAt: new Date().toISOString(), status: 'pending' });
+      subscribers.push({ email, name: name || '', telegram: telegram || '', plan, createdAt: new Date().toISOString(), status: 'pending' });
       await saveSubscribers(subscribers);
     }
 
@@ -220,6 +220,8 @@ app.post('/api/subscribe', async (req, res) => {
         html: `
           <h2>Новая заявка на подписку PRO</h2>
           <p><strong>Email:</strong> ${email}</p>
+          ${name ? `<p><strong>Имя:</strong> ${name}</p>` : ''}
+          ${telegram ? `<p><strong>Telegram:</strong> ${telegram}</p>` : ''}
           <p><strong>Тариф:</strong> ${planLabel}</p>
           <p><strong>Дата:</strong> ${new Date().toLocaleString('ru-RU')}</p>
         `
@@ -278,7 +280,9 @@ app.get('/api/admin/subscribers', async (req, res) => {
   if (req.headers.accept?.includes('text/html') || req.query.format !== 'json') {
     const rows = subs.map(s => `
       <tr>
+        <td>${s.name || '—'}</td>
         <td>${s.email}</td>
+        <td>${s.telegram || '—'}</td>
         <td>${s.plan === 'year' ? 'Годовая' : 'Месячная'}</td>
         <td><span style="color:${s.status==='active'?'#5ecb7e':'#e4ab3c'}">${s.status}</span></td>
         <td>${new Date(s.createdAt).toLocaleString('ru-RU')}</td>
@@ -303,8 +307,8 @@ app.get('/api/admin/subscribers', async (req, res) => {
         <div class="badge">${isKvConfigured() ? '✅ Upstash Redis' : '⚠ Временное хранилище — настройте Upstash'}</div>
         <p class="count">Всего: ${subs.length} · Активных: ${subs.filter(s=>s.status==='active').length}</p>
         <table>
-          <thead><tr><th>Email</th><th>Тариф</th><th>Статус</th><th>Дата заявки</th><th>Активирован</th></tr></thead>
-          <tbody>${rows || '<tr><td colspan="5" style="color:#4a4840;text-align:center;padding:2rem">Нет подписчиков</td></tr>'}</tbody>
+          <thead><tr><th>Имя</th><th>Email</th><th>Telegram</th><th>Тариф</th><th>Статус</th><th>Дата заявки</th><th>Активирован</th></tr></thead>
+          <tbody>${rows || '<tr><td colspan="7" style="color:#4a4840;text-align:center;padding:2rem">Нет подписчиков</td></tr>'}</tbody>
         </table>
       </body></html>
     `);
