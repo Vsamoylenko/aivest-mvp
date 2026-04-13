@@ -241,16 +241,75 @@
     letter-spacing: 0.06em; font-family: 'DM Sans', sans-serif;
   }
 
+  /* ══════════════════════════════════════
+     MOBILE — max 700px
+  ══════════════════════════════════════ */
   @media (max-width: 700px) {
-    .stats-row { grid-template-columns: repeat(2,1fr); }
-    .cards-grid { grid-template-columns: 1fr; }
-    .nav-links  { display: none; }
-    h1 { font-size: 1.85rem; }
-    .footer-grid { grid-template-columns: 1fr; }
-    .plan-cards { grid-template-columns: 1fr; }
+
+    /* Nav */
+    nav { padding: 0 1rem; gap: 8px; height: 52px; }
+    .nav-logo { font-size: 17px; }
+    .nav-links { display: none; }
+    .nav-controls { gap: 6px; }
+    .nav-icon-btn { width: 30px; height: 30px; font-size: 13px; }
+    .nav-cta { display: none; }
+    .nav-login-btn { padding: 5px 10px; font-size: 12px; }
+
+    /* Hero */
+    .hero { padding: 2.5rem 1rem 2rem; }
+    h1 { font-size: 1.65rem; line-height: 1.15; }
+    h1 em, .hero-sub { white-space: normal !important; }
+    .hero-sub { font-size: 13px; margin-bottom: 1.5rem; }
+    .hero-eyebrow { font-size: 10px; }
+
+    /* Source pills */
+    .source-pills { padding: 0 1rem !important; }
+    .pill { padding: 5px 12px; font-size: 12px; }
+
+    /* Filter bar — 2 columns on mobile */
+    .filter-bar { padding: 0 1rem; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 1rem; }
+
+    /* Stats */
+    .stats-row { grid-template-columns: repeat(2,1fr); padding: 0 1rem; gap: 8px; }
+    .stat-card { padding: 12px 14px; }
+    .sval { font-size: 22px; }
+
+    /* Cards section */
+    .section { padding: 0 1rem 3rem; }
+    .cards-grid { grid-template-columns: 1fr; gap: 10px; }
+    .prop-card { padding: 16px; }
+    .card-metrics { grid-template-columns: repeat(3,1fr); gap: 6px; }
+    .price-main { font-size: 18px; }
+
+    /* Info sections */
+    .info-section { padding: 0 1rem; margin-bottom: 2rem; }
     .how-grid { grid-template-columns: 1fr; }
     .method-grid { grid-template-columns: 1fr; }
-    .pricing-cards { grid-template-columns: 1fr; }
+
+    /* Pricing */
+    .pricing-section { padding: 0 1rem 2rem; }
+    .pricing-cards { grid-template-columns: 1fr; gap: 12px; }
+    .pricing-card { padding: 24px 20px 70px; }
+
+    /* Plan cards inside modal */
+    .plan-cards { grid-template-columns: 1fr; }
+
+    /* Footer */
+    .footer-grid { grid-template-columns: 1fr; }
+    .footer-section { padding: 0 1rem; }
+
+    /* Modal */
+    .modal { padding: 2rem 1.25rem; }
+  }
+
+  /* ══════════════════════════════════════
+     TABLET — max 1024px
+  ══════════════════════════════════════ */
+  @media (max-width: 1024px) and (min-width: 701px) {
+    .pricing-cards { grid-template-columns: 1fr 1fr; }
+    .filter-bar { grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); }
+    .how-grid { grid-template-columns: 1fr 1fr; }
+    .method-grid { grid-template-columns: 1fr 1fr; }
   }
 
   /* ── HOW IT WORKS ── */
@@ -400,8 +459,8 @@
 
 <section class="hero">
   <div class="hero-eyebrow" data-i18n="heroEyebrow">Продвинутая аналитика недвижимости · aivest.ru</div>
-  <h1 data-i18n="heroTitle">Удобный поиск недвижимости<br><em style="white-space:nowrap">для рантье и долгосрочных инвесторов</em></h1>
-  <p class="hero-sub" data-i18n="heroSub" style="white-space:nowrap">Алгоритмическая оценка объявлений от агрегаторов, аукционов и застройщиков</p>
+  <h1 data-i18n="heroTitle">Удобный поиск недвижимости<br><em>для рантье и долгосрочных инвесторов</em></h1>
+  <p class="hero-sub" data-i18n="heroSub">Алгоритмическая оценка объявлений от агрегаторов, аукционов и застройщиков</p>
 </section>
 
 <!-- ── КАК РАБОТАЕТ ── -->
@@ -1315,7 +1374,7 @@ var T = {
     navHow: 'Принцип работы', navMethod: 'Методология', navPricing: 'Тарифы',
     navCta: 'Получить PRO доступ',
     heroEyebrow: 'Продвинутая аналитика недвижимости · aivest.ru',
-    heroTitle: 'Удобный поиск недвижимости<br><em style="white-space:nowrap">для рантье и долгосрочных инвесторов</em>',
+    heroTitle: 'Удобный поиск недвижимости<br><em>для рантье и долгосрочных инвесторов</em>',
     heroSub: 'Алгоритмическая оценка объявлений от агрегаторов, аукционов и застройщиков',
     pillAll: 'Все источники', pillAgg: 'Агрегаторы', pillAuct: 'Аукционы', pillDev: 'Застройщики',
     pricingTitle: 'Тарифы', pricingSub: 'Полный доступ ко всем объектам с рейтингом 60+',
