@@ -133,6 +133,8 @@ function parseOffer(raw, cityConfig) {
 
   // Skip corrupt/placeholder prices (< 25% of market = clearly bad data)
   if (ppm > 0 && ppm < Math.round(mktPpm * 0.25)) return null;
+  // Skip non-residential objects miscategorized as apartments (area > 1000m² or price > 500 млн)
+  if (type === 'apartment' && (area > 1000 || price > 500)) return null;
 
   // Detect rooms masquerading as apartments:
   // 1) ppm < 52% of market (Cian shows full apartment area for rooms)
