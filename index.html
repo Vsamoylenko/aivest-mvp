@@ -129,10 +129,17 @@
   .card-city  { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
   .card-tags  { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 13px; }
   .ctag { font-size: 10px; padding: 3px 9px; border-radius: 6px; border: 1px solid var(--border2); color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
-  .ctag-agg   { border-color: rgba(201,241,81,0.22); color: rgba(201,241,81,0.65); }
-  .ctag-auct  { border-color: rgba(228,188,106,0.3); color: rgba(228,188,106,0.8); }
-  .ctag-dev   { border-color: rgba(94,203,126,0.3);  color: var(--success); }
-  .ctag-badge { border-color: rgba(94,203,126,0.3);  color: var(--success); }
+  .ctag-agg      { border-color: rgba(201,241,81,0.22);  color: rgba(201,241,81,0.65); }
+  .ctag-auct     { border-color: rgba(228,188,106,0.3);  color: rgba(228,188,106,0.8); }
+  .ctag-dev      { border-color: rgba(94,203,126,0.3);   color: var(--success); }
+  .ctag-badge    { border-color: rgba(94,203,126,0.3);   color: var(--success); }
+  /* Property type tags */
+  .ctag-apartment { border-color: rgba(169,170,165,0.3);  color: #a9aaa5; }
+  .ctag-room      { border-color: rgba(228,171,60,0.35);  color: var(--warn); }
+  .ctag-newbuild  { border-color: rgba(201,241,81,0.35);  color: var(--accent); }
+  .ctag-commercial{ border-color: rgba(228,188,106,0.35); color: var(--gold); }
+  .ctag-house     { border-color: rgba(94,203,126,0.35);  color: var(--success); }
+  .ctag-land      { border-color: rgba(202,141,93,0.35);  color: #ca8d5d; }
 
   .card-metrics { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 13px; }
   .cm-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 2px; }
@@ -973,7 +980,13 @@ function sourceTag(s) {
   if (s==='dev')  return '<span class="ctag ctag-dev">Застройщик</span>';
   return '';
 }
-function typeLabel(t) { return {apartment:'Квартира',room:'Комната',commercial:'Коммерческая',house:'Дом',land:'Земля',newbuild:'Новостройка'}[t]||t; }
+var TYPE_LABELS = {apartment:'Квартира',room:'Комната',commercial:'Коммерческая',house:'Дом',land:'Земля',newbuild:'Новостройка'};
+function typeLabel(t) { return TYPE_LABELS[t] || t; }
+function typeTag(t)   {
+  var cls = {apartment:'ctag-apartment',room:'ctag-room',newbuild:'ctag-newbuild',
+             commercial:'ctag-commercial',house:'ctag-house',land:'ctag-land'}[t] || '';
+  return '<span class="ctag '+cls+'">'+typeLabel(t)+'</span>';
+}
 function num(n)       { return Math.round(n).toLocaleString('ru-RU'); }
 
 function render(resetPage) {
@@ -1048,7 +1061,7 @@ function render(resetPage) {
         '</div>'+
       '</div>'+
       '<div class="card-tags">'+
-        '<span class="ctag">'+typeLabel(p.type)+'</span>'+
+        typeTag(p.type)+
         sourceTag(p.source)+
         (p.badge ? '<span class="ctag ctag-badge">'+p.badge+'</span>' : '')+
       '</div>'+
