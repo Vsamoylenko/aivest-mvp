@@ -136,10 +136,12 @@ function parseOffer(raw, cityConfig) {
 
   // Detect rooms masquerading as apartments:
   // 1) ppm < 52% of market (Cian shows full apartment area for rooms)
-  // 2) raw.totalArea contains "/" (e.g. "55/19" means total/room area)
+  // 2) raw.totalArea contains "/" (e.g. "55/19" — total apt / room area)
+  // 3) raw.roomArea exists and is much smaller than totalArea (roomArea < 50% of total)
   const hasAreaSlash = typeof raw.totalArea === 'string' && raw.totalArea.includes('/');
+  const hasRoomArea  = raw.roomArea > 0 && area > 0 && raw.roomArea < area * 0.5;
   const isRoom = type === 'apartment' && ppm > 0 &&
-    (ppm < Math.round(mktPpm * 0.52) || hasAreaSlash);
+    (ppm < Math.round(mktPpm * 0.52) || hasAreaSlash || hasRoomArea);
   const finalType = isRoom ? 'room' : type;
 
   const disc  = mktPpm > 0 ? Math.round(((mktPpm - ppm) / mktPpm) * 100 * 10) / 10 : 0;
