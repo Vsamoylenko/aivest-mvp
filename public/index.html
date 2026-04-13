@@ -963,8 +963,8 @@ function getFiltered() {
   return list;
 }
 
-function scoreClass(s) { return s >= 80 ? 'score-high' : s >= 60 ? 'score-mid' : 'score-low'; }
-function barColor(s)   { return s >= 80 ? '#5ecb7e'   : s >= 60 ? '#e4ab3c'   : '#e35d5d'; }
+function scoreClass(s) { return s >= 66 ? 'score-high' : s >= 41 ? 'score-mid' : 'score-low'; }
+function barColor(s)   { return s >= 66 ? '#5ecb7e'   : s >= 41 ? '#e4ab3c'   : '#e35d5d'; }
 function rankCls(i)    { return i===0?'gold':i===1?'silver':i===2?'bronze':''; }
 function rankLabel(i)  { return i===0?t('rankBest'):i===1?t('rankSilver'):i===2?t('rankBronze'):''; }
 function sourceTag(s) {
