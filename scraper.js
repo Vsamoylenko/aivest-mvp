@@ -141,7 +141,7 @@ function parseOffer(raw, cityConfig) {
   const hasAreaSlash = typeof raw.totalArea === 'string' && raw.totalArea.includes('/');
   const hasRoomArea  = raw.roomArea > 0 && area > 0 && raw.roomArea < area * 0.5;
   const isRoom = type === 'apartment' && ppm > 0 &&
-    (ppm < Math.round(mktPpm * 0.52) || hasAreaSlash || hasRoomArea);
+    (ppm < Math.round(mktPpm * 0.55) || hasAreaSlash || hasRoomArea);
   const finalType = isRoom ? 'room' : type;
 
   const disc  = mktPpm > 0 ? Math.round(((mktPpm - ppm) / mktPpm) * 100 * 10) / 10 : 0;
