@@ -139,6 +139,10 @@ app.post('/api/login', async (req, res) => {
   const subscribers = await loadSubscribers();
   const sub = subscribers.find(s => s.email.toLowerCase() === email.toLowerCase() && s.status === 'active');
   if (sub) {
+    // If subscriber has a password set, verify it; otherwise allow login by email only
+    if (sub.password && sub.password !== password) {
+      return res.status(401).json({ error: 'Неверный email или пароль' });
+    }
     const token = Buffer.from(`${email}:pro:${Date.now()}:${process.env.ADMIN_KEY || 'aivest-key'}`).toString('base64');
     return res.json({ success: true, token, role: 'pro', email, activatedAt: sub.activatedAt, plan: sub.plan });
   }
