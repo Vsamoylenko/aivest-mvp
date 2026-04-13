@@ -38,16 +38,16 @@ const CITIES = cityArg ? ALL_CITIES.filter(c => c.name === cityArg) : ALL_CITIES
 // null = no room filter (for houses/commercial/land)
 const MOSCOW_ROOM_SPLITS = [null, 0, 1, 2, 3, 4]; // null=all, 0=studio, 1–4=rooms
 
-// Query types: each yields a separate set of up to 784 results
+// Cian API v2 query types — ONLY these return sales data.
+// All other types (newbuildingflatsale, roomsale, housesale) return flatRent listings.
+// 'flatsale' returns flatSale + newBuildingFlatSale + roomSale categories together.
+// 'commercialsale' correctly returns officeSale / commercialSale.
 const QUERY_TYPES = [
-  { _type: 'flatsale',           label: 'квартиры'    },
-  { _type: 'newbuildingflatsale', label: 'новостройки' },
-  { _type: 'roomsale',           label: 'комнаты'     },
+  { _type: 'flatsale', label: 'квартиры/новостройки/комнаты' },
 ];
 // Additional types (no room split needed)
 const QUERY_TYPES_NOROOMSPLIT = [
-  { _type: 'housesale',     label: 'дома'        },
-  { _type: 'commercialsale', label: 'коммерция'  },
+  { _type: 'commercialsale', label: 'коммерция' },
 ];
 
 const CATEGORY_TYPE = {
@@ -132,10 +132,13 @@ function parseOffer(raw, cityConfig) {
 
   const type  = CATEGORY_TYPE[raw.category] || 'apartment';
 
-  // Hard sanity: skip clearly broken data (impossible area or price for residential)
-  if (type === 'apartment' && (area > 1000 || price > 500)) return null;
-  // Skip prices below 10% of market — corrupt placeholder data
-  if (ppm > 0 && ppm < Math.round(mktPpm * 0.10)) return null;
+  // Hard sanity: skip clearly broken data
+  if (type === 'apartment' && area >= 500) return null;   // no residential apt above 500m²
+  if (type === 'apartment' && price > 500) return null;   // price > 500 млн = not residential
+  // Skip prices below 1 млн ₽ — installment/deposit placeholders
+  if (price > 0 && price < 1) return null;
+  // Skip ppm below 20% of market — clearly corrupt pricing
+  if (ppm > 0 && ppm < Math.round(mktPpm * 0.20)) return null;
 
   // Trust Cian's category field — roomSale → 'room', flatSale → 'apartment', etc.
   // Extra structural check: if Cian returns roomArea AND it's much smaller than totalArea,
