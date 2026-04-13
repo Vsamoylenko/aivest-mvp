@@ -129,16 +129,20 @@ function parseOffer(raw, cityConfig) {
   const ppm      = area > 0 ? Math.round((raw.bargainTerms?.price || 0) / area) : 0;
   const mktPpm   = marketPpm(cityName);
 
+  const type  = CATEGORY_TYPE[raw.category] || 'apartment';
+
   // Skip corrupt/placeholder prices (< 25% of market = clearly bad data)
   if (ppm > 0 && ppm < Math.round(mktPpm * 0.25)) return null;
-  // Tag as room if ppm < 40% of market (комнаты show full apartment area)
-  const isRoom = type !== 'room' && ppm > 0 && ppm < Math.round(mktPpm * 0.40);
+
+  // Detect rooms masquerading as apartments:
+  // 1) ppm < 52% of market (Cian shows full apartment area for rooms)
+  // 2) raw.totalArea contains "/" (e.g. "55/19" means total/room area)
+  const hasAreaSlash = typeof raw.totalArea === 'string' && raw.totalArea.includes('/');
+  const isRoom = type === 'apartment' && ppm > 0 &&
+    (ppm < Math.round(mktPpm * 0.52) || hasAreaSlash);
   const finalType = isRoom ? 'room' : type;
 
   const disc  = mktPpm > 0 ? Math.round(((mktPpm - ppm) / mktPpm) * 100 * 10) / 10 : 0;
-  const type  = CATEGORY_TYPE[raw.category] || 'apartment';
-  // Detect rooms masquerading as apartments (ppm < 40% of market)
-  const finalType = (type === 'apartment' && ppm > 0 && ppm < Math.round(mktPpm * 0.40)) ? 'room' : type;
   const monthlyRent = Math.round(cityConfig.rentPpm * area);
   const vac   = estimateVacancy(finalType, cityName);
   const roi   = price > 0 ? Math.round((monthlyRent * 12 * (1 - vac / 100) / (price * 1e6)) * 100 * 10) / 10 : 0;
