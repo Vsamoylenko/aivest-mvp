@@ -142,11 +142,17 @@ function parseOffer(raw, cityConfig) {
   if (ppm > 0 && ppm < Math.round(mktPpm * 0.20)) return null;
 
   // Trust Cian's category field — roomSale → 'room', flatSale → 'apartment', etc.
-  // Extra structural check: if Cian returns roomArea AND it's much smaller than totalArea,
-  // the listing is a room inside a communal apartment (even if posted under flatSale)
+  // Structural check 1: roomArea field (API) — room inside communal apartment
   const roomAreaField = raw.roomArea || raw.rooms?.[0]?.area || 0;
   const isStructuralRoom = type === 'apartment' && roomAreaField > 0 && roomAreaField < area * 0.5;
-  const finalType = isStructuralRoom ? 'room' : type;
+  // Structural check 2: description text (Cian's own data) — share sales and commercial spaces
+  const desc = (raw.description || '').toLowerCase();
+  const isShareSale  = type === 'apartment' && /продаётся доля|продается доля|продам долю|\bдоли\b|\bдоля\b/.test(desc);
+  const isCommercial = type === 'apartment' && /(торговая площадь|свободного назначения|нежилое помещение|торговое помещение)/.test(desc);
+  const finalType = isStructuralRoom ? 'room'
+                  : isShareSale      ? 'room'      // доля treated as room (partial ownership)
+                  : isCommercial     ? 'commercial' // re-tag commercial from flatSale
+                  : type;
 
   const disc  = mktPpm > 0 ? Math.round(((mktPpm - ppm) / mktPpm) * 100 * 10) / 10 : 0;
   const monthlyRent = Math.round(cityConfig.rentPpm * area);

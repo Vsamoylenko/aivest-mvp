@@ -609,18 +609,6 @@
 
 <div class="filter-bar">
   <div class="fgroup">
-    <label>Тип объекта</label>
-    <select id="f-type">
-      <option value="all">Все типы</option>
-      <option value="apartment">Квартира</option>
-      <option value="room">Комнаты</option>
-      <option value="commercial">Коммерческая</option>
-      <option value="house">Дом / Таунхаус</option>
-      <option value="land">Земля</option>
-      <option value="newbuild">Новостройка</option>
-    </select>
-  </div>
-  <div class="fgroup">
     <label>Город / Регион</label>
     <select id="f-city">
       <option value="all">Все города</option>
@@ -666,6 +654,39 @@
       <option value="growth" class="pro-sort">🔒 Рост цен</option>
       <option value="price_asc" class="pro-sort">🔒 Цена ↑</option>
       <option value="price_desc" class="pro-sort">🔒 Цена ↓</option>
+    </select>
+  </div>
+</div>
+
+<div class="filter-bar" style="margin-top:-8px;">
+  <div class="fgroup">
+    <label>Тип объекта</label>
+    <select id="f-type">
+      <option value="all">Все типы</option>
+      <option value="apartment">Квартира</option>
+      <option value="newbuild">Новостройка</option>
+      <option value="room">Комнаты</option>
+      <option value="commercial">Коммерческая</option>
+      <option value="house">Дом / Таунхаус</option>
+      <option value="land">Земля</option>
+    </select>
+  </div>
+  <div class="fgroup" id="fgroup-okrug">
+    <label>Округ (Москва)</label>
+    <select id="f-okrug">
+      <option value="all">Все округа</option>
+      <option value="ЦАО">ЦАО — Центральный</option>
+      <option value="САО">САО — Северный</option>
+      <option value="СВАО">СВАО — Северо-Восточный</option>
+      <option value="ВАО">ВАО — Восточный</option>
+      <option value="ЮВАО">ЮВАО — Юго-Восточный</option>
+      <option value="ЮАО">ЮАО — Южный</option>
+      <option value="ЮЗАО">ЮЗАО — Юго-Западный</option>
+      <option value="ЗАО">ЗАО — Западный</option>
+      <option value="СЗАО">СЗАО — Северо-Западный</option>
+      <option value="ЗеАО">ЗеАО — Зеленоградский</option>
+      <option value="НАО">НАО — Новомосковский</option>
+      <option value="ТАО">ТАО — Троицкий</option>
     </select>
   </div>
 </div>
@@ -942,6 +963,7 @@ function updateDataBadge() {
 function getFiltered() {
   var type   = document.getElementById('f-type').value;
   var city   = document.getElementById('f-city').value;
+  var okrug  = document.getElementById('f-okrug').value;
   var minSc  = parseInt(document.getElementById('f-score').value);
   var maxSc  = parseInt(document.getElementById('f-score-max').value);
   var maxPr  = parseFloat(document.getElementById('f-price').value) || Infinity;
@@ -952,6 +974,7 @@ function getFiltered() {
     if (type === 'all' && p.type === 'room') return false;
     if (type !== 'all' && p.type !== type) return false;
     if (city !== 'all' && p.city !== city) return false;
+    if (okrug !== 'all' && getOkrug(p) !== okrug) return false;
     if (p.score < minSc) return false;
     if (p.score > maxSc) return false;
     if (p.price > maxPr) return false;
@@ -981,6 +1004,54 @@ function sourceTag(s) {
   return '';
 }
 var TYPE_LABELS = {apartment:'Квартира',room:'Комната',commercial:'Коммерческая',house:'Дом',land:'Земля',newbuild:'Новостройка'};
+
+// Moscow district → okrug mapping
+var DISTRICT_OKRUG = {
+  'р-н Арбат':'ЦАО','р-н Басманный':'ЦАО','р-н Замоскворечье':'ЦАО','р-н Красносельский':'ЦАО',
+  'р-н Мещанский':'ЦАО','р-н Пресненский':'ЦАО','р-н Сокольники':'ЦАО','р-н Таганский':'ЦАО',
+  'р-н Тверской':'ЦАО','р-н Хамовники':'ЦАО','р-н Якиманка':'ЦАО',
+  'р-н Аэропорт':'САО','р-н Беговой':'САО','р-н Бескудниковский':'САО','р-н Войковский':'САО',
+  'р-н Восточное Дегунино':'САО','р-н Головинский':'САО','р-н Дмитровский':'САО',
+  'р-н Западное Дегунино':'САО','р-н Коптево':'САО','р-н Левобережный':'САО',
+  'р-н Лианозово':'САО','р-н Молжаниновский':'САО','р-н Савеловский':'САО',
+  'р-н Сокол':'САО','р-н Тимирязевский':'САО','р-н Ховрино':'САО','р-н Хорошевский':'САО',
+  'р-н Алексеевский':'СВАО','р-н Алтуфьевский':'СВАО','р-н Бабушкинский':'СВАО',
+  'р-н Бутырский':'СВАО','р-н Лосиноостровский':'СВАО','р-н Марфино':'СВАО',
+  'р-н Марьина роща':'СВАО','р-н Останкинский':'СВАО','р-н Отрадное':'СВАО',
+  'р-н Ростокино':'СВАО','р-н Свиблово':'СВАО','р-н Северный':'СВАО',
+  'р-н Северное Медведково':'СВАО','р-н Ярославский':'СВАО',
+  'р-н Богородское':'ВАО','р-н Вешняки':'ВАО','р-н Восточное Измайлово':'ВАО',
+  'р-н Гольяново':'ВАО','р-н Ивановское':'ВАО','р-н Измайлово':'ВАО',
+  'р-н Косино-Ухтомский':'ВАО','р-н Метрогородок':'ВАО','р-н Новогиреево':'ВАО',
+  'р-н Новокосино':'ВАО','р-н Перово':'ВАО','р-н Преображенское':'ВАО',
+  'р-н Северное Измайлово':'ВАО','р-н Соколиная гора':'ВАО',
+  'р-н Выхино-Жулебино':'ЮВАО','р-н Капотня':'ЮВАО','р-н Кузьминки':'ЮВАО',
+  'р-н Лефортово':'ЮВАО','р-н Люблино':'ЮВАО','р-н Марьино':'ЮВАО',
+  'р-н Некрасовка':'ЮВАО','р-н Нижегородский':'ЮВАО','р-н Печатники':'ЮВАО',
+  'р-н Рязанский':'ЮВАО','р-н Текстильщики':'ЮВАО',
+  'р-н Бирюлево Восточное':'ЮАО','р-н Бирюлево Западное':'ЮАО','р-н Братеево':'ЮАО',
+  'р-н Даниловский':'ЮАО','р-н Донской':'ЮАО','р-н Зябликово':'ЮАО',
+  'р-н Москворечье-Сабурово':'ЮАО','р-н Нагатино-Садовники':'ЮАО',
+  'р-н Нагатинский затон':'ЮАО','р-н Нагорный':'ЮАО',
+  'р-н Орехово-Борисово Северное':'ЮАО','р-н Орехово-Борисово Южное':'ЮАО',
+  'р-н Царицыно':'ЮАО','р-н Чертаново Северное':'ЮАО','р-н Чертаново Центральное':'ЮАО',
+  'р-н Чертаново Южное':'ЮАО','р-н Южнопортовый':'ЮАО',
+  'р-н Академический':'ЮЗАО','р-н Гагаринский':'ЮЗАО','р-н Зюзино':'ЮЗАО',
+  'р-н Коньково':'ЮЗАО','р-н Котловка':'ЮЗАО','р-н Ломоносовский':'ЮЗАО',
+  'р-н Обручевский':'ЮЗАО','р-н Проспект Вернадского':'ЮЗАО','р-н Северное Бутово':'ЮЗАО',
+  'р-н Теплый Стан':'ЮЗАО','р-н Тропарево-Никулино':'ЮЗАО','р-н Черемушки':'ЮЗАО',
+  'р-н Южное Бутово':'ЮЗАО','р-н Ясенево':'ЮЗАО',
+  'ЗАО':'ЗАО','р-н Внуково':'ЗАО','р-н Дорогомилово':'ЗАО','р-н Крылатское':'ЗАО',
+  'р-н Кунцево':'ЗАО','р-н Можайский':'ЗАО','р-н Ново-Переделкино':'ЗАО',
+  'р-н Очаково-Матвеевское':'ЗАО','р-н Раменки':'ЗАО','р-н Солнцево':'ЗАО',
+  'р-н Филевский парк':'ЗАО','р-н Фили-Давыдково':'ЗАО',
+  'р-н Куркино':'СЗАО','р-н Митино':'СЗАО','р-н Покровское-Стрешнево':'СЗАО',
+  'р-н Северное Тушино':'СЗАО','р-н Строгино':'СЗАО','р-н Хорошево-Мневники':'СЗАО',
+  'р-н Южное Тушино':'СЗАО','р-н Щукино':'СЗАО',
+  'р-н Крюково':'ЗеАО','р-н Старое Крюково':'ЗеАО',
+  'НАО (Новомосковский)':'НАО','ТАО (Троицкий)':'ТАО'
+};
+function getOkrug(p) { return p.city === 'Москва' ? (DISTRICT_OKRUG[p.district] || '') : ''; }
 function typeLabel(t) { return TYPE_LABELS[t] || t; }
 function typeTag(t)   {
   var cls = {apartment:'ctag-apartment',room:'ctag-room',newbuild:'ctag-newbuild',
@@ -1123,7 +1194,14 @@ document.querySelectorAll('.pill').forEach(function(btn) {
     render(true);
   });
 });
-['f-type','f-city','f-score','f-score-max','f-price','f-sort'].forEach(function(id) {
+// Show okrug filter only for Moscow
+document.getElementById('f-city').addEventListener('change', function() {
+  var okrugGroup = document.getElementById('fgroup-okrug');
+  okrugGroup.style.display = this.value === 'Москва' || this.value === 'all' ? '' : 'none';
+  document.getElementById('f-okrug').value = 'all';
+});
+
+['f-type','f-city','f-okrug','f-score','f-score-max','f-price','f-sort'].forEach(function(id) {
   var el = document.getElementById(id);
   el.addEventListener('change', render);
   el.addEventListener('input', render);
