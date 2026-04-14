@@ -133,8 +133,9 @@ function parseOffer(raw, cityConfig) {
   const type  = CATEGORY_TYPE[raw.category] || 'apartment';
 
   // Hard sanity: skip clearly broken data
-  if (type === 'apartment' && area >= 500) return null;   // no residential apt above 500m²
-  if (type === 'apartment' && price > 500) return null;   // price > 500 млн = not residential
+  if (type === 'apartment' && area >= 500) return null;      // no residential apt above 500m²
+  if (type === 'apartment' && price > 500) return null;      // price > 500 млн = not residential
+  if (type === 'apartment' && raw.floorNumber < 0) return null; // negative floor = commercial
   // Skip prices below 1 млн ₽ — installment/deposit placeholders
   if (price > 0 && price < 1) return null;
   // Skip ppm below 20% of market — clearly corrupt pricing
