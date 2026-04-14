@@ -51,15 +51,29 @@ const QUERY_TYPES_NOROOMSPLIT = [
 ];
 
 const CATEGORY_TYPE = {
-  flatSale:            'apartment',
-  newBuildingFlatSale: 'newbuild',
-  roomSale:            'room',
-  commercialSale:      'commercial',
-  officeSale:          'commercial',
-  houseSale:           'house',
-  cottageSale:         'house',
-  townhouseSale:       'house',
-  landSale:            'land',
+  flatSale:                   'apartment',
+  newBuildingFlatSale:        'newbuild',
+  roomSale:                   'room',
+  // Commercial (all subtypes from commercialsale query)
+  commercialSale:             'commercial',
+  officeSale:                 'commercial',
+  freeAppointmentObjectSale:  'commercial',  // свободного назначения
+  shoppingAreaSale:           'commercial',  // торговая площадь
+  industrySale:               'commercial',  // производство
+  warehouseSale:              'commercial',  // склад
+  buildingSale:               'commercial',  // здание
+  businessSale:               'commercial',  // арендный бизнес
+  commercialLandSale:         'land',
+  // Houses
+  houseSale:       'house',
+  cottageSale:     'house',
+  townhouseSale:   'house',
+  // Land
+  landSale:        'land',
+  // Parking
+  parkingSale:     'parking',
+  garageSale:      'parking',
+  carPlaceSale:    'parking',
 };
 
 const SOURCE_TAG = 'agg';

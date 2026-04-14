@@ -140,6 +140,7 @@
   .ctag-commercial{ border-color: rgba(228,188,106,0.35); color: var(--gold); }
   .ctag-house     { border-color: rgba(94,203,126,0.35);  color: var(--success); }
   .ctag-land      { border-color: rgba(202,141,93,0.35);  color: #ca8d5d; }
+  .ctag-parking   { border-color: rgba(94,170,228,0.35);  color: #5eaae4; }
 
   .card-metrics { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 13px; }
   .cm-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 2px; }
@@ -495,7 +496,7 @@
 
 <!-- ── МЕТОДОЛОГИЯ ── -->
 <section id="methodology" class="info-section">
-  <div class="info-section-head">Методология (основные драйверы)</div>
+  <div class="info-section-head">Методология</div>
   <div class="method-grid">
     <div class="method-card">
       <div class="method-icon">📉</div>
@@ -514,7 +515,7 @@
     <div class="method-card">
       <div class="method-icon">📈</div>
       <div>
-        <h4>Рост цен в регионе</h4>
+        <h4>Рост цен</h4>
         <p>Среднегодовой прирост цен на жильё по данным Росстата и рыночной аналитики. Высокий рост = долгосрочная инвестиционная ценность.</p>
       </div>
     </div>
@@ -560,9 +561,6 @@
       <div class="pc-divider"></div>
       <ul>
         <li data-i18n="feat1">Все объекты с рейтингом 60+</li>
-        <li data-i18n="feat2">Полная аналитика по каждому объекту</li>
-        <li data-i18n="feat3">Расширенные фильтры и сортировка</li>
-        <li data-i18n="feat4">Экспорт подборки</li>
       </ul>
       <button class="pc-btn pc-btn-secondary" onclick="openModal()" data-i18n="planMonthBtn">Оформить за 660 ₽</button>
       <div class="pc-ribbon-sale">АКЦИЯ — РАННИЙ ДОСТУП</div>
@@ -669,6 +667,7 @@
       <option value="commercial">Коммерческая</option>
       <option value="house">Дом / Таунхаус</option>
       <option value="land">Земля</option>
+      <option value="parking">Машиноместо</option>
     </select>
   </div>
   <div class="fgroup" id="fgroup-okrug">
@@ -1003,7 +1002,7 @@ function sourceTag(s) {
   if (s==='dev')  return '<span class="ctag ctag-dev">Застройщик</span>';
   return '';
 }
-var TYPE_LABELS = {apartment:'Квартира',room:'Комната',commercial:'Коммерческая',house:'Дом',land:'Земля',newbuild:'Новостройка'};
+var TYPE_LABELS = {apartment:'Квартира',room:'Комната',commercial:'Коммерческая',house:'Дом',land:'Земля',newbuild:'Новостройка',parking:'Машиноместо'};
 
 // Moscow district → okrug mapping
 var DISTRICT_OKRUG = {
@@ -1055,7 +1054,7 @@ function getOkrug(p) { return p.city === 'Москва' ? (DISTRICT_OKRUG[p.dist
 function typeLabel(t) { return TYPE_LABELS[t] || t; }
 function typeTag(t)   {
   var cls = {apartment:'ctag-apartment',room:'ctag-room',newbuild:'ctag-newbuild',
-             commercial:'ctag-commercial',house:'ctag-house',land:'ctag-land'}[t] || '';
+             commercial:'ctag-commercial',house:'ctag-house',land:'ctag-land',parking:'ctag-parking'}[t] || '';
   return '<span class="ctag '+cls+'">'+typeLabel(t)+'</span>';
 }
 function num(n)       { return Math.round(n).toLocaleString('ru-RU'); }
