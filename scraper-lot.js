@@ -4,6 +4,9 @@
 //        node scraper-lot.js --dry    → print stats without saving
 
 require('dotenv').config();
+// Force synchronous stdout/stderr so progress lines aren't buffered when piped
+if (process.stdout._handle && process.stdout._handle.setBlocking) process.stdout._handle.setBlocking(true);
+if (process.stderr._handle && process.stderr._handle.setBlocking) process.stderr._handle.setBlocking(true);
 const axios   = require('axios');
 const cheerio = require('cheerio');
 const fs      = require('fs');
@@ -195,15 +198,12 @@ function parseCard($, el, categoryType) {
 // ── Fetch and parse one category page ────────────────────────────────────────
 async function fetchCategoryPage(categoryId, categoryType, page) {
   const url = `${BASE_URL}?dispatch=categories.view&category_id=${categoryId}&page=${page}&items_per_page=24`;
-  const res = await axios.get(url, {
-    headers: {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36',
-      'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-      'Accept-Language': 'ru-RU,ru;q=0.9',
-      'Referer': 'https://api1.lot-online.ru/',
-    },
-    timeout: 20000,
-  });
+  const res = await rawGet(url, 20000);
+  if (!res || res.status !== 200) {
+    const err = new Error(`HTTP ${res ? res.status : 'null'}`);
+    err.response = { status: res ? res.status : 0 };
+    throw err;
+  }
 
   const $ = cheerio.load(res.data);
 
