@@ -140,9 +140,16 @@ function parseOffer(raw, cityConfig) {
   const district = extractDistrict(geo);
   const metro    = extractMetro(geo);
   const area     = parseFloat(raw.totalArea) || 0;
-  const price    = (raw.bargainTerms?.price || 0) / 1e6;
-  const ppm      = area > 0 ? Math.round((raw.bargainTerms?.price || 0) / area) : 0;
-  const mktPpm   = marketPpm(cityName);
+
+  // Cian quirk for commercial: bargainTerms.price can be PER m² (priceType='square')
+  // or TOTAL (priceType='all'). Detect and normalize to total ruble price.
+  const rawPrice  = raw.bargainTerms?.price || 0;
+  const priceType = raw.bargainTerms?.priceType || '';
+  const isByMeter = priceType === 'square' || priceType === 'sqm';
+  const totalRub  = isByMeter && area > 0 ? rawPrice * area : rawPrice;
+  const price     = totalRub / 1e6;  // in millions
+  const ppm       = area > 0 ? Math.round(totalRub / area) : 0;
+  const mktPpm    = marketPpm(cityName);
 
   const type  = CATEGORY_TYPE[raw.category] || 'apartment';
 
@@ -341,15 +348,25 @@ async function scrape() {
     return null;
   }
 
-  // --merge: keep other cities from existing file, replace only scraped cities
+  // Always preserve non-Cian sources (e.g. lot-online 'auct') from existing file
   let finalProps = deduped;
-  if (mergeMode && cityArg && fs.existsSync(OUT_FILE)) {
-    const old = JSON.parse(fs.readFileSync(OUT_FILE, 'utf8'));
-    const oldOthers = (old.properties || []).filter(p => p.city !== cityArg);
-    finalProps = [...deduped, ...oldOthers];
-    finalProps.sort((a, b) => b.score - a.score);
-    finalProps.forEach((p, i) => { p.id = i + 1; });
-    console.log(`   Merge: ${deduped.length} новых (${cityArg}) + ${oldOthers.length} старых других городов = ${finalProps.length} итого`);
+  if (fs.existsSync(OUT_FILE)) {
+    try {
+      const old = JSON.parse(fs.readFileSync(OUT_FILE, 'utf8'));
+      // Keep all non-'agg' items (aucts, dev, etc.) — our scraper only generates 'agg'
+      const preserved = (old.properties || []).filter(p => p.source !== SOURCE_TAG);
+      // If --merge: also keep old 'agg' items from OTHER cities
+      if (mergeMode && cityArg) {
+        const oldAggOthers = (old.properties || []).filter(p => p.source === SOURCE_TAG && p.city !== cityArg);
+        finalProps = [...deduped, ...oldAggOthers, ...preserved];
+        console.log(`   Merge: ${deduped.length} новых + ${oldAggOthers.length} агг.других + ${preserved.length} non-agg = ${finalProps.length}`);
+      } else {
+        finalProps = [...deduped, ...preserved];
+        if (preserved.length) console.log(`   Сохранено ${preserved.length} non-agg объектов (аукционы и т.п.)`);
+      }
+      finalProps.sort((a, b) => b.score - a.score);
+      finalProps.forEach((p, i) => { p.id = i + 1; });
+    } catch (e) { console.error('Merge error:', e.message); }
   }
 
   const output = {
