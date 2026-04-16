@@ -124,6 +124,21 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Debug: inspect filesystem for data/properties.json
+app.get('/api/debug/fs', (req, res) => {
+  const out = {
+    __dirname,
+    propertiesFile: PROPERTIES_FILE,
+    exists: fs.existsSync(PROPERTIES_FILE),
+    cwd: process.cwd(),
+  };
+  try { out.size = fs.statSync(PROPERTIES_FILE).size; } catch (e) { out.statError = e.message; }
+  try { out.cwdList = fs.readdirSync(process.cwd()).slice(0, 40); } catch (e) { out.cwdListError = e.message; }
+  try { out.dirList = fs.readdirSync(__dirname).slice(0, 40); } catch (e) { out.dirListError = e.message; }
+  try { out.dataList = fs.readdirSync(path.join(__dirname, 'data')); } catch (e) { out.dataListError = e.message; }
+  res.json(out);
+});
+
 // POST /api/login
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
