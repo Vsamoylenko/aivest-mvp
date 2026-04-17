@@ -163,16 +163,14 @@ function parseOffer(raw, cityConfig) {
   if (ppm > 0 && ppm < Math.round(mktPpm * 0.20)) return null;
 
   // Trust Cian's category field — roomSale → 'room', flatSale → 'apartment', etc.
-  // Structural check 1: roomArea field (API) — room inside communal apartment
-  const roomAreaField = raw.roomArea || raw.rooms?.[0]?.area || 0;
-  const isStructuralRoom = type === 'apartment' && roomAreaField > 0 && roomAreaField < area * 0.5;
-  // Structural check 2: description text (Cian's own data) — share sales and commercial spaces
+  // Only override when description explicitly signals a doля (share) or commercial use.
+  // NOTE: do NOT infer "room" from rooms[0].area < totalArea/2 — that's true for every
+  // multi-room apartment and mis-tagged 4-room flats as communal rooms.
   const desc = (raw.description || '').toLowerCase();
   const isShareSale  = type === 'apartment' && /продаётся доля|продается доля|продам долю|\bдоли\b|\bдоля\b/.test(desc);
   const isCommercial = type === 'apartment' && /(торговая площадь|свободного назначения|нежилое помещение|торговое помещение)/.test(desc);
-  const finalType = isStructuralRoom ? 'room'
-                  : isShareSale      ? 'room'      // доля treated as room (partial ownership)
-                  : isCommercial     ? 'commercial' // re-tag commercial from flatSale
+  const finalType = isShareSale  ? 'room'       // доля treated as room (partial ownership)
+                  : isCommercial ? 'commercial' // re-tag commercial from flatSale
                   : type;
 
   const disc  = mktPpm > 0 ? Math.round(((mktPpm - ppm) / mktPpm) * 100 * 10) / 10 : 0;
@@ -183,8 +181,9 @@ function parseOffer(raw, cityConfig) {
   const score = calcScore({ disc, roi, grow: cityConfig.growth, liq, vac });
 
   const roomsLabel = { 1: '1-комн.', 2: '2-комн.', 3: '3-комн.', 4: '4-комн.' }[raw.roomsCount] || 'Студия';
-  const typeLabel  = type === 'newbuild' ? 'Новостройка' : type === 'house' ? 'Дом'
-                   : type === 'commercial' ? 'Коммерция' : type === 'land' ? 'Участок' : null;
+  const typeLabel  = finalType === 'newbuild' ? 'Новостройка' : finalType === 'house' ? 'Дом'
+                   : finalType === 'commercial' ? 'Коммерция' : finalType === 'land' ? 'Участок'
+                   : finalType === 'room' ? 'Комната' : finalType === 'parking' ? 'Машиноместо' : null;
   const titleBase  = typeLabel || (raw.roomsCount ? roomsLabel + ' кв.' : 'Квартира');
   const titleLoc   = district || metro || cityName;
   const floor      = raw.floorNumber && raw.building?.floorsCount
@@ -202,7 +201,7 @@ function parseOffer(raw, cityConfig) {
     cianUrl: raw.fullUrl || `https://cian.ru/sale/flat/${raw.id}/`,
     title:   `${titleBase}, ${titleLoc}`,
     city:    cityName, district, metro,
-    area:    Math.round(area), floor, type, source: SOURCE_TAG,
+    area:    Math.round(area), floor, type: finalType, source: SOURCE_TAG,
     price:   Math.round(price * 10) / 10,
     ppm:     Math.round(ppm / 1000),
     mkt:     Math.round(mktPpm / 1000),
