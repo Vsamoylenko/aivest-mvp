@@ -542,9 +542,6 @@
       <span class="mode-desc">аренда · ниже рынка, метро</span>
     </button>
   </div>
-  <div id="mode-note" style="color:var(--faint);font-size:12px;text-align:center;margin-top:10px">
-    Сейчас активна версия для инвесторов
-  </div>
 </section>
 <style>
   .mode-switch {
@@ -1099,10 +1096,8 @@ function applyModeUI() {
   var t  = document.getElementById('hero-title');
   var te = document.getElementById('hero-title-em');
   var s  = document.getElementById('hero-sub');
-  var n  = document.getElementById('mode-note');
   if (t && te) { t.childNodes[0].nodeValue = copy.title; te.textContent = copy.em; }
   if (s) s.textContent = copy.sub;
-  if (n) n.textContent = copy.note;
   var bOpt = document.getElementById('mode-buy');
   var rOpt = document.getElementById('mode-rent');
   if (bOpt) { bOpt.classList.toggle('active', APP_MODE === 'buy');  bOpt.setAttribute('aria-selected', APP_MODE === 'buy'); }
