@@ -1378,10 +1378,14 @@ function render(resetPage) {
       '</div>'+
       '<div class="card-metrics">'+
         '<div><div class="cm-label">'+t('mDiscount')+'</div><div class="cm-value '+dcol+'">'+discVal+'</div><div class="cm-sub">'+discSub+'</div></div>'+
-        '<div><div class="cm-label">'+t('mRoi')+'</div><div class="cm-value '+roiC+'">'+roiS+'</div>'+(roiSub?'<div class="cm-sub">'+roiSub+'</div>':'')+'</div>'+
-        '<div><div class="cm-label">'+t('mGrowth')+'</div><div class="cm-value accent">'+growS+'</div></div>'+
+        (isRentMode ? '' :
+          '<div><div class="cm-label">'+t('mRoi')+'</div><div class="cm-value '+roiC+'">'+roiS+'</div>'+(roiSub?'<div class="cm-sub">'+roiSub+'</div>':'')+'</div>'+
+          '<div><div class="cm-label">'+t('mGrowth')+'</div><div class="cm-value accent">'+growS+'</div></div>'
+        )+
         '<div><div class="cm-label">'+t('mLiq')+'</div><div class="cm-value">'+liqS+'</div><div class="cm-sub">'+liqSub+'</div></div>'+
-        '<div><div class="cm-label">'+t('mVac')+'</div><div class="cm-value '+(p.vac>10?'amber':'')+'">'+vacS+'</div><div class="cm-sub">'+vacSub+'</div></div>'+
+        (isRentMode ? '' :
+          '<div><div class="cm-label">'+t('mVac')+'</div><div class="cm-value '+(p.vac>10?'amber':'')+'">'+vacS+'</div><div class="cm-sub">'+vacSub+'</div></div>'
+        )+
         '<div><div class="cm-label">'+t('mPpm')+'</div><div class="cm-value">'+ppmS+'</div></div>'+
       '</div>'+
       '<div class="score-bar-wrap">'+

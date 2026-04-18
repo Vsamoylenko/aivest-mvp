@@ -78,17 +78,32 @@ function parseRentOffer(raw, city) {
   const metro    = extractMetro(geo);
   const area     = parseFloat(raw.totalArea) || 0;
 
+  // ── Daily-rent detection (Cian marks by category OR bargainTerms.duration) ──
+  const categoryLc = String(raw.category || '').toLowerCase();
+  if (categoryLc.includes('daily')) return null;
+  const duration = String(raw.bargainTerms?.duration || raw.bargainTerms?.leaseType || '').toLowerCase();
+  if (duration.includes('day') || duration === 'short') return null;
+
   // For rent: bargainTerms.price is ₽/month (monthly rent)
   const monthly = raw.bargainTerms?.price || 0;
-  if (!monthly || !area || monthly < 5000) return null; // sanity: no sub-5k₽ rentals
+  if (!monthly || !area) return null;
+  if (monthly < 15_000) return null;                    // no real long-term rental below 15k ₽/mo
   if (monthly > 5_000_000) return null;                 // ignore mansion luxury outliers
 
-  const ppm = Math.round(monthly / area);        // ₽/m²/month
-  const mktPpm = city.rentPpm;                    // ₽/m²/month market
-  const discRent = mktPpm > 0 ? Math.round(((mktPpm - ppm) / mktPpm) * 100 * 10) / 10 : 0;
-
+  // ── Data-sanity: area vs. type ─────────────────────────────────────────────
   const type = RENT_CATEGORY[raw.category] || 'apartment';
-  if (type === 'apartment-daily') return null;    // skip daily rentals
+  if (type === 'apartment-daily') return null;
+  if (type === 'apartment' && area > 300) return null;  // 600м² «студия» = мусорные данные
+  if (type === 'apartment' && area < 8)   return null;  // дроби м²/кладовые — не квартиры
+  if (type === 'room'      && area > 60)  return null;
+  if (type === 'room'      && area < 7)   return null;
+
+  const ppm = Math.round(monthly / area);               // ₽/m²/month
+  const mktPpm = city.rentPpm;                          // ₽/m²/month market
+  // Reject listings with ppm < 25% of market — almost always daily/corrupt
+  if (mktPpm > 0 && ppm < mktPpm * 0.25) return null;
+
+  const discRent = mktPpm > 0 ? Math.round(((mktPpm - ppm) / mktPpm) * 100 * 10) / 10 : 0;
 
   const hasMetro = !!metro;
   let liq = { 'Москва': 9, 'Санкт-Петербург': 8.5, 'Сочи': 7, 'Казань': 7,
