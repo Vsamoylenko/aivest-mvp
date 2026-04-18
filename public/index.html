@@ -300,6 +300,41 @@
     padding: 0 10px; width: auto; font-size: 11px; font-weight: 600;
     letter-spacing: 0.06em; font-family: 'DM Sans', sans-serif;
   }
+  /* 3-way language switch (RU / EN / UZ) */
+  .lang-switch {
+    display: inline-flex; align-items: stretch; gap: 0; height: 34px;
+    background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; padding: 2px;
+  }
+  .lang-opt {
+    background: transparent; border: none; padding: 0 8px; border-radius: 6px;
+    color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: .05em;
+    cursor: pointer; display: inline-flex; align-items: center; gap: 4px; line-height: 1;
+    font-family: 'DM Sans', sans-serif; transition: all .18s;
+  }
+  .lang-opt:hover { color: var(--text); }
+  .lang-opt.active { background: var(--accent-dim); color: var(--accent); }
+  .lang-opt .flag { font-size: 13px; filter: saturate(1.1); }
+  @media (max-width: 520px) { .lang-opt .lbl { display: none; } .lang-opt { padding: 0 6px; } }
+
+  /* Country switcher (below hero subtitle) */
+  .country-switch {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 6px;
+    margin: 1.25rem auto 0; max-width: 880px;
+  }
+  .country-opt {
+    background: var(--surface); border: 1px solid var(--border2); color: var(--muted);
+    padding: 7px 14px; border-radius: 99px; font-size: 13px; font-weight: 500;
+    cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+    transition: all .18s;
+  }
+  .country-opt:hover { color: var(--text); border-color: var(--accent-glow); }
+  .country-opt.active { background: var(--accent-dim); color: var(--accent); border-color: var(--accent); }
+  .country-opt .flag { font-size: 15px; }
+
+  /* Hero subtitle — stay on one line on desktop, wrap on mobile */
+  @media (min-width: 980px) {
+    .hero-sub { max-width: none !important; white-space: nowrap; }
+  }
 
   /* ══════════════════════════════════════
      MOBILE — max 700px
@@ -510,7 +545,11 @@
     <a href="#" onclick="openModal();return false;">Тарифы</a>
   </div>
   <div class="nav-controls">
-    <button class="nav-icon-btn lang-btn" id="lang-toggle" onclick="toggleLang()" title="Switch language">RU</button>
+    <div class="lang-switch" id="lang-switch" role="tablist" aria-label="Language">
+      <button class="lang-opt" data-lang="ru" onclick="applyLang('ru')" title="Русский" aria-label="Русский"><span class="flag">🇷🇺</span><span class="lbl">RU</span></button>
+      <button class="lang-opt" data-lang="en" onclick="applyLang('en')" title="English" aria-label="English"><span class="flag">🇬🇧</span><span class="lbl">EN</span></button>
+      <button class="lang-opt" data-lang="uz" onclick="applyLang('uz')" title="O‘zbek" aria-label="O'zbek"><span class="flag">🇺🇿</span><span class="lbl">UZ</span></button>
+    </div>
     <button class="nav-icon-btn" id="theme-toggle" onclick="toggleTheme()" title="Switch theme">🌙</button>
   </div>
   <button class="nav-login-btn" id="nav-login-btn" onclick="openLoginModal()">Войти</button>
@@ -521,6 +560,14 @@
   <div class="hero-eyebrow" data-i18n="heroEyebrow">Продвинутая аналитика недвижимости · aivest.ru</div>
   <h1 id="hero-title">Удобный поиск недвижимости<br><em id="hero-title-em">для рантье и долгосрочных инвесторов</em></h1>
   <p class="hero-sub" id="hero-sub">Алгоритмическая оценка объявлений от агрегаторов, аукционов и застройщиков</p>
+
+  <!-- Country switcher -->
+  <div class="country-switch" id="country-switch" role="tablist" aria-label="Страна">
+    <button class="country-opt active" data-country="ru" onclick="setCountry('ru')"><span class="flag">🇷🇺</span><span class="lbl">Россия</span></button>
+    <button class="country-opt"        data-country="uz" onclick="setCountry('uz')"><span class="flag">🇺🇿</span><span class="lbl">Узбекистан</span></button>
+    <button class="country-opt"        data-country="kz" onclick="setCountry('kz')"><span class="flag">🇰🇿</span><span class="lbl">Казахстан</span></button>
+    <button class="country-opt"        data-country="by" onclick="setCountry('by')"><span class="flag">🇧🇾</span><span class="lbl">Беларусь</span></button>
+  </div>
 
   <!-- Invest / Rent mode slider -->
   <div class="mode-switch" role="tablist" aria-label="Режим: покупка или аренда">
@@ -1923,16 +1970,53 @@ var T = {
     emptyMsg: 'No properties match your filters.',
     sectionTitle: 'Top properties',
     rankBest: '★ Best deal', rankSilver: '★ Silver', rankBronze: '★ Bronze',
+  },
+  uz: {
+    navHow: 'Qanday ishlaydi', navMethod: 'Metodologiya', navPricing: 'Tariflar',
+    navCta: 'PRO kirish olish',
+    heroEyebrow: 'Ko‘chmas mulk bo‘yicha ilg‘or analitika · aivest.ru',
+    heroTitle: 'Qulay ko‘chmas mulk qidiruvi<br><em>ijarachilar va uzoq muddatli investorlar uchun</em>',
+    heroSub: 'Agregatorlar, auksionlar va quruvchilar e’lonlarini algoritmik baholash',
+    pillAll: 'Barcha manbalar', pillAgg: 'Agregatorlar', pillAuct: 'Auksionlar', pillDev: 'Quruvchilar',
+    pricingTitle: 'Tariflar', pricingSub: 'Reytingi 60+ barcha obyektlarga to‘liq kirish',
+    ribbon: 'Foydali',
+    planMonthName: 'Oylik', planMonthSub: 'Majburiyatsiz · istalgan vaqtda bekor qilish',
+    perMonth: '₽ / oy', planMonthBtn: '660 ₽ ga rasmiylashtirish',
+    planYearName: 'Yillik', planYearSub: '5 880 ₽/yil · 6 000 ₽ tejash',
+    planYearBtn: '5 880 ₽/yil ga<br>rasmiylashtirish',
+    feat1: 'Reytingi 60+ barcha obyektlar', feat2: 'Har bir obyekt bo‘yicha to‘liq analitika',
+    feat3: 'Kengaytirilgan filtrlar va saralash', feat4: 'Tanlovni eksport qilish',
+    modalTitle: 'Reytingga to‘liq kirish',
+    mDiscount: 'Bozorga chegirma', mRoi: 'Kutilayotgan daromad', mGrowth: '12 oyda narx o‘sishi',
+    mLiq: 'Likvidlik', mVac: 'Bo‘shlik darajasi', mPpm: 'Obyekt narxi / m²',
+    mMarket: 'Segment bo‘yicha o‘rtacha narx',
+    discBelow: 'taqqoslanadigan obyektlarning o‘rtacha narxidan past',
+    discAbove: 'taqqoslanadigan obyektlarning o‘rtacha narxidan yuqori',
+    discEqual: 'bozor o‘rtacha narxiga mos',
+    roiNoData: 'ma’lumot yo‘q', roiNoSub: 'hisoblash uchun ijara ma’lumotlari yetarli emas',
+    liqHigh: 'obyektga talab yuqori',
+    liqMid: 'obyekt o‘rtacha bozor muddatida sotiladi',
+    liqLow: 'obyektni tez sotish qiyinroq',
+    vacNoData: 'bo‘shlik ma’lumoti yo‘q', vacLow: 'bo‘shlik xavfi past',
+    vacMid: 'bo‘shlik xavfi o‘rtacha', vacHigh: 'bo‘shlik xavfi yuqori',
+    mln: 'mln ₽', approxUsd: '≈ $',
+    locked: 'PRO obuna bilan mavjud', unlockBtn: 'Kirishni ochish',
+    emptyMsg: 'Filtrlarga mos obyektlar yo‘q.',
+    sectionTitle: 'Top obyektlar',
+    rankBest: '★ Eng yaxshi', rankSilver: '★ Kumush', rankBronze: '★ Bronza',
   }
 };
 
 function t(key) { return (T[currentLang] && T[currentLang][key] !== undefined) ? T[currentLang][key] : (T['ru'][key] || key); }
 
 function applyLang(lang) {
+  if (!T[lang]) lang = 'ru';
   currentLang = lang;
   localStorage.setItem('aivest-lang', lang);
-  var btn = document.getElementById('lang-toggle');
-  if (btn) btn.textContent = lang === 'ru' ? 'EN' : 'RU';
+  // Update 3-way lang switch active state
+  document.querySelectorAll('.lang-opt').forEach(function(el) {
+    el.classList.toggle('active', el.getAttribute('data-lang') === lang);
+  });
   document.documentElement.setAttribute('lang', lang);
 
   // Update all data-i18n elements
@@ -1962,12 +2046,97 @@ function applyLang(lang) {
 }
 
 function toggleLang() {
-  applyLang(currentLang === 'ru' ? 'en' : 'ru');
+  var order = ['ru', 'en', 'uz'];
+  var i = order.indexOf(currentLang);
+  applyLang(order[(i + 1) % order.length]);
 }
 
-// Apply mode (buy/rent) BEFORE first data load, then load real data from API
+// ── Country filter (ru/uz/kz/by) ─────────────────────────────────────────────
+var currentCountry = (function(){
+  try {
+    var c = localStorage.getItem('aivest-country');
+    if (['ru','uz','kz','by'].indexOf(c) >= 0) return c;
+  } catch(e){}
+  return 'ru';
+})();
+
+var COUNTRY_COPY = {
+  ru: { label: 'Россия',     currency: 'RUB' },
+  uz: { label: 'Узбекистан', currency: 'USD' },
+  kz: { label: 'Казахстан',  currency: 'USD' },
+  by: { label: 'Беларусь',   currency: 'USD' },
+};
+
+function setCountry(c) {
+  if (!COUNTRY_COPY[c]) return;
+  currentCountry = c;
+  try { localStorage.setItem('aivest-country', c); } catch(e){}
+  document.querySelectorAll('.country-opt').forEach(function(el) {
+    el.classList.toggle('active', el.getAttribute('data-country') === c);
+  });
+  applyCountryPricing();
+  // Empty-state for non-RU countries (no data yet)
+  if (c !== 'ru') {
+    var g = document.getElementById('cards-grid');
+    if (g) {
+      var flagByCode = { uz: '🇺🇿', kz: '🇰🇿', by: '🇧🇾' };
+      var labelByCode = { uz: 'Узбекистану', kz: 'Казахстану', by: 'Беларуси' };
+      g.innerHTML = '<div class="empty" style="padding:3rem 1rem;text-align:center;color:var(--muted)">'+
+        '<div style="font-size:36px;margin-bottom:12px">'+(flagByCode[c]||'')+'</div>'+
+        '<div style="font-size:16px;margin-bottom:8px;color:var(--text)">Скоро появится</div>'+
+        '<div style="font-size:13px;max-width:420px;margin:0 auto">Сейчас собираем актуальные объявления по '+(labelByCode[c]||'этой стране')+'. Выберите «🇷🇺 Россия» для просмотра текущей базы.</div>'+
+        '</div>';
+    }
+  } else {
+    // Back to RU → re-render from current data
+    if (typeof render === 'function') render();
+  }
+}
+
+// Convert the ₽ plan-price to USD (round to nearest $1) when non-RU country
+function applyCountryPricing() {
+  var isRub = (currentCountry === 'ru');
+  var fx    = 90; // ₽/$ — rough, rounded
+  var planCards = document.querySelectorAll('.plan-price');
+  planCards.forEach(function(el, i) {
+    if (!el.dataset.priceRub) {
+      // Capture original ₽ value on first run
+      var m = (el.textContent || '').match(/([\d\s ]+)/);
+      if (m) el.dataset.priceRub = m[1].replace(/\s/g,'').trim();
+    }
+    var rub = parseInt(el.dataset.priceRub || '0', 10);
+    if (!rub) return;
+    if (isRub) {
+      el.innerHTML = rub.toLocaleString('ru-RU') + ' <span>₽/мес</span>';
+    } else {
+      var usd = Math.max(1, Math.round(rub / fx));
+      el.innerHTML = '$' + usd + ' <span>/ mo</span>';
+    }
+  });
+  // Swap plan buttons text for USD
+  var mBtn = document.querySelector('[data-i18n="planMonthBtn"]');
+  var yBtn = document.querySelector('[data-i18n="planYearBtn"]');
+  if (!isRub) {
+    if (mBtn) mBtn.textContent = 'Subscribe for ~$7/mo';
+    if (yBtn) yBtn.innerHTML   = 'Subscribe for<br>~$65/yr';
+  } else if (typeof t === 'function') {
+    if (mBtn) mBtn.innerHTML = t('planMonthBtn');
+    if (yBtn) yBtn.innerHTML = t('planYearBtn');
+  }
+}
+
+// Apply mode (buy/rent) + country BEFORE first data load, then load real data from API
 applyModeUI();
-loadFromAPI();
+// Initialize country UI state without forcing an empty-state if RU
+document.querySelectorAll('.country-opt').forEach(function(el) {
+  el.classList.toggle('active', el.getAttribute('data-country') === currentCountry);
+});
+applyCountryPricing();
+if (currentCountry !== 'ru') {
+  setCountry(currentCountry); // shows empty state
+} else {
+  loadFromAPI();
+}
 </script>
 <!-- Vercel Analytics -->
 <script defer src="/_vercel/insights/script.js"></script>
