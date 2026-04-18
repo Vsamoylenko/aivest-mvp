@@ -57,6 +57,7 @@
 
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/theme-claude.css">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -545,6 +546,9 @@
     <a href="#" onclick="openModal();return false;">Тарифы</a>
   </div>
   <div class="nav-controls">
+    <button class="theme-toggle-beta" id="theme-variant-toggle" onclick="toggleThemeVariant()" title="Переключить визуальный стиль">
+      <span id="theme-variant-label">✨ Новый</span>
+    </button>
     <div class="lang-switch" id="lang-switch" role="tablist" aria-label="Language">
       <button class="lang-opt" data-lang="ru" onclick="applyLang('ru')" title="Русский" aria-label="Русский"><span class="flag">🇷🇺</span><span class="lbl">RU</span></button>
       <button class="lang-opt" data-lang="en" onclick="applyLang('en')" title="English" aria-label="English"><span class="flag">🇬🇧</span><span class="lbl">EN</span></button>
@@ -563,10 +567,10 @@
 
   <!-- Country switcher -->
   <div class="country-switch" id="country-switch" role="tablist" aria-label="Страна">
-    <button class="country-opt active" data-country="ru" onclick="setCountry('ru')"><span class="flag">🇷🇺</span><span class="lbl">Россия</span></button>
-    <button class="country-opt"        data-country="uz" onclick="setCountry('uz')"><span class="flag">🇺🇿</span><span class="lbl">Узбекистан</span></button>
-    <button class="country-opt"        data-country="kz" onclick="setCountry('kz')"><span class="flag">🇰🇿</span><span class="lbl">Казахстан</span></button>
-    <button class="country-opt"        data-country="by" onclick="setCountry('by')"><span class="flag">🇧🇾</span><span class="lbl">Беларусь</span></button>
+    <button class="country-opt active" data-country="ru" onclick="setCountry('ru')">Россия</button>
+    <button class="country-opt"        data-country="uz" onclick="setCountry('uz')">Узбекистан</button>
+    <button class="country-opt"        data-country="kz" onclick="setCountry('kz')">Казахстан</button>
+    <button class="country-opt"        data-country="by" onclick="setCountry('by')">Беларусь</button>
   </div>
 
   <!-- Invest / Rent mode slider -->
@@ -1107,6 +1111,34 @@ var renderPage   = 1;
 var RENDER_BATCH = 50;
 var dataSource = 'mock'; // 'mock' | 'live'
 var dataUpdatedAt = null;
+
+// ── Visual theme variant: 'legacy' (dark/lime) | 'claude' (cream/serif) ───────
+// Opt-in override. Legacy is the default; switching to 'claude' applies the
+// theme-claude.css override layer. Removing the class reverts 100% to legacy,
+// which makes this a non-destructive redesign with instant rollback.
+var THEME_VARIANT = (function(){
+  try {
+    var v = localStorage.getItem('aivest-theme-variant');
+    if (v === 'claude' || v === 'legacy') return v;
+    var q = new URLSearchParams(location.search).get('theme');
+    if (q === 'claude' || q === 'legacy') return q;
+  } catch(e){}
+  return 'legacy';
+})();
+function applyThemeVariant() {
+  document.body.classList.toggle('theme-claude', THEME_VARIANT === 'claude');
+  var lbl = document.getElementById('theme-variant-label');
+  if (lbl) lbl.textContent = THEME_VARIANT === 'claude' ? '↩ Классика' : '✨ Новый';
+  var btn = document.getElementById('theme-variant-toggle');
+  if (btn) btn.setAttribute('title', THEME_VARIANT === 'claude'
+    ? 'Вернуться к классическому тёмному дизайну'
+    : 'Попробовать новый светлый дизайн (beta)');
+}
+function toggleThemeVariant() {
+  THEME_VARIANT = (THEME_VARIANT === 'claude') ? 'legacy' : 'claude';
+  try { localStorage.setItem('aivest-theme-variant', THEME_VARIANT); } catch(e){}
+  applyThemeVariant();
+}
 
 // ── Mode: 'buy' (investor) | 'rent' (renter) ──────────────────────────────────
 var APP_MODE = (function(){
@@ -2125,7 +2157,8 @@ function applyCountryPricing() {
   }
 }
 
-// Apply mode (buy/rent) + country BEFORE first data load, then load real data from API
+// Apply theme variant FIRST (pure CSS, no reflow cost), then mode + country, then load data
+applyThemeVariant();
 applyModeUI();
 // Initialize country UI state without forcing an empty-state if RU
 document.querySelectorAll('.country-opt').forEach(function(el) {

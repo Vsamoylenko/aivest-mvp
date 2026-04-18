@@ -1,0 +1,355 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   AIvest — «Claude» theme (beta)
+   Opt-in override. Activated when <body class="theme-claude">.
+   Removing the `theme-claude` class reverts 100% to the legacy dark theme.
+   Inspired by Anthropic's editorial aesthetic: warm cream, Source Serif
+   display type, Inter body, soft terracotta accent, generous whitespace.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=Inter:wght@300;400;500;600;700&display=swap');
+
+body.theme-claude {
+  /* Palette */
+  --bg:         #f6f1e6;          /* warm cream canvas */
+  --surface:    #fffdf8;          /* ivory card */
+  --surface2:   #f0e9da;          /* sand */
+  --border:     rgba(48, 30, 15, 0.08);
+  --border2:    rgba(48, 30, 15, 0.16);
+  --text:       #2a1e12;          /* warm near-black */
+  --muted:      #786552;          /* warm brown */
+  --faint:      #a89685;
+  --accent:     #c15f3c;          /* terracotta */
+  --accent-dim: rgba(193, 95, 60, 0.10);
+  --accent-glow:rgba(193, 95, 60, 0.30);
+  --gold:       #b78442;
+  --silver:     #8f8a7e;
+  --bronze:     #a86a3f;
+  --success:    #6f8f4f;
+  --warn:       #c88b1e;
+  --danger:     #b24234;
+
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  font-feature-settings: 'ss01', 'cv11';
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Editorial type scale — Source Serif on display, Inter on body */
+body.theme-claude h1,
+body.theme-claude .hero h1,
+body.theme-claude .section-title,
+body.theme-claude .info-section-head,
+body.theme-claude .how-step h3 {
+  font-family: 'Source Serif 4', 'DM Serif Display', Georgia, serif;
+  letter-spacing: -0.01em;
+  font-weight: 500;
+}
+body.theme-claude .nav-logo {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+body.theme-claude .nav-logo .ai { color: var(--accent); font-style: italic; }
+body.theme-claude h1 em, body.theme-claude .hero h1 em {
+  font-style: italic; color: var(--accent);
+  font-family: 'Source Serif 4', Georgia, serif;
+}
+
+/* Nav */
+body.theme-claude nav {
+  background: rgba(246, 241, 230, 0.86);
+  backdrop-filter: blur(16px) saturate(1.2);
+  border-bottom: 1px solid var(--border);
+  height: 64px;
+}
+body.theme-claude .nav-links a { color: var(--muted); font-size: 14px; font-weight: 400; }
+body.theme-claude .nav-links a:hover { color: var(--text); }
+body.theme-claude .nav-cta {
+  background: var(--text); color: var(--bg);
+  border-radius: 999px; padding: 9px 20px; font-weight: 500;
+  font-family: 'Inter', sans-serif; font-size: 13px;
+  transition: background .2s, transform .1s;
+}
+body.theme-claude .nav-cta:hover { background: var(--accent); opacity: 1; }
+body.theme-claude .nav-login-btn {
+  border-radius: 999px; color: var(--text); border: 1px solid var(--border2);
+  background: transparent; font-weight: 400;
+}
+body.theme-claude .nav-login-btn:hover { background: var(--surface); }
+body.theme-claude .nav-icon-btn {
+  background: var(--surface); border: 1px solid var(--border); color: var(--muted);
+  border-radius: 999px;
+}
+body.theme-claude .nav-icon-btn:hover { color: var(--text); border-color: var(--border2); }
+
+/* Language switch */
+body.theme-claude .lang-switch {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 999px; padding: 3px;
+}
+body.theme-claude .lang-opt { color: var(--muted); border-radius: 999px; }
+body.theme-claude .lang-opt.active { background: var(--text); color: var(--bg); }
+
+/* Hero */
+body.theme-claude .hero {
+  padding: 5rem 2rem 3rem;
+  background:
+    radial-gradient(1200px 500px at 50% -100px, rgba(193,95,60,.08), transparent 70%),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg) 100%);
+}
+body.theme-claude .hero-eyebrow {
+  color: var(--muted); font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase;
+  font-weight: 500; margin-bottom: 1.2rem;
+}
+body.theme-claude .hero h1 {
+  font-size: clamp(36px, 5vw, 56px); line-height: 1.08;
+  max-width: 880px; margin: 0 auto 1.4rem;
+  color: var(--text); font-weight: 500;
+}
+body.theme-claude .hero-sub {
+  color: var(--muted); font-size: 17px; max-width: 720px;
+  line-height: 1.55; font-weight: 400;
+}
+
+/* Country switch */
+body.theme-claude .country-switch { margin-top: 1.8rem; }
+body.theme-claude .country-opt {
+  background: transparent; border: 1px solid var(--border2);
+  color: var(--muted); border-radius: 999px; padding: 8px 18px;
+  font-size: 13px; font-weight: 500; letter-spacing: .01em;
+}
+body.theme-claude .country-opt:hover { color: var(--text); border-color: var(--text); background: var(--surface); }
+body.theme-claude .country-opt.active {
+  background: var(--text); color: var(--bg); border-color: var(--text);
+}
+
+/* Mode switch (invest/rent) */
+body.theme-claude .mode-switch {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 6px;
+  box-shadow: 0 1px 0 rgba(48,30,15,0.02), 0 12px 32px -18px rgba(48,30,15,0.18);
+}
+body.theme-claude .mode-opt { border-radius: 10px; color: var(--muted); }
+body.theme-claude .mode-opt .mode-lbl { font-family: 'Source Serif 4', serif; font-weight: 500; font-size: 15px; }
+body.theme-claude .mode-opt.active { background: var(--accent-dim); color: var(--accent); box-shadow: none; }
+body.theme-claude .mode-slider-track { background: var(--surface2); border-color: var(--border2); }
+body.theme-claude .mode-slider-knob { background: var(--accent); }
+
+/* Pills (source filter) */
+body.theme-claude .pill {
+  background: var(--surface); border: 1px solid var(--border);
+  color: var(--muted); border-radius: 999px; padding: 8px 16px;
+  font-size: 13px; font-weight: 500;
+}
+body.theme-claude .pill:hover { color: var(--text); border-color: var(--border2); }
+body.theme-claude .pill.active, body.theme-claude .pill[aria-pressed="true"] {
+  background: var(--text); color: var(--bg); border-color: var(--text);
+}
+
+/* Filter bar */
+body.theme-claude .filter-bar {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; box-shadow: 0 1px 0 rgba(48,30,15,0.02);
+}
+body.theme-claude .fgroup label { color: var(--muted); font-size: 11px; letter-spacing: 0.08em; }
+body.theme-claude .fgroup select,
+body.theme-claude .fgroup input {
+  background: var(--bg); border: 1px solid var(--border2);
+  color: var(--text); border-radius: 8px; font-family: 'Inter', sans-serif;
+}
+body.theme-claude .fgroup select:focus,
+body.theme-claude .fgroup input:focus {
+  border-color: var(--accent); outline: none;
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+/* Section heads */
+body.theme-claude .info-section-head,
+body.theme-claude .section-title {
+  font-size: clamp(26px, 3vw, 36px);
+  color: var(--text); letter-spacing: -0.01em; font-weight: 500;
+}
+body.theme-claude .how-step {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; padding: 28px;
+  box-shadow: 0 1px 0 rgba(48,30,15,0.02);
+  transition: transform .2s, border-color .2s;
+}
+body.theme-claude .how-step:hover { transform: translateY(-2px); border-color: var(--border2); }
+body.theme-claude .how-num {
+  color: var(--accent); font-family: 'Source Serif 4', serif;
+  font-size: 28px; font-weight: 500; font-style: italic;
+}
+body.theme-claude .how-step h3 { font-size: 20px; margin-bottom: 8px; }
+body.theme-claude .how-step p { color: var(--muted); line-height: 1.6; }
+
+/* Property cards — the centerpiece */
+body.theme-claude .prop-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 1px 0 rgba(48,30,15,0.02);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s;
+}
+body.theme-claude .prop-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--border2);
+  box-shadow: 0 18px 40px -20px rgba(48, 30, 15, 0.18);
+}
+body.theme-claude .prop-card.locked { opacity: 1; }
+body.theme-claude .prop-card.has-link { cursor: pointer; }
+body.theme-claude .card-rank { color: var(--accent); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+body.theme-claude .card-title {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-weight: 500; font-size: 19px; line-height: 1.25;
+  color: var(--text); margin-top: 6px;
+}
+body.theme-claude .card-city { color: var(--muted); font-size: 13px; margin-top: 4px; }
+body.theme-claude .score-bubble {
+  background: var(--text); color: var(--bg);
+  border-radius: 999px; padding: 8px 14px; font-weight: 600; font-size: 15px;
+  border: none; box-shadow: 0 2px 8px -2px rgba(48,30,15,0.25);
+}
+body.theme-claude .score-bubble.score-locked { background: var(--surface2); color: var(--muted); }
+
+body.theme-claude .ctag {
+  background: var(--surface2); border: 1px solid var(--border); color: var(--muted);
+  border-radius: 999px; padding: 3px 10px; font-size: 11px; letter-spacing: 0.04em;
+}
+body.theme-claude .ctag-apt   { background: rgba(111,143,79,0.08);  color: #557339; border-color: rgba(111,143,79,0.20); }
+body.theme-claude .ctag-house { background: rgba(200,139,30,0.10);  color: #8a5c10; border-color: rgba(200,139,30,0.22); }
+body.theme-claude .ctag-comm  { background: rgba(143,138,126,0.12); color: #5c5849; border-color: rgba(143,138,126,0.22); }
+body.theme-claude .ctag-land  { background: rgba(168,130,80,0.12);  color: #7a5828; border-color: rgba(168,130,80,0.22); }
+body.theme-claude .ctag-auct  { background: rgba(193,95,60,0.10);   color: var(--accent); border-color: rgba(193,95,60,0.25); }
+body.theme-claude .ctag-dev   { background: rgba(176,119,74,0.10);  color: #7a4a22; border-color: rgba(176,119,74,0.22); }
+body.theme-claude .ctag-badge { background: var(--accent-dim); color: var(--accent); border-color: rgba(193,95,60,0.25); font-weight: 500; }
+
+body.theme-claude .card-metrics {
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  padding: 14px 0; margin: 14px 0;
+}
+body.theme-claude .cm-label { color: var(--faint); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; }
+body.theme-claude .cm-value { color: var(--text); font-weight: 500; font-size: 17px; font-family: 'Source Serif 4', serif; }
+body.theme-claude .cm-value.accent { color: var(--accent); }
+body.theme-claude .cm-value.amber  { color: var(--warn); }
+body.theme-claude .cm-sub { color: var(--muted); font-size: 11px; line-height: 1.3; }
+body.theme-claude .cm-value.neg { color: var(--danger); }
+body.theme-claude .cm-value.pos { color: var(--success); }
+
+body.theme-claude .score-bar-wrap { background: var(--surface2); border-radius: 999px; height: 4px; overflow: hidden; }
+body.theme-claude .score-bar-fill { border-radius: 999px; transition: width .6s; }
+
+body.theme-claude .card-price-row { margin-top: 14px; }
+body.theme-claude .price-main {
+  font-family: 'Source Serif 4', serif; font-weight: 500;
+  font-size: 22px; color: var(--text); letter-spacing: -0.01em;
+}
+body.theme-claude .price-sub { color: var(--muted); font-size: 12px; }
+body.theme-claude .card-cian-link {
+  display: inline-block; margin-top: 10px; color: var(--accent);
+  font-size: 13px; text-decoration: none; font-weight: 500;
+  border-bottom: 1px solid transparent; transition: border-color .2s;
+}
+body.theme-claude .card-cian-link:hover { border-bottom-color: var(--accent); }
+
+/* Paywall */
+body.theme-claude .paywall-overlay {
+  background: linear-gradient(180deg, transparent 0%, var(--surface) 60%);
+  color: var(--text);
+}
+body.theme-claude .lock-icon { color: var(--accent); }
+body.theme-claude .unlock-btn {
+  background: var(--text); color: var(--bg); border: none;
+  border-radius: 999px; padding: 10px 22px; font-weight: 500;
+  cursor: pointer; transition: background .2s;
+}
+body.theme-claude .unlock-btn:hover { background: var(--accent); }
+
+/* Plan cards / pricing */
+body.theme-claude #pricing { background: transparent; }
+body.theme-claude .plan-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; padding: 34px 28px;
+  box-shadow: 0 1px 0 rgba(48,30,15,0.02);
+}
+body.theme-claude .plan-card.featured {
+  border-color: var(--accent); background: linear-gradient(180deg, var(--accent-dim), var(--surface));
+}
+body.theme-claude .plan-name { color: var(--muted); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; }
+body.theme-claude .plan-price {
+  font-family: 'Source Serif 4', serif; font-weight: 500;
+  color: var(--text); font-size: 44px; letter-spacing: -0.02em;
+}
+body.theme-claude .plan-price span { font-family: 'Inter', sans-serif; color: var(--muted); font-size: 15px; font-weight: 400; }
+body.theme-claude .plan-sub { color: var(--muted); }
+body.theme-claude .plan-features li { color: var(--text); }
+body.theme-claude .plan-features li::before { color: var(--accent); }
+body.theme-claude .plan-btn {
+  background: var(--text); color: var(--bg); border: none;
+  border-radius: 999px; font-weight: 500; letter-spacing: 0.01em;
+  padding: 12px 22px; cursor: pointer; transition: background .2s;
+}
+body.theme-claude .plan-btn:hover { background: var(--accent); }
+body.theme-claude .ribbon {
+  background: var(--accent); color: var(--bg);
+  border-radius: 999px; font-weight: 500; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+}
+
+/* Footer */
+body.theme-claude footer {
+  background: var(--surface2); border-top: 1px solid var(--border); color: var(--muted);
+}
+body.theme-claude footer a { color: var(--text); }
+
+/* Modals */
+body.theme-claude .modal {
+  background: var(--surface); color: var(--text);
+  border-radius: 20px; border: 1px solid var(--border);
+  box-shadow: 0 40px 80px -20px rgba(48,30,15,0.35);
+}
+body.theme-claude .modal h2 { font-family: 'Source Serif 4', serif; font-weight: 500; }
+body.theme-claude .modal input, body.theme-claude .modal select, body.theme-claude .modal textarea {
+  background: var(--bg); border: 1px solid var(--border2); color: var(--text);
+  border-radius: 10px; font-family: 'Inter', sans-serif;
+}
+body.theme-claude .modal input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
+body.theme-claude .modal-backdrop { background: rgba(42,30,18,0.45); }
+
+/* Data badge */
+body.theme-claude #data-source-badge {
+  background: var(--surface); border: 1px solid var(--border); color: var(--muted);
+  border-radius: 999px;
+}
+
+/* Score bubble color ramps — softer in light theme */
+body.theme-claude .score-bubble.score-90 { background: #6f8f4f; }
+body.theme-claude .score-bubble.score-80 { background: #8aa55f; }
+body.theme-claude .score-bubble.score-70 { background: var(--accent); }
+body.theme-claude .score-bubble.score-60 { background: #b78442; }
+body.theme-claude .score-bubble.score-low { background: var(--surface2); color: var(--muted); }
+
+/* Scrollbars in warm tone */
+body.theme-claude ::-webkit-scrollbar { width: 10px; height: 10px; }
+body.theme-claude ::-webkit-scrollbar-track { background: var(--bg); }
+body.theme-claude ::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 999px; }
+body.theme-claude ::-webkit-scrollbar-thumb:hover { background: var(--border2); }
+
+/* Map view */
+body.theme-claude #map-view { border: 1px solid var(--border); border-radius: 18px; background: var(--surface); }
+
+/* "Beta" pill for the theme toggle itself */
+.theme-toggle-beta {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 0 10px; height: 34px; border-radius: 999px;
+  background: transparent; border: 1px solid var(--border2); color: var(--muted);
+  font-size: 11px; font-weight: 600; letter-spacing: 0.06em; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; transition: all .2s;
+}
+.theme-toggle-beta:hover { color: var(--text); border-color: var(--accent-glow); }
+body.theme-claude .theme-toggle-beta {
+  background: var(--accent); color: var(--bg); border-color: var(--accent);
+  font-family: 'Inter', sans-serif;
+}
+body.theme-claude .theme-toggle-beta:hover { background: var(--text); border-color: var(--text); color: var(--bg); }
