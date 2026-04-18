@@ -17,10 +17,12 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ── Properties data ──
-const PROPERTIES_FILE = path.join(__dirname, 'data', 'properties.json');
-function loadProperties() {
-  if (!fs.existsSync(PROPERTIES_FILE)) return null;
-  try { return JSON.parse(fs.readFileSync(PROPERTIES_FILE, 'utf8')); }
+const PROPERTIES_FILE      = path.join(__dirname, 'data', 'properties.json');
+const PROPERTIES_RENT_FILE = path.join(__dirname, 'data', 'properties-rent.json');
+function loadProperties(mode) {
+  const file = mode === 'rent' ? PROPERTIES_RENT_FILE : PROPERTIES_FILE;
+  if (!fs.existsSync(file)) return null;
+  try { return JSON.parse(fs.readFileSync(file, 'utf8')); }
   catch (e) { return null; }
 }
 
@@ -165,10 +167,11 @@ app.post('/api/login', async (req, res) => {
   res.status(401).json({ error: 'Неверный email или пароль' });
 });
 
-// GET /api/properties
+// GET /api/properties  (?mode=rent for rental listings)
 app.get('/api/properties', (req, res) => {
-  const data = loadProperties();
-  if (!data) return res.json({ source: 'mock', properties: [], updatedAt: null });
+  const mode = req.query.mode === 'rent' ? 'rent' : 'buy';
+  const data = loadProperties(mode);
+  if (!data) return res.json({ source: 'mock', mode, properties: [], updatedAt: null });
 
   let props = data.properties || [];
   const { city, type, minScore, maxPrice, source, sort, page = 1, limit = 10000 } = req.query;
@@ -193,7 +196,7 @@ app.get('/api/properties', (req, res) => {
   const total     = props.length;
   const paginated = props.slice((pageNum - 1) * limitNum, pageNum * limitNum);
 
-  res.json({ source: 'cian', updatedAt: data.updatedAt, total, page: pageNum, limit: limitNum, properties: paginated });
+  res.json({ source: 'live', mode, updatedAt: data.updatedAt, total, page: pageNum, limit: limitNum, properties: paginated });
 });
 
 // GET /api/properties/stats
@@ -389,6 +392,38 @@ app.post('/api/verify-token', async (req, res) => {
   } catch {
     return res.json({ valid: false });
   }
+});
+
+// ═══════════════════════════════════════════════════════
+//  SEO — sitemap.xml (dynamic, lists top listings + city anchors)
+// ═══════════════════════════════════════════════════════
+app.get('/sitemap.xml', (req, res) => {
+  const SITE = process.env.SITE_URL || 'https://aivest.ru';
+  const today = new Date().toISOString().slice(0, 10);
+  const data = loadProperties();
+  const props = (data && data.properties) ? data.properties : [];
+
+  // Static URLs + city anchors
+  const urls = [
+    { loc: `${SITE}/`,                changefreq: 'hourly',  priority: '1.0' },
+    { loc: `${SITE}/#calculator`,     changefreq: 'weekly',  priority: '0.7' },
+    { loc: `${SITE}/#pricing`,        changefreq: 'monthly', priority: '0.6' },
+  ];
+  const cities = ['Москва','Санкт-Петербург','Краснодар','Сочи','Казань','Новосибирск','Екатеринбург'];
+  for (const c of cities) {
+    urls.push({ loc: `${SITE}/?city=${encodeURIComponent(c)}`, changefreq: 'daily', priority: '0.8' });
+  }
+  // Top 500 highest-scored listings (anchor links — SPA hash deep-link)
+  props.slice(0, 500).forEach(p => {
+    urls.push({ loc: `${SITE}/?id=${p.id}#listing-${p.id}`, changefreq: 'weekly', priority: '0.5' });
+  });
+
+  res.set('Content-Type', 'application/xml; charset=utf-8');
+  res.set('Cache-Control', 'public, max-age=3600');
+  res.send(`<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls.map(u => `  <url><loc>${u.loc}</loc><lastmod>${today}</lastmod><changefreq>${u.changefreq}</changefreq><priority>${u.priority}</priority></url>`).join('\n')}
+</urlset>`);
 });
 
 // SPA fallback

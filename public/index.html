@@ -3,7 +3,58 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AIvest.ru — Недвижимость для сдачи и долгосрочных инвестиций</title>
+<title>AIvest.ru — Аналитика недвижимости для инвесторов: ROI, доходность, скоринг объектов</title>
+<meta name="description" content="AIvest — алгоритмический скоринг объектов недвижимости в Москве, СПб, Сочи, Краснодаре. Расчёт ROI, доходности от аренды, дисконта к рынку. Объекты от агрегаторов, аукционов и застройщиков в одном месте.">
+<meta name="keywords" content="инвестиции в недвижимость, ROI недвижимость, доходность аренды, аукционы недвижимости, новостройки от застройщиков, скоринг квартир, аналитика недвижимости Москва">
+<meta name="author" content="AIvest.ru">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="yandex-verification" content="REPLACE_WITH_YANDEX_WEBMASTER_TOKEN">
+<meta name="google-site-verification" content="REPLACE_WITH_GOOGLE_SEARCH_CONSOLE_TOKEN">
+<link rel="canonical" href="https://aivest.ru/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AIvest.ru">
+<meta property="og:title" content="AIvest.ru — Аналитика недвижимости для инвесторов">
+<meta property="og:description" content="Алгоритмический скоринг тысяч объектов: ROI, доходность от аренды, дисконт к рынку. Москва, СПб, Сочи, Краснодар, Казань.">
+<meta property="og:url" content="https://aivest.ru/">
+<meta property="og:image" content="https://aivest.ru/favicon.svg">
+<meta property="og:locale" content="ru_RU">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AIvest.ru — Аналитика недвижимости для инвесторов">
+<meta name="twitter:description" content="Алгоритмический скоринг недвижимости: ROI, аренда, дисконт.">
+
+<!-- Schema.org JSON-LD -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "AIvest.ru",
+  "url": "https://aivest.ru/",
+  "description": "Алгоритмическая аналитика инвестиционной недвижимости: ROI, доходность от аренды, скоринг объектов.",
+  "inLanguage": "ru-RU",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://aivest.ru/?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "AIvest.ru",
+  "url": "https://aivest.ru/",
+  "logo": "https://aivest.ru/favicon.svg",
+  "description": "Сервис алгоритмического скоринга объектов недвижимости для инвесторов.",
+  "areaServed": ["Москва","Санкт-Петербург","Сочи","Краснодар","Казань","Новосибирск","Екатеринбург"],
+  "sameAs": []
+}
+</script>
+
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -468,9 +519,65 @@
 
 <section class="hero">
   <div class="hero-eyebrow" data-i18n="heroEyebrow">Продвинутая аналитика недвижимости · aivest.ru</div>
-  <h1 data-i18n="heroTitle">Удобный поиск недвижимости<br><em>для рантье и долгосрочных инвесторов</em></h1>
-  <p class="hero-sub" data-i18n="heroSub">Алгоритмическая оценка объявлений от агрегаторов, аукционов и застройщиков</p>
+  <h1 id="hero-title">Удобный поиск недвижимости<br><em id="hero-title-em">для рантье и долгосрочных инвесторов</em></h1>
+  <p class="hero-sub" id="hero-sub">Алгоритмическая оценка объявлений от агрегаторов, аукционов и застройщиков</p>
+
+  <!-- Invest / Rent mode slider -->
+  <div class="mode-switch" role="tablist" aria-label="Режим: покупка или аренда">
+    <button type="button" class="mode-opt active" id="mode-buy"  onclick="setMode('buy')"
+            role="tab" aria-selected="true"
+            title="Инвесторам: объекты для покупки со скорингом доходности">
+      <span class="mode-ico">💼</span>
+      <span class="mode-lbl">Для инвесторов</span>
+      <span class="mode-desc">покупка · ROI, дисконт, рост</span>
+    </button>
+    <div class="mode-slider-wrap" onclick="toggleMode()" aria-hidden="true">
+      <div class="mode-slider-track"><div class="mode-slider-knob" id="mode-knob"></div></div>
+    </div>
+    <button type="button" class="mode-opt" id="mode-rent" onclick="setMode('rent')"
+            role="tab" aria-selected="false"
+            title="Арендаторам: лучшие предложения аренды со скорингом">
+      <span class="mode-ico">🔑</span>
+      <span class="mode-lbl">Для арендаторов</span>
+      <span class="mode-desc">аренда · ниже рынка, метро</span>
+    </button>
+  </div>
+  <div id="mode-note" style="color:var(--faint);font-size:12px;text-align:center;margin-top:10px">
+    Сейчас активна версия для инвесторов
+  </div>
 </section>
+<style>
+  .mode-switch {
+    display: flex; align-items: stretch; justify-content: center; gap: 0;
+    max-width: 680px; margin: 1.5rem auto 0; padding: 6px;
+    background: var(--surface); border: 1px solid var(--border2); border-radius: 14px;
+  }
+  .mode-opt {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px;
+    background: transparent; border: none; padding: 10px 14px; cursor: pointer;
+    color: var(--muted); border-radius: 10px; transition: all .2s;
+  }
+  .mode-opt:hover { color: var(--text); }
+  .mode-opt.active { background: var(--accent-dim); color: var(--accent); box-shadow: 0 0 0 1px var(--accent-glow) inset; }
+  .mode-opt .mode-ico { font-size: 18px; }
+  .mode-opt .mode-lbl { font-size: 13px; font-weight: 600; letter-spacing: .01em; }
+  .mode-opt .mode-desc { font-size: 11px; color: var(--faint); }
+  .mode-opt.active .mode-desc { color: var(--muted); }
+  .mode-slider-wrap { display: flex; align-items: center; padding: 0 8px; cursor: pointer; }
+  .mode-slider-track {
+    width: 42px; height: 22px; border-radius: 99px; background: var(--surface2);
+    border: 1px solid var(--border2); position: relative;
+  }
+  .mode-slider-knob {
+    position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%;
+    background: var(--accent); transition: transform .25s cubic-bezier(.5,0,.3,1);
+  }
+  body.mode-rent .mode-slider-knob { transform: translateX(20px); }
+  @media (max-width: 520px) {
+    .mode-opt .mode-desc { display: none; }
+    .mode-opt { padding: 8px 6px; }
+  }
+</style>
 
 <!-- ── КАК РАБОТАЕТ ── -->
 <section id="how-it-works" class="info-section">
@@ -598,11 +705,46 @@
   </div>
 </section>
 
-<div class="source-pills" style="max-width:1100px;margin:0 auto 1.5rem;padding:0 2rem;justify-content:flex-start;">
-  <button class="pill active" data-source="all">Все источники</button>
-  <button class="pill" data-source="agg">Агрегаторы</button>
-  <button class="pill" data-source="auct">Аукционы</button>
-  <button class="pill" data-source="dev">Застройщики</button>
+<div class="source-pills" style="max-width:1100px;margin:0 auto 1.5rem;padding:0 2rem;justify-content:space-between;align-items:center;display:flex;flex-wrap:wrap;gap:8px;">
+  <div style="display:flex;flex-wrap:wrap;gap:6px;">
+    <button class="pill active" data-source="all">Все источники</button>
+    <button class="pill" data-source="agg">Агрегаторы</button>
+    <button class="pill" data-source="auct">Аукционы</button>
+    <button class="pill" data-source="dev">Застройщики</button>
+  </div>
+  <button id="view-toggle" class="pill" style="background:var(--surface);border:1px solid var(--border2);" onclick="toggleView()">🗺 На карте</button>
+</div>
+
+<!-- Admin-only filter row, hidden until login as admin -->
+<div class="filter-bar admin-only" id="admin-filter-bar" style="display:none; padding-bottom:0;">
+  <div class="fgroup">
+    <label style="color:var(--accent)">🛡 Дата сбора (admin)</label>
+    <select id="f-scraped">
+      <option value="all">За всё время</option>
+      <option value="1">Сегодня (24 ч.)</option>
+      <option value="3">Последние 3 дня</option>
+      <option value="7">Последние 7 дней</option>
+      <option value="30">Последние 30 дней</option>
+      <option value="old">Старше 30 дней</option>
+    </select>
+  </div>
+  <div class="fgroup">
+    <label style="color:var(--accent)">🛡 Источник (admin)</label>
+    <select id="f-source-admin">
+      <option value="all">Все источники</option>
+      <option value="agg">Агрегатор</option>
+      <option value="auct">Аукцион</option>
+      <option value="dev">Застройщик</option>
+    </select>
+  </div>
+  <div class="fgroup">
+    <label style="color:var(--accent)">🛡 Только дубли</label>
+    <select id="f-dupes">
+      <option value="all">Все объекты</option>
+      <option value="dupes">Только с дублями</option>
+      <option value="unique">Только уникальные</option>
+    </select>
+  </div>
 </div>
 
 <div class="filter-bar">
@@ -670,6 +812,12 @@
       <option value="parking">Машиноместо</option>
     </select>
   </div>
+  <div class="fgroup" id="fgroup-metro" style="display:none;">
+    <label>Метро (Москва)</label>
+    <select id="f-metro">
+      <option value="all">Все станции</option>
+    </select>
+  </div>
   <div class="fgroup" id="fgroup-okrug">
     <label>Округ (Москва)</label>
     <select id="f-okrug">
@@ -704,6 +852,10 @@
   </div>
   <div id="data-source-badge" style="display:none;align-items:center;gap:6px;font-size:11px;color:var(--muted);margin-bottom:1rem;"></div>
   <div class="cards-grid" id="cards-grid"></div>
+  <div id="map-view" style="display:none;width:100%;height:600px;border-radius:14px;border:1px solid var(--border2);overflow:hidden;background:var(--surface);position:relative;">
+    <div id="map-canvas" style="width:100%;height:100%;"></div>
+    <div id="map-loading" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;background:var(--surface);">Карта загружается…</div>
+  </div>
 </div>
 
 <footer>
@@ -911,25 +1063,91 @@ var activeSource = 'all';
 var isPro        = false;
 var renderPage   = 1;
 var RENDER_BATCH = 50;
-var dataSource = 'mock'; // 'mock' | 'cian'
+var dataSource = 'mock'; // 'mock' | 'live'
 var dataUpdatedAt = null;
+
+// ── Mode: 'buy' (investor) | 'rent' (renter) ──────────────────────────────────
+var APP_MODE = (function(){
+  try {
+    var stored = localStorage.getItem('aivest-mode');
+    if (stored === 'rent' || stored === 'buy') return stored;
+    var q = new URLSearchParams(location.search).get('mode');
+    if (q === 'rent' || q === 'buy') return q;
+  } catch(e){}
+  return 'buy';
+})();
+
+var HERO_COPY = {
+  buy: {
+    title: 'Удобный поиск недвижимости',
+    em:    'для рантье и долгосрочных инвесторов',
+    sub:   'Алгоритмическая оценка объявлений от агрегаторов, аукционов и застройщиков',
+    note:  'Сейчас активна версия для инвесторов',
+  },
+  rent: {
+    title: 'Удобный поиск недвижимости',
+    em:    'для арендаторов',
+    sub:   'Алгоритмическая оценка объявлений от арендодателей и сервисов аренды',
+    note:  'Сейчас активна версия для арендаторов',
+  }
+};
+
+function applyModeUI() {
+  document.body.classList.toggle('mode-rent', APP_MODE === 'rent');
+  document.body.classList.toggle('mode-buy',  APP_MODE === 'buy');
+  var copy = HERO_COPY[APP_MODE] || HERO_COPY.buy;
+  var t  = document.getElementById('hero-title');
+  var te = document.getElementById('hero-title-em');
+  var s  = document.getElementById('hero-sub');
+  var n  = document.getElementById('mode-note');
+  if (t && te) { t.childNodes[0].nodeValue = copy.title; te.textContent = copy.em; }
+  if (s) s.textContent = copy.sub;
+  if (n) n.textContent = copy.note;
+  var bOpt = document.getElementById('mode-buy');
+  var rOpt = document.getElementById('mode-rent');
+  if (bOpt) { bOpt.classList.toggle('active', APP_MODE === 'buy');  bOpt.setAttribute('aria-selected', APP_MODE === 'buy'); }
+  if (rOpt) { rOpt.classList.toggle('active', APP_MODE === 'rent'); rOpt.setAttribute('aria-selected', APP_MODE === 'rent'); }
+  // Hide investor-only filters/UI in rent mode
+  var calc = document.getElementById('calculator');
+  if (calc) calc.style.display = (APP_MODE === 'rent') ? 'none' : '';
+}
+
+function setMode(m) {
+  if (m !== 'buy' && m !== 'rent') return;
+  if (APP_MODE === m) return;
+  APP_MODE = m;
+  try { localStorage.setItem('aivest-mode', m); } catch(e){}
+  applyModeUI();
+  loadFromAPI();
+}
+function toggleMode() { setMode(APP_MODE === 'buy' ? 'rent' : 'buy'); }
 
 // ── Load real data from API ──────────────────────────────────────────────────
 function loadFromAPI() {
   var grid = document.getElementById('cards-grid');
-  if (grid) grid.innerHTML = '<div class="empty" style="display:flex;align-items:center;gap:10px;justify-content:center"><span style="animation:spin 1s linear infinite;display:inline-block">⟳</span> Загружаем данные с Циан...</div>';
+  if (grid) grid.innerHTML = '<div class="empty" style="display:flex;align-items:center;gap:10px;justify-content:center"><span style="animation:spin 1s linear infinite;display:inline-block">⟳</span> Загружаем актуальные объекты...</div>';
 
-  fetch('/api/properties?limit=10000&sort=score')
+  var url = '/api/properties?limit=10000&sort=score' + (APP_MODE === 'rent' ? '&mode=rent' : '');
+  fetch(url)
     .then(function(r) { return r.json(); })
     .then(function(data) {
       if (data && data.properties && data.properties.length > 0) {
         PROPS = data.properties;
-        dataSource = 'cian';
+        dataSource = 'live';
         dataUpdatedAt = data.updatedAt;
         updateDataBadge();
-        console.log('Loaded', PROPS.length, 'real properties from Cian');
+        if (typeof populateMetroFilter === 'function') populateMetroFilter();
+        console.log('Loaded', PROPS.length, 'properties');
       } else {
-        // No real data yet — keep mock
+        // No real data yet
+        if (APP_MODE === 'rent') {
+          PROPS = []; // show empty-state for rent until scraper populates
+          dataSource = 'live';
+          var g = document.getElementById('cards-grid');
+          if (g) g.innerHTML = '<div class="empty" style="padding:3rem 1rem;text-align:center;color:var(--muted)"><div style="font-size:32px;margin-bottom:12px">🔑</div><div style="font-size:16px;margin-bottom:8px;color:var(--text)">Режим аренды скоро появится</div><div style="font-size:13px">Сейчас собираем актуальные предложения. Переключитесь на «Для инвесторов», чтобы просмотреть объекты для покупки.</div></div>';
+          updateDataBadge();
+          return;
+        }
         PROPS = RAW_PROPS.slice();
         dataSource = 'mock';
         updateDataBadge();
@@ -947,14 +1165,11 @@ function loadFromAPI() {
 function updateDataBadge() {
   var badge = document.getElementById('data-source-badge');
   if (!badge) return;
-  if (dataSource === 'cian' && dataUpdatedAt) {
-    var d = new Date(dataUpdatedAt);
-    var ago = Math.round((Date.now() - d.getTime()) / 60000);
-    var agoStr = ago < 60 ? ago + ' мин. назад' : Math.round(ago/60) + ' ч. назад';
+  if (dataSource === 'live' && dataUpdatedAt) {
     badge.innerHTML = '';
     badge.style.display = 'flex';
   } else {
-    badge.innerHTML = '<span style="color:var(--warn)">●</span> Демо-данные · <a href="#" onclick="return false;" style="color:var(--accent)">запустите scraper.js для реальных данных</a>';
+    badge.innerHTML = '<span style="color:var(--warn)">●</span> Демо-данные';
     badge.style.display = 'flex';
   }
 }
@@ -963,10 +1178,18 @@ function getFiltered() {
   var type   = document.getElementById('f-type').value;
   var city   = document.getElementById('f-city').value;
   var okrug  = document.getElementById('f-okrug').value;
+  var metro  = (document.getElementById('f-metro') || {value:'all'}).value;
   var minSc  = parseInt(document.getElementById('f-score').value);
   var maxSc  = parseInt(document.getElementById('f-score-max').value);
   var maxPr  = parseFloat(document.getElementById('f-price').value) || Infinity;
   var sortBy = document.getElementById('f-sort').value;
+
+  // Admin-only filters (no-op for non-admin: elements may be hidden but still readable)
+  var isAdminUser  = authRole === 'admin';
+  var fScraped     = isAdminUser ? document.getElementById('f-scraped').value : 'all';
+  var fSourceAdmin = isAdminUser ? document.getElementById('f-source-admin').value : 'all';
+  var fDupes       = isAdminUser ? document.getElementById('f-dupes').value : 'all';
+  var nowMs        = Date.now();
 
   var list = PROPS.filter(function(p) {
     if (activeSource !== 'all' && p.source !== activeSource) return false;
@@ -974,9 +1197,24 @@ function getFiltered() {
     if (type !== 'all' && p.type !== type) return false;
     if (city !== 'all' && p.city !== city) return false;
     if (okrug !== 'all' && getOkrug(p) !== okrug) return false;
+    if (metro !== 'all' && p.metro !== metro) return false;
     if (p.score < minSc) return false;
     if (p.score > maxSc) return false;
     if (p.price > maxPr) return false;
+    // Admin-only filter conditions
+    if (isAdminUser) {
+      if (fSourceAdmin !== 'all' && p.source !== fSourceAdmin) return false;
+      var hasAlts = (p.altSources && p.altSources.length > 0);
+      if (fDupes === 'dupes'  && !hasAlts) return false;
+      if (fDupes === 'unique' && hasAlts) return false;
+      if (fScraped !== 'all') {
+        var sa = p.scrapedAt ? new Date(p.scrapedAt).getTime() : 0;
+        if (!sa) return false;
+        var ageDays = (nowMs - sa) / 86400000;
+        if (fScraped === 'old') { if (ageDays <= 30) return false; }
+        else { if (ageDays > parseFloat(fScraped)) return false; }
+      }
+    }
     return true;
   });
 
@@ -1112,12 +1350,22 @@ function render(resetPage) {
                  : p.vac <= 10 ? t('vacMid')
                  : t('vacHigh');
 
-    // Prices
-    var ppmS     = num(p.ppm * 1000) + ' ₽/м²';
-    var mktS     = num(p.mkt * 1000) + ' ₽/м²';
-    var priceStr = rd(p.price) + ' млн ₽';
-    var usdVal   = Math.round(p.price * 10.8);
-    var priceUsd = usdVal >= 1000 ? '≈ $' + rd(usdVal / 1000) + ' млн' : '≈ $' + num(usdVal) + ' тыс.';
+    // Prices — differ by mode (buy: млн ₽ total; rent: тыс ₽/мес)
+    var isRentMode = (typeof APP_MODE !== 'undefined' && APP_MODE === 'rent') || p.mode === 'rent';
+    var ppmS, mktS, priceStr, priceUsd;
+    if (isRentMode) {
+      ppmS     = num(p.ppm) + ' ₽/м²/мес';
+      mktS     = num(p.mkt) + ' ₽/м²/мес';
+      var monthly = p.monthly || Math.round((p.price || 0) * 1000);
+      priceStr = num(Math.round(monthly / 1000)) + ' тыс ₽/мес';
+      priceUsd = '≈ $' + num(Math.round(monthly / 90)) + '/мес';
+    } else {
+      ppmS     = num(p.ppm * 1000) + ' ₽/м²';
+      mktS     = num(p.mkt * 1000) + ' ₽/м²';
+      priceStr = rd(p.price) + ' млн ₽';
+      var usdVal = Math.round(p.price * 10.8);
+      priceUsd = usdVal >= 1000 ? '≈ $' + rd(usdVal / 1000) + ' млн' : '≈ $' + num(usdVal) + ' тыс.';
+    }
 
     var body =
       '<div class="card-top">'+
@@ -1150,7 +1398,8 @@ function render(resetPage) {
         '<div><div class="price-main">'+priceStr+'</div><div class="price-sub">'+priceUsd+'</div></div>'+
         '<div style="text-align:right"><div style="font-size:11px;color:var(--muted)">'+t('mMarket')+'</div><div style="font-size:12px;color:var(--muted)">'+mktS+'</div></div>'+
       '</div>'+
-      (p.cianUrl ? '<a class="card-cian-link" href="'+p.cianUrl+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗ Открыть на Циан</a>' : '');
+      (p.cianUrl ? '<a class="card-cian-link" href="'+p.cianUrl+'" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗ Открыть оригинал</a>' : '') +
+      altSourcesHtml(p);
 
     if (locked) {
       return '<div class="prop-card locked '+rcc+'">'+
@@ -1193,18 +1442,162 @@ document.querySelectorAll('.pill').forEach(function(btn) {
     render(true);
   });
 });
-// Show okrug filter only for Moscow
+// Show okrug + metro filters only for Moscow
 document.getElementById('f-city').addEventListener('change', function() {
-  var okrugGroup = document.getElementById('fgroup-okrug');
-  okrugGroup.style.display = this.value === 'Москва' || this.value === 'all' ? '' : 'none';
+  var moscowOnly = (this.value === 'Москва' || this.value === 'all');
+  document.getElementById('fgroup-okrug').style.display = moscowOnly ? '' : 'none';
+  document.getElementById('fgroup-metro').style.display = moscowOnly ? '' : 'none';
   document.getElementById('f-okrug').value = 'all';
+  document.getElementById('f-metro').value = 'all';
 });
 
-['f-type','f-city','f-okrug','f-score','f-score-max','f-price','f-sort'].forEach(function(id) {
+// Populate metro dropdown from current data (Moscow listings only)
+function populateMetroFilter() {
+  var sel = document.getElementById('f-metro');
+  if (!sel || !PROPS || !PROPS.length) return;
+  var stations = {};
+  PROPS.forEach(function(p) {
+    if (p.city === 'Москва' && p.metro) stations[p.metro] = (stations[p.metro] || 0) + 1;
+  });
+  var sorted = Object.keys(stations).sort(function(a,b){ return a.localeCompare(b, 'ru'); });
+  // Keep "all" + clear others
+  while (sel.options.length > 1) sel.remove(1);
+  sorted.forEach(function(name) {
+    var opt = document.createElement('option');
+    opt.value = name; opt.textContent = name + ' (' + stations[name] + ')';
+    sel.appendChild(opt);
+  });
+}
+
+['f-type','f-city','f-okrug','f-metro','f-score','f-score-max','f-price','f-sort','f-scraped','f-source-admin','f-dupes'].forEach(function(id) {
   var el = document.getElementById(id);
-  el.addEventListener('change', render);
-  el.addEventListener('input', render);
+  if (!el) return;
+  el.addEventListener('change', function(){ render(); if (currentView === 'map') renderMap(); });
+  el.addEventListener('input',  function(){ render(); if (currentView === 'map') renderMap(); });
 });
+
+/* ═══════════════════════════════════════════
+   ALT SOURCES (cross-source dedup link)
+   ═══════════════════════════════════════════ */
+function altSourcesHtml(p) {
+  if (!p.altSources || !p.altSources.length) return '';
+  var parts = p.altSources.slice(0, 3).map(function(a) {
+    var label = a.source === 'yandex' ? 'Yandex' : a.source === 'avito' ? 'Avito' : a.source === 'auct' ? 'Аукцион' : 'Источник';
+    return '<a href="'+a.url+'" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="color:var(--accent);text-decoration:none;font-size:11px;margin-right:8px;">↗ '+label+'</a>';
+  }).join('');
+  return '<div style="margin-top:4px;display:flex;gap:4px;align-items:center;">'
+    + '<span style="font-size:10px;color:var(--faint);">также:</span>' + parts + '</div>';
+}
+
+/* ═══════════════════════════════════════════
+   MAP VIEW (Yandex Maps)
+   ═══════════════════════════════════════════ */
+var currentView = 'cards'; // 'cards' | 'map'
+var ymaps_loaded = false;
+var ymaps_loading = false;
+var mapInstance = null;
+var mapClusterer = null;
+
+function loadYandexMaps() {
+  if (ymaps_loaded || ymaps_loading) return Promise.resolve();
+  ymaps_loading = true;
+  return new Promise(function(resolve, reject) {
+    var s = document.createElement('script');
+    // Yandex Maps JS API. lang=ru_RU. apikey optional for basic embedding from approved domains.
+    s.src = 'https://api-maps.yandex.ru/2.1/?apikey=&lang=ru_RU';
+    s.onload = function() {
+      window.ymaps.ready(function() { ymaps_loaded = true; resolve(); });
+    };
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+}
+
+var CITY_CENTERS = {
+  'Москва':         [55.7558, 37.6173],
+  'Санкт-Петербург':[59.9311, 30.3609],
+  'Краснодар':      [45.0355, 38.9753],
+  'Сочи':           [43.6028, 39.7342],
+  'Казань':         [55.7963, 49.1064],
+  'Новосибирск':    [55.0084, 82.9357],
+  'Екатеринбург':   [56.8389, 60.6057],
+};
+
+function toggleView() {
+  currentView = (currentView === 'cards') ? 'map' : 'cards';
+  var btn   = document.getElementById('view-toggle');
+  var grid  = document.getElementById('cards-grid');
+  var mapEl = document.getElementById('map-view');
+  var lm    = document.getElementById('load-more-btn');
+  if (currentView === 'map') {
+    btn.innerHTML = '📋 Списком';
+    grid.style.display = 'none';
+    if (lm) lm.style.display = 'none';
+    mapEl.style.display = 'block';
+    renderMap();
+  } else {
+    btn.innerHTML = '🗺 На карте';
+    grid.style.display = '';
+    mapEl.style.display = 'none';
+    if (lm) lm.style.display = '';
+  }
+}
+
+function renderMap() {
+  var loading = document.getElementById('map-loading');
+  if (loading) loading.style.display = 'flex';
+  loadYandexMaps().then(function() {
+    var list = getFiltered();
+    var withCoords = list.filter(function(p){ return p.lat && p.lng; });
+    var cityFilter = document.getElementById('f-city').value;
+    var center = CITY_CENTERS[cityFilter] || CITY_CENTERS['Москва'];
+
+    if (!mapInstance) {
+      mapInstance = new ymaps.Map('map-canvas', { center: center, zoom: 10, controls: ['zoomControl','fullscreenControl'] });
+    } else {
+      mapInstance.setCenter(center);
+      if (mapClusterer) mapInstance.geoObjects.remove(mapClusterer);
+    }
+
+    if (!withCoords.length) {
+      if (loading) {
+        loading.style.display = 'flex';
+        loading.innerHTML = 'Нет объектов с координатами в выбранных фильтрах.<br><span style="font-size:11px;opacity:0.6;margin-top:6px;display:block;">Координаты появятся после следующей выгрузки.</span>';
+      }
+      return;
+    }
+
+    mapClusterer = new ymaps.Clusterer({
+      preset:'islands#invertedGreenClusterIcons',
+      groupByCoordinates: false,
+      clusterDisableClickZoom: false,
+    });
+    var placemarks = withCoords.slice(0, 1500).map(function(p) {
+      var hint = p.title + ' · ' + p.price + ' млн ₽ · score ' + p.score;
+      var balloon =
+        '<div style="font-family:Inter,sans-serif;max-width:240px;">'
+        + '<div style="font-weight:600;font-size:13px;margin-bottom:4px;">'+escapeHtml(p.title)+'</div>'
+        + '<div style="font-size:12px;color:#666;">'+p.area+' м²'+(p.floor && p.floor !== '—' ? ' · '+p.floor+' эт.' : '')+'</div>'
+        + '<div style="font-size:14px;font-weight:600;color:#0a8;margin-top:6px;">'+p.price+' млн ₽</div>'
+        + '<div style="font-size:11px;color:#888;">'+(p.ppm||0)+' тыс ₽/м² · score '+p.score+'</div>'
+        + (p.cianUrl ? '<a href="'+p.cianUrl+'" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;padding:4px 10px;background:#0a8;color:#fff;border-radius:4px;text-decoration:none;font-size:11px;">↗ Открыть</a>' : '')
+        + '</div>';
+      return new ymaps.Placemark([p.lat, p.lng], { hintContent: hint, balloonContent: balloon },
+        { preset: p.score >= 80 ? 'islands#greenIcon' : p.score >= 60 ? 'islands#blueIcon' : 'islands#grayIcon' });
+    });
+    mapClusterer.add(placemarks);
+    mapInstance.geoObjects.add(mapClusterer);
+    if (placemarks.length > 1) mapInstance.setBounds(mapClusterer.getBounds(), { checkZoomRange: true, zoomMargin: 30 });
+    if (loading) loading.style.display = 'none';
+  }).catch(function(e){
+    if (loading) { loading.innerHTML = 'Не удалось загрузить карту.'; }
+    console.error('Map load error:', e);
+  });
+}
+
+function escapeHtml(s) {
+  return String(s||'').replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; });
+}
 
 /* MODAL */
 var selectedPlan = 'month';
@@ -1288,6 +1681,9 @@ var authRole   = localStorage.getItem('aivest-role') || null;
 
 function applyAuth() {
   var sortSel = document.getElementById('f-sort');
+  // Admin-only filter row visibility
+  var adminBar = document.getElementById('admin-filter-bar');
+  if (adminBar) adminBar.style.display = (authRole === 'admin') ? 'grid' : 'none';
   if (authToken && authEmail) {
     isPro = true;
     var btn = document.getElementById('nav-login-btn');
@@ -1572,7 +1968,8 @@ function toggleLang() {
   applyLang(currentLang === 'ru' ? 'en' : 'ru');
 }
 
-// Load real data from API, then apply lang and render
+// Apply mode (buy/rent) BEFORE first data load, then load real data from API
+applyModeUI();
 loadFromAPI();
 </script>
 <!-- Vercel Analytics -->

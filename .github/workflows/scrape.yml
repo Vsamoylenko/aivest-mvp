@@ -1,9 +1,13 @@
-name: Scrape Cian
+name: Scrape listings
 
 on:
   schedule:
     - cron: '0 3,9,15,21 * * *'   # каждые 6 часов: 03:00, 09:00, 15:00, 21:00 UTC
   workflow_dispatch:                # запуск вручную из GitHub Actions
+
+concurrency:
+  group: scrape
+  cancel-in-progress: false
 
 jobs:
   scrape:
@@ -25,21 +29,36 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run scraper
+      - name: Run aggregator scrape
         run: node scraper.js
         env:
           SCRAPER_DELAY: 1200
+
+      - name: Run auction scrape (best-effort, never fails the job)
+        run: node scraper-lot.js || echo "lot-online scrape skipped (non-fatal)"
+        env:
+          LOT_DELAY: 1000
+
+      - name: Run developer scrape (best-effort, never fails the job)
+        run: node scraper-dev.js || echo "dev scrape skipped (non-fatal)"
+        env:
+          DEV_DELAY: 1500
+
+      - name: Run rent scrape (best-effort, never fails the job)
+        run: node scraper-rent.js || echo "rent scrape skipped (non-fatal)"
+        env:
+          RENT_DELAY: 900
 
       - name: Check results
         id: check
         run: |
           if [ ! -f data/properties.json ]; then
             echo "count=0" >> $GITHUB_OUTPUT
-            echo "⚠️ No data file — Cian may be blocking this IP"
+            echo "⚠️ No data file"
           else
-            COUNT=$(node -e "const d=require('./data/properties.json'); console.log(d.totalCount)")
+            COUNT=$(node -e "const d=require('./data/properties.json'); console.log(d.total || (d.properties||[]).length)")
             echo "count=$COUNT" >> $GITHUB_OUTPUT
-            echo "✅ Scraped $COUNT properties"
+            echo "✅ $COUNT properties"
           fi
 
       - name: Commit & push data
@@ -47,14 +66,18 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/properties.json
+          git add data/properties.json data/properties-rent.json data/lot-details-cache.json data/backups 2>/dev/null || true
           git diff --staged --quiet || git commit -m "chore: scrape update $(date -u '+%Y-%m-%d %H:%M UTC') — ${{ steps.check.outputs.count }} props"
           git push
 
       - name: Trigger Vercel redeploy
+        if: ${{ steps.check.outputs.count > 50 }}
         run: |
           if [ -n "$VERCEL_DEPLOY_HOOK" ]; then
             curl -s -X POST "$VERCEL_DEPLOY_HOOK"
+            echo "✅ Vercel redeploy triggered"
+          else
+            echo "ℹ️ VERCEL_DEPLOY_HOOK secret not set — skipping redeploy"
           fi
         env:
           VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}

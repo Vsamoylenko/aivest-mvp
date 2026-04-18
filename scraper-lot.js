@@ -551,7 +551,10 @@ async function scrapeLotOnline() {
     properties: merged,
   };
 
-  fs.writeFileSync(OUT_FILE, JSON.stringify(output));
+  const { safeWriteProperties } = require('./lib-safe-write');
+  // For the lot scraper, allow writes that are slightly smaller (just lot churn);
+  // base size is preserved because cianProps is included in `merged`.
+  safeWriteProperties(OUT_FILE, output, { minRatio: 0.85 });
 
   console.log(`\n✅ Готово!`);
   console.log(`   Аукционных объектов: ${properties.length}`);

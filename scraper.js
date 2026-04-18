@@ -195,12 +195,17 @@ function parseOffer(raw, cityConfig) {
   else if (metro && (cityName === 'Москва' || cityName === 'Санкт-Петербург')) badge = 'Метро рядом';
   else if (cityName === 'Сочи') badge = 'Туризм';
 
+  // Coordinates for map view (Cian provides them on the offer)
+  const lat = raw.coordinates?.lat || raw.geo?.coordinates?.lat || null;
+  const lng = raw.coordinates?.lng || raw.geo?.coordinates?.lng || null;
+
   return {
     id:      raw.id,
     cianId:  raw.id,
     cianUrl: raw.fullUrl || `https://cian.ru/sale/flat/${raw.id}/`,
     title:   `${titleBase}, ${titleLoc}`,
     city:    cityName, district, metro,
+    lat, lng,
     area:    Math.round(area), floor, type: finalType, source: SOURCE_TAG,
     price:   Math.round(price * 10) / 10,
     ppm:     Math.round(ppm / 1000),
@@ -375,7 +380,8 @@ async function scrape() {
     properties: finalProps,
   };
 
-  fs.writeFileSync(OUT_FILE, JSON.stringify(output));
+  const { safeWriteProperties } = require('./lib-safe-write');
+  safeWriteProperties(OUT_FILE, output);
 
   console.log(`\n✅ Готово! ${deduped.length} уникальных объектов → data/properties.json`);
   console.log(`   Москва:  ${deduped.filter(p => p.city === 'Москва').length}`);

@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin
+
+# Yandex (русский поиск)
+User-agent: Yandex
+Allow: /
+Disallow: /api/
+Disallow: /admin
+Clean-param: token&utm_source&utm_medium&utm_campaign /
+
+# Google
+User-agent: Googlebot
+Allow: /
+
+Sitemap: https://aivest.ru/sitemap.xml
+Host: https://aivest.ru
