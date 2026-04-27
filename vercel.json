@@ -30,8 +30,8 @@
       "dest": "server.js"
     },
     {
-      "src": "/api/ym/notification(?:/([^/]+))?(?:/notification)?/?",
-      "dest": "/api/ym-notification.js?s=$1"
+      "src": "^/api/ym/notification(?:/([^/]+))?(?:/notification)?/?$",
+      "dest": "/api/ym-notification?s=$1"
     },
     {
       "src": "/(.*)",
