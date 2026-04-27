@@ -7,12 +7,45 @@
       "config": {
         "includeFiles": ["data/**", "public/**"]
       }
+    },
+    {
+      "src": "api/ym-notification.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
+      "src": "/(favicon\\.(?:ico|svg)|favicon-\\d+\\.png|apple-touch-icon\\.png|icon-\\d+\\.png|og-image\\.png|site\\.webmanifest|theme-claude\\.css)",
+      "headers": { "Cache-Control": "public, max-age=31536000, immutable" },
+      "dest": "server.js"
+    },
+    {
+      "src": "/robots\\.txt",
+      "headers": { "Cache-Control": "public, max-age=3600" },
+      "dest": "server.js"
+    },
+    {
+      "src": "/sitemap\\.xml",
+      "headers": { "Cache-Control": "public, max-age=3600" },
+      "dest": "server.js"
+    },
+    {
+      "src": "/api/ym/notification(?:/([^/]+))?(?:/notification)?/?",
+      "dest": "/api/ym-notification.js?s=$1"
+    },
+    {
       "src": "/(.*)",
       "dest": "server.js"
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/indexnow",
+      "schedule": "0 6 * * *"
+    },
+    {
+      "path": "/api/cron/ym-deliver",
+      "schedule": "30 7 * * *"
     }
   ]
 }
