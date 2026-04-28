@@ -190,11 +190,15 @@ async function processOrder(orderId, ym, redis) {
   const fiveYears = new Date(); fiveYears.setFullYear(fiveYears.getFullYear() + 5);
   const activateTill = fiveYears.toISOString().slice(0, 10); // YYYY-MM-DD
 
+  // Belt + suspenders: send BOTH snake_case (per docs example) and camelCase
+  // (per error message field name) so whichever the API actually deserializes
+  // wins. Extra fields are ignored by JSON deserializers, so this is safe.
   const payload = popped.map(p => ({
-    id:           p.itemId,
-    codes:        [p.key],
+    id:            p.itemId,
+    codes:         [p.key],
     activateTill,
-    slip:         'Активируйте ключ в Steam: https://store.steampowered.com/account/registerkey<br>Если возникли вопросы — напишите в чат заказа.',
+    activate_till: activateTill,
+    slip:          'Активируйте ключ в Steam: https://store.steampowered.com/account/registerkey<br>Если возникли вопросы — напишите в чат заказа.',
   }));
 
   try {
