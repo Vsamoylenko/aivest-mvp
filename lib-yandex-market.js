@@ -184,10 +184,17 @@ async function processOrder(orderId, ym, redis) {
   // Field is `codes` (plural, array of strings) — `code` is the deprecated
   // legacy form. `slip` is optional brief activation instructions shown to
   // the buyer; HTML allowed (h1/br/ol/ul/li).
+  // activateTill is required (YYYY-MM-DD). Steam keys don't expire — set 5 years
+  // ahead so Yandex is happy. Field name is camelCase even though docs show
+  // `activate_till` (snake_case); the API rejects null with the camelCase name.
+  const fiveYears = new Date(); fiveYears.setFullYear(fiveYears.getFullYear() + 5);
+  const activateTill = fiveYears.toISOString().slice(0, 10); // YYYY-MM-DD
+
   const payload = popped.map(p => ({
-    id:    p.itemId,
-    codes: [p.key],
-    slip:  'Активируйте ключ в Steam: https://store.steampowered.com/account/registerkey<br>Если возникли вопросы — напишите в чат заказа.',
+    id:           p.itemId,
+    codes:        [p.key],
+    activateTill,
+    slip:         'Активируйте ключ в Steam: https://store.steampowered.com/account/registerkey<br>Если возникли вопросы — напишите в чат заказа.',
   }));
 
   try {
