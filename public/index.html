@@ -8,9 +8,18 @@
 <meta name="keywords" content="инвестиции в недвижимость, ROI недвижимость, доходность аренды, аукционы недвижимости, новостройки от застройщиков, скоринг квартир, аналитика недвижимости Москва">
 <meta name="author" content="AIvest.ru">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<meta name="yandex-verification" content="REPLACE_WITH_YANDEX_WEBMASTER_TOKEN">
-<meta name="google-site-verification" content="REPLACE_WITH_GOOGLE_SEARCH_CONSOLE_TOKEN">
+<!-- Search console verification tokens — paste real values after registering in each console.
+     (Placeholders removed to keep HTML valid; ownership can also be verified via DNS TXT record.) -->
+<!-- <meta name="yandex-verification" content="YOUR_YANDEX_WEBMASTER_TOKEN"> -->
+<!-- <meta name="google-site-verification" content="YOUR_GOOGLE_SEARCH_CONSOLE_TOKEN"> -->
 <link rel="canonical" href="https://aivest.ru/">
+
+<!-- hreflang alternates for international SEO -->
+<link rel="alternate" hreflang="ru"        href="https://aivest.ru/">
+<link rel="alternate" hreflang="en"        href="https://aivest.ru/?lang=en">
+<link rel="alternate" hreflang="uz"        href="https://aivest.ru/?lang=uz">
+<link rel="alternate" hreflang="kk"        href="https://aivest.ru/?lang=kz">
+<link rel="alternate" hreflang="x-default" href="https://aivest.ru/">
 
 <!-- Open Graph -->
 <meta property="og:type" content="website">
@@ -18,13 +27,19 @@
 <meta property="og:title" content="AIvest.ru — Аналитика недвижимости для инвесторов">
 <meta property="og:description" content="Алгоритмический скоринг тысяч объектов: ROI, доходность от аренды, дисконт к рынку. Москва, СПб, Сочи, Краснодар, Казань.">
 <meta property="og:url" content="https://aivest.ru/">
-<meta property="og:image" content="https://aivest.ru/favicon.svg">
+<meta property="og:image" content="https://aivest.ru/og-image.png">
+<meta property="og:image:secure_url" content="https://aivest.ru/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="AIvest.ru — аналитика недвижимости для инвесторов">
 <meta property="og:locale" content="ru_RU">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="AIvest.ru — Аналитика недвижимости для инвесторов">
 <meta name="twitter:description" content="Алгоритмический скоринг недвижимости: ROI, аренда, дисконт.">
+<meta name="twitter:image" content="https://aivest.ru/og-image.png">
 
 <!-- Schema.org JSON-LD -->
 <script type="application/ld+json">
@@ -48,14 +63,102 @@
   "@type": "Organization",
   "name": "AIvest.ru",
   "url": "https://aivest.ru/",
-  "logo": "https://aivest.ru/favicon.svg",
+  "logo": {
+    "@type": "ImageObject",
+    "url": "https://aivest.ru/icon-512.png",
+    "width": 512,
+    "height": 512
+  },
+  "image": "https://aivest.ru/og-image.png",
   "description": "Сервис алгоритмического скоринга объектов недвижимости для инвесторов.",
   "areaServed": ["Москва","Санкт-Петербург","Сочи","Краснодар","Казань","Новосибирск","Екатеринбург"],
   "sameAs": []
 }
 </script>
 
+<!-- BreadcrumbList (хлебные крошки для Google rich results) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Главная",       "item": "https://aivest.ru/" },
+    { "@type": "ListItem", "position": 2, "name": "Принцип работы", "item": "https://aivest.ru/#how-it-works" },
+    { "@type": "ListItem", "position": 3, "name": "Методология",    "item": "https://aivest.ru/#methodology" },
+    { "@type": "ListItem", "position": 4, "name": "Тарифы",         "item": "https://aivest.ru/#pricing" }
+  ]
+}
+</script>
+
+<!-- FAQPage (показывает расширенные сниппеты в Google и Яндексе) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Как работает алгоритм AIvest?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "AIvest собирает объявления с агрегаторов, аукционных площадок и сайтов застройщиков, а затем рассчитывает для каждого объекта дисконт к рынку, ожидаемую доходность аренды, темп роста цен и ликвидность. На основе этих метрик модель присваивает объекту общий балл от 0 до 100 — чем выше балл, тем выгоднее сделка для инвестора."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Какие источники данных используются?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Мы агрегируем данные из крупных маркетплейсов (Циан, Авито, ДомКлик, Яндекс.Недвижимость), аукционных площадок (Lot-online, Фабрикант) и прямых сайтов застройщиков (ПИК, Самолёт, ЛСР, MR Group). Данные обновляются несколько раз в день."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Какая доходность от аренды считается нормальной?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "В Москве и Санкт-Петербурге средняя валовая доходность от долгосрочной аренды квартиры — 4–6% годовых, в региональных центрах (Краснодар, Казань, Екатеринбург) — 6–9%. Наш алгоритм показывает ожидаемую доходность по каждому объекту и сравнивает её со средней по сегменту, чтобы отметить выгодные варианты."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "В каких городах доступна аналитика?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Сейчас полная база объектов доступна по Москве, Санкт-Петербургу, Сочи, Краснодару, Казани, Новосибирску и Екатеринбургу. Также идёт сбор данных по Узбекистану, Казахстану и Беларуси — эти разделы появятся позднее."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Подходит ли сервис для новичков в инвестициях в недвижимость?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Да. AIvest был создан специально для того, чтобы упростить оценку объекта. Вам не нужно вручную считать ROI или сравнивать десятки объявлений — алгоритм сам сортирует объекты по привлекательности и выделяет лучшие предложения (балл 60+). Подписка PRO открывает полный список."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Сколько стоит подписка?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Месячная подписка — 660 ₽, годовая — 5 880 ₽ (экономия 26%), бессрочная — 14 900 ₽ (один платёж навсегда). Оплата принимается через Сбер Кассу (карты РФ и СБП) и через Telegram Stars (оплата по всему миру)."
+      }
+    }
+  ]
+}
+</script>
+
+<!-- Favicons — Yandex/Google/Apple/Android -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#0b0c0a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/theme-claude.css">
 <style>
@@ -69,7 +172,188 @@
     --success: #5ecb7e; --warn: #e4ab3c; --danger: #e35d5d;
   }
   html { scroll-behavior: smooth; }
-  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.6; min-height: 100vh; }
+  body {
+    background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.6; min-height: 100vh;
+    /* Create own stacking context so ambient bg layers (z-index:-1) sit ABOVE html canvas but BELOW static content. */
+    position: relative; isolation: isolate; overflow-x: hidden;
+  }
+
+  /* ────────────────── Ambient background ────────────────── */
+  /* Two soft gradient blobs drifting slowly. Sits under everything. */
+  .bg-blobs {
+    position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden;
+  }
+  .bg-blobs::before, .bg-blobs::after {
+    content: ''; position: absolute; border-radius: 50%;
+    filter: blur(140px); opacity: 0.18; will-change: transform;
+  }
+  .bg-blobs::before {
+    width: 62vw; height: 62vw; max-width: 780px; max-height: 780px;
+    left: -12vw; top: -14vw;
+    background: radial-gradient(circle, rgba(201,241,81,0.32) 0%, rgba(201,241,81,0) 70%);
+    animation: blob-drift-a 24s ease-in-out infinite alternate;
+  }
+  .bg-blobs::after {
+    width: 58vw; height: 58vw; max-width: 720px; max-height: 720px;
+    right: -16vw; bottom: -12vw;
+    background: radial-gradient(circle, rgba(228,188,106,0.22) 0%, rgba(228,188,106,0) 70%);
+    animation: blob-drift-b 30s ease-in-out infinite alternate;
+  }
+  @keyframes blob-drift-a {
+    0%   { transform: translate3d(0,0,0) scale(1); }
+    50%  { transform: translate3d(10vw, 6vw, 0) scale(1.08); }
+    100% { transform: translate3d(4vw, 14vw, 0) scale(0.94); }
+  }
+  @keyframes blob-drift-b {
+    0%   { transform: translate3d(0,0,0) scale(1); }
+    50%  { transform: translate3d(-8vw,-10vw,0) scale(1.1); }
+    100% { transform: translate3d(-14vw,-4vw,0) scale(0.92); }
+  }
+
+  /* Grain overlay — static SVG fractal noise. Adds film-like texture. */
+  .bg-grain {
+    position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    opacity: 0.07; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.85'/></svg>");
+    background-size: 220px 220px;
+  }
+
+  /* ────────────────── Whole-element hover glow ────────────────── */
+  /* On hover, each interactive surface lights up uniformly: outer halo via box-shadow,
+     subtle inner accent tint, and brighter accent border. No pointer tracking — the
+     entire element illuminates as one. */
+  /* Opaque surfaces — get full treatment (isolation + inner-tint pseudo).
+     Exclude [type=range] so dual-handle slider thumbs keep their absolute
+     positioning (otherwise they'd collapse into normal flow as stacked rows). */
+  .prop-card, .pricing-card, .how-step, .method-card, .stat-card,
+  .pill, .country-opt,
+  .nav-cta,
+  .cta, .btn-primary,
+  .fgroup select, .fgroup input:not([type=range]),
+  button:not(.lang-opt):not(.nav-icon-btn):not(.country-opt):not(.nav-cta):not(.nav-login-btn):not(.nav-admin-btn) {
+    position: relative;
+    isolation: isolate;
+    transition:
+      border-color 0.3s ease,
+      box-shadow 0.4s ease,
+      transform 0.2s ease,
+      background-color 0.3s ease;
+  }
+  /* Transparent-background controls — NO isolation/pseudo (would create dark
+     rectangle artifacts: with bg-grain in mix-blend-mode:overlay, isolated
+     transparent boxes blend grain×body-bg instead of grain×ambient-blob, making
+     a visibly darker square). Just transitions for box-shadow + border. */
+  .geo-pill, .lang-opt, .nav-login-btn, .nav-icon-btn, .nav-admin-btn {
+    position: relative;
+    transition:
+      border-color 0.3s ease,
+      box-shadow 0.4s ease,
+      color 0.2s ease;
+  }
+  /* Inner tint pseudo — uniform faint accent fill, faded in on hover.
+     Only on opaque surfaces (transparent ones excluded above). */
+  .prop-card::after, .pricing-card::after, .how-step::after, .method-card::after, .stat-card::after,
+  .pill::after, .country-opt::after,
+  .nav-cta::after,
+  .cta::after, .btn-primary::after,
+  button:not(.lang-opt):not(.nav-icon-btn):not(.country-opt):not(.nav-cta):not(.nav-login-btn):not(.nav-admin-btn)::after {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: inherit;
+    background: rgba(201, 241, 81, 0.07);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: -1;
+  }
+  /* Hover: outer halo (box-shadow) + accent border + inner tint reveals. */
+  .prop-card:hover, .pricing-card:hover, .how-step:hover, .method-card:hover, .stat-card:hover,
+  .pill:hover, .geo-pill:hover, .country-opt:hover, .lang-opt:hover,
+  .nav-login-btn:hover, .nav-icon-btn:hover,
+  .cta:hover, .btn-primary:hover,
+  .fgroup select:hover, .fgroup input:not([type=range]):hover,
+  button:not(.lang-opt):not(.nav-icon-btn):not(.country-opt):not(.nav-cta):not(.nav-login-btn):hover {
+    border-color: rgba(201, 241, 81, 0.5);
+    box-shadow:
+      0 0 0 1px rgba(201, 241, 81, 0.22),
+      0 0 24px rgba(201, 241, 81, 0.20),
+      0 0 56px rgba(201, 241, 81, 0.10);
+  }
+  .prop-card:hover::after, .pricing-card:hover::after, .how-step:hover::after, .method-card:hover::after, .stat-card:hover::after,
+  .pill:hover::after, .geo-pill:hover::after, .country-opt:hover::after, .lang-opt:hover::after,
+  .nav-cta:hover::after, .nav-login-btn:hover::after, .nav-icon-btn:hover::after,
+  .cta:hover::after, .btn-primary:hover::after,
+  button:not(.lang-opt):not(.nav-icon-btn):not(.country-opt):not(.nav-cta):not(.nav-login-btn):hover::after {
+    opacity: 1;
+  }
+  /* Smaller, tighter halo for compact form controls so it doesn't overpower the layout. */
+  .fgroup select:hover, .fgroup input:not([type=range]):hover {
+    box-shadow:
+      0 0 0 1px rgba(201, 241, 81, 0.30),
+      0 0 16px rgba(201, 241, 81, 0.18),
+      0 0 36px rgba(201, 241, 81, 0.08);
+  }
+  /* Keep accent border on focused control even after hover ends. */
+  .fgroup select:focus, .fgroup input:not([type=range]):focus {
+    border-color: rgba(201, 241, 81, 0.6);
+  }
+  /* Solid-accent CTA: warmer/brighter outer halo, no inner tint (already accent-colored). */
+  .nav-cta:hover {
+    box-shadow:
+      0 0 0 1px rgba(201, 241, 81, 0.35),
+      0 0 28px rgba(201, 241, 81, 0.30),
+      0 0 64px rgba(201, 241, 81, 0.14);
+  }
+  .nav-cta::after, .cta::after, .btn-primary::after {
+    background: rgba(255, 255, 255, 0.10);
+  }
+  /* Light-up text via subtle glow on inline links + nav text (no per-element box around them). */
+  a, .nav-links a, summary {
+    transition: color 0.2s ease, text-shadow 0.35s ease, filter 0.35s ease;
+  }
+  a:hover, .nav-links a:hover, summary:hover, .hero-eyebrow:hover {
+    text-shadow: 0 0 14px rgba(201,241,81,0.55), 0 0 28px rgba(201,241,81,0.22);
+    filter: brightness(1.10);
+  }
+  /* Skip on touch devices — hover state lingers awkwardly after tap. */
+  @media (hover: none), (pointer: coarse) {
+    .prop-card::after, .pricing-card::after, .how-step::after,
+    .pill::after, .geo-pill::after, .country-opt::after, .lang-opt::after,
+    .nav-cta::after, .nav-login-btn::after, .nav-icon-btn::after,
+    .cta::after, .btn-primary::after { display: none; }
+  }
+
+  /* ────────────────── Scroll-triggered reveal ────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 0.9s cubic-bezier(0.2,0.8,0.2,1),
+      transform 0.9s cubic-bezier(0.2,0.8,0.2,1);
+    will-change: opacity, transform;
+  }
+  .reveal.is-visible { opacity: 1; transform: none; }
+  /* Staggered variant — apply on children of .reveal-stagger. */
+  .reveal-stagger > * {
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.7s cubic-bezier(0.2,0.8,0.2,1), transform 0.7s cubic-bezier(0.2,0.8,0.2,1);
+  }
+  .reveal-stagger.is-visible > *         { opacity: 1; transform: none; }
+  .reveal-stagger.is-visible > *:nth-child(2) { transition-delay: 0.08s; }
+  .reveal-stagger.is-visible > *:nth-child(3) { transition-delay: 0.16s; }
+  .reveal-stagger.is-visible > *:nth-child(4) { transition-delay: 0.24s; }
+  .reveal-stagger.is-visible > *:nth-child(5) { transition-delay: 0.32s; }
+
+  /* Respect reduced-motion preference. */
+  @media (prefers-reduced-motion: reduce) {
+    .bg-blobs::before, .bg-blobs::after { animation: none; }
+    .reveal, .reveal-stagger > * { opacity: 1; transform: none; transition: none; }
+    .prop-card::after, .pricing-card::after, .how-step::after,
+    .pill::after, .geo-pill::after, .country-opt::after, .lang-opt::after,
+    .nav-cta::after, .nav-login-btn::after, .nav-icon-btn::after,
+    .cta::after, .btn-primary::after { display: none; }
+    a:hover, .nav-links a:hover, summary:hover { text-shadow: none; filter: none; }
+  }
 
   nav {
     position: sticky; top: 0; z-index: 200;
@@ -108,21 +392,158 @@
 
   .source-pills { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 0.5rem; }
   .pill { padding: 6px 18px; border-radius: 99px; border: 1px solid var(--border2); font-size: 13px; color: var(--muted); cursor: pointer; background: var(--surface); transition: all 0.18s; }
-  .pill:hover { border-color: var(--accent-glow); color: var(--text); }
+  .pill:hover { color: var(--text); /* border + glow set by whole-element hover rule */ }
   .pill.active { background: var(--accent-dim); border-color: rgba(201,241,81,0.45); color: var(--accent); }
 
   .filter-bar { max-width: 1100px; margin: 0 auto 1.75rem; padding: 0 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(155px,1fr)); gap: 10px; }
+  /* Basic/extended toggle. Centered button between filter sections. */
+  .filter-toggle-row { max-width: 1100px; margin: -0.5rem auto 1rem; padding: 0 2rem; text-align: center; }
+  .filter-toggle-btn {
+    background: transparent; border: 1px solid var(--border2); color: var(--muted);
+    padding: 6px 16px; border-radius: 99px; font-size: 12px; font-weight: 500;
+    cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'DM Sans',sans-serif; letter-spacing: 0.02em;
+  }
+  .filter-toggle-btn .chev { transition: transform 0.25s ease; display: inline-block; font-size: 10px; }
+  .filter-toggle-btn.is-open .chev { transform: rotate(180deg); }
+  /* Extended row collapsed by default — JS toggles `is-open`. Smooth height transition. */
+  .filter-bar.extended {
+    overflow: hidden;
+    max-height: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    transition: max-height 0.4s cubic-bezier(0.2,0.8,0.2,1), margin-bottom 0.3s ease, padding 0.3s ease;
+  }
+  .filter-bar.extended.is-open {
+    max-height: 600px; /* generous cap */
+    margin-bottom: 1.75rem;
+  }
   .fgroup { display: flex; flex-direction: column; gap: 4px; }
   .fgroup label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
-  .fgroup select, .fgroup input {
+  /* Excludes type=range so the dual-handle slider's transparent inputs don't get
+     a surface bg + border + padding (which would render each as a separate visible
+     stripe and stack them vertically). */
+  .fgroup select, .fgroup input:not([type=range]) {
     background: var(--surface); border: 1px solid var(--border2); border-radius: 8px;
     color: var(--text); font-family: 'DM Sans',sans-serif; font-size: 13px; padding: 8px 12px;
-    outline: none; transition: border-color 0.18s; appearance: none; -webkit-appearance: none; cursor: pointer;
+    outline: none;
+    transition: border-color 0.25s ease, box-shadow 0.35s ease;
+    appearance: none; -webkit-appearance: none; cursor: pointer;
   }
-  .fgroup select:focus, .fgroup input:focus { border-color: var(--accent-glow); }
+  .fgroup select:focus, .fgroup input:not([type=range]):focus { border-color: var(--accent-glow); }
   .fgroup input::placeholder { color: var(--faint); }
   .fgroup input[type=number]::-webkit-outer-spin-button,
   .fgroup input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+  /* ───── Dual-handle range slider (price + score pairs) ───── */
+  .range-pair { display: flex; flex-direction: column; gap: 4px; }
+  .range-inputs {
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 4px;
+  }
+  .range-inputs input {
+    background: var(--surface); border: 1px solid var(--border2); border-radius: 8px;
+    color: var(--text); font-family: 'DM Sans',sans-serif; font-size: 13px;
+    padding: 7px 8px; text-align: center; min-width: 0;
+    outline: none; transition: border-color 0.25s ease, box-shadow 0.35s ease;
+    appearance: textfield; -moz-appearance: textfield;
+  }
+  .range-inputs input::-webkit-outer-spin-button,
+  .range-inputs input::-webkit-inner-spin-button { -webkit-appearance: none; }
+  .range-inputs .range-sep { color: var(--faint); font-size: 12px; padding: 0 2px; }
+  .range-inputs input:hover, .range-inputs input:focus {
+    border-color: rgba(201,241,81,0.5);
+    box-shadow: 0 0 0 1px rgba(201,241,81,0.18), 0 0 12px rgba(201,241,81,0.14);
+  }
+  /* Single-line dual-handle slider.
+     Architecture: one visual track div + one fill div, both centered vertically
+     in the container. Two <input type="range"> elements stack on top of the
+     container, FULL-HEIGHT, transparent native track. Only their thumb
+     pseudo-elements are visible. Both thumbs ride the SAME visual line because
+     each input's track == container height, so the browser auto-centers each
+     thumb on the container's vertical midline — same Y as our visual track. */
+  .range-slider {
+    position: relative;
+    height: 24px;
+    margin: 6px 8px 2px;
+  }
+  .range-track {
+    position: absolute;
+    top: 50%; left: 0; right: 0;
+    height: 4px;
+    transform: translateY(-50%);
+    background: var(--border2);
+    border-radius: 2px;
+  }
+  .range-fill {
+    position: absolute;
+    top: 50%; height: 4px;
+    transform: translateY(-50%);
+    background: linear-gradient(90deg, rgba(201,241,81,0.9), rgba(201,241,81,1));
+    border-radius: 2px;
+    box-shadow: 0 0 10px rgba(201,241,81,0.45);
+    /* JS sets left/right via inline style. */
+  }
+  .range-thumb {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 24px;
+    margin: 0; padding: 0;
+    background: transparent;
+    -webkit-appearance: none; appearance: none;
+    pointer-events: none; /* only thumb is interactive — input shouldn't block siblings */
+    outline: none;
+  }
+  /* Native tracks: full input height, transparent. WebKit/Firefox auto-center
+     the thumb on the track midline → matches our visual `.range-track`. */
+  .range-thumb::-webkit-slider-runnable-track {
+    width: 100%; height: 24px;
+    background: transparent;
+    border: 0;
+  }
+  .range-thumb::-moz-range-track {
+    width: 100%; height: 24px;
+    background: transparent;
+    border: 0;
+  }
+  .range-thumb::-ms-track {
+    width: 100%; height: 24px;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+  }
+  .range-thumb::-ms-fill-lower, .range-thumb::-ms-fill-upper { background: transparent; }
+  /* Thumb. NO margin-top — the 24px transparent track auto-centers it on midline. */
+  .range-thumb::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    cursor: pointer;
+    pointer-events: auto;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,241,81,0.35);
+    transition: box-shadow 0.2s ease, transform 0.15s ease;
+  }
+  .range-thumb::-moz-range-thumb {
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    cursor: pointer;
+    pointer-events: auto;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,241,81,0.35);
+  }
+  .range-thumb::-ms-thumb {
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    cursor: pointer;
+    pointer-events: auto;
+  }
+  .range-thumb:hover::-webkit-slider-thumb,
+  .range-thumb:active::-webkit-slider-thumb {
+    box-shadow: 0 0 0 1px rgba(201,241,81,0.6), 0 0 16px rgba(201,241,81,0.55);
+    transform: scale(1.12);
+  }
 
   .stats-row { max-width: 1100px; margin: 0 auto 1.75rem; padding: 0 2rem; display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
   .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 15px 18px; }
@@ -142,7 +563,7 @@
     transition: border-color 0.2s, transform 0.15s; position: relative; overflow: hidden;
   }
   .prop-card::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; background:transparent; }
-  .prop-card:hover { border-color: var(--border2); transform: translateY(-1px); }
+  .prop-card:hover { transform: translateY(-2px); /* border + glow handled above */ }
   .prop-card.rank-1::before { background: var(--gold); }
   .prop-card.rank-2::before { background: var(--silver); }
   .prop-card.rank-3::before { background: var(--bronze); }
@@ -337,26 +758,59 @@
     .hero-sub { max-width: none !important; white-space: nowrap; }
   }
 
+  /* When a non-Russia country is selected, we hide the whole listings area
+     (source pills, filter bars, stats, cards/map) and replace it with a
+     single "coming soon" banner. Listings come back instantly on RU. */
+  body.mode-rent .source-pills,
+  body.mode-rent #stat-card-roi { display: none !important; }
+  body.country-non-ru .source-pills,
+  body.country-non-ru .filter-bar,
+  body.country-non-ru .stats-row,
+  body.country-non-ru #cards-section,
+  body.country-non-ru #admin-filter-bar { display: none !important; }
+  #country-coming-soon {
+    display: none; max-width: 680px; margin: 3rem auto 5rem; padding: 3rem 2rem;
+    text-align: center; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 18px;
+  }
+  body.country-non-ru #country-coming-soon { display: block; }
+  #country-coming-soon .cs-title { font-size: 22px; margin-bottom: 10px; color: var(--text); font-weight: 500; }
+  #country-coming-soon .cs-sub   { color: var(--muted); font-size: 14px; line-height: 1.55; max-width: 460px; margin: 0 auto; }
+
   /* ══════════════════════════════════════
      MOBILE — max 700px
   ══════════════════════════════════════ */
   @media (max-width: 700px) {
 
+    /* Global: avoid accidental horizontal scroll from long words / cards */
+    html, body { overflow-x: hidden; }
+
     /* Nav */
-    nav { padding: 0 1rem; gap: 8px; height: 52px; }
-    .nav-logo { font-size: 17px; }
+    nav { padding: 0 12px; gap: 6px; height: 52px; }
+    .nav-logo { font-size: 16px; }
     .nav-links { display: none; }
     .nav-controls { gap: 6px; }
     .nav-icon-btn { width: 30px; height: 30px; font-size: 13px; }
     .nav-cta { display: none; }
-    .nav-login-btn { padding: 5px 10px; font-size: 12px; }
+    .nav-login-btn { padding: 5px 10px; font-size: 12px; white-space: nowrap; }
 
     /* Hero */
-    .hero { padding: 2.5rem 1rem 2rem; }
-    h1 { font-size: 1.65rem; line-height: 1.15; }
+    .hero { padding: 2rem 1rem 1.5rem; }
+    h1 { font-size: 1.55rem; line-height: 1.18; }
     h1 em, .hero-sub { white-space: normal !important; }
-    .hero-sub { font-size: 13px; margin-bottom: 1.5rem; }
-    .hero-eyebrow { font-size: 10px; }
+    .hero-sub { font-size: 13px; margin-bottom: 1.25rem; max-width: 100%; }
+    .hero-eyebrow { font-size: 10px; padding: 0 8px; }
+
+    /* Country switch — smaller pills, horizontal scroll fallback */
+    .country-switch { gap: 5px; margin-top: 1rem; padding: 0 8px; }
+    .country-opt { padding: 6px 10px; font-size: 12px; }
+    .country-opt .flag { font-size: 13px; }
+
+    /* Mode switch */
+    .mode-switch { margin-top: 1rem; padding: 4px; }
+    .mode-opt { padding: 8px 8px; }
+    .mode-opt .mode-ico { font-size: 16px; }
+    .mode-opt .mode-lbl { font-size: 12px; }
 
     /* Source pills */
     .source-pills { padding: 0 1rem !important; }
@@ -379,23 +833,69 @@
 
     /* Info sections */
     .info-section { padding: 0 1rem; margin-bottom: 2rem; }
-    .how-grid { grid-template-columns: 1fr; }
-    .method-grid { grid-template-columns: 1fr; }
+    .how-grid { grid-template-columns: 1fr; gap: 10px; }
+    .how-step { padding: 18px; }
+    .method-grid { grid-template-columns: 1fr; gap: 10px; }
+    .method-card { padding: 16px; gap: 12px; }
 
-    /* Pricing */
-    .pricing-section { padding: 0 1rem 2rem; }
-    .pricing-cards { grid-template-columns: 1fr; gap: 12px; }
-    .pricing-card { padding: 24px 20px 70px; }
+    /* ── Pricing — compact mobile layout ── */
+    .pricing-section { padding: 0 1rem 2rem; margin-bottom: 2.5rem; }
+    .pricing-section .pricing-sub { margin-bottom: 1.5rem; font-size: 13px; }
+    /* On mobile, use block grid (not inline-grid) so cards fill the viewport */
+    .pricing-cards { display: grid !important; grid-template-columns: 1fr !important; gap: 12px; max-width: 100%; }
+    /* Override the inline padding-bottom:58px attribute with !important-equivalent selector */
+    .pricing-card,
+    .pricing-card[style] { padding: 20px 18px 52px !important; border-radius: 16px; }
+    .pc-plan-name { font-size: 18px; margin-bottom: 10px; margin-top: 2px; }
+    .pc-price-row { gap: 5px; margin-bottom: 3px; }
+    .pc-price-main { font-size: 32px; }
+    .pc-price-unit { font-size: 13px; }
+    .pc-price-old { font-size: 13px; margin-right: 4px; }
+    .pc-price-annual { font-size: 11px; margin-bottom: 14px; }
+    .pc-divider { margin-bottom: 14px; }
+    .pricing-card ul { margin-bottom: 14px; }
+    .pricing-card ul li { font-size: 12px; padding: 3px 0; }
+    .pc-btn { padding: 11px; font-size: 14px; line-height: 1.3; min-height: 44px; }
+    /* Ribbon — smaller footprint so it doesn't overlap the button */
+    .pc-ribbon, .pc-ribbon-free, .pc-ribbon-sale, .pc-ribbon-gold {
+      font-size: 10.5px; padding: 8px 10px; letter-spacing: 0.06em;
+      border-radius: 0 0 16px 16px;
+    }
 
-    /* Plan cards inside modal */
-    .plan-cards { grid-template-columns: 1fr; }
+    /* Plan cards inside payment modal — stack vertically, bigger touch target */
+    .plan-cards { grid-template-columns: 1fr; gap: 8px; }
+    .plan-card { padding: 14px; }
 
     /* Footer */
     .footer-grid { grid-template-columns: 1fr; }
     .footer-section { padding: 0 1rem; }
 
     /* Modal */
-    .modal { padding: 2rem 1.25rem; }
+    .modal { padding: 1.5rem 1rem; width: calc(100% - 24px); max-width: 440px; }
+    .modal h2 { font-size: 20px; }
+    .modal-sub { font-size: 13px; }
+    .modal-input { font-size: 14px; padding: 11px 12px; }
+    .modal-submit { font-size: 15px; padding: 12px; }
+  }
+
+  /* ══════════════════════════════════════
+     SMALL MOBILE — max 380px (iPhone SE 1, narrow androids)
+  ══════════════════════════════════════ */
+  @media (max-width: 380px) {
+    h1 { font-size: 1.4rem; }
+    .hero { padding: 1.75rem 0.85rem 1.25rem; }
+    /* Country switch — compress further, let it scroll horizontally if absolutely needed */
+    .country-switch { flex-wrap: wrap; gap: 4px; }
+    .country-opt { padding: 5px 8px; font-size: 11px; }
+    /* Pricing — tighten further */
+    .pc-price-main { font-size: 28px; }
+    .pc-plan-name { font-size: 17px; }
+    .pc-btn { font-size: 13px; padding: 10px; }
+    /* Filter bar stays 2-col but reduce font */
+    .filter-bar label { font-size: 11px; }
+    .filter-bar select, .filter-bar input { font-size: 13px; padding: 8px 10px; }
+    /* Stats — single column on tiny screens */
+    .stats-row { grid-template-columns: 1fr 1fr; }
   }
 
   /* ══════════════════════════════════════
@@ -438,13 +938,27 @@
     padding: 32px 28px; cursor: pointer; transition: border-color 0.2s, transform 0.18s, box-shadow 0.18s;
     position: relative; overflow: hidden;
   }
-  .pricing-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.18); }
+  .pricing-card:hover {
+    transform: translateY(-3px);
+    /* Stack our accent glow on top of the existing depth shadow. */
+    box-shadow:
+      0 0 0 1px rgba(201, 241, 81, 0.22),
+      0 0 24px rgba(201, 241, 81, 0.20),
+      0 0 56px rgba(201, 241, 81, 0.10),
+      0 12px 32px rgba(0, 0, 0, 0.18);
+  }
   .pricing-card.featured {
     border-color: var(--accent-glow);
     background: linear-gradient(145deg, var(--surface) 0%, var(--accent-dim) 100%);
     box-shadow: 0 0 0 1px var(--accent-glow), 0 8px 24px rgba(0,0,0,0.15);
   }
-  .pricing-card.featured:hover { box-shadow: 0 0 0 1px var(--accent-glow), 0 16px 40px rgba(0,0,0,0.22); }
+  .pricing-card.featured:hover {
+    box-shadow:
+      0 0 0 1px rgba(201, 241, 81, 0.45),
+      0 0 32px rgba(201, 241, 81, 0.28),
+      0 0 70px rgba(201, 241, 81, 0.14),
+      0 16px 40px rgba(0, 0, 0, 0.22);
+  }
 
   /* "Выгодно" ribbon — full-width bottom banner */
   .pc-ribbon {
@@ -483,7 +997,13 @@
     background: linear-gradient(145deg, var(--surface) 0%, rgba(228,188,106,0.07) 100%);
     box-shadow: 0 0 0 1px rgba(228,188,106,0.3), 0 8px 24px rgba(0,0,0,0.2);
   }
-  .pricing-card.gold:hover { box-shadow: 0 0 0 1px rgba(228,188,106,0.5), 0 16px 40px rgba(0,0,0,0.25); }
+  .pricing-card.gold:hover {
+    box-shadow:
+      0 0 0 1px rgba(228, 188, 106, 0.55),
+      0 0 32px rgba(228, 188, 106, 0.28),
+      0 0 70px rgba(228, 188, 106, 0.14),
+      0 16px 40px rgba(0, 0, 0, 0.25);
+  }
   .pricing-card.gold .pc-plan-name,
   .pricing-card.gold .pc-price-main { color: var(--gold); }
   .pc-ribbon-gold {
@@ -538,39 +1058,42 @@
 </head>
 <body>
 
+<!-- Ambient background layers (drifting blobs + film-grain noise). Sit at z-index:-1 inside body's stacking context. -->
+<div class="bg-blobs" aria-hidden="true"></div>
+<div class="bg-grain" aria-hidden="true"></div>
+
 <nav>
   <a href="https://aivest.ru" class="nav-logo" style="text-decoration:none;"><span class="ai">AI</span>vest.ru</a>
   <div class="nav-links">
-    <a href="#how-it-works">Принцип работы</a>
-    <a href="#methodology">Методология</a>
-    <a href="#" onclick="openModal();return false;">Тарифы</a>
+    <a href="#how-it-works" data-i18n="navHow">Принцип работы</a>
+    <a href="#methodology" data-i18n="navMethod">Методология</a>
+    <a href="#" onclick="openModal();return false;" data-i18n="navPricing">Тарифы</a>
   </div>
   <div class="nav-controls">
-    <button class="theme-toggle-beta" id="theme-variant-toggle" onclick="toggleThemeVariant()" title="Переключить визуальный стиль">
-      <span id="theme-variant-label">✨ Новый</span>
-    </button>
     <div class="lang-switch" id="lang-switch" role="tablist" aria-label="Language">
       <button class="lang-opt" data-lang="ru" onclick="applyLang('ru')" title="Русский" aria-label="Русский"><span class="flag">🇷🇺</span><span class="lbl">RU</span></button>
       <button class="lang-opt" data-lang="en" onclick="applyLang('en')" title="English" aria-label="English"><span class="flag">🇬🇧</span><span class="lbl">EN</span></button>
       <button class="lang-opt" data-lang="uz" onclick="applyLang('uz')" title="O‘zbek" aria-label="O'zbek"><span class="flag">🇺🇿</span><span class="lbl">UZ</span></button>
+      <button class="lang-opt" data-lang="kz" onclick="applyLang('kz')" title="Қазақша" aria-label="Қазақша"><span class="flag">🇰🇿</span><span class="lbl">KZ</span></button>
     </div>
     <button class="nav-icon-btn" id="theme-toggle" onclick="toggleTheme()" title="Switch theme">🌙</button>
   </div>
-  <button class="nav-login-btn" id="nav-login-btn" onclick="openLoginModal()">Войти</button>
+  <button class="nav-login-btn" id="nav-login-btn" onclick="openLoginModal()" data-i18n="navLogin">Войти</button>
+  <button class="nav-cta nav-admin-btn" id="nav-admin-requests" onclick="openAdminRequests()" style="display:none;margin-right:6px;background:transparent;border:1px solid var(--border2, rgba(0,0,0,.12));color:var(--text);" data-i18n="navAdminRequests">🛟 Заявки</button>
   <button class="nav-cta" id="nav-cta-btn" onclick="openModal()" data-i18n="navCta">Получить PRO доступ</button>
 </nav>
 
-<section class="hero">
+<section class="hero reveal">
   <div class="hero-eyebrow" data-i18n="heroEyebrow">Продвинутая аналитика недвижимости · aivest.ru</div>
   <h1 id="hero-title">Удобный поиск недвижимости<br><em id="hero-title-em">для рантье и долгосрочных инвесторов</em></h1>
   <p class="hero-sub" id="hero-sub">Алгоритмическая оценка объявлений от агрегаторов, аукционов и застройщиков</p>
 
   <!-- Country switcher -->
   <div class="country-switch" id="country-switch" role="tablist" aria-label="Страна">
-    <button class="country-opt active" data-country="ru" onclick="setCountry('ru')">Россия</button>
-    <button class="country-opt"        data-country="uz" onclick="setCountry('uz')">Узбекистан</button>
-    <button class="country-opt"        data-country="kz" onclick="setCountry('kz')">Казахстан</button>
-    <button class="country-opt"        data-country="by" onclick="setCountry('by')">Беларусь</button>
+    <button class="country-opt active" data-country="ru" onclick="setCountry('ru', true)" data-i18n="countryRu">Россия</button>
+    <button class="country-opt"        data-country="uz" onclick="setCountry('uz', true)" data-i18n="countryUz">Узбекистан</button>
+    <button class="country-opt"        data-country="kz" onclick="setCountry('kz', true)" data-i18n="countryKz">Казахстан</button>
+    <button class="country-opt"        data-country="by" onclick="setCountry('by', true)" data-i18n="countryBy">Беларусь</button>
   </div>
 
   <!-- Invest / Rent mode slider -->
@@ -579,7 +1102,7 @@
             role="tab" aria-selected="true"
             title="Инвесторам: объекты для покупки со скорингом доходности">
       <span class="mode-ico">💼</span>
-      <span class="mode-lbl">Для инвесторов</span>
+      <span class="mode-lbl" data-i18n="modeBuy">Для инвесторов</span>
     </button>
     <div class="mode-slider-wrap" onclick="toggleMode()" aria-hidden="true">
       <div class="mode-slider-track"><div class="mode-slider-knob" id="mode-knob"></div></div>
@@ -588,7 +1111,7 @@
             role="tab" aria-selected="false"
             title="Арендаторам: лучшие предложения аренды со скорингом">
       <span class="mode-ico">🔑</span>
-      <span class="mode-lbl">Для арендаторов</span>
+      <span class="mode-lbl" data-i18n="modeRent">Для арендаторов</span>
     </button>
   </div>
 </section>
@@ -626,81 +1149,82 @@
 </style>
 
 <!-- ── КАК РАБОТАЕТ ── -->
-<section id="how-it-works" class="info-section">
-  <div class="info-section-head">Принцип работы</div>
+<section id="how-it-works" class="info-section reveal">
+  <div class="info-section-head" data-i18n="howHead">Принцип работы</div>
   <div class="how-grid">
     <div class="how-step">
       <div class="how-num">1</div>
-      <h3>Агрегация данных</h3>
-      <p>Собираем объявления с агрегаторов, аукционных площадок и сайтов застройщиков. Данные обновляются регулярно.</p>
+      <h3 data-i18n="how1Title">Агрегация данных</h3>
+      <p data-i18n="how1Text">Собираем объявления с агрегаторов, аукционных площадок и сайтов застройщиков. Данные обновляются регулярно.</p>
     </div>
     <div class="how-step">
       <div class="how-num">2</div>
-      <h3>SOTA алгоритм оценки объекта</h3>
-      <p>Алгоритм рассчитывает дисконт к рынку, доходность аренды, темп роста цен и ликвидность. Итог — балл от 0 до 100.</p>
+      <h3 data-i18n="how2Title">SOTA<sup style="color:var(--accent);font-size:11px;margin-left:1px">1</sup> алгоритм оценки объекта</h3>
+      <p data-i18n="how2Text">Алгоритм рассчитывает дисконт к рынку, доходность аренды, темп роста цен и ликвидность. Итог — балл от 0 до 100.</p>
+      <p style="font-size:11px;color:var(--faint);margin-top:8px" data-i18n="how2Foot"><sup>1</sup> SOTA — State of the Art</p>
     </div>
     <div class="how-step">
       <div class="how-num">3</div>
-      <h3>Лучшие объекты для PRO пользователей</h3>
-      <p>Объекты с оценкой 60+ — лучшие инвестиционные варианты на рынке. Подписка PRO открывает полный список к лучшим предложениям.</p>
+      <h3 data-i18n="how3Title">Лучшие объекты для PRO пользователей</h3>
+      <p data-i18n="how3Text">Объекты с оценкой 60+ — лучшие инвестиционные варианты на рынке. Подписка PRO открывает полный список к лучшим предложениям.</p>
     </div>
   </div>
 </section>
 
 <!-- ── МЕТОДОЛОГИЯ ── -->
-<section id="methodology" class="info-section">
-  <div class="info-section-head">Методология</div>
+<section id="methodology" class="info-section reveal">
+  <div class="info-section-head" data-i18n="methodHead">Методология</div>
   <div class="method-grid">
     <div class="method-card">
       <div class="method-icon">📉</div>
       <div>
-        <h4>Дисконт к рынку</h4>
-        <p>Рассчитывается как разница между ценой объекта и средней ценой аналогов в радиусе 1 км. Большая скидка даёт более высокий балл.</p>
+        <h4 data-i18n="method1Title">Дисконт к рынку</h4>
+        <p data-i18n="method1Text">Рассчитывается как разница между ценой объекта и средней ценой аналогов в радиусе 1 км. Большая скидка даёт более высокий балл.</p>
       </div>
     </div>
     <div class="method-card">
       <div class="method-icon">💰</div>
       <div>
-        <h4>Доходность аренды</h4>
-        <p>Годовой доход от аренды за минусом потерь от простоя объекта, разделённый на его стоимость. Использование логарифмической шкалы позволяет избежать завышения результата.</p>
+        <h4 data-i18n="method2Title">Доходность аренды</h4>
+        <p data-i18n="method2Text">Годовой доход от аренды за минусом потерь от простоя объекта, разделённый на его стоимость. Использование логарифмической шкалы позволяет избежать завышения результата.</p>
       </div>
     </div>
     <div class="method-card">
       <div class="method-icon">📈</div>
       <div>
-        <h4>Рост цен</h4>
-        <p>Среднегодовой прирост цен на жильё по данным Росстата и рыночной аналитики. Высокий рост = долгосрочная инвестиционная ценность.</p>
+        <h4 data-i18n="method3Title">Рост цен</h4>
+        <p data-i18n="method3Text">Среднегодовой прирост цен на жильё по данным Росстата и рыночной аналитики. Высокий рост = долгосрочная инвестиционная ценность.</p>
       </div>
     </div>
     <div class="method-card">
       <div class="method-icon">⚡</div>
       <div>
-        <h4>Ликвидность</h4>
-        <p>Оцениваем скорость продажи аналогов, активность спроса и транспортную доступность. Объект должно быть легко продать при необходимости.</p>
+        <h4 data-i18n="method4Title">Ликвидность</h4>
+        <p data-i18n="method4Text">Оцениваем скорость продажи аналогов, активность спроса и транспортную доступность. Объект должно быть легко продать при необходимости.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ── ТАРИФЫ ── -->
-<section id="pricing" class="pricing-section">
+<section id="pricing" class="pricing-section reveal">
   <div class="info-section-head" data-i18n="pricingTitle">Тарифы</div>
   <p class="pricing-sub" data-i18n="pricingSub">Полный доступ ко всем объектам с рейтингом 60+</p>
   <div class="pricing-cards">
 
     <div class="pricing-card free" style="padding-bottom: 58px;">
-      <div class="pc-plan-name">Бесплатно</div>
+      <div class="pc-plan-name" data-i18n="planFreeName">Бесплатно</div>
       <div class="pc-price-row">
         <div class="pc-price-main" style="color:var(--muted)">0</div>
-        <div class="pc-price-unit">₽ / мес</div>
+        <div class="pc-price-unit" data-i18n="perMonth">₽ / мес</div>
       </div>
-      <div class="pc-price-annual">Без регистрации</div>
+      <div class="pc-price-annual" data-i18n="planFreeSub">Без регистрации</div>
       <div class="pc-divider"></div>
       <ul>
-        <li style="color:var(--faint)">Все объекты с рейтингом до 60</li>
-        <li style="color:var(--faint)">Базовые фильтры</li>
+        <li style="color:var(--faint)" data-i18n="planFreeFeat1">Все объекты с рейтингом до 60</li>
+        <li style="color:var(--faint)" data-i18n="planFreeFeat2">Базовые фильтры</li>
       </ul>
-      <div class="pc-ribbon-free">Всегда доступно</div>
+      <div class="pc-ribbon-free" data-i18n="ribbonAlways">Всегда доступно</div>
     </div>
 
     <div class="pricing-card" style="padding-bottom: 58px;">
@@ -716,7 +1240,7 @@
         <li data-i18n="feat1">Все объекты с рейтингом 60+</li>
       </ul>
       <button class="pc-btn pc-btn-secondary" onclick="openModal()" data-i18n="planMonthBtn">Оформить за 660 ₽</button>
-      <div class="pc-ribbon-sale">АКЦИЯ — РАННИЙ ДОСТУП</div>
+      <div class="pc-ribbon-sale" data-i18n="ribbonSale">АКЦИЯ — РАННИЙ ДОСТУП</div>
     </div>
 
     <div class="pricing-card featured" style="padding-bottom: 58px;">
@@ -729,23 +1253,23 @@
       <div class="pc-price-annual" data-i18n="planYearSub">5 880 ₽/год · экономия 6 000 ₽</div>
       <div class="pc-divider"></div>
       <button class="pc-btn pc-btn-primary" onclick="selectPlanAndOpen('year')" data-i18n="planYearBtn">Оформить<br>за 5 880 ₽/год</button>
-      <div class="pc-ribbon" style="background:var(--accent);color:#0b0c0a;font-weight:700;">⭐ Лучшее предложение</div>
+      <div class="pc-ribbon" style="background:var(--accent);color:#0b0c0a;font-weight:700;" data-i18n="ribbonBest">⭐ Лучшее предложение</div>
     </div>
 
     <div class="pricing-card gold" style="padding-bottom: 58px;">
-      <div class="pc-plan-name">Бессрочная</div>
+      <div class="pc-plan-name" data-i18n="planLifetimeName">Бессрочная</div>
       <div class="pc-price-row">
         <span class="pc-price-old" style="color:rgba(228,188,106,0.4)">20 000</span>
         <div class="pc-price-main">14 900</div>
         <div class="pc-price-unit">₽</div>
       </div>
-      <div class="pc-price-annual" style="color:var(--gold);opacity:.8">Один раз — навсегда</div>
+      <div class="pc-price-annual" data-i18n="planLifetimeSub" style="color:var(--gold);opacity:.8">Один раз — навсегда</div>
       <div class="pc-divider"></div>
-      <button class="pc-btn" onclick="selectPlanAndOpen('lifetime')"
+      <button class="pc-btn" onclick="selectPlanAndOpen('lifetime')" data-i18n="planLifetimeBtn"
         style="background:linear-gradient(90deg,#b8860b,#e4bc6a,#b8860b);color:#1a1400;font-weight:700">
         Оформить<br>за 14 900 ₽
       </button>
-      <div class="pc-ribbon-gold">Навсегда</div>
+      <div class="pc-ribbon-gold" data-i18n="ribbonForever">Навсегда</div>
     </div>
 
   </div>
@@ -753,12 +1277,14 @@
 
 <div class="source-pills" style="max-width:1100px;margin:0 auto 1.5rem;padding:0 2rem;justify-content:space-between;align-items:center;display:flex;flex-wrap:wrap;gap:8px;">
   <div style="display:flex;flex-wrap:wrap;gap:6px;">
-    <button class="pill active" data-source="all">Все источники</button>
-    <button class="pill" data-source="agg">Агрегаторы</button>
-    <button class="pill" data-source="auct">Аукционы</button>
-    <button class="pill" data-source="dev">Застройщики</button>
+    <button class="pill active" data-source="all" data-i18n="pillAll">Все источники</button>
+    <!-- Source-specific pills hidden for now (только "Все источники"). Keep them
+         in DOM with display:none so the activeSource state machine still works. -->
+    <button class="pill" data-source="agg"  data-i18n="pillAgg"  style="display:none;">Агрегаторы</button>
+    <button class="pill" data-source="auct" data-i18n="pillAuct" style="display:none;">Аукционы</button>
+    <button class="pill" data-source="dev"  data-i18n="pillDev"  style="display:none;">Застройщики</button>
   </div>
-  <button id="view-toggle" class="pill" style="background:var(--surface);border:1px solid var(--border2);" onclick="toggleView()">🗺 На карте</button>
+  <button id="view-toggle" class="pill" style="background:var(--surface);border:1px solid var(--border2);display:none;" onclick="toggleView()" data-i18n="viewMap">🗺 Карта (в разработке)</button>
 </div>
 
 <!-- Admin-only filter row, hidden until login as admin -->
@@ -793,9 +1319,10 @@
   </div>
 </div>
 
+<!-- ── Basic filter row (always visible) ── -->
 <div class="filter-bar">
   <div class="fgroup">
-    <label>Город / Регион</label>
+    <label data-i18n="fltCity">Город / Регион</label>
     <select id="f-city">
       <option value="all">Все города</option>
       <option value="Москва">Москва</option>
@@ -808,45 +1335,7 @@
     </select>
   </div>
   <div class="fgroup">
-    <label>Мин. оценка</label>
-    <select id="f-score">
-      <option value="0">Любая</option>
-      <option value="50">50+</option>
-      <option value="60">60+</option>
-      <option value="70">70+</option>
-      <option value="80">80+</option>
-    </select>
-  </div>
-  <div class="fgroup">
-    <label>Макс. оценка</label>
-    <select id="f-score-max">
-      <option value="100">Любая</option>
-      <option value="59">60−</option>
-      <option value="69">70−</option>
-      <option value="79">80−</option>
-      <option value="89">90−</option>
-    </select>
-  </div>
-  <div class="fgroup">
-    <label>Макс. цена (млн ₽)</label>
-    <input type="number" id="f-price" placeholder="Без ограничений" min="1" step="1">
-  </div>
-  <div class="fgroup">
-    <label>Сортировка</label>
-    <select id="f-sort">
-      <option value="score">Оценка</option>
-      <option value="roi" class="pro-sort">🔒 Доходность аренды</option>
-      <option value="discount" class="pro-sort">🔒 Скидка к рынку</option>
-      <option value="growth" class="pro-sort">🔒 Рост цен</option>
-      <option value="price_asc" class="pro-sort">🔒 Цена ↑</option>
-      <option value="price_desc" class="pro-sort">🔒 Цена ↓</option>
-    </select>
-  </div>
-</div>
-
-<div class="filter-bar" style="margin-top:-8px;">
-  <div class="fgroup">
-    <label>Тип объекта</label>
+    <label data-i18n="fltType">Тип объекта</label>
     <select id="f-type">
       <option value="all">Все типы</option>
       <option value="apartment">Квартира</option>
@@ -858,10 +1347,74 @@
       <option value="parking">Машиноместо</option>
     </select>
   </div>
-  <div class="fgroup" id="fgroup-metro" style="display:none;">
-    <label>Метро (Москва)</label>
+  <!-- Price: dual number inputs + range slider. Range covers 0–100 млн (typical
+       market band); user can type larger values into the number fields directly. -->
+  <div class="fgroup" style="grid-column: span 2;">
+    <label data-i18n="fltPrice">Цена (млн ₽)</label>
+    <div class="range-pair" data-pair="price">
+      <div class="range-inputs">
+        <input type="number" id="f-price-min" min="0" step="0.5" placeholder="0" value="" inputmode="decimal">
+        <span class="range-sep">—</span>
+        <input type="number" id="f-price-max" min="0" step="0.5" placeholder="100+" value="" inputmode="decimal">
+      </div>
+      <div class="range-slider">
+        <div class="range-track"></div>
+        <div class="range-fill" id="f-price-fill" style="left:0%;right:0%"></div>
+        <input type="range" class="range-thumb" id="f-price-rmin" min="0" max="100" step="1" value="0">
+        <input type="range" class="range-thumb" id="f-price-rmax" min="0" max="100" step="1" value="100">
+      </div>
+    </div>
+  </div>
+  <!-- Score: 0–100, integer step. Same dual-input pattern. -->
+  <div class="fgroup" style="grid-column: span 2;">
+    <label data-i18n="fltScore">Оценка</label>
+    <div class="range-pair" data-pair="score">
+      <div class="range-inputs">
+        <input type="number" id="f-score-min" min="0" max="100" step="1" placeholder="0" value="" inputmode="numeric">
+        <span class="range-sep">—</span>
+        <input type="number" id="f-score-max" min="0" max="100" step="1" placeholder="100" value="" inputmode="numeric">
+      </div>
+      <div class="range-slider">
+        <div class="range-track"></div>
+        <div class="range-fill" id="f-score-fill" style="left:0%;right:0%"></div>
+        <input type="range" class="range-thumb" id="f-score-rmin" min="0" max="100" step="1" value="0">
+        <input type="range" class="range-thumb" id="f-score-rmax" min="0" max="100" step="1" value="100">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Toggle: show/hide extended filters ── -->
+<div class="filter-toggle-row">
+  <button type="button" class="filter-toggle-btn" id="filter-toggle-btn" onclick="toggleExtendedFilters()" data-i18n="fltMore">
+    <span data-i18n="fltMore">Расширенные фильтры</span><span class="chev">▾</span>
+  </button>
+</div>
+
+<!-- ── Extended filter row (collapsed by default) ── -->
+<div class="filter-bar extended" id="filter-bar-extended">
+  <div class="fgroup">
+    <label data-i18n="fltSort">Сортировка</label>
+    <select id="f-sort">
+      <option value="score">Оценка</option>
+      <option value="roi" class="pro-sort">🔒 Доходность аренды</option>
+      <option value="discount" class="pro-sort">🔒 Скидка к рынку</option>
+      <option value="growth" class="pro-sort">🔒 Рост цен</option>
+      <option value="price_asc" class="pro-sort">🔒 Цена ↑</option>
+      <option value="price_desc" class="pro-sort">🔒 Цена ↓</option>
+    </select>
+  </div>
+  <div class="fgroup">
+    <label data-i18n="fltActive">Тип объявления</label>
+    <select id="f-active">
+      <option value="active" data-i18n="fltActiveOnly">Только активные</option>
+      <option value="all" data-i18n="fltActiveAll">Все объявления</option>
+    </select>
+  </div>
+  <div class="fgroup" id="fgroup-metro">
+    <label data-i18n="fltMetro">Метро (Москва)</label>
     <select id="f-metro">
-      <option value="all">Все станции</option>
+      <option value="all" data-i18n="fltMetroAll">Все станции</option>
     </select>
   </div>
   <div class="fgroup" id="fgroup-okrug">
@@ -885,13 +1438,13 @@
 </div>
 
 <div class="stats-row">
-  <div class="stat-card"><div class="slabel">Объявлений</div><div class="sval" id="s-count">—</div></div>
-  <div class="stat-card"><div class="slabel">Средняя оценка</div><div class="sval" id="s-score">—</div></div>
-  <div class="stat-card"><div class="slabel">Средняя доходность</div><div class="sval green" id="s-roi">—</div></div>
-  <div class="stat-card"><div class="slabel">Лучшая сделка</div><div class="sval green" id="s-top">—</div></div>
+  <div class="stat-card"><div class="slabel" data-i18n="statCount">Объявлений</div><div class="sval" id="s-count">—</div></div>
+  <div class="stat-card"><div class="slabel" data-i18n="statScore">Средняя оценка</div><div class="sval" id="s-score">—</div></div>
+  <div class="stat-card" id="stat-card-roi"><div class="slabel" data-i18n="statRoi">Средняя доходность</div><div class="sval green" id="s-roi">—</div></div>
+  <div class="stat-card"><div class="slabel" data-i18n="statTop">Лучшая сделка</div><div class="sval green" id="s-top">—</div></div>
 </div>
 
-<div class="section">
+<div class="section" id="cards-section">
   <div class="section-head">
     <div class="section-title" data-i18n="sectionTitle">Топ объектов</div>
     <div class="result-count" id="result-count"></div>
@@ -904,30 +1457,48 @@
   </div>
 </div>
 
+<div id="country-coming-soon">
+  <div class="cs-title" id="country-coming-title" data-i18n="comingTitle">Скоро появится</div>
+  <div class="cs-sub" id="country-coming-sub" data-i18n="comingSub">Сейчас мы собираем актуальные объявления по выбранной стране. Выберите «Россия», чтобы увидеть текущую базу.</div>
+</div>
+
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
       <div class="foot-logo"><span class="ai">AI</span>vest.ru</div>
-      <p>AIvest.ru — сервис для поиска и анализа инвестиционной недвижимости. Платформа агрегирует данные с крупнейших площадок России, сравнивает объект с аналогами и рассчитывает рейтинг по ключевым инвестиционным метрикам: цене, локации, ликвидности, вакантности, арендному потенциалу и динамике рынка.</p>
-      <p style="margin-top:10px;font-size:12px;color:var(--faint)">Рейтинг AIvest формируется по шкале от 0 до 100. Лучшие объекты в своём сегменте обычно получают более 90 баллов.</p>
+      <p data-i18n="footAbout">AIvest.ru — сервис для поиска и анализа инвестиционной недвижимости. Платформа агрегирует данные с крупнейших площадок России, сравнивает объект с аналогами и рассчитывает рейтинг по ключевым инвестиционным метрикам: цене, локации, ликвидности, вакантности, арендному потенциалу и динамике рынка.</p>
+      <p style="margin-top:10px;font-size:12px;color:var(--faint)" data-i18n="footScale">Рейтинг AIvest формируется по шкале от 0 до 100. Лучшие объекты в своём сегменте обычно получают более 90 баллов.</p>
     </div>
     <div class="footer-col">
-      <h4>Сервис</h4>
-      <a href="#how-it-works">Как это работает</a>
-      <a href="#methodology">Методология оценки</a>
-      <a href="#" onclick="openModal();return false;">Тарифы</a>
-      <a href="mailto:info@aivest.ru">API для партнёров</a>
+      <h4 data-i18n="footColService">Сервис</h4>
+      <a href="#how-it-works" data-i18n="footLinkHow">Как это работает</a>
+      <a href="#methodology" data-i18n="footLinkMethod">Методология оценки</a>
+      <a href="#" onclick="openModal();return false;" data-i18n="navPricing">Тарифы</a>
+      <a href="mailto:info@aivest.ru" data-i18n="footLinkApi">API для партнёров</a>
     </div>
     <div class="footer-col">
-      <h4>Компания</h4>
-      <a href="#how-it-works">О проекте</a>
-      <a href="mailto:info@aivest.ru">Контакты</a>
-      <a href="#">Политика конфиденциальности</a>
-      <a href="#">Пользовательское соглашение</a>
+      <h4 data-i18n="footColCompany">Компания</h4>
+      <a href="#how-it-works" data-i18n="footLinkAbout">О проекте</a>
+      <a href="mailto:info@aivest.ru" data-i18n="footLinkContact">Контакты</a>
+      <a href="#" onclick="openSupportModal('support');return false;" data-i18n="footLinkSupport">Поддержка</a>
+      <a href="#" onclick="openSupportModal('suggestion');return false;" data-i18n="footLinkSuggest">Предложить улучшение</a>
+      <a href="#" data-i18n="footLinkPrivacy">Политика конфиденциальности</a>
+      <a href="#" data-i18n="footLinkTerms">Пользовательское соглашение</a>
+    </div>
+    <!-- SEO: geo landing-page internal links (moved from hero). Crawlers follow these
+         so /moscow, /spb, /sochi keep getting authority from the homepage. -->
+    <div class="footer-col">
+      <h4 data-i18n="footColCities">Города</h4>
+      <a href="/moscow" data-i18n="geoLinkMoscow">Недвижимость Москвы</a>
+      <a href="/spb"    data-i18n="geoLinkSpb">Недвижимость Санкт-Петербурга</a>
+      <a href="/sochi"  data-i18n="geoLinkSochi">Недвижимость Сочи</a>
     </div>
   </div>
+  <div class="footer-disclaimer" style="padding: 0 0 1rem; font-size: 12px; color: var(--muted); line-height: 1.6; text-align: center;">
+    <p data-i18n="footDisclaimer">Информация на сайте не может расцениваться как инвестиционная рекомендация и носит ознакомительный характер.</p>
+  </div>
   <div class="footer-bottom">
-    <p>© 2026 AIvest.ru — Информация на сайте не является индивидуальной инвестиционной рекомендацией. Все оценки формируются автоматически на основе рыночных данных и моделей анализа. Перед принятием решения рекомендуем самостоятельно проверять объект и ключевые допущения расчёта.</p>
+    <p data-i18n="footCopyright">© 2026 AIvest.ru — Информация на сайте не является индивидуальной инвестиционной рекомендацией. Все оценки формируются автоматически на основе рыночных данных и моделей анализа. Перед принятием решения рекомендуем самостоятельно проверять объект и ключевые допущения расчёта.</p>
   </div>
 </footer>
 
@@ -937,18 +1508,18 @@
     <button class="modal-close" onclick="closeLoginModal()">×</button>
     <div id="login-form-view">
       <div class="modal-icon">🔑</div>
-      <h2 id="login-modal-title">Войти в AIvest</h2>
-      <p class="modal-sub" id="login-modal-sub">Введите email и пароль для входа в аккаунт.</p>
-      <input class="modal-input" id="login-email" type="email" placeholder="Email" onkeydown="if(event.key==='Enter')handleLogin()">
-      <input class="modal-input" id="login-password" type="password" placeholder="Пароль" onkeydown="if(event.key==='Enter')handleLogin()" style="margin-bottom:10px;">
+      <h2 id="login-modal-title" data-i18n="loginTitle">Войти в AIvest</h2>
+      <p class="modal-sub" id="login-modal-sub" data-i18n="loginSub">Введите email и пароль для входа в аккаунт.</p>
+      <input class="modal-input" id="login-email" type="email" placeholder="Email" onkeydown="if(event.key==='Enter')handleLogin()" data-i18n-placeholder="phEmail">
+      <input class="modal-input" id="login-password" type="password" placeholder="Пароль" onkeydown="if(event.key==='Enter')handleLogin()" style="margin-bottom:10px;" data-i18n-placeholder="phPassword">
       <div class="modal-error" id="login-error"></div>
-      <button class="modal-submit" id="login-submit-btn" onclick="handleLogin()">Войти →</button>
-      <p class="modal-note" style="margin-top:12px;">Нет аккаунта? <a href="#" onclick="closeLoginModal();openModal();return false;" style="color:var(--accent)">Оформить подписку</a></p>
+      <button class="modal-submit" id="login-submit-btn" onclick="handleLogin()" data-i18n="loginBtn">Войти →</button>
+      <p class="modal-note" data-i18n="loginNoAcc" style="margin-top:12px;">Нет аккаунта? <a href="#" onclick="closeLoginModal();openModal();return false;" style="color:var(--accent)">Оформить подписку</a></p>
     </div>
     <div class="modal-success" id="login-success-view">
       <div class="success-icon">✅</div>
-      <h3 id="login-success-title">Добро пожаловать!</h3>
-      <p id="login-success-msg">Вы успешно вошли. Все объекты с оценкой 60+ теперь доступны.</p>
+      <h3 id="login-success-title" data-i18n="loginSuccessTitle">Добро пожаловать!</h3>
+      <p id="login-success-msg" data-i18n="loginSuccessMsg">Вы успешно вошли. Все объекты с оценкой 60+ теперь доступны.</p>
     </div>
   </div>
 </div>
@@ -960,33 +1531,93 @@
     <div id="modal-form-view">
       <div class="modal-icon">🔓</div>
       <h2 data-i18n="modalTitle">Полный доступ к рейтингу</h2>
-      <p class="modal-sub">Объекты с AI-оценкой <span>60+</span> — перспективные инвестиционные объекты на рынке. Откройте полный список с детальной аналитикой по каждому.</p>
+      <p class="modal-sub" data-i18n="modalSub">Объекты с AI-оценкой <span>60+</span> — перспективные инвестиционные объекты на рынке. Откройте полный список с детальной аналитикой по каждому.</p>
       <div class="plan-cards">
-        <div class="plan-card selected" onclick="selectPlan(this,'month')">
-          <div class="plan-name">Месяц</div>
-          <div class="plan-price">990 <span>₽/мес</span></div>
-          <div class="plan-feat">Полный доступ</div>
+        <div class="plan-card selected" onclick="selectPlan(this,'month')"   data-stars="400">
+          <div class="plan-name" data-i18n="planMonthShort">Месяц</div>
+          <div class="plan-price">660 <span>₽/мес</span></div>
+          <div class="plan-feat" data-i18n="planFullAccess">Полный доступ</div>
         </div>
-        <div class="plan-card" onclick="selectPlan(this,'year')">
-          <div class="plan-name">Год · −40%</div>
-          <div class="plan-price">590 <span>₽/мес</span></div>
-          <div class="plan-feat">7 080 ₽/год</div>
+        <div class="plan-card" onclick="selectPlan(this,'year')"             data-stars="3500">
+          <div class="plan-name" data-i18n="planYearShort">Год · −26%</div>
+          <div class="plan-price">490 <span>₽/мес</span></div>
+          <div class="plan-feat" data-i18n="planYearShortSub">5 880 ₽/год</div>
+        </div>
+        <div class="plan-card" onclick="selectPlan(this,'lifetime')"         data-stars="9000">
+          <div class="plan-name" data-i18n="planLifetimeName">Бессрочная</div>
+          <div class="plan-price">14 900 <span>₽</span></div>
+          <div class="plan-feat" data-i18n="planLifetimeFeat">один платёж · навсегда</div>
         </div>
       </div>
-      <input class="modal-input" id="modal-name" type="text" placeholder="Ваше имя (необязательно)" style="margin-bottom:8px;">
-      <input class="modal-input" id="modal-email" type="email" placeholder="Email *" onkeydown="if(event.key==='Enter')handleSubscribe()">
-      <input class="modal-input" id="modal-tg" type="text" placeholder="Telegram @username (необязательно)" style="margin-top:8px;">
+      <style>
+        .plan-cards{grid-template-columns:1fr 1fr 1fr!important}
+        @media(max-width:520px){.plan-cards{grid-template-columns:1fr!important}}
+      </style>
+      <div class="pay-methods" role="tablist" aria-label="Способ оплаты">
+        <button type="button" class="pay-opt active"   data-provider="yookassa" onclick="selectProvider(this,'yookassa')">
+          <span class="pm-ico">🏦</span><span class="pm-lbl" data-i18n="payYookassa">Сбер Касса</span><span class="pm-sub" data-i18n="payYookassaSub">Карты РФ и СБП</span>
+        </button>
+        <button type="button" class="pay-opt"          data-provider="telegram" onclick="selectProvider(this,'telegram')">
+          <span class="pm-ico">⭐</span><span class="pm-lbl">Telegram Stars</span><span class="pm-sub" data-i18n="payTelegramSub">оплата по всему миру</span>
+        </button>
+      </div>
+      <style>
+        .pay-methods{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px}
+        .pay-opt{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 6px;border:1px solid var(--border2,rgba(0,0,0,.1));background:var(--surface,#fffdf8);border-radius:10px;cursor:pointer;font:inherit;color:var(--text);transition:border-color .15s,background .15s}
+        .pay-opt:hover{border-color:var(--accent,#c15f3c)}
+        .pay-opt.active{border-color:var(--accent,#c15f3c);background:var(--accent-dim,rgba(193,95,60,.08))}
+        .pm-ico{font-size:18px;line-height:1}
+        .pm-lbl{font-size:12px;font-weight:600}
+        .pm-sub{font-size:10px;color:var(--muted,#786552)}
+      </style>
+      <input class="modal-input" id="modal-email" type="email" placeholder="Email *" autocomplete="email" data-i18n-placeholder="phEmailReq">
+      <input class="modal-input" id="modal-username" type="text" placeholder="Имя пользователя *" autocomplete="username" style="margin-top:8px;" data-i18n-placeholder="phUsername">
+      <input class="modal-input" id="modal-password" type="password" placeholder="Пароль (мин. 6 символов) *" autocomplete="new-password" style="margin-top:8px;" data-i18n-placeholder="phPasswordNew">
+      <input class="modal-input" id="modal-name" type="text" placeholder="Ваше имя (необязательно)" style="margin-top:8px;" data-i18n-placeholder="phName">
+      <input class="modal-input" id="modal-tg" type="text" placeholder="Telegram @username (необязательно)" style="margin-top:8px;" data-i18n-placeholder="phTelegram">
       <div class="modal-error" id="modal-error"></div>
-      <button class="modal-submit" id="modal-submit-btn" onclick="handleSubscribe()">Оформить подписку →</button>
-      <p class="modal-note">Безопасная оплата · Отмена в любой момент · Никакого спама</p>
+      <button class="modal-submit" id="modal-submit-btn" onclick="handleSubscribe()" data-i18n="modalPayBtn">Оплатить и активировать →</button>
+      <p class="modal-note" data-i18n="modalNote">Аккаунт создаётся автоматически после оплаты · Безопасный платёж · Отмена в любой момент</p>
     </div>
     <div class="modal-success" id="modal-success-view">
       <div class="success-icon">✅</div>
-      <h3>Заявка принята!</h3>
-      <p>Мы свяжемся с вами по email с инструкцией по оплате и активации доступа.</p>
+      <h3 id="modal-success-title">Переходим к оплате…</h3>
+      <p id="modal-success-text">Если перенаправление не произошло автоматически, нажмите на ссылку ниже.</p>
+      <p style="margin-top:12px"><a id="modal-success-link" href="#" style="color:var(--accent);word-break:break-all">—</a></p>
     </div>
   </div>
 </div>
+
+<!-- SUPPORT / SUGGESTIONS MODAL -->
+<div class="modal-backdrop" id="support-modal-backdrop" onclick="if(event.target===this)closeSupportModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeSupportModal()">×</button>
+    <div id="support-form-view">
+      <div class="modal-icon" id="support-modal-icon">🛟</div>
+      <h2 id="support-modal-title" data-i18n="supportTitle">Поддержка</h2>
+      <p class="modal-sub" id="support-modal-sub" data-i18n="supportSub">Опишите вопрос — ответим по email в течение рабочего дня.</p>
+      <div style="display:flex;gap:6px;margin-bottom:10px;background:var(--surface2,#f4efe4);padding:4px;border-radius:10px">
+        <button type="button" id="support-type-support"    class="support-type-btn active" onclick="setSupportType('support')" data-i18n="supportTypeQuestion">🛟 Вопрос</button>
+        <button type="button" id="support-type-suggestion" class="support-type-btn"        onclick="setSupportType('suggestion')" data-i18n="supportTypeIdea">💡 Предложение</button>
+      </div>
+      <input class="modal-input" id="support-name"  type="text"  placeholder="Ваше имя (необязательно)" style="margin-bottom:8px;" data-i18n-placeholder="phName">
+      <input class="modal-input" id="support-email" type="email" placeholder="Email *" data-i18n-placeholder="phEmailReq">
+      <textarea class="modal-input" id="support-message" rows="5" placeholder="Опишите вопрос или предложение…" style="margin-top:8px;resize:vertical;font-family:inherit" data-i18n-placeholder="phSupportMsg"></textarea>
+      <div class="modal-error" id="support-error"></div>
+      <button class="modal-submit" id="support-submit-btn" onclick="handleSupportSubmit()" data-i18n="supportSubmit">Отправить →</button>
+      <p class="modal-note" data-i18n="supportNote">Мы читаем каждое сообщение · Спама не будет</p>
+    </div>
+    <div class="modal-success" id="support-success-view">
+      <div class="success-icon">✅</div>
+      <h3 data-i18n="supportThanks">Спасибо!</h3>
+      <p data-i18n="supportSuccessMsg">Мы получили ваше сообщение и ответим на указанный email.</p>
+    </div>
+  </div>
+</div>
+<style>
+  .support-type-btn{flex:1;padding:8px 12px;border:0;background:transparent;color:var(--muted,#786552);border-radius:8px;cursor:pointer;font:inherit;font-size:13px;transition:background .15s,color .15s}
+  .support-type-btn.active{background:var(--surface,#fffdf8);color:var(--text,#2a1e12);box-shadow:0 1px 3px rgba(0,0,0,.06)}
+</style>
 
 <!-- ── ЛИЧНЫЙ КАБИНЕТ ── -->
 <div class="modal-backdrop" id="profile-modal-backdrop" onclick="if(event.target===this)closeProfile()">
@@ -998,10 +1629,10 @@
       <span id="profile-role-badge" style="font-size:11px;padding:3px 10px;border-radius:99px;font-weight:600;letter-spacing:.06em;text-transform:uppercase"></span>
     </div>
     <div style="background:var(--surface2);border-radius:12px;padding:16px 20px;margin-bottom:1.5rem">
-      <div style="font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:8px">Подписка</div>
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:8px" data-i18n="profileSubLabel">Подписка</div>
       <div id="profile-sub-info" style="font-size:15px;color:var(--text)">—</div>
     </div>
-    <button onclick="logout()" style="width:100%;padding:11px;border-radius:10px;background:transparent;border:1px solid var(--border2);color:var(--muted);font-size:14px;cursor:pointer;font-family:inherit">Выйти из аккаунта</button>
+    <button onclick="logout()" style="width:100%;padding:11px;border-radius:10px;background:transparent;border:1px solid var(--border2);color:var(--muted);font-size:14px;cursor:pointer;font-family:inherit" data-i18n="profileLogout">Выйти из аккаунта</button>
   </div>
 </div>
 
@@ -1052,7 +1683,11 @@ function calcScore(p) {
   var rawSum = discScore + roiScore + growScore + liqScore - vacPenalty;
   var excellenceBonus = (discScore > 20 && roiScore > 18 && growScore > 14) ? 5 : 0;
 
-  var total = rawSum + excellenceBonus;
+  // G: Category penalty — частные дома ниже ликвидность, дольше экспозиция,
+  //    сложнее сдавать посуточно; применяем −5 к итогу.
+  var categoryPenalty = (p.type === 'house') ? 5 : 0;
+
+  var total = rawSum + excellenceBonus - categoryPenalty;
   return Object.assign({}, p, {
     disc:  Math.round(disc * 10) / 10,
     roi:   Math.round(roi * 10) / 10,
@@ -1112,34 +1747,6 @@ var RENDER_BATCH = 50;
 var dataSource = 'mock'; // 'mock' | 'live'
 var dataUpdatedAt = null;
 
-// ── Visual theme variant: 'legacy' (dark/lime) | 'claude' (cream/serif) ───────
-// Opt-in override. Legacy is the default; switching to 'claude' applies the
-// theme-claude.css override layer. Removing the class reverts 100% to legacy,
-// which makes this a non-destructive redesign with instant rollback.
-var THEME_VARIANT = (function(){
-  try {
-    var v = localStorage.getItem('aivest-theme-variant');
-    if (v === 'claude' || v === 'legacy') return v;
-    var q = new URLSearchParams(location.search).get('theme');
-    if (q === 'claude' || q === 'legacy') return q;
-  } catch(e){}
-  return 'legacy';
-})();
-function applyThemeVariant() {
-  document.body.classList.toggle('theme-claude', THEME_VARIANT === 'claude');
-  var lbl = document.getElementById('theme-variant-label');
-  if (lbl) lbl.textContent = THEME_VARIANT === 'claude' ? '↩ Классика' : '✨ Новый';
-  var btn = document.getElementById('theme-variant-toggle');
-  if (btn) btn.setAttribute('title', THEME_VARIANT === 'claude'
-    ? 'Вернуться к классическому тёмному дизайну'
-    : 'Попробовать новый светлый дизайн (beta)');
-}
-function toggleThemeVariant() {
-  THEME_VARIANT = (THEME_VARIANT === 'claude') ? 'legacy' : 'claude';
-  try { localStorage.setItem('aivest-theme-variant', THEME_VARIANT); } catch(e){}
-  applyThemeVariant();
-}
-
 // ── Mode: 'buy' (investor) | 'rent' (renter) ──────────────────────────────────
 var APP_MODE = (function(){
   try {
@@ -1152,24 +1759,69 @@ var APP_MODE = (function(){
 })();
 
 var HERO_COPY = {
-  buy: {
-    title: 'Удобный поиск недвижимости',
-    em:    'для рантье и долгосрочных инвесторов',
-    sub:   'Алгоритмическая оценка объявлений от агрегаторов, аукционов и застройщиков',
-    note:  'Сейчас активна версия для инвесторов',
+  ru: {
+    buy: {
+      title: 'Удобный поиск недвижимости',
+      em:    'для рантье и долгосрочных инвесторов',
+      sub:   'Алгоритмическая оценка объявлений от агрегаторов, аукционов и застройщиков',
+      note:  'Сейчас активна версия для инвесторов',
+    },
+    rent: {
+      title: 'Удобный поиск недвижимости',
+      em:    'для арендаторов',
+      sub:   'Алгоритмическая оценка объявлений от арендодателей и сервисов аренды',
+      note:  'Сейчас активна версия для арендаторов',
+    }
   },
-  rent: {
-    title: 'Удобный поиск недвижимости',
-    em:    'для арендаторов',
-    sub:   'Алгоритмическая оценка объявлений от арендодателей и сервисов аренды',
-    note:  'Сейчас активна версия для арендаторов',
+  en: {
+    buy: {
+      title: 'Smart property search',
+      em:    'for landlords and long-term investors',
+      sub:   'Algorithmic scoring of listings from aggregators, auctions and developers',
+      note:  'Investor view is currently active',
+    },
+    rent: {
+      title: 'Smart property search',
+      em:    'for renters',
+      sub:   'Algorithmic scoring of listings from landlords and rental services',
+      note:  'Renter view is currently active',
+    }
+  },
+  uz: {
+    buy: {
+      title: 'Qulay ko‘chmas mulk qidiruvi',
+      em:    'ijarachilar va uzoq muddatli investorlar uchun',
+      sub:   'Agregatorlar, auksionlar va quruvchilar e’lonlarini algoritmik baholash',
+      note:  'Hozir investorlar uchun versiya faol',
+    },
+    rent: {
+      title: 'Qulay ko‘chmas mulk qidiruvi',
+      em:    'ijaraga oluvchilar uchun',
+      sub:   'Ijara beruvchilar va ijara xizmatlari e’lonlarini algoritmik baholash',
+      note:  'Hozir ijaraga oluvchilar uchun versiya faol',
+    }
+  },
+  kz: {
+    buy: {
+      title: 'Жылжымайтын мүлікті ыңғайлы іздеу',
+      em:    'рантье және ұзақ мерзімді инвесторлар үшін',
+      sub:   'Агрегаторлар, аукциондар мен құрылыс салушылар хабарландыруларын алгоритмдік бағалау',
+      note:  'Қазір инвесторларға арналған нұсқа белсенді',
+    },
+    rent: {
+      title: 'Жылжымайтын мүлікті ыңғайлы іздеу',
+      em:    'жалдаушылар үшін',
+      sub:   'Жалға берушілер мен жалдау қызметтерінің хабарландыруларын алгоритмдік бағалау',
+      note:  'Қазір жалдаушыларға арналған нұсқа белсенді',
+    }
   }
 };
 
 function applyModeUI() {
   document.body.classList.toggle('mode-rent', APP_MODE === 'rent');
   document.body.classList.toggle('mode-buy',  APP_MODE === 'buy');
-  var copy = HERO_COPY[APP_MODE] || HERO_COPY.buy;
+  var langBlock = HERO_COPY[currentLang] || HERO_COPY.ru;
+  var copy = langBlock[APP_MODE] || langBlock.buy;
   var t  = document.getElementById('hero-title');
   var te = document.getElementById('hero-title-em');
   var s  = document.getElementById('hero-sub');
@@ -1209,6 +1861,7 @@ function loadFromAPI() {
         dataUpdatedAt = data.updatedAt;
         updateDataBadge();
         if (typeof populateMetroFilter === 'function') populateMetroFilter();
+        if (typeof refreshSourcePills === 'function') refreshSourcePills();
         console.log('Loaded', PROPS.length, 'properties');
       } else {
         // No real data yet
@@ -1246,15 +1899,56 @@ function updateDataBadge() {
   }
 }
 
+// Source-pills hydration: Cian/Yandex/... → 'agg'; hide pills with 0 listings
+var AGG_SOURCES  = { agg:1, yand:1, cian:1, avito:1, domclick:1 };
+var AUCT_SOURCES = { auct:1, lot:1 };
+var DEV_SOURCES  = { dev:1, mrgroup:1, samolet:1, pik:1 };
+function sourceBucket(s) {
+  s = String(s || '').toLowerCase();
+  if (AUCT_SOURCES[s]) return 'auct';
+  if (DEV_SOURCES[s])  return 'dev';
+  if (AGG_SOURCES[s])  return 'agg';
+  return 'agg'; // default: treat unknown as aggregator
+}
+function refreshSourcePills() {
+  var counts = { agg: 0, auct: 0, dev: 0 };
+  (PROPS || []).forEach(function(p){ counts[sourceBucket(p.source)]++; });
+  document.querySelectorAll('.source-pills .pill').forEach(function(pill){
+    var s = pill.getAttribute('data-source');
+    if (s && s !== 'all') {
+      pill.style.display = (counts[s] > 0) ? '' : 'none';
+    }
+  });
+  // If the currently-active pill was hidden, fall back to "all"
+  var active = document.querySelector('.source-pills .pill.active');
+  if (active && active.style.display === 'none') {
+    active.classList.remove('active');
+    var allPill = document.querySelector('.source-pills .pill[data-source="all"]');
+    if (allPill) { allPill.classList.add('active'); if (typeof currentSource !== 'undefined') currentSource = 'all'; render(); }
+  }
+}
+
 function getFiltered() {
   var type   = document.getElementById('f-type').value;
   var city   = document.getElementById('f-city').value;
   var okrug  = document.getElementById('f-okrug').value;
   var metro  = (document.getElementById('f-metro') || {value:'all'}).value;
-  var minSc  = parseInt(document.getElementById('f-score').value);
-  var maxSc  = parseInt(document.getElementById('f-score-max').value);
-  var maxPr  = parseFloat(document.getElementById('f-price').value) || Infinity;
+  // Score range — both endpoints user-editable. Empty = no constraint (0 / 100).
+  var rawMinSc = document.getElementById('f-score-min').value;
+  var rawMaxSc = document.getElementById('f-score-max').value;
+  var minSc  = rawMinSc === '' ? 0   : parseInt(rawMinSc);
+  var maxSc  = rawMaxSc === '' ? 100 : parseInt(rawMaxSc);
+  // Price range — same. Empty min = 0, empty max = no upper bound.
+  var rawMinPr = document.getElementById('f-price-min').value;
+  var rawMaxPr = document.getElementById('f-price-max').value;
+  var minPr  = rawMinPr === '' ? 0        : parseFloat(rawMinPr);
+  var maxPr  = rawMaxPr === '' ? Infinity : parseFloat(rawMaxPr);
   var sortBy = document.getElementById('f-sort').value;
+  var fActive = (document.getElementById('f-active') || {value:'active'}).value;
+  // "Active" = scrapedAt within last 90 days. Items unconfirmed for longer are
+  // assumed delisted from the source and hidden by default.
+  var ACTIVE_DAYS = 90;
+  var ACTIVE_CUTOFF_MS = Date.now() - ACTIVE_DAYS * 86400000;
 
   // Admin-only filters (no-op for non-admin: elements may be hidden but still readable)
   var isAdminUser  = authRole === 'admin';
@@ -1264,7 +1958,7 @@ function getFiltered() {
   var nowMs        = Date.now();
 
   var list = PROPS.filter(function(p) {
-    if (activeSource !== 'all' && p.source !== activeSource) return false;
+    if (activeSource !== 'all' && sourceBucket(p.source) !== activeSource) return false;
     if (type === 'all' && p.type === 'room') return false;
     if (type !== 'all' && p.type !== type) return false;
     if (city !== 'all' && p.city !== city) return false;
@@ -1272,7 +1966,13 @@ function getFiltered() {
     if (metro !== 'all' && p.metro !== metro) return false;
     if (p.score < minSc) return false;
     if (p.score > maxSc) return false;
+    if (p.price < minPr) return false;
     if (p.price > maxPr) return false;
+    // Activity filter (public, default on): hide listings unconfirmed >90 days.
+    if (fActive === 'active') {
+      var sat = p.scrapedAt ? new Date(p.scrapedAt).getTime() : 0;
+      if (!sat || sat < ACTIVE_CUTOFF_MS) return false;
+    }
     // Admin-only filter conditions
     if (isAdminUser) {
       if (fSourceAdmin !== 'all' && p.source !== fSourceAdmin) return false;
@@ -1545,12 +2245,102 @@ function populateMetroFilter() {
   });
 }
 
-['f-type','f-city','f-okrug','f-metro','f-score','f-score-max','f-price','f-sort','f-scraped','f-source-admin','f-dupes'].forEach(function(id) {
+['f-type','f-city','f-okrug','f-metro','f-score-min','f-score-max','f-price-min','f-price-max','f-sort','f-active','f-scraped','f-source-admin','f-dupes'].forEach(function(id) {
   var el = document.getElementById(id);
   if (!el) return;
   el.addEventListener('change', function(){ render(); if (currentView === 'map') renderMap(); });
   el.addEventListener('input',  function(){ render(); if (currentView === 'map') renderMap(); });
 });
+
+/* ═══════════════════════════════════════════
+   DUAL-RANGE SLIDERS (price + score)
+   Two number inputs (source of truth for filter logic) synced bidirectionally
+   with two overlapping <input type="range"> thumbs that drive the visual fill.
+   Empty number input = "no constraint", slider snaps back to its bound.
+   ═══════════════════════════════════════════ */
+function setupDualRange(opts) {
+  var minNum = document.getElementById(opts.minNum);
+  var maxNum = document.getElementById(opts.maxNum);
+  var rMin   = document.getElementById(opts.rMin);
+  var rMax   = document.getElementById(opts.rMax);
+  var fill   = document.getElementById(opts.fill);
+  if (!minNum || !maxNum || !rMin || !rMax || !fill) return;
+  var lo = parseFloat(opts.lo), hi = parseFloat(opts.hi);
+  var step = parseFloat(opts.step || 1);
+  var gap = parseFloat(opts.gap || step);
+
+  function clampNum(v, fallback) {
+    if (v === '' || v === null || isNaN(v)) return fallback;
+    return Math.max(lo, Math.min(hi, parseFloat(v)));
+  }
+  function paintFill() {
+    var lv = clampNum(rMin.value, lo);
+    var rv = clampNum(rMax.value, hi);
+    var leftPct  = ((lv - lo) / (hi - lo)) * 100;
+    var rightPct = ((rv - lo) / (hi - lo)) * 100;
+    fill.style.left  = leftPct + '%';
+    fill.style.right = (100 - rightPct) + '%';
+  }
+  // Slider → number (live)
+  rMin.addEventListener('input', function() {
+    var v  = parseFloat(rMin.value);
+    var mx = parseFloat(rMax.value);
+    if (v > mx - gap) { v = mx - gap; rMin.value = v; }
+    minNum.value = v === lo ? '' : v; // empty when at lower bound
+    paintFill();
+    minNum.dispatchEvent(new Event('input', { bubbles: true }));
+  });
+  rMax.addEventListener('input', function() {
+    var v  = parseFloat(rMax.value);
+    var mn = parseFloat(rMin.value);
+    if (v < mn + gap) { v = mn + gap; rMax.value = v; }
+    maxNum.value = v === hi ? '' : v; // empty when at upper bound
+    paintFill();
+    maxNum.dispatchEvent(new Event('input', { bubbles: true }));
+  });
+  // Number → slider (commit on blur or Enter; live otherwise too)
+  function syncMinFromNum() {
+    var v = clampNum(minNum.value, lo);
+    rMin.value = v;
+    if (parseFloat(rMin.value) > parseFloat(rMax.value) - gap) {
+      rMin.value = parseFloat(rMax.value) - gap;
+    }
+    paintFill();
+  }
+  function syncMaxFromNum() {
+    var v = clampNum(maxNum.value, hi);
+    rMax.value = v;
+    if (parseFloat(rMax.value) < parseFloat(rMin.value) + gap) {
+      rMax.value = parseFloat(rMin.value) + gap;
+    }
+    paintFill();
+  }
+  minNum.addEventListener('input', syncMinFromNum);
+  maxNum.addEventListener('input', syncMaxFromNum);
+  paintFill();
+}
+setupDualRange({ minNum:'f-price-min', maxNum:'f-price-max', rMin:'f-price-rmin', rMax:'f-price-rmax', fill:'f-price-fill', lo:0, hi:100, step:1, gap:1 });
+setupDualRange({ minNum:'f-score-min', maxNum:'f-score-max', rMin:'f-score-rmin', rMax:'f-score-rmax', fill:'f-score-fill', lo:0, hi:100, step:1, gap:1 });
+
+/* ═══════════════════════════════════════════
+   EXTENDED FILTERS TOGGLE
+   ═══════════════════════════════════════════ */
+function toggleExtendedFilters() {
+  var bar = document.getElementById('filter-bar-extended');
+  var btn = document.getElementById('filter-toggle-btn');
+  if (!bar || !btn) return;
+  var isOpen = bar.classList.toggle('is-open');
+  btn.classList.toggle('is-open', isOpen);
+  // Persist user preference across reloads.
+  try { localStorage.setItem('aivest_ext_filters', isOpen ? '1' : '0'); } catch {}
+}
+// Restore saved state on load.
+try {
+  if (localStorage.getItem('aivest_ext_filters') === '1') {
+    document.getElementById('filter-bar-extended').classList.add('is-open');
+    document.getElementById('filter-toggle-btn').classList.add('is-open');
+  }
+} catch {}
 
 /* ═══════════════════════════════════════════
    ALT SOURCES (cross-source dedup link)
@@ -1606,13 +2396,13 @@ function toggleView() {
   var mapEl = document.getElementById('map-view');
   var lm    = document.getElementById('load-more-btn');
   if (currentView === 'map') {
-    btn.innerHTML = '📋 Списком';
+    btn.innerHTML = (typeof t === 'function') ? t('viewList') : '📋 Списком';
     grid.style.display = 'none';
     if (lm) lm.style.display = 'none';
     mapEl.style.display = 'block';
     renderMap();
   } else {
-    btn.innerHTML = '🗺 На карте';
+    btn.innerHTML = (typeof t === 'function') ? t('viewMap') : '🗺 Карта (в разработке)';
     grid.style.display = '';
     mapEl.style.display = 'none';
     if (lm) lm.style.display = '';
@@ -1709,43 +2499,207 @@ function selectPlanAndOpen(plan) {
     selectedPlan = plan;
   }, 50);
 }
+var selectedProvider = 'yookassa';
+function selectProvider(btn, prov) {
+  selectedProvider = prov;
+  document.querySelectorAll('.pay-opt').forEach(function(el){
+    el.classList.toggle('active', el.getAttribute('data-provider') === prov);
+  });
+  refreshPlanPricesForProvider();
+}
+
+// Swap plan-card prices between ₽ and ⭐ depending on payment provider
+function refreshPlanPricesForProvider() {
+  document.querySelectorAll('.plan-card').forEach(function(card){
+    var priceEl = card.querySelector('.plan-price');
+    var featEl  = card.querySelector('.plan-feat');
+    if (!priceEl) return;
+    if (!priceEl.dataset.orig) priceEl.dataset.orig = priceEl.innerHTML;
+    if (featEl && !featEl.dataset.orig) featEl.dataset.orig = featEl.innerHTML;
+    var stars = parseInt(card.getAttribute('data-stars') || '0', 10);
+    if (selectedProvider === 'telegram' && stars) {
+      priceEl.innerHTML = stars.toLocaleString('ru-RU') + ' <span>⭐</span>';
+      if (featEl) featEl.innerHTML = 'Telegram Stars · оплата в приложении';
+    } else {
+      priceEl.innerHTML = priceEl.dataset.orig;
+      if (featEl) featEl.innerHTML = featEl.dataset.orig;
+    }
+  });
+}
+
 function handleSubscribe() {
   hideModalError();
-  var email = document.getElementById('modal-email').value.trim();
-  var name  = document.getElementById('modal-name').value.trim();
-  var tg    = document.getElementById('modal-tg').value.trim();
+  var email    = (document.getElementById('modal-email').value || '').trim();
+  var username = (document.getElementById('modal-username').value || '').trim();
+  var password = (document.getElementById('modal-password').value || '');
+  var name     = (document.getElementById('modal-name').value || '').trim();
+  var tg       = (document.getElementById('modal-tg').value || '').trim();
+
   if (!email || !email.includes('@')) {
     showModalError('Введите корректный email-адрес');
     document.getElementById('modal-email').focus();
     return;
   }
-  var btn = document.getElementById('modal-submit-btn');
-  btn.classList.add('loading');
-  btn.textContent = 'Отправляем...';
-
-  var done = false;
-  function showSuccess() {
-    if (done) return;
-    done = true;
-    btn.classList.remove('loading');
-    btn.textContent = 'Оформить подписку →';
-    document.getElementById('modal-form-view').style.display = 'none';
-    document.getElementById('modal-success-view').style.display = 'block';
+  if (!/^[a-z0-9_]{3,24}$/i.test(username)) {
+    showModalError('Имя пользователя: 3–24 символа (латиница, цифры, _)');
+    document.getElementById('modal-username').focus();
+    return;
+  }
+  if (!password || password.length < 6) {
+    showModalError('Пароль — минимум 6 символов');
+    document.getElementById('modal-password').focus();
+    return;
   }
 
-  var fallbackTimer = setTimeout(showSuccess, 5000);
+  var btn = document.getElementById('modal-submit-btn');
+  btn.classList.add('loading');
+  btn.textContent = 'Переходим к оплате…';
 
-  fetch('/api/subscribe', {
+  var currency = (typeof currentCountry !== 'undefined' && currentCountry !== 'ru') ? 'usd' : 'rub';
+  if (selectedProvider === 'telegram') currency = 'xtr';
+  if (selectedProvider === 'stripe'   && currency !== 'usd') currency = 'usd';
+
+  fetch('/api/checkout', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: email, name: name, telegram: tg, plan: selectedPlan })
+    body: JSON.stringify({
+      email: email, username: username, password: password,
+      name: name, telegram: tg, plan: selectedPlan,
+      currency: currency, provider: selectedProvider,
+    }),
   })
-  .then(function(r){ return r.json(); })
-  .catch(function(){ return {}; })
-  .then(function() {
-    clearTimeout(fallbackTimer);
-    showSuccess();
+  .then(function(r){ return r.json().then(function(j){ return { ok: r.ok, data: j }; }); })
+  .catch(function(){ return { ok:false, data:{ error:'Сеть недоступна' } }; })
+  .then(function(res) {
+    btn.classList.remove('loading');
+    btn.textContent = t('modalPayBtn');
+    if (!res.ok || res.data.error) {
+      showModalError(res.data.error || 'Не удалось создать платёж');
+      return;
+    }
+    var url = res.data.redirectUrl;
+    var msg = res.data.message;
+    document.getElementById('modal-form-view').style.display = 'none';
+    document.getElementById('modal-success-view').style.display = 'block';
+    var title = document.getElementById('modal-success-title');
+    var text  = document.getElementById('modal-success-text');
+    var link  = document.getElementById('modal-success-link');
+    if (url) {
+      title.textContent = 'Переходим к оплате…';
+      text.textContent  = 'Если перенаправление не произошло автоматически, нажмите на ссылку ниже.';
+      link.href = url; link.textContent = url;
+      setTimeout(function(){ window.location.href = url; }, 800);
+    } else {
+      // Manual mode
+      title.textContent = 'Заявка принята';
+      text.textContent  = msg || 'Мы отправим счёт на ваш email в ближайшее время.';
+      link.style.display = 'none';
+    }
   });
+}
+
+// Auto-login after successful payment redirect: /?paid=1&order=...
+(function handlePaidReturn(){
+  try {
+    var q = new URLSearchParams(window.location.search);
+    if (q.get('paid') !== '1') return;
+    var order = q.get('order');
+    if (!order) return;
+    var attempts = 0;
+    function poll() {
+      attempts++;
+      fetch('/api/checkout/status?orderId=' + encodeURIComponent(order))
+        .then(function(r){ return r.json(); })
+        .then(function(j){
+          if (j && j.status === 'active') {
+            // Reveal a one-shot banner prompting login
+            var bar = document.createElement('div');
+            bar.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--accent,#c15f3c);color:#fff;padding:14px 22px;border-radius:12px;font-size:14px;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.2);cursor:pointer';
+            bar.textContent = '✅ Оплата получена · войти в AIvest PRO';
+            bar.onclick = function(){ if (typeof openLoginModal === 'function') openLoginModal(j.email); };
+            document.body.appendChild(bar);
+            return;
+          }
+          if (attempts < 12) setTimeout(poll, 2500);
+        })
+        .catch(function(){ if (attempts < 12) setTimeout(poll, 2500); });
+    }
+    poll();
+  } catch(e){}
+})();
+
+/* ═══════════════════════════════════════════
+   SUPPORT & SUGGESTIONS
+   ═══════════════════════════════════════════ */
+var supportType = 'support';
+function setSupportType(t) {
+  supportType = (t === 'suggestion') ? 'suggestion' : 'support';
+  var a = document.getElementById('support-type-support');
+  var b = document.getElementById('support-type-suggestion');
+  if (a) a.classList.toggle('active', supportType === 'support');
+  if (b) b.classList.toggle('active', supportType === 'suggestion');
+  var icon  = document.getElementById('support-modal-icon');
+  var title = document.getElementById('support-modal-title');
+  var sub   = document.getElementById('support-modal-sub');
+  if (supportType === 'suggestion') {
+    if (icon)  icon.textContent  = '💡';
+    if (title) title.textContent = 'Предложить улучшение';
+    if (sub)   sub.textContent   = 'Ваши идеи помогают сервису становиться лучше. Спасибо!';
+  } else {
+    if (icon)  icon.textContent  = '🛟';
+    if (title) title.textContent = 'Поддержка';
+    if (sub)   sub.textContent   = 'Опишите вопрос — ответим по email в течение рабочего дня.';
+  }
+}
+function openSupportModal(type) {
+  setSupportType(type || 'support');
+  document.getElementById('support-modal-backdrop').classList.add('open');
+  document.getElementById('support-form-view').style.display = '';
+  document.getElementById('support-success-view').style.display = 'none';
+  var err = document.getElementById('support-error'); if (err) err.style.display = 'none';
+  // Prefill email if logged in
+  if (typeof authEmail !== 'undefined' && authEmail) {
+    document.getElementById('support-email').value = authEmail;
+  }
+}
+function closeSupportModal() {
+  document.getElementById('support-modal-backdrop').classList.remove('open');
+}
+function handleSupportSubmit() {
+  var email   = (document.getElementById('support-email').value || '').trim();
+  var name    = (document.getElementById('support-name').value || '').trim();
+  var message = (document.getElementById('support-message').value || '').trim();
+  var err = document.getElementById('support-error');
+  function showErr(t){ if (err){ err.textContent = t; err.style.display='block'; } }
+  if (err) err.style.display = 'none';
+  if (!email || !email.includes('@')) { showErr('Введите корректный email'); return; }
+  if (!message || message.length < 5)  { showErr('Слишком короткое сообщение'); return; }
+
+  var btn = document.getElementById('support-submit-btn');
+  btn.classList.add('loading');
+  btn.textContent = 'Отправляем…';
+
+  fetch('/api/support', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: email, name: name, type: supportType, message: message }),
+  })
+  .then(function(r){ return r.json().then(function(j){ return { ok: r.ok, data: j }; }); })
+  .catch(function(){ return { ok:false, data:{ error:'Сеть недоступна' } }; })
+  .then(function(res){
+    btn.classList.remove('loading');
+    btn.textContent = 'Отправить →';
+    if (!res.ok || res.data.error) { showErr(res.data.error || 'Ошибка отправки'); return; }
+    document.getElementById('support-form-view').style.display    = 'none';
+    document.getElementById('support-success-view').style.display = 'block';
+    document.getElementById('support-message').value = '';
+  });
+}
+
+// Admin: open requests dashboard in new tab
+function openAdminRequests() {
+  if (!authToken) return;
+  window.open('/api/admin/requests?token=' + encodeURIComponent(authToken), '_blank');
 }
 
 /* ═══════════════════════════════════════════
@@ -1758,14 +2712,19 @@ var authRole   = localStorage.getItem('aivest-role') || null;
 function applyAuth() {
   var sortSel = document.getElementById('f-sort');
   // Admin-only filter row visibility
-  var adminBar = document.getElementById('admin-filter-bar');
-  if (adminBar) adminBar.style.display = (authRole === 'admin') ? 'grid' : 'none';
+  var adminBar    = document.getElementById('admin-filter-bar');
+  var adminReqBtn = document.getElementById('nav-admin-requests');
+  var mapBtn      = document.getElementById('view-toggle');
+  if (adminBar)    adminBar.style.display    = (authRole === 'admin') ? 'grid' : 'none';
+  if (adminReqBtn) adminReqBtn.style.display = (authRole === 'admin') ? '' : 'none';
+  // Map toggle — only visible to admins (feature still in development)
+  if (mapBtn)      mapBtn.style.display      = (authRole === 'admin') ? '' : 'none';
   if (authToken && authEmail) {
     isPro = true;
     var btn = document.getElementById('nav-login-btn');
     var cta = document.getElementById('nav-cta-btn');
     if (btn) { btn.textContent = authEmail.split('@')[0]; btn.classList.add('logged-in'); btn.onclick = openProfile; }
-    if (cta && authRole === 'admin') { cta.textContent = 'Админ'; cta.onclick = function(){ window.open('/api/admin/subscribers?key=' + authToken, '_blank'); }; }
+    if (cta && authRole === 'admin') { cta.textContent = 'Подписчики'; cta.onclick = function(){ window.open('/api/admin/subscribers?token=' + encodeURIComponent(authToken), '_blank'); }; }
     else if (cta) { cta.style.display = 'none'; }
     // Unlock sort options for PRO
     if (sortSel) {
@@ -1844,19 +2803,20 @@ function logout() {
   isPro = false;
   var btn = document.getElementById('nav-login-btn');
   var cta = document.getElementById('nav-cta-btn');
-  if (btn) { btn.textContent = 'Войти'; btn.classList.remove('logged-in'); btn.onclick = openLoginModal; }
-  if (cta) { cta.style.display = ''; cta.textContent = 'Получить PRO доступ'; cta.onclick = openModal; }
+  if (btn) { btn.textContent = t('navLogin'); btn.classList.remove('logged-in'); btn.onclick = openLoginModal; }
+  if (cta) { cta.style.display = ''; cta.textContent = t('navCta'); cta.onclick = openModal; }
   applyAuth();
   render();
 }
 
-function openLoginModal() {
+function openLoginModal(prefillEmail) {
   document.getElementById('login-modal-backdrop').classList.add('open');
   document.getElementById('login-form-view').style.display = '';
   document.getElementById('login-success-view').style.display = 'none';
   document.getElementById('login-error').style.display = 'none';
-  document.getElementById('login-email').value = '';
+  document.getElementById('login-email').value = prefillEmail || '';
   document.getElementById('login-password').value = '';
+  if (prefillEmail) setTimeout(function(){ document.getElementById('login-password').focus(); }, 50);
 }
 function closeLoginModal() { document.getElementById('login-modal-backdrop').classList.remove('open'); }
 function handleLoginBackdropClick(e) { if (e.target === document.getElementById('login-modal-backdrop')) closeLoginModal(); }
@@ -1876,7 +2836,7 @@ function handleLogin() {
   })
   .then(function(r){ return r.json(); })
   .then(function(data) {
-    btn.classList.remove('loading'); btn.textContent = 'Войти →';
+    btn.classList.remove('loading'); btn.textContent = t('loginBtn');
     if (data.success) {
       authToken = data.token; authEmail = data.email; authRole = data.role;
       localStorage.setItem('aivest-token', authToken);
@@ -1899,7 +2859,7 @@ function handleLogin() {
     }
   })
   .catch(function() {
-    btn.classList.remove('loading'); btn.textContent = 'Войти →';
+    btn.classList.remove('loading'); btn.textContent = t('loginBtn');
     errEl.textContent = 'Ошибка соединения. Попробуйте снова.';
     errEl.style.display = 'block';
   });
@@ -1927,24 +2887,102 @@ applyTheme(currentTheme);
 /* ═══════════════════════════════════════════
    i18n
    ═══════════════════════════════════════════ */
-var currentLang = localStorage.getItem('aivest-lang') || 'ru';
+// Site always opens in Russian by default on every fresh load.
+// (The user can still switch via the lang buttons or by picking a country.)
+var currentLang = 'ru';
 
 var T = {
   ru: {
     navHow: 'Принцип работы', navMethod: 'Методология', navPricing: 'Тарифы',
-    navCta: 'Получить PRO доступ',
+    navCta: 'Получить PRO доступ', navAdminRequests: '🛟 Заявки',
     heroEyebrow: 'Продвинутая аналитика недвижимости · aivest.ru',
     heroTitle: 'Удобный поиск недвижимости<br><em>для рантье и долгосрочных инвесторов</em>',
     heroSub: 'Алгоритмическая оценка объявлений от агрегаторов, аукционов и застройщиков',
+    countryRu: 'Россия', countryUz: 'Узбекистан', countryKz: 'Казахстан', countryBy: 'Беларусь',
+    modeBuy: 'Для инвесторов', modeRent: 'Для арендаторов',
     pillAll: 'Все источники', pillAgg: 'Агрегаторы', pillAuct: 'Аукционы', pillDev: 'Застройщики',
+    viewMap: '🗺 Карта (в разработке)', viewList: '📋 Списком',
     pricingTitle: 'Тарифы', pricingSub: 'Полный доступ ко всем объектам с рейтингом 60+',
     ribbon: 'Выгодно',
+    // How it works
+    howHead: 'Принцип работы',
+    how1Title: 'Агрегация данных',
+    how1Text: 'Собираем объявления с агрегаторов, аукционных площадок и сайтов застройщиков. Данные обновляются регулярно.',
+    how2Title: 'SOTA<sup style="color:var(--accent);font-size:11px;margin-left:1px">1</sup> алгоритм оценки объекта',
+    how2Text: 'Алгоритм рассчитывает дисконт к рынку, доходность аренды, темп роста цен и ликвидность. Итог — балл от 0 до 100.',
+    how2Foot: '<sup>1</sup> SOTA — State of the Art',
+    how3Title: 'Лучшие объекты для PRO пользователей',
+    how3Text: 'Объекты с оценкой 60+ — лучшие инвестиционные варианты на рынке. Подписка PRO открывает полный список к лучшим предложениям.',
+    // Methodology
+    methodHead: 'Методология',
+    method1Title: 'Дисконт к рынку',
+    method1Text: 'Рассчитывается как разница между ценой объекта и средней ценой аналогов в радиусе 1 км. Большая скидка даёт более высокий балл.',
+    method2Title: 'Доходность аренды',
+    method2Text: 'Годовой доход от аренды за минусом потерь от простоя объекта, разделённый на его стоимость. Использование логарифмической шкалы позволяет избежать завышения результата.',
+    method3Title: 'Рост цен',
+    method3Text: 'Среднегодовой прирост цен на жильё по данным Росстата и рыночной аналитики. Высокий рост = долгосрочная инвестиционная ценность.',
+    method4Title: 'Ликвидность',
+    method4Text: 'Оцениваем скорость продажи аналогов, активность спроса и транспортную доступность. Объект должно быть легко продать при необходимости.',
+    // Plans / pricing extras
+    planFreeName: 'Бесплатно', planFreeSub: 'Без регистрации',
+    planFreeFeat1: 'Все объекты с рейтингом до 60', planFreeFeat2: 'Базовые фильтры',
+    ribbonAlways: 'Всегда доступно', ribbonSale: 'АКЦИЯ — РАННИЙ ДОСТУП', ribbonBest: '⭐ Лучшее предложение',
     planMonthName: 'Месячная', planMonthSub: 'Без обязательств · отмена в любой момент',
     perMonth: '₽ / мес', planMonthBtn: 'Оформить за 660 ₽',
     planYearName: 'Годовая', planYearSub: '5 880 ₽/год · экономия 6 000 ₽',
     planYearBtn: 'Оформить<br>за 5 880 ₽/год',
     feat1: 'Все объекты с рейтингом 60+', feat2: 'Полная аналитика по каждому объекту',
     feat3: 'Расширенные фильтры и сортировка', feat4: 'Экспорт подборки',
+    // Filters
+    fltCity: 'Город / Регион', fltScoreMin: 'Мин. оценка', fltScoreMax: 'Макс. оценка',
+    fltPrice: 'Цена (млн ₽)', fltScore: 'Оценка', fltMore: 'Расширенные фильтры',
+    fltPriceMax: 'Макс. цена (млн ₽)', fltPricePh: 'Без ограничений',
+    fltSort: 'Сортировка', fltType: 'Тип объекта',
+    fltActive: 'Тип объявления', fltActiveOnly: 'Только активные', fltActiveAll: 'Все объявления',
+    fltMetro: 'Метро (Москва)', fltMetroAll: 'Все станции',
+    // Stats row
+    statCount: 'Объявлений', statScore: 'Средняя оценка',
+    statRoi: 'Средняя доходность', statTop: 'Лучшая сделка',
+    // Coming soon (non-RU)
+    comingTitle: 'Скоро появится',
+    comingSub: 'Сейчас мы собираем актуальные объявления по выбранной стране. Выберите «Россия», чтобы увидеть текущую базу.',
+    // Footer
+    footAbout: 'AIvest.ru — сервис для поиска и анализа инвестиционной недвижимости. Платформа агрегирует данные с крупнейших площадок России, сравнивает объект с аналогами и рассчитывает рейтинг по ключевым инвестиционным метрикам: цене, локации, ликвидности, вакантности, арендному потенциалу и динамике рынка.',
+    footScale: 'Рейтинг AIvest формируется по шкале от 0 до 100. Лучшие объекты в своём сегменте обычно получают более 90 баллов.',
+    geoLinkMoscow: 'Недвижимость Москвы', geoLinkSpb: 'Недвижимость Санкт-Петербурга', geoLinkSochi: 'Недвижимость Сочи',
+    footColService: 'Сервис', footColCompany: 'Компания', footColCities: 'Города',
+    footLinkHow: 'Как это работает', footLinkMethod: 'Методология оценки',
+    footLinkApi: 'API для партнёров',
+    footLinkAbout: 'О проекте', footLinkContact: 'Контакты',
+    footLinkSupport: 'Поддержка', footLinkSuggest: 'Предложить улучшение',
+    footLinkPrivacy: 'Политика конфиденциальности', footLinkTerms: 'Пользовательское соглашение',
+    footCopyright: '© 2026 AIvest.ru — Информация на сайте не является индивидуальной инвестиционной рекомендацией. Все оценки формируются автоматически на основе рыночных данных и моделей анализа. Перед принятием решения рекомендуем самостоятельно проверять объект и ключевые допущения расчёта.',
+    footDisclaimer: 'Информация на сайте не может расцениваться как инвестиционная рекомендация и носит ознакомительный характер.',
+    // Login success
+    loginSuccessTitle: 'Добро пожаловать!',
+    loginSuccessMsg: 'Вы успешно вошли. Все объекты с оценкой 60+ теперь доступны.',
+    // Payment modal extras
+    modalSub: 'Объекты с AI-оценкой <span>60+</span> — перспективные инвестиционные объекты на рынке. Откройте полный список с детальной аналитикой по каждому.',
+    planMonthShort: 'Месяц', planFullAccess: 'Полный доступ',
+    planYearShort: 'Год · −26%', planYearShortSub: '5 880 ₽/год',
+    payYookassa: 'Сбер Касса', payYookassaSub: 'Карты РФ и СБП',
+    payTelegramSub: 'оплата по всему миру',
+    // Input placeholders
+    phEmail: 'Email', phEmailReq: 'Email *', phPassword: 'Пароль',
+    phPasswordNew: 'Пароль (мин. 6 символов) *',
+    phUsername: 'Имя пользователя *', phName: 'Ваше имя (необязательно)',
+    phTelegram: 'Telegram @username (необязательно)',
+    phSupportMsg: 'Опишите вопрос или предложение…',
+    // Support modal
+    supportTitle: 'Поддержка',
+    supportSub: 'Опишите вопрос — ответим по email в течение рабочего дня.',
+    supportTypeQuestion: '🛟 Вопрос', supportTypeIdea: '💡 Предложение',
+    supportSubmit: 'Отправить →',
+    supportNote: 'Мы читаем каждое сообщение · Спама не будет',
+    supportThanks: 'Спасибо!',
+    supportSuccessMsg: 'Мы получили ваше сообщение и ответим на указанный email.',
+    // Profile modal
+    profileSubLabel: 'Подписка', profileLogout: 'Выйти из аккаунта',
     modalTitle: 'Полный доступ к рейтингу',
     // card metric labels
     mDiscount: 'Дисконт к рынку', mRoi: 'Ожидаемая доходность', mGrowth: 'Рост цены за 12 мес.',
@@ -1968,22 +3006,110 @@ var T = {
     emptyMsg: 'Нет объектов по выбранным фильтрам.',
     sectionTitle: 'Топ объектов',
     rankBest: '★ Лучшая сделка', rankSilver: '★ Серебро', rankBronze: '★ Бронза',
+    // Lifetime plan
+    planLifetimeName: 'Бессрочная', planLifetimeSub: 'Один раз — навсегда',
+    planLifetimeBtn: 'Оформить<br>за 14 900 ₽', planLifetimeFeat: 'один платёж · навсегда',
+    ribbonForever: 'Навсегда',
+    // Modals
+    modalPayBtn: 'Оплатить и активировать →',
+    modalNote: 'Аккаунт создаётся автоматически после оплаты · Безопасный платёж · Отмена в любой момент',
+    loginTitle: 'Войти в AIvest',
+    loginSub: 'Введите email и пароль для входа в аккаунт.',
+    loginBtn: 'Войти →',
+    loginNoAcc: 'Нет аккаунта? <a href="#" onclick="closeLoginModal();openModal();return false;" style="color:var(--accent)">Оформить подписку</a>',
+    navLogin: 'Войти',
   },
   en: {
     navHow: 'How it works', navMethod: 'Methodology', navPricing: 'Pricing',
-    navCta: 'Get PRO Access',
+    navCta: 'Get PRO Access', navAdminRequests: '🛟 Requests',
     heroEyebrow: 'Algorithmic real estate analytics · aivest.ru',
     heroTitle: 'Smart property search<br><em style="white-space:nowrap">for landlords and long-term investors</em>',
     heroSub: 'Algorithmic scoring of listings from aggregators, auctions and developers',
+    countryRu: 'Russia', countryUz: 'Uzbekistan', countryKz: 'Kazakhstan', countryBy: 'Belarus',
+    modeBuy: 'For investors', modeRent: 'For renters',
     pillAll: 'All sources', pillAgg: 'Aggregators', pillAuct: 'Auctions', pillDev: 'Developers',
+    viewMap: '🗺 Map (in development)', viewList: '📋 List view',
     pricingTitle: 'Pricing', pricingSub: 'Full access to all properties rated 60+',
     ribbon: 'Best value',
+    // How it works
+    howHead: 'How it works',
+    how1Title: 'Data aggregation',
+    how1Text: 'We collect listings from aggregators, auction platforms and developer websites. Data is updated regularly.',
+    how2Title: 'SOTA<sup style="color:var(--accent);font-size:11px;margin-left:1px">1</sup> scoring algorithm',
+    how2Text: 'The algorithm computes market discount, rental yield, price growth and liquidity. Result — a score from 0 to 100.',
+    how2Foot: '<sup>1</sup> SOTA — State of the Art',
+    how3Title: 'Best properties for PRO users',
+    how3Text: 'Properties rated 60+ are the best investment opportunities on the market. A PRO subscription unlocks the full list of top deals.',
+    // Methodology
+    methodHead: 'Methodology',
+    method1Title: 'Market discount',
+    method1Text: 'Calculated as the gap between the property price and the average price of comparable units within a 1 km radius. A larger discount yields a higher score.',
+    method2Title: 'Rental yield',
+    method2Text: 'Annual rental income net of vacancy losses, divided by the property price. A logarithmic scale prevents over-estimation of outliers.',
+    method3Title: 'Price growth',
+    method3Text: 'Average annual price growth based on Rosstat and market analytics. High growth = long-term investment value.',
+    method4Title: 'Liquidity',
+    method4Text: 'We assess how fast comparable units sell, demand activity and transport accessibility. The property should be easy to sell if needed.',
+    // Plans / pricing extras
+    planFreeName: 'Free', planFreeSub: 'No signup required',
+    planFreeFeat1: 'All properties rated below 60', planFreeFeat2: 'Basic filters',
+    ribbonAlways: 'Always available', ribbonSale: 'SALE — EARLY ACCESS', ribbonBest: '⭐ Best offer',
     planMonthName: 'Monthly', planMonthSub: 'No commitment · cancel anytime',
     perMonth: '₽ / mo', planMonthBtn: 'Get for ₽660/mo',
     planYearName: 'Annual', planYearSub: '₽5,880/yr · save up to ₽6,000',
     planYearBtn: 'Get annual for ₽5,880/yr',
     feat1: 'All properties rated 60+', feat2: 'Full analytics on each property',
     feat3: 'Advanced filters and sorting', feat4: 'Export your shortlist',
+    // Filters
+    fltCity: 'City / Region', fltScoreMin: 'Min. score', fltScoreMax: 'Max. score',
+    fltPrice: 'Price (M ₽)', fltScore: 'Score', fltMore: 'More filters',
+    fltActive: 'Listing type', fltActiveOnly: 'Active only', fltActiveAll: 'All listings',
+    fltMetro: 'Metro (Moscow)', fltMetroAll: 'All stations',
+    fltPriceMax: 'Max. price (M ₽)', fltPricePh: 'No limit',
+    fltSort: 'Sorting', fltType: 'Property type',
+    // Stats row
+    statCount: 'Listings', statScore: 'Average score',
+    statRoi: 'Average yield', statTop: 'Best deal',
+    // Coming soon (non-RU)
+    comingTitle: 'Coming soon',
+    comingSub: 'We are currently collecting up-to-date listings for the selected country. Pick "Russia" to see the current database.',
+    // Footer
+    footAbout: 'AIvest.ru — a service for searching and analysing investment real estate. The platform aggregates data from the largest Russian marketplaces, compares each property to its peers and computes a rating based on key investment metrics: price, location, liquidity, vacancy, rental potential and market dynamics.',
+    footScale: 'The AIvest rating is on a 0-to-100 scale. The best properties in their segment typically score above 90.',
+    geoLinkMoscow: 'Moscow properties', geoLinkSpb: 'Saint Petersburg properties', geoLinkSochi: 'Sochi properties',
+    footColService: 'Service', footColCompany: 'Company', footColCities: 'Cities',
+    footLinkHow: 'How it works', footLinkMethod: 'Scoring methodology',
+    footLinkApi: 'Partner API',
+    footLinkAbout: 'About the project', footLinkContact: 'Contact',
+    footLinkSupport: 'Support', footLinkSuggest: 'Suggest an improvement',
+    footLinkPrivacy: 'Privacy policy', footLinkTerms: 'Terms of service',
+    footCopyright: '© 2026 AIvest.ru — Information on this site is not individual investment advice. All scores are generated automatically based on market data and analytical models. Please independently verify the property and the key assumptions of the calculation before making a decision.',
+    footDisclaimer: 'Information on this site cannot be regarded as investment advice and is provided for informational purposes only.',
+    // Login success
+    loginSuccessTitle: 'Welcome!',
+    loginSuccessMsg: 'You have signed in successfully. All properties rated 60+ are now unlocked.',
+    // Payment modal extras
+    modalSub: 'Properties with an AI score of <span>60+</span> are the most promising investment opportunities on the market. Unlock the full list with detailed analytics for each.',
+    planMonthShort: 'Monthly', planFullAccess: 'Full access',
+    planYearShort: 'Yearly · −26%', planYearShortSub: '₽5,880/yr',
+    payYookassa: 'Sber Kassa', payYookassaSub: 'RU cards & SBP',
+    payTelegramSub: 'worldwide payments',
+    // Input placeholders
+    phEmail: 'Email', phEmailReq: 'Email *', phPassword: 'Password',
+    phPasswordNew: 'Password (min. 6 chars) *',
+    phUsername: 'Username *', phName: 'Your name (optional)',
+    phTelegram: 'Telegram @username (optional)',
+    phSupportMsg: 'Describe your question or suggestion…',
+    // Support modal
+    supportTitle: 'Support',
+    supportSub: 'Describe your question — we’ll reply by email within one business day.',
+    supportTypeQuestion: '🛟 Question', supportTypeIdea: '💡 Suggestion',
+    supportSubmit: 'Send →',
+    supportNote: 'We read every message · No spam',
+    supportThanks: 'Thank you!',
+    supportSuccessMsg: 'We have received your message and will reply to the email you provided.',
+    // Profile modal
+    profileSubLabel: 'Subscription', profileLogout: 'Sign out',
     modalTitle: 'Full access to the ranking',
     mDiscount: 'Market discount', mRoi: 'Expected yield', mGrowth: 'Price growth 12 mo.',
     mLiq: 'Liquidity', mVac: 'Vacancy rate', mPpm: 'Price per m²',
@@ -2002,22 +3128,110 @@ var T = {
     emptyMsg: 'No properties match your filters.',
     sectionTitle: 'Top properties',
     rankBest: '★ Best deal', rankSilver: '★ Silver', rankBronze: '★ Bronze',
+    // Lifetime plan
+    planLifetimeName: 'Lifetime', planLifetimeSub: 'One-time · forever',
+    planLifetimeBtn: 'Get lifetime<br>for ₽14,900', planLifetimeFeat: 'one-time · forever',
+    ribbonForever: 'Forever',
+    // Modals
+    modalPayBtn: 'Pay & activate →',
+    modalNote: 'Account is created automatically after payment · Secure payment · Cancel anytime',
+    loginTitle: 'Sign in to AIvest',
+    loginSub: 'Enter your email and password to access your account.',
+    loginBtn: 'Sign in →',
+    loginNoAcc: 'No account yet? <a href="#" onclick="closeLoginModal();openModal();return false;" style="color:var(--accent)">Get a subscription</a>',
+    navLogin: 'Sign in',
   },
   uz: {
     navHow: 'Qanday ishlaydi', navMethod: 'Metodologiya', navPricing: 'Tariflar',
-    navCta: 'PRO kirish olish',
+    navCta: 'PRO kirish olish', navAdminRequests: '🛟 Arizalar',
     heroEyebrow: 'Ko‘chmas mulk bo‘yicha ilg‘or analitika · aivest.ru',
     heroTitle: 'Qulay ko‘chmas mulk qidiruvi<br><em>ijarachilar va uzoq muddatli investorlar uchun</em>',
     heroSub: 'Agregatorlar, auksionlar va quruvchilar e’lonlarini algoritmik baholash',
+    countryRu: 'Rossiya', countryUz: 'O‘zbekiston', countryKz: 'Qozog‘iston', countryBy: 'Belarus',
+    modeBuy: 'Investorlar uchun', modeRent: 'Ijarachilar uchun',
     pillAll: 'Barcha manbalar', pillAgg: 'Agregatorlar', pillAuct: 'Auksionlar', pillDev: 'Quruvchilar',
+    viewMap: '🗺 Xarita (ishlab chiqilmoqda)', viewList: '📋 Ro‘yxat',
     pricingTitle: 'Tariflar', pricingSub: 'Reytingi 60+ barcha obyektlarga to‘liq kirish',
     ribbon: 'Foydali',
+    // How it works
+    howHead: 'Qanday ishlaydi',
+    how1Title: 'Ma’lumotlarni yig‘ish',
+    how1Text: 'Biz agregatorlar, auksion maydonchalari va quruvchilar saytlaridan e’lonlarni yig‘amiz. Ma’lumotlar muntazam yangilanadi.',
+    how2Title: 'SOTA<sup style="color:var(--accent);font-size:11px;margin-left:1px">1</sup> obyektni baholash algoritmi',
+    how2Text: 'Algoritm bozorga chegirma, ijara daromadliligi, narx o‘sishi va likvidlikni hisoblab chiqadi. Natija — 0 dan 100 gacha bo‘lgan ball.',
+    how2Foot: '<sup>1</sup> SOTA — State of the Art',
+    how3Title: 'PRO foydalanuvchilar uchun eng yaxshi obyektlar',
+    how3Text: 'Bahosi 60+ bo‘lgan obyektlar bozordagi eng yaxshi investitsion variantlardir. PRO obuna eng yaxshi takliflarning to‘liq ro‘yxatini ochadi.',
+    // Methodology
+    methodHead: 'Metodologiya',
+    method1Title: 'Bozorga chegirma',
+    method1Text: '1 km radiusdagi o‘xshash obyektlarning o‘rtacha narxi bilan obyekt narxi orasidagi farq sifatida hisoblanadi. Katta chegirma — yuqoriroq ball.',
+    method2Title: 'Ijara daromadliligi',
+    method2Text: 'Obyektning bo‘sh turishidan yo‘qotishlarni chiqargan yillik ijara daromadi, obyekt qiymatiga bo‘linadi. Logarifmik shkala natijani haddan tashqari oshirib yuborishdan saqlaydi.',
+    method3Title: 'Narx o‘sishi',
+    method3Text: 'Rosstat va bozor analitikasi bo‘yicha uy-joy narxlarining o‘rtacha yillik o‘sishi. Yuqori o‘sish = uzoq muddatli investitsion qiymat.',
+    method4Title: 'Likvidlik',
+    method4Text: 'O‘xshash obyektlarning sotilish tezligini, talab faolligini va transport qulayligini baholaymiz. Obyektni kerak bo‘lsa osongina sotish imkoni bo‘lishi kerak.',
+    // Plans / pricing extras
+    planFreeName: 'Bepul', planFreeSub: 'Ro‘yxatdan o‘tishsiz',
+    planFreeFeat1: 'Bahosi 60 gacha bo‘lgan barcha obyektlar', planFreeFeat2: 'Asosiy filtrlar',
+    ribbonAlways: 'Har doim mavjud', ribbonSale: 'AKSIYA — ERTAROQ KIRISH', ribbonBest: '⭐ Eng yaxshi taklif',
     planMonthName: 'Oylik', planMonthSub: 'Majburiyatsiz · istalgan vaqtda bekor qilish',
     perMonth: '₽ / oy', planMonthBtn: '660 ₽ ga rasmiylashtirish',
     planYearName: 'Yillik', planYearSub: '5 880 ₽/yil · 6 000 ₽ tejash',
     planYearBtn: '5 880 ₽/yil ga<br>rasmiylashtirish',
     feat1: 'Reytingi 60+ barcha obyektlar', feat2: 'Har bir obyekt bo‘yicha to‘liq analitika',
     feat3: 'Kengaytirilgan filtrlar va saralash', feat4: 'Tanlovni eksport qilish',
+    // Filters
+    fltCity: 'Shahar / Region', fltScoreMin: 'Min. ball', fltScoreMax: 'Maks. ball',
+    fltPrice: 'Narx (mln ₽)', fltScore: 'Ball', fltMore: 'Qoʻshimcha filtrlar',
+    fltActive: 'Eʼlon turi', fltActiveOnly: 'Faqat faollar', fltActiveAll: 'Barcha eʼlonlar',
+    fltMetro: 'Metro (Moskva)', fltMetroAll: 'Barcha stansiyalar',
+    fltPriceMax: 'Maks. narx (mln ₽)', fltPricePh: 'Cheklovsiz',
+    fltSort: 'Saralash', fltType: 'Obyekt turi',
+    // Stats row
+    statCount: 'E’lonlar', statScore: 'O‘rtacha ball',
+    statRoi: 'O‘rtacha daromad', statTop: 'Eng yaxshi bitim',
+    // Coming soon (non-RU)
+    comingTitle: 'Yaqin orada',
+    comingSub: 'Hozirda biz tanlangan mamlakat bo‘yicha dolzarb e’lonlarni yig‘yapmiz. Joriy bazani ko‘rish uchun «Rossiya»ni tanlang.',
+    // Footer
+    footAbout: 'AIvest.ru — investitsion ko‘chmas mulkni izlash va tahlil qilish xizmati. Platforma Rossiyaning eng yirik maydonchalaridan ma’lumotlarni to‘playdi, obyektni analoglar bilan taqqoslaydi va asosiy investitsion ko‘rsatkichlar bo‘yicha reyting hisoblab chiqadi: narx, joylashuv, likvidlik, bo‘shlik, ijara salohiyati va bozor dinamikasi.',
+    footScale: 'AIvest reytingi 0 dan 100 gacha shkalada hisoblanadi. O‘z segmentidagi eng yaxshi obyektlar odatda 90 dan yuqori ball oladi.',
+    geoLinkMoscow: 'Moskva ko‘chmas mulki', geoLinkSpb: 'Sankt-Peterburg ko‘chmas mulki', geoLinkSochi: 'Sochi ko‘chmas mulki',
+    footColService: 'Xizmat', footColCompany: 'Kompaniya', footColCities: 'Shaharlar',
+    footLinkHow: 'Qanday ishlaydi', footLinkMethod: 'Baholash metodologiyasi',
+    footLinkApi: 'Hamkorlar uchun API',
+    footLinkAbout: 'Loyiha haqida', footLinkContact: 'Aloqa',
+    footLinkSupport: 'Yordam', footLinkSuggest: 'Takomillashtirishni taklif qilish',
+    footLinkPrivacy: 'Maxfiylik siyosati', footLinkTerms: 'Foydalanish shartlari',
+    footCopyright: '© 2026 AIvest.ru — Saytdagi ma’lumot individual investitsion tavsiya emas. Barcha baholar bozor ma’lumotlari va tahliliy modellar asosida avtomatik tarzda shakllantiriladi. Qaror qabul qilishdan oldin obyektni va asosiy hisob-kitob shartlarini mustaqil tekshirishni tavsiya etamiz.',
+    footDisclaimer: 'Saytdagi ma’lumot investitsion tavsiya sifatida qaralmaydi va faqat tanishtirish maqsadida taqdim etiladi.',
+    // Login success
+    loginSuccessTitle: 'Xush kelibsiz!',
+    loginSuccessMsg: 'Siz tizimga muvaffaqiyatli kirdingiz. Bahosi 60+ bo‘lgan barcha obyektlar endi mavjud.',
+    // Payment modal extras
+    modalSub: 'AI bahosi <span>60+</span> bo‘lgan obyektlar — bozordagi eng istiqbolli investitsion imkoniyatlar. Har biri bo‘yicha batafsil analitikaga ega to‘liq ro‘yxatni oching.',
+    planMonthShort: 'Oy', planFullAccess: 'To‘liq kirish',
+    planYearShort: 'Yil · −26%', planYearShortSub: '5 880 ₽/yil',
+    payYookassa: 'Sber Kassa', payYookassaSub: 'RF kartalari va SBP',
+    payTelegramSub: 'butun dunyo bo‘yicha to‘lov',
+    // Input placeholders
+    phEmail: 'Email', phEmailReq: 'Email *', phPassword: 'Parol',
+    phPasswordNew: 'Parol (kamida 6 belgi) *',
+    phUsername: 'Foydalanuvchi nomi *', phName: 'Ismingiz (ixtiyoriy)',
+    phTelegram: 'Telegram @username (ixtiyoriy)',
+    phSupportMsg: 'Savolingiz yoki taklifingizni yozing…',
+    // Support modal
+    supportTitle: 'Yordam',
+    supportSub: 'Savolingizni yozing — ish kuni davomida email orqali javob beramiz.',
+    supportTypeQuestion: '🛟 Savol', supportTypeIdea: '💡 Taklif',
+    supportSubmit: 'Yuborish →',
+    supportNote: 'Biz har bir xabarni o‘qiymiz · Spam bo‘lmaydi',
+    supportThanks: 'Rahmat!',
+    supportSuccessMsg: 'Xabaringizni qabul qildik va ko‘rsatilgan email manziliga javob beramiz.',
+    // Profile modal
+    profileSubLabel: 'Obuna', profileLogout: 'Akkauntdan chiqish',
     modalTitle: 'Reytingga to‘liq kirish',
     mDiscount: 'Bozorga chegirma', mRoi: 'Kutilayotgan daromad', mGrowth: '12 oyda narx o‘sishi',
     mLiq: 'Likvidlik', mVac: 'Bo‘shlik darajasi', mPpm: 'Obyekt narxi / m²',
@@ -2036,6 +3250,142 @@ var T = {
     emptyMsg: 'Filtrlarga mos obyektlar yo‘q.',
     sectionTitle: 'Top obyektlar',
     rankBest: '★ Eng yaxshi', rankSilver: '★ Kumush', rankBronze: '★ Bronza',
+    // Lifetime plan
+    planLifetimeName: 'Muddatsiz', planLifetimeSub: 'Bir marta — abadiy',
+    planLifetimeBtn: '14 900 ₽ ga<br>rasmiylashtirish', planLifetimeFeat: 'bir to‘lov · abadiy',
+    ribbonForever: 'Abadiy',
+    // Modals
+    modalPayBtn: 'To‘lash va faollashtirish →',
+    modalNote: 'Akkaunt to‘lovdan so‘ng avtomatik yaratiladi · Xavfsiz to‘lov · Istalgan vaqtda bekor qilish',
+    loginTitle: 'AIvest ga kirish',
+    loginSub: 'Kirish uchun email va parolni kiriting.',
+    loginBtn: 'Kirish →',
+    loginNoAcc: 'Akkaunt yo‘qmi? <a href="#" onclick="closeLoginModal();openModal();return false;" style="color:var(--accent)">Obunani rasmiylashtirish</a>',
+    navLogin: 'Kirish',
+  },
+  kz: {
+    navHow: 'Жұмыс қағидасы', navMethod: 'Әдіснама', navPricing: 'Тарифтер',
+    navCta: 'PRO қолжетімділікті алу', navAdminRequests: '🛟 Өтінімдер',
+    heroEyebrow: 'Жылжымайтын мүліктің жетілдірілген аналитикасы · aivest.ru',
+    heroTitle: 'Жылжымайтын мүлікті ыңғайлы іздеу<br><em>рантье және ұзақ мерзімді инвесторлар үшін</em>',
+    heroSub: 'Агрегаторлар, аукциондар мен құрылыс салушылар хабарландыруларын алгоритмдік бағалау',
+    countryRu: 'Ресей', countryUz: 'Өзбекстан', countryKz: 'Қазақстан', countryBy: 'Беларусь',
+    modeBuy: 'Инвесторларға', modeRent: 'Жалдаушыларға',
+    pillAll: 'Барлық дереккөздер', pillAgg: 'Агрегаторлар', pillAuct: 'Аукциондар', pillDev: 'Құрылыс салушылар',
+    viewMap: '🗺 Карта (әзірленуде)', viewList: '📋 Тізіммен',
+    pricingTitle: 'Тарифтер', pricingSub: '60+ рейтингі бар барлық объектілерге толық қолжетімділік',
+    ribbon: 'Тиімді',
+    // How it works
+    howHead: 'Жұмыс қағидасы',
+    how1Title: 'Деректерді жинау',
+    how1Text: 'Агрегаторлар, аукциондық алаңдар және құрылысшылардың сайттарынан хабарландыруларды жинаймыз. Деректер тұрақты жаңартылады.',
+    how2Title: 'SOTA<sup style="color:var(--accent);font-size:11px;margin-left:1px">1</sup> объектіні бағалау алгоритмі',
+    how2Text: 'Алгоритм нарықтық жеңілдікті, жалдау табыстылығын, бағаның өсуі мен өтімділікті есептейді. Нәтиже — 0-ден 100-ге дейінгі балл.',
+    how2Foot: '<sup>1</sup> SOTA — State of the Art',
+    how3Title: 'PRO пайдаланушылар үшін үздік объектілер',
+    how3Text: 'Бағасы 60+ объектілер — нарықтағы ең жақсы инвестициялық нұсқалар. PRO жазылым ең жақсы ұсыныстардың толық тізімін ашады.',
+    // Methodology
+    methodHead: 'Әдіснама',
+    method1Title: 'Нарыққа жеңілдік',
+    method1Text: '1 км радиусындағы ұқсас объектілердің орташа бағасы мен объектінің бағасы арасындағы айырма ретінде есептеледі. Жеңілдік неғұрлым үлкен — соғұрлым жоғары балл.',
+    method2Title: 'Жалдау табыстылығы',
+    method2Text: 'Бос тұрудан болған шығынды шегеріп тастағанда жылдық жалдау табысы объект құнына бөлінеді. Логарифмдік шкала нәтижені асыра бағалауды болдырмайды.',
+    method3Title: 'Бағаның өсуі',
+    method3Text: 'Росстат және нарық аналитикасы бойынша тұрғын үй бағасының орташа жылдық өсімі. Жоғары өсім = ұзақ мерзімді инвестициялық құндылық.',
+    method4Title: 'Өтімділік',
+    method4Text: 'Ұқсас объектілердің сату жылдамдығын, сұраныс белсенділігін және көлік қолжетімділігін бағалаймыз. Қажет болғанда объектіні оңай сатуға болуы керек.',
+    // Plans / pricing extras
+    planFreeName: 'Тегін', planFreeSub: 'Тіркеусіз',
+    planFreeFeat1: 'Бағасы 60-тан төмен барлық объектілер', planFreeFeat2: 'Негізгі сүзгілер',
+    ribbonAlways: 'Әрқашан қолжетімді', ribbonSale: 'АКЦИЯ — ЕРТЕ ҚОЛЖЕТІМДІЛІК', ribbonBest: '⭐ Үздік ұсыныс',
+    planMonthName: 'Айлық', planMonthSub: 'Міндеттемесіз · кез келген уақытта бас тарту',
+    perMonth: '₽ / ай', planMonthBtn: '660 ₽ үшін рәсімдеу',
+    planYearName: 'Жылдық', planYearSub: '5 880 ₽/жыл · 6 000 ₽ үнемдеу',
+    planYearBtn: '5 880 ₽/жыл үшін<br>рәсімдеу',
+    feat1: '60+ рейтингі бар барлық объектілер',
+    feat2: 'Әр объект бойынша толық аналитика',
+    feat3: 'Кеңейтілген сүзгілер мен сұрыптау',
+    feat4: 'Таңдауды экспорттау',
+    // Filters
+    fltCity: 'Қала / Аймақ', fltScoreMin: 'Мин. балл', fltScoreMax: 'Макс. балл',
+    fltPrice: 'Баға (млн ₽)', fltScore: 'Балл', fltMore: 'Қосымша сүзгілер',
+    fltActive: 'Жарнама түрі', fltActiveOnly: 'Тек белсенділер', fltActiveAll: 'Барлық жарнамалар',
+    fltMetro: 'Метро (Мәскеу)', fltMetroAll: 'Барлық станциялар',
+    fltPriceMax: 'Макс. баға (млн ₽)', fltPricePh: 'Шектеусіз',
+    fltSort: 'Сұрыптау', fltType: 'Объект түрі',
+    // Stats row
+    statCount: 'Хабарландырулар', statScore: 'Орташа балл',
+    statRoi: 'Орташа табыстылық', statTop: 'Үздік мәміле',
+    // Coming soon (non-RU)
+    comingTitle: 'Жақында пайда болады',
+    comingSub: 'Қазір біз таңдалған ел бойынша өзекті хабарландыруларды жинап жатырмыз. Ағымдағы базаны көру үшін «Ресей»-ді таңдаңыз.',
+    // Footer
+    footAbout: 'AIvest.ru — инвестициялық жылжымайтын мүлікті іздеуге және талдауға арналған қызмет. Платформа Ресейдегі ең ірі алаңдардан деректерді жинайды, объектіні аналогтармен салыстырады және негізгі инвестициялық метрикалар бойынша рейтингті есептейді: баға, орналасу, өтімділік, бос тұру, жалдау әлеуеті және нарық динамикасы.',
+    footScale: 'AIvest рейтингі 0-ден 100-ге дейінгі шкала бойынша қалыптасады. Өз сегментіндегі үздік объектілер әдетте 90-нан жоғары балл жинайды.',
+    geoLinkMoscow: 'Мәскеу жылжымайтын мүлкі', geoLinkSpb: 'Санкт-Петербург жылжымайтын мүлкі', geoLinkSochi: 'Сочи жылжымайтын мүлкі',
+    footColService: 'Сервис', footColCompany: 'Компания', footColCities: 'Города',
+    footLinkHow: 'Бұл қалай жұмыс істейді', footLinkMethod: 'Бағалау әдіснамасы',
+    footLinkApi: 'Серіктестерге API',
+    footLinkAbout: 'Жоба туралы', footLinkContact: 'Байланыс',
+    footLinkSupport: 'Қолдау', footLinkSuggest: 'Жақсартуды ұсыну',
+    footLinkPrivacy: 'Құпиялылық саясаты', footLinkTerms: 'Пайдаланушы келісімі',
+    footCopyright: '© 2026 AIvest.ru — Сайттағы ақпарат жеке инвестициялық ұсыным болып табылмайды. Барлық бағалар нарық деректері мен талдау модельдері негізінде автоматты түрде қалыптастырылады. Шешім қабылдамас бұрын объектіні және есептің негізгі болжамдарын өз бетіңізше тексеруге кеңес береміз.',
+    footDisclaimer: 'Сайттағы ақпарат инвестициялық ұсыным ретінде қарастырылмайды және тек танысу мақсатында ұсынылады.',
+    // Login success
+    loginSuccessTitle: 'Қош келдіңіз!',
+    loginSuccessMsg: 'Сіз сәтті кірдіңіз. Бағасы 60+ барлық объектілер енді қолжетімді.',
+    // Payment modal extras
+    modalSub: 'AI бағасы <span>60+</span> объектілер — нарықтағы ең перспективалы инвестициялық нұсқалар. Әрқайсысы бойынша толық аналитикасы бар толық тізімді ашыңыз.',
+    planMonthShort: 'Ай', planFullAccess: 'Толық қолжетімділік',
+    planYearShort: 'Жыл · −26%', planYearShortSub: '5 880 ₽/жыл',
+    payYookassa: 'Сбер Касса', payYookassaSub: 'РФ карталары және СБП',
+    payTelegramSub: 'дүние жүзі бойынша төлем',
+    // Input placeholders
+    phEmail: 'Email', phEmailReq: 'Email *', phPassword: 'Құпиясөз',
+    phPasswordNew: 'Құпиясөз (кемінде 6 таңба) *',
+    phUsername: 'Пайдаланушы аты *', phName: 'Сіздің атыңыз (міндетті емес)',
+    phTelegram: 'Telegram @username (міндетті емес)',
+    phSupportMsg: 'Сұрағыңыз немесе ұсынысыңызды жазыңыз…',
+    // Support modal
+    supportTitle: 'Қолдау',
+    supportSub: 'Сұрағыңызды жазыңыз — жұмыс күні ішінде email арқылы жауап береміз.',
+    supportTypeQuestion: '🛟 Сұрақ', supportTypeIdea: '💡 Ұсыныс',
+    supportSubmit: 'Жіберу →',
+    supportNote: 'Біз әр хабарламаны оқимыз · Спам болмайды',
+    supportThanks: 'Рақмет!',
+    supportSuccessMsg: 'Хабарламаңызды алдық және көрсетілген email-ге жауап береміз.',
+    // Profile modal
+    profileSubLabel: 'Жазылым', profileLogout: 'Аккаунттан шығу',
+    modalTitle: 'Рейтингке толық қолжетімділік',
+    mDiscount: 'Нарыққа жеңілдік', mRoi: 'Күтілетін табыстылық', mGrowth: '12 айдағы баға өсімі',
+    mLiq: 'Өтімділік', mVac: 'Бос тұру деңгейі', mPpm: 'Объект бағасы / м²',
+    mMarket: 'Сегмент бойынша орташа баға',
+    discBelow: 'салыстырмалы объектілердің орташа бағасынан төмен',
+    discAbove: 'салыстырмалы объектілердің орташа бағасынан жоғары',
+    discEqual: 'нарықтың орташа бағасына сәйкес',
+    roiNoData: 'дерек жоқ', roiNoSub: 'есептеу үшін жалдау деректері жеткіліксіз',
+    liqHigh: 'объектіге сұраныс жоғары',
+    liqMid: 'объектіні орташа нарық мерзімінде сатуға болады',
+    liqLow: 'объектіні жылдам сату қиынырақ',
+    vacNoData: 'бос тұру деректері жоқ', vacLow: 'бос тұру тәуекелі төмен',
+    vacMid: 'бос тұру тәуекелі орташа', vacHigh: 'бос тұру тәуекелі жоғары',
+    mln: 'млн ₽', approxUsd: '≈ $',
+    locked: 'PRO жазылыммен қолжетімді', unlockBtn: 'Қолжетімділікті ашу',
+    emptyMsg: 'Таңдалған сүзгілерге сәйкес объектілер жоқ.',
+    sectionTitle: 'Үздік объектілер',
+    rankBest: '★ Ең жақсы мәміле', rankSilver: '★ Күміс', rankBronze: '★ Қола',
+    // Lifetime plan
+    planLifetimeName: 'Мерзімсіз', planLifetimeSub: 'Бір рет — мәңгілікке',
+    planLifetimeBtn: '14 900 ₽ үшін<br>рәсімдеу', planLifetimeFeat: 'бір төлем · мәңгілікке',
+    ribbonForever: 'Мәңгілікке',
+    // Modals
+    modalPayBtn: 'Төлеу және белсендіру →',
+    modalNote: 'Аккаунт төлемнен кейін автоматты түрде жасалады · Қауіпсіз төлем · Кез келген уақытта бас тарту',
+    loginTitle: 'AIvest-ке кіру',
+    loginSub: 'Аккаунтқа кіру үшін email және құпиясөзді енгізіңіз.',
+    loginBtn: 'Кіру →',
+    loginNoAcc: 'Аккаунт жоқ па? <a href="#" onclick="closeLoginModal();openModal();return false;" style="color:var(--accent)">Жазылуды рәсімдеу</a>',
+    navLogin: 'Кіру',
   }
 };
 
@@ -2058,6 +3408,13 @@ function applyLang(lang) {
     if (val) el.innerHTML = val;
   });
 
+  // Update all data-i18n-placeholder elements (input/textarea placeholders)
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n-placeholder');
+    var val = t(key);
+    if (val) el.setAttribute('placeholder', val);
+  });
+
   // Update nav links
   var navLinks = document.querySelectorAll('.nav-links a');
   if (navLinks[0]) navLinks[0].textContent = t('navHow');
@@ -2073,15 +3430,21 @@ function applyLang(lang) {
   var st = document.querySelector('.section-title');
   if (st) st.textContent = t('sectionTitle');
 
+  // Refresh hero copy (buy/rent variant) for the new language
+  if (typeof applyModeUI === 'function') { try { applyModeUI(); } catch(e){} }
+
   // Re-render cards to pick up new language
   render();
 }
 
 function toggleLang() {
-  var order = ['ru', 'en', 'uz'];
+  var order = ['ru', 'en', 'uz', 'kz'];
   var i = order.indexOf(currentLang);
   applyLang(order[(i + 1) % order.length]);
 }
+
+// Country → default language mapping (used when user switches country)
+var COUNTRY_DEFAULT_LANG = { ru: 'ru', uz: 'uz', kz: 'kz', by: 'ru' };
 
 // ── Country filter (ru/uz/kz/by) ─────────────────────────────────────────────
 var currentCountry = (function(){
@@ -2099,30 +3462,32 @@ var COUNTRY_COPY = {
   by: { label: 'Беларусь',   currency: 'USD' },
 };
 
-function setCountry(c) {
+function setCountry(c, fromUser) {
   if (!COUNTRY_COPY[c]) return;
   currentCountry = c;
   try { localStorage.setItem('aivest-country', c); } catch(e){}
   document.querySelectorAll('.country-opt').forEach(function(el) {
     el.classList.toggle('active', el.getAttribute('data-country') === c);
   });
-  applyCountryPricing();
-  // Empty-state for non-RU countries (no data yet)
-  if (c !== 'ru') {
-    var g = document.getElementById('cards-grid');
-    if (g) {
-      var flagByCode = { uz: '🇺🇿', kz: '🇰🇿', by: '🇧🇾' };
-      var labelByCode = { uz: 'Узбекистану', kz: 'Казахстану', by: 'Беларуси' };
-      g.innerHTML = '<div class="empty" style="padding:3rem 1rem;text-align:center;color:var(--muted)">'+
-        '<div style="font-size:36px;margin-bottom:12px">'+(flagByCode[c]||'')+'</div>'+
-        '<div style="font-size:16px;margin-bottom:8px;color:var(--text)">Скоро появится</div>'+
-        '<div style="font-size:13px;max-width:420px;margin:0 auto">Сейчас собираем актуальные объявления по '+(labelByCode[c]||'этой стране')+'. Выберите «🇷🇺 Россия» для просмотра текущей базы.</div>'+
-        '</div>';
+  // Auto-switch UI language to the country's local language — only on user click,
+  // so the page default stays Russian on every fresh load.
+  if (fromUser) {
+    var targetLang = COUNTRY_DEFAULT_LANG[c];
+    if (targetLang && targetLang !== currentLang && typeof applyLang === 'function') {
+      applyLang(targetLang);
     }
-  } else {
-    // Back to RU → re-render from current data
-    if (typeof render === 'function') render();
   }
+  applyCountryPricing();
+  // Toggle whole listings block for non-RU
+  document.body.classList.toggle('country-non-ru', c !== 'ru');
+  var labelByCode = { uz: 'Узбекистану', kz: 'Казахстану', by: 'Беларуси' };
+  var sub = document.getElementById('country-coming-sub');
+  if (sub && c !== 'ru') {
+    sub.textContent = 'Сейчас мы собираем актуальные объявления по ' +
+      (labelByCode[c] || 'выбранной стране') +
+      '. Выберите «Россия», чтобы увидеть текущую базу.';
+  }
+  if (c === 'ru' && typeof render === 'function') render();
 }
 
 // Convert the ₽ plan-price to USD (round to nearest $1) when non-RU country
@@ -2157,20 +3522,46 @@ function applyCountryPricing() {
   }
 }
 
-// Apply theme variant FIRST (pure CSS, no reflow cost), then mode + country, then load data
-applyThemeVariant();
 applyModeUI();
 // Initialize country UI state without forcing an empty-state if RU
 document.querySelectorAll('.country-opt').forEach(function(el) {
   el.classList.toggle('active', el.getAttribute('data-country') === currentCountry);
 });
 applyCountryPricing();
+// Apply language on first paint so data-i18n / data-i18n-placeholder pick up currentLang
+applyLang(currentLang);
 if (currentCountry !== 'ru') {
   setCountry(currentCountry); // shows empty state
 } else {
   loadFromAPI();
 }
 </script>
+<!-- ────────────────── Visual effects: scroll reveal ────────────────── -->
+<!-- Hover glow is pure CSS now (no pointer tracking needed). -->
+<script>
+(function() {
+  var prefersReduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ── Scroll reveal ──────────────────────────────────
+  // IntersectionObserver toggles `.is-visible` when an element enters viewport.
+  // One-shot: unobserve after first reveal so re-scrolling doesn't re-hide.
+  var revealEls = document.querySelectorAll('.reveal, .reveal-stagger');
+  if (prefersReduce || !('IntersectionObserver' in window)) {
+    revealEls.forEach(function(el) { el.classList.add('is-visible'); });
+  } else {
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(function(el) { io.observe(el); });
+  }
+})();
+</script>
+
 <!-- Vercel Analytics -->
 <script defer src="/_vercel/insights/script.js"></script>
 </body>
