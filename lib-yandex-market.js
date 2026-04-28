@@ -181,10 +181,13 @@ async function processOrder(orderId, ym, redis) {
   // BAD_REQUEST: "Illegal input at items[0].code".
   // Optional `activatedAt` (RFC3339) helps Yandex show the correct timestamp
   // to the buyer.
+  // Field is `codes` (plural, array of strings) — `code` is the deprecated
+  // legacy form. `slip` is optional brief activation instructions shown to
+  // the buyer; HTML allowed (h1/br/ol/ul/li).
   const payload = popped.map(p => ({
-    id:          p.itemId,
-    code:        [p.key],
-    activatedAt: new Date().toISOString(),
+    id:    p.itemId,
+    codes: [p.key],
+    slip:  'Активируйте ключ в Steam: https://store.steampowered.com/account/registerkey<br>Если возникли вопросы — напишите в чат заказа.',
   }));
 
   try {
