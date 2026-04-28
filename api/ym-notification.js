@@ -57,13 +57,15 @@ module.exports = async (req, res) => {
     });
   }
 
-  // ── ACK IMMEDIATELY. Yandex.Market push-API requires HTTP 200 with a
-  // JSON body acknowledging the event. Documented schema:
-  //   { "status": "OK" }
-  // Empty body → CANT_GET_RESPONSE; wrong fields → INVALID_DATA.
-  // Set bare `application/json` (no charset suffix) — some Yandex parsers are
-  // strict about that.
-  const ackBody = JSON.stringify({ status: 'OK' });
+  // ── ACK IMMEDIATELY. Yandex.Market push-API expects EXACTLY this schema
+  // (per docs "Пример тела ответа"):
+  //   { "version": "1.0.0", "name": "<integration-name>", "time": "<ISO>" }
+  // `{"status":"OK"}` and other shapes → INVALID_DATA.
+  const ackBody = JSON.stringify({
+    version: '1.0.0',
+    name:    'aivest-ym',
+    time:    new Date().toISOString(),
+  });
   res.writeHead(200, {
     'Content-Type':   'application/json',
     'Content-Length': Buffer.byteLength(ackBody).toString(),
