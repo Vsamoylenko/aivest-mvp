@@ -76,8 +76,26 @@ async function addKeys(redis, sku, keys) {
   return await redis.llen(`ym:keys:${sku}`);
 }
 
+// Pop a RANDOM key from the per-SKU list (not FIFO). This avoids predictable
+// "older keys go first" behaviour — buyers get a uniformly-random pick from
+// current inventory. Implementation: LLEN → random index → LINDEX → LREM.
+// Not atomic across two concurrent calls, but real traffic is low (a few orders
+// per day) so the race window is negligible. If two callers ever pick the same
+// idx, one of the LREMs will silently no-op and that caller will retry below.
 async function popKey(redis, sku) {
-  return await redis.rpop(`ym:keys:${sku}`);
+  const list = `ym:keys:${sku}`;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const len = await redis.llen(list);
+    if (!len) return null;
+    const idx = Math.floor(Math.random() * len);
+    const val = await redis.lindex(list, idx);
+    if (val == null) continue;
+    const removed = await redis.lrem(list, 1, val);
+    if (removed > 0) return val; // we got it
+    // someone else just took this one — retry with a fresh random pick
+  }
+  // Fallback: deterministic rpop so we never silently fail to deliver.
+  return await redis.rpop(list);
 }
 
 async function inventoryStatus(redis) {
