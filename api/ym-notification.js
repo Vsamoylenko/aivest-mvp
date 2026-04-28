@@ -57,12 +57,18 @@ module.exports = async (req, res) => {
     });
   }
 
-  // ── ACK IMMEDIATELY. Yandex.Market push-API spec: respond with HTTP 200
-  // and EMPTY body. Any JSON body (`{"ok":true}`, `{"status":"OK"}`, etc.)
-  // gets rejected as INVALID_DATA by their strict parser.
-  // Use raw writeHead to bypass Express's automatic Content-Type injection.
-  res.writeHead(200, { 'Content-Length': '0' });
-  res.end();
+  // ── ACK IMMEDIATELY. Yandex.Market push-API requires HTTP 200 with a
+  // JSON body acknowledging the event. Documented schema:
+  //   { "status": "OK" }
+  // Empty body → CANT_GET_RESPONSE; wrong fields → INVALID_DATA.
+  // Set bare `application/json` (no charset suffix) — some Yandex parsers are
+  // strict about that.
+  const ackBody = JSON.stringify({ status: 'OK' });
+  res.writeHead(200, {
+    'Content-Type':   'application/json',
+    'Content-Length': Buffer.byteLength(ackBody).toString(),
+  });
+  res.end(ackBody);
 
   // ── Post-ack async work. From here on, errors only land in logs; the
   // marketplace already considers the notification delivered.
