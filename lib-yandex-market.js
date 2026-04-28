@@ -176,9 +176,15 @@ async function processOrder(orderId, ym, redis) {
   }
 
   // Deliver via Yandex API.
+  // Per current Partner API docs, `code` is a plain string (not array of
+  // objects). The legacy `[{activationCode: ...}]` form returns
+  // BAD_REQUEST: "Illegal input at items[0].code".
+  // Optional `activatedAt` (RFC3339) helps Yandex show the correct timestamp
+  // to the buyer.
   const payload = popped.map(p => ({
-    id:   p.itemId,
-    code: [{ activationCode: p.key }],
+    id:          p.itemId,
+    code:        p.key,
+    activatedAt: new Date().toISOString(),
   }));
 
   try {
