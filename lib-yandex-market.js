@@ -183,7 +183,7 @@ async function processOrder(orderId, ym, redis) {
   // to the buyer.
   const payload = popped.map(p => ({
     id:          p.itemId,
-    code:        p.key,
+    code:        [p.key],
     activatedAt: new Date().toISOString(),
   }));
 
