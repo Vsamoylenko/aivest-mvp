@@ -57,9 +57,12 @@ module.exports = async (req, res) => {
     });
   }
 
-  // ── ACK IMMEDIATELY. Anything past 1s on a PING means Yandex marks the
-  // URL as broken with CANT_GET_RESPONSE. Send the documented success shape.
-  res.status(200).json({ status: 'OK' });
+  // ── ACK IMMEDIATELY. Yandex.Market push-API spec: respond with HTTP 200
+  // and EMPTY body. Any JSON body (`{"ok":true}`, `{"status":"OK"}`, etc.)
+  // gets rejected as INVALID_DATA by their strict parser.
+  // Use raw writeHead to bypass Express's automatic Content-Type injection.
+  res.writeHead(200, { 'Content-Length': '0' });
+  res.end();
 
   // ── Post-ack async work. From here on, errors only land in logs; the
   // marketplace already considers the notification delivered.
