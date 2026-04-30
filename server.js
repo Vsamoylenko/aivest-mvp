@@ -1224,10 +1224,21 @@ app.post('/api/ym/:secret/notification',                handleYmNotification);
 
 // Cron fallback — runs every N minutes (see vercel.json) to catch any
 // PROCESSING+DIGITAL orders we missed (webhook lost, network blip, etc.).
+//
+// Auth ladder (any one passes):
+//   1. CRON_SECRET in Authorization Bearer header   — when env var is set
+//   2. Vercel's internal cron caller (vercel-cron/* User-Agent)  — Vercel
+//      Hobby plan does NOT inject CRON_SECRET, but does pin a UA we can trust
+//   3. ADMIN_KEY in x-admin-key header              — manual ops convenience
 app.get('/api/cron/ym-deliver', async (req, res) => {
   const auth = req.headers.authorization || '';
-  const expected = `Bearer ${process.env.CRON_SECRET || ''}`;
-  if (!process.env.CRON_SECRET || auth !== expected) {
+  const ua   = String(req.headers['user-agent'] || '');
+  const adminKey = req.headers['x-admin-key'] || req.query.key;
+  const cronSecretSet = !!process.env.CRON_SECRET;
+  const okCronSecret  = cronSecretSet && auth === `Bearer ${process.env.CRON_SECRET}`;
+  const okVercelUA    = /vercel-cron/i.test(ua);
+  const okAdminKey    = !!process.env.ADMIN_KEY && adminKey === process.env.ADMIN_KEY;
+  if (!okCronSecret && !okVercelUA && !okAdminKey) {
     return res.status(401).json({ error: 'unauthorized' });
   }
   try {
