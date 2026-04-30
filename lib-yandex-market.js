@@ -45,10 +45,20 @@ class YandexMarket {
       'Accept':        'application/json',
     };
   }
-  // POST /businesses/{businessId}/orders — list orders with filter body.
+  // GET /v2/campaigns/{campaignId}/orders?status=...
+  // Used by sweep cron to find PROCESSING digital orders we still owe a key.
+  // (The newer POST /businesses/{id}/orders requires a different body schema
+  // and returned 0 orders for us; the v2 campaign endpoint stays supported
+  // until April 2027 and is what actually works today.)
   async listOrders(filter = {}) {
-    const url = `${YM_API}/businesses/${this.businessId}/orders`;
-    const { data } = await axios.post(url, filter, { headers: this._headers(), timeout: 20000 });
+    const params = new URLSearchParams();
+    if (filter.status) params.set('status', filter.status);
+    params.set('limit', String(filter.limit || 50));
+    if (filter.fromDate)  params.set('fromDate',  filter.fromDate);
+    if (filter.toDate)    params.set('toDate',    filter.toDate);
+    if (filter.pageToken) params.set('page_token', filter.pageToken);
+    const url = `${YM_API}/v2/campaigns/${this.campaignId}/orders?${params.toString()}`;
+    const { data } = await axios.get(url, { headers: this._headers(), timeout: 20000 });
     return data;
   }
   // GET /campaigns/{campaignId}/orders/{orderId} — full order detail (incl. items + delivery type).
