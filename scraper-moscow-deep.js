@@ -99,6 +99,11 @@ function parseOffer(raw) {
 
   const district = geo.find(a => a.type === 'raion')?.shortName
                 || geo.find(a => a.type === 'okrug')?.shortName || '';
+
+  // Excluded districts (administratively in СЗАО but not what we want to surface).
+  // Match against any address part that carries a name — raion name, street, etc.
+  const addrText = geo.map(a => a.shortName || a.fullName || a.name || '').join(' ');
+  if (/Куркино/i.test(addrText) || /Куркино/i.test(raw.title || '')) return null;
   const metro    = geo.find(a => a.type === 'metro')?.shortName || '';
   const area     = parseFloat(raw.totalArea) || 0;
   const rawPrice  = raw.bargainTerms?.price || 0;
@@ -117,10 +122,16 @@ function parseOffer(raw) {
   // Min-price floor — only apply to housing. Parking spots routinely sell
   // at 300-900k₽, garages even less. The 1M floor was excluding ~all of them.
   if (type !== 'parking' && price > 0 && price < 1) return null;
-  // Per-meter floor — also housing-only. Parking has its own market dynamic
-  // (priced per spot, not per m²) where ppm of 60-100k is typical and not a
-  // sign of fraud the way it would be for a flat.
-  if (type !== 'parking' && ppm > 0 && ppm < Math.round(MOSCOW_PPM * 0.20)) return null;
+  // Per-meter floor for non-housing — same as before (parking exempt).
+  if (type !== 'parking' && type !== 'apartment' && ppm > 0 && ppm < Math.round(MOSCOW_PPM * 0.20)) return null;
+  // SHARES detection: when an "apartment" listing has ppm under ~40% of market,
+  // it's almost always a fractional share (1/2, 1/3, 1/4 of an actual flat) sold
+  // at proportional price — Cian doesn't tag these as roomSale, they appear as
+  // ordinary flatSale but with text like "доля", "1/3", "часть" in description
+  // (or sometimes nothing at all). Discount >60% is structurally impossible for
+  // a real Moscow apartment. Drop these — they're noise for our investor audience.
+  const SHARE_PPM_FLOOR = Math.round(MOSCOW_PPM * 0.40); // 96 000 ₽/м²
+  if (type === 'apartment' && ppm > 0 && ppm < SHARE_PPM_FLOOR) return null;
 
   const desc = (raw.description || '').toLowerCase();
   const isShareSale  = type === 'apartment' && /продаётся доля|продается доля|продам долю|\bдоли\b|\bдоля\b/.test(desc);
