@@ -45,7 +45,7 @@
     },
     {
       "path": "/api/cron/ym-deliver",
-      "schedule": "*/10 * * * *"
+      "schedule": "30 7 * * *"
     }
   ]
 }
