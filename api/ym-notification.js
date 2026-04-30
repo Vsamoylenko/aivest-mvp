@@ -57,49 +57,63 @@ module.exports = async (req, res) => {
     });
   }
 
-  // ── ACK IMMEDIATELY. Yandex.Market push-API expects EXACTLY this schema
-  // (per docs "Пример тела ответа"):
-  //   { "version": "1.0.0", "name": "<integration-name>", "time": "<ISO>" }
-  // `{"status":"OK"}` and other shapes → INVALID_DATA.
+  // ── Documented success body (PING and order acks share the same schema).
   const ackBody = JSON.stringify({
     version: '1.0.0',
     name:    'aivest-ym',
     time:    new Date().toISOString(),
   });
-  res.writeHead(200, {
-    'Content-Type':   'application/json',
-    'Content-Length': Buffer.byteLength(ackBody).toString(),
-  });
-  res.end(ackBody);
+  const sendAck = () => {
+    res.writeHead(200, {
+      'Content-Type':   'application/json',
+      'Content-Length': Buffer.byteLength(ackBody).toString(),
+    });
+    res.end(ackBody);
+  };
 
-  // ── Post-ack async work. From here on, errors only land in logs; the
-  // marketplace already considers the notification delivered.
   const body = req.body || {};
   const type = (body.notificationType || body.type || body.eventType || '').toString().toUpperCase();
 
+  // PING: nothing to do — ack and return immediately. Yandex caps PING at 1s.
   if (type === 'PING' || !type) {
+    sendAck();
     console.log(`[ym] PING ok (via ${okSource})`);
     return;
   }
 
+  // ── REAL notification. We MUST await processing BEFORE res.end() —
+  // Vercel's serverless runtime suspends the function the instant the
+  // response goes out, killing any pending async work. Yandex allows 10s
+  // for non-PING notifications, plenty of room for a Yandex API roundtrip.
   const orderId = body.orderId || (body.order && (body.order.id || body.order.orderId));
+  console.log(`[ym] hit type=${type} orderId=${orderId || '(none)'} via=${okSource}`);
+
   if (!orderId) {
+    // Some events (chat, dispute, review) carry no orderId — just ack.
     console.log(`[ym] type=${type} no orderId — body:`, JSON.stringify(body).slice(0, 400));
+    sendAck();
     return;
   }
 
-  // Lazy-load heavies ONLY for real orders. Keeps PING path slim.
+  // Process synchronously, then ack. If we exceed Yandex's 10s window the
+  // ack fails and they retry — our idempotency guard prevents double-deliver.
   try {
     const ymLib = require('../lib-yandex-market');
     const { Redis } = require('@upstash/redis');
     const url   = process.env.UPSTASH_REDIS_REST_URL  || process.env.KV_REST_API_URL;
     const token = process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN;
-    if (!url || !token) return console.warn('[ym] KV not configured — cannot process order', orderId);
-    const redis = new Redis({ url, token });
-    const ym = new ymLib.YandexMarket();
-    const r = await ymLib.processOrder(orderId, ym, redis);
-    console.log(`[ym] orderId=${orderId} type=${type} → ${JSON.stringify(r)}`);
+    if (url && token) {
+      const redis = new Redis({ url, token });
+      const ym = new ymLib.YandexMarket();
+      const r = await ymLib.processOrder(orderId, ym, redis);
+      console.log(`[ym] orderId=${orderId} type=${type} → ${JSON.stringify(r)}`);
+    } else {
+      console.warn('[ym] KV not configured — cannot process order', orderId);
+    }
   } catch (e) {
-    console.error(`[ym] orderId=${orderId} failed:`, (e.response && e.response.data) || e.message);
+    console.error(`[ym] orderId=${orderId} processOrder failed:`, (e.response && e.response.data) || e.message);
+  } finally {
+    // Ack no matter what — Yandex doesn't expect us to expose internal errors.
+    sendAck();
   }
 };
