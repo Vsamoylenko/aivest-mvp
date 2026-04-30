@@ -1292,6 +1292,22 @@ app.post('/api/admin/ym/deliver/:orderId', async (req, res) => {
   }
 });
 
+// POST /api/admin/ym/sweep — list every PROCESSING+DIGITAL order and try to
+// deliver each. Idempotent thanks to ym:delivered:<orderId> guard, so safe to
+// hammer. Use when you suspect a webhook was missed (e.g. test orders that
+// don't trigger push notifications, or flaky deliveries).
+app.post('/api/admin/ym/sweep', async (req, res) => {
+  if (!isAdminAuth(req)) return res.status(401).json({ error: 'unauthorized' });
+  const redis = getRedis();
+  if (!redis) return res.status(503).json({ error: 'KV not configured' });
+  try {
+    const r = await ymLib.sweepProcessingDigital(ym, redis);
+    return res.json({ success: true, ...r });
+  } catch (e) {
+    return res.status(500).json({ success: false, error: e.response?.data || e.message });
+  }
+});
+
 // Clean-URL routes for geo landing pages
 app.get(['/moscow', '/moscow/'], (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'moscow.html'));
