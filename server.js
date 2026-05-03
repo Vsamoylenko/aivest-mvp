@@ -1183,32 +1183,10 @@ function handleYmNotification(req, res) {
 // We register routes for ALL plausible shapes so any reasonable input works:
 const ymGetOK = (_req, res) => res.status(200).type('text/plain').send('ok');
 
-// Diagnostic — public, but reveals NO actual secret values. Only metadata
-// (length, leading/trailing whitespace flags, presence-of-config booleans).
-// Lets us debug "why is webhook returning 401" remotely without leaking values.
-//
-// Optional: pass ?try=<candidate-secret> to test whether a specific string would
-// match the configured YM_WEBHOOK_SECRET. The candidate IS revealed in your URL,
-// so only use values you don't mind seeing in your access logs.
-app.get('/api/ym/_diag', (req, res) => {
-  const raw = process.env.YM_WEBHOOK_SECRET || '';
-  const trimmed = raw.trim();
-  const candidate = (req.query.try || '').toString();
-  res.json({
-    secretSet: !!trimmed,
-    rawLen: raw.length,
-    trimmedLen: trimmed.length,
-    hasLeadingWS:  raw !== raw.replace(/^\s+/, ''),
-    hasTrailingWS: raw !== raw.replace(/\s+$/, ''),
-    candidateMatches: candidate ? (candidate === trimmed) : null,
-    candidateLen: candidate.length,
-    businessIdSet: !!(process.env.YM_BUSINESS_ID || '').trim(),
-    campaignIdSet: !!(process.env.YM_CAMPAIGN_ID || '').trim(),
-    oauthTokenSet: !!(process.env.YM_OAUTH_TOKEN || '').trim(),
-    oauthTokenLen: (process.env.YM_OAUTH_TOKEN || '').trim().length,
-    adminKeySet:   !!(process.env.ADMIN_KEY || '').trim(),
-  });
-});
+// (Removed: /api/ym/_diag was a public diagnostic endpoint used to bootstrap
+// the YM webhook integration. Now that secrets are sorted, leaving it public
+// only helps attackers fingerprint our env layout. If you need it back during
+// debugging, gate it behind isAdminAuth.)
 
 // GET — reachability probes (any of these returns 200).
 app.get('/api/ym/notification',                         ymGetOK);
