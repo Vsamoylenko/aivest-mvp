@@ -124,14 +124,19 @@ function parseOffer(raw) {
   if (type !== 'parking' && price > 0 && price < 1) return null;
   // Per-meter floor for non-housing — same as before (parking exempt).
   if (type !== 'parking' && type !== 'apartment' && ppm > 0 && ppm < Math.round(MOSCOW_PPM * 0.20)) return null;
-  // SHARES detection: when an "apartment" listing has ppm under ~40% of market,
-  // it's almost always a fractional share (1/2, 1/3, 1/4 of an actual flat) sold
-  // at proportional price — Cian doesn't tag these as roomSale, they appear as
-  // ordinary flatSale but with text like "доля", "1/3", "часть" in description
-  // (or sometimes nothing at all). Discount >60% is structurally impossible for
-  // a real Moscow apartment. Drop these — they're noise for our investor audience.
-  const SHARE_PPM_FLOOR = Math.round(MOSCOW_PPM * 0.40); // 96 000 ₽/м²
-  if (type === 'apartment' && ppm > 0 && ppm < SHARE_PPM_FLOOR) return null;
+  // SHARES detection. Cian sells fractional ownership (1/2, 1/3 …) as
+  // ordinary flatSale at proportional price, sometimes without "доля" in the
+  // description. Two safety nets — if either fires, drop:
+  //   • ppm under 50% of market (120k₽/м²) — proportional pricing tell
+  //   • discount > 45% — structurally impossible for a real Moscow flat
+  const SHARE_PPM_FLOOR    = Math.round(MOSCOW_PPM * 0.50); // 120 000 ₽/м²
+  const SHARE_DISC_CEILING = 45;
+  if (type === 'apartment') {
+    if (ppm > 0 && ppm < SHARE_PPM_FLOOR) return null;
+    // pre-compute disc for the cutoff (mirrors logic below)
+    const previewDisc = MOSCOW_PPM > 0 ? ((MOSCOW_PPM - ppm) / MOSCOW_PPM) * 100 : 0;
+    if (previewDisc > SHARE_DISC_CEILING) return null;
+  }
 
   const desc = (raw.description || '').toLowerCase();
   const isShareSale  = type === 'apartment' && /продаётся доля|продается доля|продам долю|\bдоли\b|\bдоля\b/.test(desc);
@@ -147,11 +152,28 @@ function parseOffer(raw) {
   const vac   = finalType === 'commercial' ? 6 : 4;
   const score = calcScore({ disc, roi, grow, liq, vac, type: finalType });
 
+  // Build human-readable Russian title even when Cian's raw.title is missing.
+  const TYPE_RU = {
+    apartment: 'Квартира', room: 'Комната', newbuild: 'Новостройка',
+    commercial: 'Коммерческая недвижимость', house: 'Дом', land: 'Участок',
+    parking: 'Машиноместо',
+  };
+  const ROOMS_RU = ['Студия', '1-комн. квартира', '2-комн. квартира', '3-комн. квартира', '4-комн. квартира', '5+ комн. квартира'];
+  let niceTitle = (raw.title || '').trim();
+  if (!niceTitle) {
+    if (finalType === 'apartment' || finalType === 'newbuild') {
+      const rc = Number(raw.roomsCount);
+      niceTitle = (Number.isFinite(rc) && rc >= 0 && rc <= 5) ? ROOMS_RU[rc] : (TYPE_RU[finalType] || 'Квартира');
+    } else {
+      niceTitle = TYPE_RU[finalType] || 'Объект';
+    }
+  }
+
   return {
     id: 0,
     cianId: `cian-${raw.id}`,
     cianUrl: `https://cian.ru/sale/flat/${raw.id}/`,
-    title: raw.title || `${finalType} в Москве`,
+    title: niceTitle,
     city: 'Москва',
     district, metro,
     area: Math.round(area),
