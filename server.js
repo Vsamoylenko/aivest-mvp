@@ -1297,6 +1297,77 @@ app.post('/api/admin/ym/sweep', async (req, res) => {
   }
 });
 
+// ═══════════════════════════════════════════════════════════════════════════
+//  Wildberries — digital-goods (activation key) delivery
+//  Shares inventory with Yandex.Market via `ym:keys:<sku>` (same Steam keys
+//  pool — SKU MRKT-JU4L95I3 is identical on both platforms). WB has no push
+//  webhook for orders, so we poll /api/v3/orders/new on a 2-min cron.
+// ═══════════════════════════════════════════════════════════════════════════
+const wbLib = require('./lib-wildberries');
+const wb    = new wbLib.WildberriesAPI();
+
+// GET /api/cron/wb-deliver — same tri-mode auth as YM cron.
+app.get('/api/cron/wb-deliver', async (req, res) => {
+  const auth = req.headers.authorization || '';
+  const ua   = String(req.headers['user-agent'] || '');
+  const adminKey = req.headers['x-admin-key'] || req.query.key;
+  const cronSecretSet = !!process.env.CRON_SECRET;
+  const okCronSecret  = cronSecretSet && auth === `Bearer ${process.env.CRON_SECRET}`;
+  const okVercelUA    = /vercel-cron/i.test(ua);
+  const okAdminKey    = !!process.env.ADMIN_KEY && adminKey === process.env.ADMIN_KEY;
+  if (!okCronSecret && !okVercelUA && !okAdminKey) {
+    return res.status(401).json({ error: 'unauthorized' });
+  }
+  try {
+    const redis = getRedis();
+    if (!redis) return res.status(503).json({ error: 'KV not configured' });
+    const r = await wbLib.sweepNewOrders(wb, redis);
+    console.log(`[cron] WB sweep — ${r.swept} orders processed`);
+    return res.json({ success: true, ...r });
+  } catch (e) {
+    console.error('[cron] WB sweep failed:', e.message);
+    return res.status(500).json({ success: false, error: String(e.message || e) });
+  }
+});
+
+// POST /api/admin/wb/sweep — manual trigger for the same sweep.
+app.post('/api/admin/wb/sweep', async (req, res) => {
+  if (!isAdminAuth(req)) return res.status(401).json({ error: 'unauthorized' });
+  const redis = getRedis();
+  if (!redis) return res.status(503).json({ error: 'KV not configured' });
+  try {
+    const r = await wbLib.sweepNewOrders(wb, redis);
+    return res.json({ success: true, ...r });
+  } catch (e) {
+    return res.status(500).json({ success: false, error: e.response?.data || e.message });
+  }
+});
+
+// POST /api/admin/wb/deliver/:orderId — force-deliver one specific order.
+app.post('/api/admin/wb/deliver/:orderId', async (req, res) => {
+  if (!isAdminAuth(req)) return res.status(401).json({ error: 'unauthorized' });
+  const redis = getRedis();
+  if (!redis) return res.status(503).json({ error: 'KV not configured' });
+  try {
+    const r = await wbLib.processOrder(req.params.orderId, wb, redis);
+    return res.json({ success: true, ...r });
+  } catch (e) {
+    return res.status(500).json({ success: false, error: e.response?.data || e.message });
+  }
+});
+
+// GET /api/admin/wb/orders — debug: list current NEW orders WB sees for us.
+app.get('/api/admin/wb/orders', async (req, res) => {
+  if (!isAdminAuth(req)) return res.status(401).json({ error: 'unauthorized' });
+  if (!wb.isConfigured()) return res.status(503).json({ error: 'WB token not configured' });
+  try {
+    const orders = await wb.listNewOrders();
+    return res.json({ success: true, count: orders.length, orders });
+  } catch (e) {
+    return res.status(500).json({ success: false, error: e.response?.data || e.message });
+  }
+});
+
 // Clean-URL routes for geo landing pages
 app.get(['/moscow', '/moscow/'], (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'moscow.html'));
