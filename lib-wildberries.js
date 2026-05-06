@@ -175,17 +175,15 @@ class WildberriesAPI {
   }
 
   // POST /api/v1/seller/message — send text to existing chat.
-  // Empirically (2026-05) WB stores incoming events as `message:{text:"..."}`
-  // (a NESTED object). Sending with flat `text` / `message` / `messageText`
-  // fields produces a 200 OK but the message is recorded as `message:{}` —
-  // i.e. WB extracts text only when we mirror the event shape.
-  // Final body shape: `{ chatID, replySign, message: { text: "..." } }`.
+  // Required body shape (verified 2026-05 against WB error response):
+  //   { chatID, replySign, message: "<text as STRING>" }
+  // — `message` MUST be a string. Sending it as an object returns:
+  //   400 "The field \"message\" must be a string"
+  // Sending `text`/`messageText` etc. siblings causes WB to silently store
+  // an empty body (`message: {}` in subsequent event polls).
   async sendChatMessage(chatID, text, replySign) {
     const url = `${WB_CHAT_API}/api/v1/seller/message`;
-    const body = {
-      chatID,
-      message: { text },
-    };
+    const body = { chatID, message: String(text == null ? '' : text) };
     if (replySign) body.replySign = replySign;
     const { data } = await axios.post(url, body, { headers: this._headers(), timeout: 15000 });
     return data;
