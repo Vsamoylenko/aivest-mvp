@@ -1535,15 +1535,19 @@ app.get('/api/admin/wb/diag', async (req, res) => {
   if (!wb.isConfigured()) return res.status(503).json({ error: 'WB token not configured' });
   const axios = require('axios');
   const headers = wb._headers();
+  const probeOrderId = Number(req.query.orderId) || 5012487762;
   const tries = [
     { name: 'orders_new',         url: 'https://marketplace-api.wildberries.ru/api/v3/orders/new' },
-    { name: 'orders',             url: 'https://marketplace-api.wildberries.ru/api/v3/orders?limit=20&next=0' },
-    { name: 'orders_with_task',   url: 'https://marketplace-api.wildberries.ru/api/v3/orders?limit=50&next=0&dateFrom=1778050000' },
-    { name: 'order_by_task',      url: 'https://marketplace-api.wildberries.ru/api/v3/orders/5012487762' },
-    { name: 'order_status_5012',  url: 'https://marketplace-api.wildberries.ru/api/v3/orders/status?orders=5012487762' },
-    { name: 'order_status_post',  url: 'https://marketplace-api.wildberries.ru/api/v3/orders/status', method: 'POST', body: { orders: [5012487762] } },
+    { name: 'orders_recent',      url: `https://marketplace-api.wildberries.ru/api/v3/orders?limit=100&next=0&dateFrom=${Math.floor(Date.now()/1000) - 86400 * 30}` },
+    { name: 'order_status_v3',    url: 'https://marketplace-api.wildberries.ru/api/v3/orders/status', method: 'POST', body: { orders: [probeOrderId] } },
+    { name: 'dbs_orders_status',  url: 'https://marketplace-api.wildberries.ru/api/v3/dbs/orders/status', method: 'POST', body: { orders: [probeOrderId] } },
+    { name: 'mark_delivered',     url: 'https://marketplace-api.wildberries.ru/api/v3/orders/status', method: 'PUT', body: { orders: [{ id: probeOrderId, status: 'DELIVERED' }] } },
+    { name: 'orders_status_get',  url: 'https://marketplace-api.wildberries.ru/api/v3/orders?status=NEW&limit=20' },
     { name: 'dbs_orders',         url: 'https://marketplace-api.wildberries.ru/api/v3/dbs/orders' },
+    { name: 'dbs_orders_p',       url: 'https://marketplace-api.wildberries.ru/api/v3/dbs/orders?limit=20&next=0' },
+    { name: 'dbs_supplies',       url: 'https://marketplace-api.wildberries.ru/api/v3/dbs/supplies' },
     { name: 'supplies',           url: 'https://marketplace-api.wildberries.ru/api/v3/supplies?limit=10&next=0' },
+    { name: 'chat_close',         url: 'https://buyer-chat-api.wildberries.ru/api/v1/seller/chats/close', method: 'POST', body: { chatID: '1:94583e18-c0a1-b237-dcc1-b17bd73447e2' } },
     { name: 'chats',              url: 'https://buyer-chat-api.wildberries.ru/api/v1/seller/chats' },
     { name: 'events_cursor_0',    url: 'https://buyer-chat-api.wildberries.ru/api/v1/seller/events?next=0' },
   ];
@@ -1551,11 +1555,14 @@ app.get('/api/admin/wb/diag', async (req, res) => {
   for (const t of tries) {
     try {
       const cfg = { headers, timeout: 12000, validateStatus: () => true };
-      const { status, data } = t.method === 'POST'
-        ? await axios.post(t.url, t.body || {}, cfg)
-        : await axios.get(t.url, cfg);
+      let resp;
+      if (t.method === 'POST')      resp = await axios.post(t.url, t.body || {}, cfg);
+      else if (t.method === 'PUT')  resp = await axios.put(t.url,  t.body || {}, cfg);
+      else if (t.method === 'PATCH')resp = await axios.patch(t.url,t.body || {}, cfg);
+      else                          resp = await axios.get(t.url, cfg);
+      const { status, data } = resp;
       const str = typeof data === 'string' ? data : JSON.stringify(data);
-      out[t.name] = { status, sample: str.slice(0, 6000) };
+      out[t.name] = { status, sample: str.slice(0, 4000) };
     } catch (e) {
       out[t.name] = { error: e.message };
     }
