@@ -1540,16 +1540,13 @@ app.get('/api/admin/wb/diag', async (req, res) => {
   const tries = [
     // confirmed working: list NEW DBS orders
     { name: 'mp_dbs_orders_new',      url: 'https://marketplace-api.wildberries.ru/api/v3/dbs/orders/new' },
-    // probing DBS supply-flow endpoints (mirror of /api/v3/supplies for FBS)
-    { name: 'dbs_supplies_list',      url: 'https://marketplace-api.wildberries.ru/api/v3/dbs/supplies?limit=10&next=0' },
-    { name: 'dbs_supplies_create',    url: 'https://marketplace-api.wildberries.ru/api/v3/dbs/supplies', method: 'POST', body: { name: 'aivest-probe' } },
-    // probing DBS order status update endpoints
-    { name: 'dbs_order_status_get',   url: `https://marketplace-api.wildberries.ru/api/v3/dbs/orders/${probeOrderId}/status` },
-    { name: 'dbs_order_status_patch', url: `https://marketplace-api.wildberries.ru/api/v3/dbs/orders/${probeOrderId}/status`, method: 'PATCH', body: { status: 'CONFIRM' } },
-    { name: 'dbs_order_confirm',      url: `https://marketplace-api.wildberries.ru/api/v3/dbs/orders/${probeOrderId}/confirm`, method: 'PATCH', body: {} },
-    { name: 'dbs_order_assemble',     url: `https://marketplace-api.wildberries.ru/api/v3/dbs/orders/${probeOrderId}/assembly`, method: 'PATCH', body: {} },
-    { name: 'dbs_order_deliver',      url: `https://marketplace-api.wildberries.ru/api/v3/dbs/orders/${probeOrderId}/deliver`, method: 'PATCH', body: {} },
-    { name: 'dbs_orders_status_post', url: 'https://marketplace-api.wildberries.ru/api/v3/dbs/orders/status', method: 'POST', body: { orders: [probeOrderId] } },
+    // standard supply-flow probes (re-using /api/v3/supplies for DBS)
+    { name: 'fbs_supplies_create',    url: 'https://marketplace-api.wildberries.ru/api/v3/supplies', method: 'POST', body: { name: 'aivest-probe-' + Date.now() } },
+    { name: 'fbs_orders_status_post', url: 'https://marketplace-api.wildberries.ru/api/v3/orders/status', method: 'POST', body: { orders: [probeOrderId] } },
+    // confirm/assemble/cancel order endpoints (FBS path with DBS order)
+    { name: 'order_confirm_patch',    url: `https://marketplace-api.wildberries.ru/api/v3/orders/${probeOrderId}/confirm`, method: 'PATCH', body: {} },
+    { name: 'order_meta_patch',       url: `https://marketplace-api.wildberries.ru/api/v3/orders/${probeOrderId}/meta/sgtin`, method: 'PUT', body: { sgtins: [] } },
+    { name: 'order_cancel_patch',     url: `https://marketplace-api.wildberries.ru/api/v3/orders/${probeOrderId}/cancel`, method: 'PATCH', body: {} },
   ];
   const out = {};
   for (const t of tries) {
