@@ -1367,6 +1367,60 @@ app.post('/api/admin/wb/deliver/:orderId', async (req, res) => {
   }
 });
 
+// GET /api/admin/wb/warehouses — list seller's WB FBS warehouses.
+app.get('/api/admin/wb/warehouses', async (req, res) => {
+  if (!isAdminAuth(req)) return res.status(401).json({ error: 'unauthorized' });
+  if (!wb.isConfigured()) return res.status(503).json({ error: 'WB token not configured' });
+  try {
+    const whs = await wb.listWarehouses();
+    return res.json({ success: true, warehouses: whs });
+  } catch (e) {
+    return res.status(500).json({ success: false, error: e.response?.data || e.message });
+  }
+});
+
+// POST /api/admin/wb/stock/adjust  body: { barcode: "<EAN>", delta: 3, warehouseId?: 12345 }
+// Adjusts WB stock by `delta` (positive or negative). Reads current value,
+// adds delta, writes back. Min clamp at 0.
+app.post('/api/admin/wb/stock/adjust', async (req, res) => {
+  if (!isAdminAuth(req)) return res.status(401).json({ error: 'unauthorized' });
+  if (!wb.isConfigured()) return res.status(503).json({ error: 'WB token not configured' });
+  const barcode = (req.body?.barcode || '').toString().trim();
+  const delta   = Number(req.body?.delta);
+  const warehouseId = req.body?.warehouseId ? Number(req.body.warehouseId) : undefined;
+  if (!barcode) return res.status(400).json({ error: 'barcode required' });
+  if (!Number.isFinite(delta) || delta === 0) return res.status(400).json({ error: 'delta must be a non-zero number' });
+  try {
+    const r = await wb.adjustStock(barcode, delta, warehouseId);
+    return res.json({ success: true, ...r });
+  } catch (e) {
+    return res.status(500).json({ success: false, error: e.response?.data || e.message });
+  }
+});
+
+// POST /api/admin/wb/stock/set  body: { barcode, amount, warehouseId? }
+// Sets WB stock to exact value.
+app.post('/api/admin/wb/stock/set', async (req, res) => {
+  if (!isAdminAuth(req)) return res.status(401).json({ error: 'unauthorized' });
+  if (!wb.isConfigured()) return res.status(503).json({ error: 'WB token not configured' });
+  const barcode = (req.body?.barcode || '').toString().trim();
+  const amount  = Number(req.body?.amount);
+  let warehouseId = req.body?.warehouseId ? Number(req.body.warehouseId) : undefined;
+  if (!barcode) return res.status(400).json({ error: 'barcode required' });
+  if (!Number.isFinite(amount) || amount < 0) return res.status(400).json({ error: 'amount must be a non-negative number' });
+  try {
+    if (!warehouseId) {
+      const whs = await wb.listWarehouses();
+      if (whs.length !== 1) return res.status(400).json({ error: `expected 1 warehouse, got ${whs.length} — pass warehouseId` });
+      warehouseId = whs[0].id;
+    }
+    await wb.setStocks(warehouseId, [{ sku: barcode, amount }]);
+    return res.json({ success: true, warehouseId, barcode, amount });
+  } catch (e) {
+    return res.status(500).json({ success: false, error: e.response?.data || e.message });
+  }
+});
+
 // GET /api/admin/wb/orders — debug: list current NEW orders WB sees for us.
 app.get('/api/admin/wb/orders', async (req, res) => {
   if (!isAdminAuth(req)) return res.status(401).json({ error: 'unauthorized' });

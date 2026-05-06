@@ -101,6 +101,46 @@ class WildberriesAPI {
     await axios.patch(url, {}, { headers: this._headers(), timeout: 15000 });
   }
 
+  // ── Warehouses & stock management ────────────────────────────────────────
+  // GET /api/v3/warehouses — list seller's FBS warehouses.
+  async listWarehouses() {
+    const url = `${WB_MARKETPLACE_API}/api/v3/warehouses`;
+    const { data } = await axios.get(url, { headers: this._headers(), timeout: 15000 });
+    return Array.isArray(data) ? data : (data?.warehouses || []);
+  }
+
+  // POST /api/v3/stocks/{warehouseId} body: { skus: [<barcode>, ...] }
+  // Returns current stocks for given barcodes.
+  async getStocks(warehouseId, barcodes) {
+    const url = `${WB_MARKETPLACE_API}/api/v3/stocks/${warehouseId}`;
+    const { data } = await axios.post(url, { skus: barcodes }, { headers: this._headers(), timeout: 15000 });
+    return data?.stocks || [];
+  }
+
+  // PUT /api/v3/stocks/{warehouseId} body: { stocks: [{ sku, amount }] }
+  // Sets ABSOLUTE stock value (not delta). `sku` here = barcode.
+  async setStocks(warehouseId, items) {
+    const url = `${WB_MARKETPLACE_API}/api/v3/stocks/${warehouseId}`;
+    await axios.put(url, { stocks: items }, { headers: this._headers(), timeout: 15000 });
+  }
+
+  // Convenience: bump stock for one barcode by `delta` (positive or negative).
+  // If `warehouseId` is omitted and seller has exactly one warehouse, uses it.
+  async adjustStock(barcode, delta, warehouseId) {
+    if (!warehouseId) {
+      const whs = await this.listWarehouses();
+      if (whs.length !== 1) {
+        throw new Error(`expected 1 warehouse, got ${whs.length} — pass warehouseId explicitly`);
+      }
+      warehouseId = whs[0].id;
+    }
+    const current = await this.getStocks(warehouseId, [barcode]);
+    const cur = (current.find(s => String(s.sku) === String(barcode))?.amount) || 0;
+    const next = Math.max(0, cur + delta);
+    await this.setStocks(warehouseId, [{ sku: String(barcode), amount: next }]);
+    return { warehouseId, barcode, before: cur, after: next, delta };
+  }
+
   // ── Buyer chat ───────────────────────────────────────────────────────────
   // GET /api/v1/seller/chats — list chats with buyers.
   async listChats() {
