@@ -98,11 +98,31 @@ class WildberriesAPI {
   }
 
   // ── Marketplace (FBS orders) ─────────────────────────────────────────────
-  // GET /api/v3/orders/new — orders awaiting fulfillment.
+  // GET /api/v3/orders/new — FBS orders awaiting fulfillment.
   async listNewOrders() {
     const url = `${WB_MARKETPLACE_API}/api/v3/orders/new`;
     const { data } = await axios.get(url, { headers: this._headers(), timeout: 20000 });
     return data?.orders || [];
+  }
+
+  // GET /api/v3/dbs/orders/new — DBS-digital orders ("Витрина" goods).
+  // Each order carries: id (numeric), orderUid, rid, article, nmId, address,...
+  async listNewDbsOrders() {
+    const url = `${WB_MARKETPLACE_API}/api/v3/dbs/orders/new`;
+    const { data } = await axios.get(url, { headers: this._headers(), timeout: 20000 });
+    return data?.orders || [];
+  }
+
+  // Find a DBS order by rid (recipient id from chat goodCard).
+  async findDbsOrderByRid(rid) {
+    if (!rid) return null;
+    try {
+      const orders = await this.listNewDbsOrders();
+      return orders.find(o => String(o.rid) === String(rid)) || null;
+    } catch (e) {
+      console.error('[wb] findDbsOrderByRid failed:', e.response?.data || e.message);
+      return null;
+    }
   }
 
   // POST /api/v3/supplies — create new supply (поставка).
@@ -547,12 +567,21 @@ async function processChatReplies(wb, redis) {
           results.push({ chatID, rid, error: 'send key failed', detail: String(errBody).slice(0, 200) });
           continue;
         }
+        // Look up the DBS order by rid so we can reference its WB orderID
+        // in the admin alert (helps user find it in the cabinet).
+        // Best-effort — don't fail the whole flow if this 404s.
+        let wbOrderId = null;
+        try {
+          const dbsOrder = await wb.findDbsOrderByRid(rid);
+          if (dbsOrder) wbOrderId = dbsOrder.id || null;
+        } catch {}
+
         // Mark delivered (90d TTL) — by rid (per-purchase) and by chat
         // (so future buyer messages in same chat can re-send if needed).
         // Stash the replySign too — follow-up events often lack it, and
         // we need it to send any subsequent message into this chat.
         const deliveredRecord = JSON.stringify({
-          at: new Date().toISOString(), chatID, sku, nmID,
+          at: new Date().toISOString(), chatID, sku, nmID, wbOrderId,
           keyTail: key.slice(-4), code: match[0], clientName,
           key, replySign, // full key + replySign for resend
         });
@@ -562,17 +591,28 @@ async function processChatReplies(wb, redis) {
         await redis.set(`wb:chat_last_key:${chatID}`, deliveredRecord, { ex: 86400 * 90 });
         if (seenKey) await redis.set(seenKey, '1', { ex: 86400 });
         await ymLib.logEvent(redis, {
-          type: 'wb_chat_key_sent', chatID, rid, nmID, sku,
+          type: 'wb_chat_key_sent', chatID, rid, nmID, sku, wbOrderId,
           code: match[0], keyTail: key.slice(-4), clientName,
         });
+        // Telegram alert. WB DBS-digital state-update endpoint isn't yet on the
+        // public API — admin must click "Передать на сборку" in cabinet manually.
+        const cabinetURL = 'https://seller.wildberries.ru/dbs/all-orders/new';
+        const orderLine  = wbOrderId
+          ? `Задание <b>№${wbOrderId}</b>`
+          : `rid <code>${rid}</code>`;
         await ymLib.notifyAdmin(
           `✅ <b>WB: ключ отправлен в чат</b>\n` +
+          `${orderLine}\n` +
           `Покупатель: ${clientName}\n` +
           `Карточка: nmID <code>${nmID}</code> → пул <code>${sku}</code>\n` +
           `Код: <code>${match[0]}</code>\n` +
-          `Ключ: ...${key.slice(-4)}`
+          `Ключ: ...${key.slice(-4)}\n\n` +
+          `📋 <b>Не забудь сменить статус заказа в кабинете:</b>\n` +
+          `<a href="${cabinetURL}">${cabinetURL}</a>\n` +
+          `→ найди задание ${wbOrderId ? '№' + wbOrderId : 'по этому rid'}\n` +
+          `→ "Передать на сборку" → "В доставке" → "Доставлен"`
         );
-        results.push({ chatID, rid, delivered: true, code: match[0], sku, keyTail: key.slice(-4) });
+        results.push({ chatID, rid, wbOrderId, delivered: true, code: match[0], sku, keyTail: key.slice(-4) });
       } else {
         // ── No code → ask politely. ──────────────────────────────────────
         const guardKey = `wb:promptsent:${chatID}`;
