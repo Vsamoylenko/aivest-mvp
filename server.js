@@ -1477,7 +1477,17 @@ app.post('/api/admin/wb/redeliver', async (req, res) => {
   if (chatID) {
     await redis.del(`wb:promptsent:${chatID}`);
     await redis.del(`wb:no_context_alerted:${chatID}`);
-    dropped.push(`wb:promptsent:${chatID}`, `wb:no_context_alerted:${chatID}`);
+    await redis.del(`wb:chat_last_key:${chatID}`);
+    dropped.push(`wb:promptsent:${chatID}`, `wb:no_context_alerted:${chatID}`, `wb:chat_last_key:${chatID}`);
+  }
+  // Drop per-message seen guards if eventIDs provided.
+  const eventIDs = Array.isArray(req.body?.eventIDs) ? req.body.eventIDs : [];
+  for (const eid of eventIDs) {
+    if (chatID && eid) {
+      const k = `wb:msgseen:${chatID}:${eid}`;
+      await redis.del(k);
+      dropped.push(k);
+    }
   }
   await redis.set('wb:chat:cursor', '0');
   try {
