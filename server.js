@@ -1538,8 +1538,11 @@ app.get('/api/admin/wb/diag', async (req, res) => {
   const tries = [
     { name: 'orders_new',         url: 'https://marketplace-api.wildberries.ru/api/v3/orders/new' },
     { name: 'orders',             url: 'https://marketplace-api.wildberries.ru/api/v3/orders?limit=20&next=0' },
+    { name: 'orders_with_task',   url: 'https://marketplace-api.wildberries.ru/api/v3/orders?limit=50&next=0&dateFrom=1778050000' },
+    { name: 'order_by_task',      url: 'https://marketplace-api.wildberries.ru/api/v3/orders/5012487762' },
+    { name: 'order_status_5012',  url: 'https://marketplace-api.wildberries.ru/api/v3/orders/status?orders=5012487762' },
+    { name: 'order_status_post',  url: 'https://marketplace-api.wildberries.ru/api/v3/orders/status', method: 'POST', body: { orders: [5012487762] } },
     { name: 'dbs_orders',         url: 'https://marketplace-api.wildberries.ru/api/v3/dbs/orders' },
-    { name: 'dbs_tasks',          url: 'https://marketplace-api.wildberries.ru/api/v3/dbs/tasks' },
     { name: 'supplies',           url: 'https://marketplace-api.wildberries.ru/api/v3/supplies?limit=10&next=0' },
     { name: 'chats',              url: 'https://buyer-chat-api.wildberries.ru/api/v1/seller/chats' },
     { name: 'events_cursor_0',    url: 'https://buyer-chat-api.wildberries.ru/api/v1/seller/events?next=0' },
@@ -1547,8 +1550,10 @@ app.get('/api/admin/wb/diag', async (req, res) => {
   const out = {};
   for (const t of tries) {
     try {
-      const { status, data } = await axios.get(t.url, { headers, timeout: 12000, validateStatus: () => true });
-      // Truncate huge responses for readability.
+      const cfg = { headers, timeout: 12000, validateStatus: () => true };
+      const { status, data } = t.method === 'POST'
+        ? await axios.post(t.url, t.body || {}, cfg)
+        : await axios.get(t.url, cfg);
       const str = typeof data === 'string' ? data : JSON.stringify(data);
       out[t.name] = { status, sample: str.slice(0, 6000) };
     } catch (e) {
