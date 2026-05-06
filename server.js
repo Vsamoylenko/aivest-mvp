@@ -1538,26 +1538,18 @@ app.get('/api/admin/wb/diag', async (req, res) => {
   const probeOrderId = Number(req.query.orderId) || 5012487762;
   const ts = Math.floor(Date.now()/1000) - 86400 * 30;
   const tries = [
-    // marketplace-api variants
-    { name: 'mp_orders_new',          url: 'https://marketplace-api.wildberries.ru/api/v3/orders/new' },
-    { name: 'mp_orders_dateFrom',     url: `https://marketplace-api.wildberries.ru/api/v3/orders?limit=100&next=0&dateFrom=${ts}` },
-    { name: 'mp_orders_status_post',  url: 'https://marketplace-api.wildberries.ru/api/v3/orders/status', method: 'POST', body: { orders: [probeOrderId] } },
+    // confirmed working: list NEW DBS orders
     { name: 'mp_dbs_orders_new',      url: 'https://marketplace-api.wildberries.ru/api/v3/dbs/orders/new' },
-    { name: 'mp_marketplace_orders',  url: 'https://marketplace-api.wildberries.ru/api/v3/marketplace/orders/new' },
-    { name: 'mp_digital_orders',      url: 'https://marketplace-api.wildberries.ru/api/v3/digital/orders/new' },
-    { name: 'mp_v2_orders',           url: 'https://marketplace-api.wildberries.ru/api/v2/orders/new' },
-    // seller-api host variants
-    { name: 'seller_orders_new',      url: 'https://seller-api.wildberries.ru/api/v3/orders/new' },
-    { name: 'seller_dbs_orders_new',  url: 'https://seller-api.wildberries.ru/api/v3/dbs/orders/new' },
-    // suppliers-api host
-    { name: 'suppliers_orders_new',   url: 'https://suppliers-api.wildberries.ru/api/v3/orders/new' },
-    // content-api
-    { name: 'content_orders_new',     url: 'https://content-api.wildberries.ru/api/v3/orders/new' },
-    // statistics-api orders endpoint (sometimes used for DBS-digital surfacing)
-    { name: 'stat_orders_recent',     url: `https://statistics-api.wildberries.ru/api/v1/supplier/orders?dateFrom=${new Date(Date.now()-86400000*7).toISOString().slice(0,10)}` },
-    // chat-api also sometimes carries order metadata
-    { name: 'chat_chats',             url: 'https://buyer-chat-api.wildberries.ru/api/v1/seller/chats' },
-    { name: 'chat_events',            url: 'https://buyer-chat-api.wildberries.ru/api/v1/seller/events?next=0' },
+    // probing DBS supply-flow endpoints (mirror of /api/v3/supplies for FBS)
+    { name: 'dbs_supplies_list',      url: 'https://marketplace-api.wildberries.ru/api/v3/dbs/supplies?limit=10&next=0' },
+    { name: 'dbs_supplies_create',    url: 'https://marketplace-api.wildberries.ru/api/v3/dbs/supplies', method: 'POST', body: { name: 'aivest-probe' } },
+    // probing DBS order status update endpoints
+    { name: 'dbs_order_status_get',   url: `https://marketplace-api.wildberries.ru/api/v3/dbs/orders/${probeOrderId}/status` },
+    { name: 'dbs_order_status_patch', url: `https://marketplace-api.wildberries.ru/api/v3/dbs/orders/${probeOrderId}/status`, method: 'PATCH', body: { status: 'CONFIRM' } },
+    { name: 'dbs_order_confirm',      url: `https://marketplace-api.wildberries.ru/api/v3/dbs/orders/${probeOrderId}/confirm`, method: 'PATCH', body: {} },
+    { name: 'dbs_order_assemble',     url: `https://marketplace-api.wildberries.ru/api/v3/dbs/orders/${probeOrderId}/assembly`, method: 'PATCH', body: {} },
+    { name: 'dbs_order_deliver',      url: `https://marketplace-api.wildberries.ru/api/v3/dbs/orders/${probeOrderId}/deliver`, method: 'PATCH', body: {} },
+    { name: 'dbs_orders_status_post', url: 'https://marketplace-api.wildberries.ru/api/v3/dbs/orders/status', method: 'POST', body: { orders: [probeOrderId] } },
   ];
   const out = {};
   for (const t of tries) {
