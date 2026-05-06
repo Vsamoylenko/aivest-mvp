@@ -1461,6 +1461,33 @@ app.post('/api/admin/wb/stock/set', async (req, res) => {
   }
 });
 
+// POST /api/admin/wb/redeliver  body: { rid, chatID }
+// One-shot recovery: drop the per-rid delivered guard, reset chat cursor to 0,
+// run chat-sweep. Use when a key send silently failed (e.g. body shape bug)
+// and we need to re-issue.
+app.post('/api/admin/wb/redeliver', async (req, res) => {
+  if (!isAdminAuth(req)) return res.status(401).json({ error: 'unauthorized' });
+  const redis = getRedis();
+  if (!redis) return res.status(503).json({ error: 'KV not configured' });
+  const rid    = (req.body?.rid || '').toString().trim();
+  const chatID = (req.body?.chatID || '').toString().trim();
+  if (!rid && !chatID) return res.status(400).json({ error: 'rid and/or chatID required' });
+  const dropped = [];
+  if (rid)    { await redis.del(`wb:delivered_rid:${rid}`);    dropped.push(`wb:delivered_rid:${rid}`); }
+  if (chatID) {
+    await redis.del(`wb:promptsent:${chatID}`);
+    await redis.del(`wb:no_context_alerted:${chatID}`);
+    dropped.push(`wb:promptsent:${chatID}`, `wb:no_context_alerted:${chatID}`);
+  }
+  await redis.set('wb:chat:cursor', '0');
+  try {
+    const r = await wbLib.processChatReplies(wb, redis);
+    return res.json({ success: true, dropped, sweep: r });
+  } catch (e) {
+    return res.status(500).json({ success: false, error: e.response?.data || e.message });
+  }
+});
+
 // POST /api/admin/wb/cursor-reset  body: { to?: 0 }
 // Forces re-poll of WB chat events from the given cursor (default 0).
 // Use after a code change in chat-replies parser to re-evaluate buffered messages.
