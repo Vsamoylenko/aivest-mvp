@@ -1542,17 +1542,8 @@ app.get('/api/admin/wb/diag', async (req, res) => {
     { name: 'mp_dbs_orders_new',      url: 'https://marketplace-api.wildberries.ru/api/v3/dbs/orders/new' },
     // DBW (renamed from DBS) endpoints — discovered via deprecation notice on /confirm
     { name: 'dbw_orders_new',         url: 'https://marketplace-api.wildberries.ru/api/v3/dbw/orders/new' },
-    { name: 'dbw_order_confirm',      url: `https://marketplace-api.wildberries.ru/api/v3/dbw/orders/${probeOrderId}/confirm`, method: 'PATCH', body: {} },
-    { name: 'dbw_order_assemble',     url: `https://marketplace-api.wildberries.ru/api/v3/dbw/orders/${probeOrderId}/assemble`, method: 'PATCH', body: {} },
-    { name: 'dbw_orders_status_post', url: 'https://marketplace-api.wildberries.ru/api/v3/dbw/orders/status', method: 'POST', body: { orders: [probeOrderId] } },
-    // try with orderUid as id
-    { name: 'dbw_uid_confirm',        url: 'https://marketplace-api.wildberries.ru/api/v3/dbw/orders/ff74810cc0b247f78e11c4aa76f5f9b3/confirm', method: 'PATCH', body: {} },
-    // FBS path with the DBS order id (maybe FBS path handles both since orders are unified)
-    { name: 'fbs_order_confirm_v3',   url: `https://marketplace-api.wildberries.ru/api/v3/orders/${probeOrderId}/confirm`, method: 'PATCH', body: {} },
-    // DBS-specific (we know /dbs/orders/new works, mirror /confirm)
-    { name: 'dbs_order_confirm',      url: `https://marketplace-api.wildberries.ru/api/v3/dbs/orders/${probeOrderId}/confirm`, method: 'PATCH', body: {} },
-    { name: 'dbs_order_assemble',     url: `https://marketplace-api.wildberries.ru/api/v3/dbs/orders/${probeOrderId}/assemble`, method: 'PATCH', body: {} },
-    { name: 'dbs_order_status_patch', url: `https://marketplace-api.wildberries.ru/api/v3/dbs/orders/${probeOrderId}/status`, method: 'PATCH', body: { status: 'CONFIRM' } },
+    // The actual cabinet endpoint discovered via DevTools — batch state update.
+    { name: 'portal_state_confirm',   url: 'https://marketplace-api.wildberries.ru/ns/dbs-portal/marketplace-remote-wh/api/v3/portal/dbs/orders/state', method: 'PATCH', body: { code: '', orders: [{ id: probeOrderId, state: 'confirm' }] } },
   ];
   const out = {};
   for (const t of tries) {
