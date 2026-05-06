@@ -394,7 +394,7 @@ const ACTIVATION_HELP =
   '\n\nАктивация ключа:\n' +
   '1) Откройте Steam → Игры → Активировать через Steam.\n' +
   '2) Или вставьте ключ на странице https://store.steampowered.com/account/registerkey\n\n' +
-  'Если ключ не подошёл — напишите в этом чате, заменим.';
+  'Будем рады видеть вас снова!';
 
 async function processChatReplies(wb, redis) {
   if (!wb.isConfigured()) return { processed: 0, results: [], note: 'WB not configured' };
