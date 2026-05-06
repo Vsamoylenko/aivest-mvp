@@ -28,7 +28,36 @@ const axios = require('axios');
 const WB_MARKETPLACE_API = 'https://marketplace-api.wildberries.ru';
 const WB_CHAT_API        = 'https://buyer-chat-api.wildberries.ru';
 
+// SKU aliases — map seller's WB articles (Артикул продавца) to the inventory
+// pool key. Both WB cards sell the same Steam-key pool, so they share
+// `ym:keys:MRKT-JU4L95I3`. Add new entries here when listing more cards.
+//
+// Override at deploy time via env WB_SKU_MAP (JSON), e.g.:
+//   WB_SKU_MAP={"WBRANDOMRL":"MRKT-JU4L95I3","FOO":"MRKT-JU4L95I3"}
+const DEFAULT_SKU_MAP = {
+  'WBRANDOMRL':    'MRKT-JU4L95I3',
+  'MRKT-JU4L95I3': 'MRKT-JU4L95I3',
+};
+function loadSkuMap() {
+  const raw = (process.env.WB_SKU_MAP || '').trim();
+  if (!raw) return DEFAULT_SKU_MAP;
+  try {
+    const parsed = JSON.parse(raw);
+    return { ...DEFAULT_SKU_MAP, ...parsed };
+  } catch {
+    console.warn('[wb] WB_SKU_MAP env var is not valid JSON — using defaults');
+    return DEFAULT_SKU_MAP;
+  }
+}
+const SKU_MAP = loadSkuMap();
+
 function clean(v) { return (v == null ? '' : String(v)).trim(); }
+// Resolve WB seller-article → shared inventory pool SKU. If no alias exists,
+// fall back to the article itself (so `MRKT-…` always works without mapping).
+function resolveInventorySku(wbArticle) {
+  const a = clean(wbArticle);
+  return SKU_MAP[a] || a;
+}
 
 class WildberriesAPI {
   constructor() {
@@ -107,23 +136,28 @@ async function processOrder(orderId, wb, redis, allOrders) {
   const order = orders.find(o => String(o.id) === String(orderId));
   if (!order) return { delivered: false, reason: 'order not in NEW list (already shipped or canceled)' };
 
-  // SKU = `article` field on WB orders. We sell only digital — if there's no
-  // article or it's not a known digital SKU, skip silently.
-  const sku = clean(order.article);
-  if (!sku) return { delivered: false, reason: 'no article' };
+  // WB order's `article` = Артикул продавца. We may sell the same Steam-key
+  // pool under multiple seller-articles (e.g. WBRANDOMRL + MRKT-JU4L95I3 both
+  // map to the shared MRKT-JU4L95I3 inventory). Resolve via SKU_MAP.
+  const wbArticle    = clean(order.article);
+  const inventorySku = resolveInventorySku(wbArticle);
+  if (!inventorySku) return { delivered: false, reason: 'no article' };
 
   // Check stock first (don't pop blindly — we want a clean error if empty).
-  const stockKey = `ym:keys:${sku}`;
+  const stockKey = `ym:keys:${inventorySku}`;
   const stock = await redis.llen(stockKey);
   if (!stock) {
-    await ymLib.notifyAdmin(`⚠️ <b>WB: нет ключей</b>\nЗаказ <code>${orderId}</code>, SKU <code>${sku}</code>\nЗалей через /api/admin/ym/keys`);
-    await ymLib.logEvent(redis, { type: 'wb_out_of_stock', orderId, sku });
-    return { delivered: false, reason: `no stock for ${sku}` };
+    await ymLib.notifyAdmin(`⚠️ <b>WB: нет ключей</b>\nЗаказ <code>${orderId}</code>\nWB-артикул <code>${wbArticle}</code> → пул <code>${inventorySku}</code>\nЗалей через /api/admin/ym/keys`);
+    await ymLib.logEvent(redis, { type: 'wb_out_of_stock', orderId, wbArticle, inventorySku });
+    return { delivered: false, reason: `no stock for ${inventorySku}` };
   }
 
   // Random pop from shared pool.
-  const key = await ymLib.popKey(redis, sku);
-  if (!key) return { delivered: false, reason: `popKey returned empty for ${sku}` };
+  const key = await ymLib.popKey(redis, inventorySku);
+  if (!key) return { delivered: false, reason: `popKey returned empty for ${inventorySku}` };
+  // For backward compatibility with the rest of this function, expose the
+  // resolved inventory SKU as `sku` (used in alerts/logs/Redis records).
+  const sku = inventorySku;
 
   // Try sending via chat — won't work unless buyer opened chat first.
   let chatDelivered = false;
@@ -169,23 +203,29 @@ async function processOrder(orderId, wb, redis, allOrders) {
   // Mark delivered (90-day TTL).
   await redis.set(dkey, JSON.stringify({
     at: new Date().toISOString(),
-    sku, keyTail: key.slice(-4),
+    wbArticle, sku, keyTail: key.slice(-4),
     supplyId, chatDelivered,
   }), { ex: 86400 * 90 });
+
+  // Show both WB-article and inventory-pool SKU when they differ — useful when
+  // multiple WB cards (e.g. WBRANDOMRL + MRKT-JU4L95I3) share the same pool.
+  const skuLine = wbArticle === sku
+    ? `SKU <code>${sku}</code>`
+    : `WB-артикул <code>${wbArticle}</code> → пул <code>${sku}</code>`;
 
   // Telegram alert. If chat-delivered, just FYI. If not, include the full key
   // so admin can paste it the moment the buyer opens a chat or files a claim.
   const summary = chatDelivered
-    ? `✅ <b>WB: ключ отправлен в чат</b>\nЗаказ <code>${orderId}</code>\nSKU <code>${sku}</code> → ...${key.slice(-4)}`
-    : `📨 <b>WB: заказ закрыт, чат пока не открыт</b>\nЗаказ <code>${orderId}</code>\nSKU <code>${sku}</code>\n\n<b>Ключ для покупателя:</b>\n<code>${key}</code>\n\nКак только покупатель напишет в чат — отправь ему этот ключ. Бот тоже попробует автоматически на следующих циклах.`;
+    ? `✅ <b>WB: ключ отправлен в чат</b>\nЗаказ <code>${orderId}</code>\n${skuLine} → ...${key.slice(-4)}`
+    : `📨 <b>WB: заказ закрыт, чат пока не открыт</b>\nЗаказ <code>${orderId}</code>\n${skuLine}\n\n<b>Ключ для покупателя:</b>\n<code>${key}</code>\n\nКак только покупатель напишет в чат — отправь ему этот ключ. Бот тоже попробует автоматически на следующих циклах.`;
   await ymLib.notifyAdmin(summary);
   await ymLib.logEvent(redis, {
-    type: 'wb_delivered', orderId, sku,
+    type: 'wb_delivered', orderId, wbArticle, sku,
     keyTail: key.slice(-4), chatDelivered, supplyId,
     chatError: chatError ? String(chatError).slice(0, 200) : undefined,
   });
 
-  return { delivered: true, sku, chatDelivered, supplyId };
+  return { delivered: true, wbArticle, sku, chatDelivered, supplyId };
 }
 
 // Sweep: list all NEW FBS orders, process digital ones we haven't delivered.
