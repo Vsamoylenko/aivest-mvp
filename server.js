@@ -1461,6 +1461,36 @@ app.post('/api/admin/wb/stock/set', async (req, res) => {
   }
 });
 
+// GET /api/admin/wb/diag — probe several WB endpoints and dump raw responses.
+// Helps diagnose which endpoint actually carries DBS digital orders / chat events.
+app.get('/api/admin/wb/diag', async (req, res) => {
+  if (!isAdminAuth(req)) return res.status(401).json({ error: 'unauthorized' });
+  if (!wb.isConfigured()) return res.status(503).json({ error: 'WB token not configured' });
+  const axios = require('axios');
+  const headers = wb._headers();
+  const tries = [
+    { name: 'orders_new',         url: 'https://marketplace-api.wildberries.ru/api/v3/orders/new' },
+    { name: 'orders',             url: 'https://marketplace-api.wildberries.ru/api/v3/orders?limit=20&next=0' },
+    { name: 'dbs_orders',         url: 'https://marketplace-api.wildberries.ru/api/v3/dbs/orders' },
+    { name: 'dbs_tasks',          url: 'https://marketplace-api.wildberries.ru/api/v3/dbs/tasks' },
+    { name: 'supplies',           url: 'https://marketplace-api.wildberries.ru/api/v3/supplies?limit=10&next=0' },
+    { name: 'chats',              url: 'https://buyer-chat-api.wildberries.ru/api/v1/seller/chats' },
+    { name: 'events_cursor_0',    url: 'https://buyer-chat-api.wildberries.ru/api/v1/seller/events?next=0' },
+  ];
+  const out = {};
+  for (const t of tries) {
+    try {
+      const { status, data } = await axios.get(t.url, { headers, timeout: 12000, validateStatus: () => true });
+      // Truncate huge responses for readability.
+      const str = typeof data === 'string' ? data : JSON.stringify(data);
+      out[t.name] = { status, sample: str.slice(0, 1500) };
+    } catch (e) {
+      out[t.name] = { error: e.message };
+    }
+  }
+  return res.json({ success: true, probes: out });
+});
+
 // GET /api/admin/wb/orders — debug: list current NEW orders WB sees for us.
 app.get('/api/admin/wb/orders', async (req, res) => {
   if (!isAdminAuth(req)) return res.status(401).json({ error: 'unauthorized' });
