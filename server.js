@@ -1311,11 +1311,18 @@ app.get('/api/cron/wb-deliver', async (req, res) => {
   const auth = req.headers.authorization || '';
   const ua   = String(req.headers['user-agent'] || '');
   const adminKey = req.headers['x-admin-key'] || req.query.key;
-  const cronSecretSet = !!process.env.CRON_SECRET;
-  const okCronSecret  = cronSecretSet && auth === `Bearer ${process.env.CRON_SECRET}`;
+  const wbSecret = (req.headers['x-wb-cron'] || req.query.s || '').toString();
+  const okCronSecret  = !!process.env.CRON_SECRET && auth === `Bearer ${process.env.CRON_SECRET}`;
   const okVercelUA    = /vercel-cron/i.test(ua);
   const okAdminKey    = !!process.env.ADMIN_KEY && adminKey === process.env.ADMIN_KEY;
-  if (!okCronSecret && !okVercelUA && !okAdminKey) {
+  // Dedicated WB-cron secret (env var: wbcron_secret). Accept via Bearer header,
+  // x-wb-cron header, or ?s=... — whichever is easiest in cron-job.org.
+  const wbCronEnv     = (process.env.wbcron_secret || process.env.WBCRON_SECRET || '').trim();
+  const okWbCron      = !!wbCronEnv && (
+    wbSecret === wbCronEnv ||
+    auth === `Bearer ${wbCronEnv}`
+  );
+  if (!okCronSecret && !okVercelUA && !okAdminKey && !okWbCron) {
     return res.status(401).json({ error: 'unauthorized' });
   }
   try {
