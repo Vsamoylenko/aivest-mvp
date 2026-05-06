@@ -238,9 +238,18 @@ async function processOrder(orderId, wb, redis, allOrders) {
       // Stash the key + order context against this chatId — code-validation
       // cron will read this when buyer replies. 7-day TTL covers the buyer's
       // "couple of days to figure it out" case without keeping forever.
+      // We also record the actual WB receipt code here (if WB exposes it on
+      // the order object) so processChatReplies can verify, not just regex.
+      // Defensive read — different WB schema versions carry the receipt code
+      // under different names. Falsy means "no real code, accept any XXX XXX".
+      const realCode = clean(
+        order.code || order.receiptCode || order.userInfo?.code ||
+        order.confirmCode || order.deliveryCode || ''
+      );
       await redis.set(`wb:pending:${linkedChatId}`, JSON.stringify({
         orderId, sku, wbArticle, key,
         buyerId: buyerId || null,
+        realCode: realCode || null,
         createdAt: new Date().toISOString(),
       }), { ex: 86400 * 7 });
       // Also map buyerId → chatId so a chat that opens AFTER the order can be
@@ -374,11 +383,15 @@ async function processChatReplies(wb, redis) {
       if (!chatId || !text) { results.push({ skip: 'no chatId/text', ev }); continue; }
       if (!fromBuyer)        { results.push({ skip: 'not from buyer', chatId, msgId }); continue; }
 
-      // Per-message idempotency.
-      if (msgId) {
-        const seenKey = `wb:msgseen:${chatId}:${msgId}`;
-        if (await redis.get(seenKey)) { results.push({ skip: 'already seen', chatId, msgId }); continue; }
-        await redis.set(seenKey, '1', { ex: 86400 });
+      // Per-message idempotency check — but DON'T mark seen yet. We mark only
+      // after we've finished processing (sent key, sent prompt, or definitively
+      // dropped). This prevents losing a buyer's first-message-with-code if
+      // the order-sweep cron hasn't created the pending state yet — next tick
+      // will retry with the same msg.
+      const seenKey = msgId ? `wb:msgseen:${chatId}:${msgId}` : null;
+      if (seenKey && await redis.get(seenKey)) {
+        results.push({ skip: 'already seen', chatId, msgId });
+        continue;
       }
 
       // Look up pending order context for this chat.
@@ -397,16 +410,37 @@ async function processChatReplies(wb, redis) {
       }
 
       if (!pendingRaw) {
-        // No order linked to this chat — ignore. (Probably a follow-up after
-        // delivery, or a chat for a non-digital order on the same account.)
-        results.push({ skip: 'no pending order for chat', chatId });
+        // No order linked to this chat YET. Don't mark seen — order-sweep
+        // cron may still create pending state on the next tick, and we want
+        // to re-evaluate this same message then.
+        results.push({ skip: 'no pending order for chat (will retry)', chatId });
         continue;
       }
 
       const pending = typeof pendingRaw === 'string' ? JSON.parse(pendingRaw) : pendingRaw;
-      const match   = RECEIPT_CODE_RX.exec(text);
 
-      if (match) {
+      // Two-tier validation:
+      //   1. If we stored the real WB receipt code at order time — exact match required
+      //      (normalize: strip spaces so "123 456" == "123456" == "123-456").
+      //   2. Otherwise — just check format `\d{3}\s\d{3}` (best-effort).
+      const formatMatch = RECEIPT_CODE_RX.exec(text);
+      const norm = s => String(s || '').replace(/\D/g, '');
+      const realCode = pending.realCode ? norm(pending.realCode) : null;
+      const userCodeAny = (text.match(/\d[\d\s-]{4,}\d/g) || []).map(norm).find(d => d.length === 6);
+      let match = null;
+      let codeAccepted = false;
+      if (realCode) {
+        // We know the actual code — match the buyer's typed digits exactly.
+        if (userCodeAny && userCodeAny === realCode) {
+          codeAccepted = true;
+          match = [userCodeAny.slice(0, 3) + ' ' + userCodeAny.slice(3)];
+        }
+      } else if (formatMatch) {
+        codeAccepted = true;
+        match = formatMatch;
+      }
+
+      if (codeAccepted) {
         // Code accepted — send the key.
         const keyMsg = `Ваш ключ Steam: ${pending.key}\n\nАктивация:\n1) Откройте Steam → Игры → Активировать через Steam.\n2) Или вставьте ключ на странице https://store.steampowered.com/account/registerkey\n\nЕсли ключ не подошёл — напишите в этом чате, заменим.`;
         try {
@@ -428,25 +462,49 @@ async function processChatReplies(wb, redis) {
           rec.chatDelivered = true;
           rec.chatDeliveredAt = new Date().toISOString();
           rec.codeMatched = match[0];
+          rec.codeVerified = !!realCode;
           await redis.set(dkey, JSON.stringify(rec), { ex: 86400 * 90 });
         }
         await ymLib.logEvent(redis, {
           type: 'wb_chat_key_sent', orderId: pending.orderId, chatId, code: match[0],
-          keyTail: pending.key.slice(-4),
+          codeVerified: !!realCode, keyTail: pending.key.slice(-4),
         });
-        await ymLib.notifyAdmin(`✅ <b>WB: ключ отправлен в чат</b>\nЗаказ <code>${pending.orderId}</code>\nКод покупателя: <code>${match[0]}</code>\nКлюч: ...${pending.key.slice(-4)}`);
-        results.push({ chatId, orderId: pending.orderId, delivered: true, code: match[0] });
+        const verifiedNote = realCode ? ' (код сверен с WB)' : ' (только формат)';
+        await ymLib.notifyAdmin(`✅ <b>WB: ключ отправлен в чат</b>\nЗаказ <code>${pending.orderId}</code>\nКод покупателя: <code>${match[0]}</code>${verifiedNote}\nКлюч: ...${pending.key.slice(-4)}`);
+        results.push({ chatId, orderId: pending.orderId, delivered: true, code: match[0], codeVerified: !!realCode });
+        if (seenKey) await redis.set(seenKey, '1', { ex: 86400 });
+      } else if (realCode && userCodeAny && userCodeAny !== realCode) {
+        // Buyer typed *some* code but it doesn't match the real one — tell them so.
+        const wrongMsg = 'Этот код не подходит к вашему заказу. Пришлите, пожалуйста, код получения именно по этому заказу — он у вас в WB в формате ХХХ ХХХ.';
+        const guardKey = `wb:promptsent:${chatId}`;
+        if (await redis.get(guardKey)) {
+          results.push({ chatId, skip: 'wrong-code prompt rate-limited' });
+          if (seenKey) await redis.set(seenKey, '1', { ex: 86400 });
+          continue;
+        }
+        await redis.set(guardKey, '1', { ex: PROMPT_REPEAT_GUARD_TTL });
+        try {
+          await wb.sendChatMessage(chatId, wrongMsg);
+          results.push({ chatId, wrongCode: userCodeAny });
+          if (seenKey) await redis.set(seenKey, '1', { ex: 86400 });
+        } catch (e) {
+          const errBody = e.response?.data || e.message;
+          console.error('[wb] sendChatMessage (wrong-code) failed:', errBody);
+          results.push({ chatId, error: 'wrong-code reply failed', detail: String(errBody).slice(0, 200) });
+        }
       } else {
-        // No code yet — politely ask, but don't spam (1 prompt per chat per minute).
+        // No code at all — politely ask, but don't spam (1 prompt per chat per minute).
         const guardKey = `wb:promptsent:${chatId}`;
         if (await redis.get(guardKey)) {
           results.push({ chatId, skip: 'prompt rate-limited' });
+          if (seenKey) await redis.set(seenKey, '1', { ex: 86400 });
           continue;
         }
         await redis.set(guardKey, '1', { ex: PROMPT_REPEAT_GUARD_TTL });
         try {
           await wb.sendChatMessage(chatId, PROMPT_TEXT);
           results.push({ chatId, prompted: true });
+          if (seenKey) await redis.set(seenKey, '1', { ex: 86400 });
         } catch (e) {
           const errBody = e.response?.data || e.message;
           console.error('[wb] sendChatMessage (prompt) failed:', errBody);
