@@ -175,11 +175,20 @@ class WildberriesAPI {
   }
 
   // POST /api/v1/seller/message — send text to existing chat.
-  // WB requires `chatID` (capital ID) and `replySign` (signed token captured
-  // from the same chat's events/list response). Plain `chatId` no longer works.
+  // WB returns 200 OK regardless of whether the body shape matched, but only
+  // populates `message.text` in the next event-stream poll if it found the
+  // text in the right field. Empirically (2026-05) WB stored the message as
+  // `{}` when we sent {chatID, text, replySign} — so we send under multiple
+  // common aliases (text/message/messageText) and let WB pick the one it
+  // actually parses. `chatID` (capital ID) and `replySign` are required.
   async sendChatMessage(chatID, text, replySign) {
     const url = `${WB_CHAT_API}/api/v1/seller/message`;
-    const body = { chatID, text };
+    const body = {
+      chatID,
+      text,
+      message:     text,
+      messageText: text,
+    };
     if (replySign) body.replySign = replySign;
     const { data } = await axios.post(url, body, { headers: this._headers(), timeout: 15000 });
     return data;
@@ -451,18 +460,56 @@ async function processChatReplies(wb, redis) {
       }
 
       // Resolve product → inventory pool SKU.
-      const sku = nmID ? resolveSkuByNmId(nmID) : null;
+      let sku = nmID ? resolveSkuByNmId(nmID) : null;
+
+      // ── Follow-up handling ─────────────────────────────────────────────
+      // If this message has no goodCard (typical for buyer's 2nd, 3rd... msgs
+      // in the same chat), look up whether we've already delivered a key in
+      // this chat. If yes — re-send the previously-issued key (so buyer who
+      // missed/can't see the original gets it again) and don't pop a new one.
+      // We track per-chat delivery in `wb:chat_last_key:<chatID>`.
+      if (!sku && !nmID) {
+        const priorRaw = await redis.get(`wb:chat_last_key:${chatID}`);
+        if (priorRaw) {
+          const prior = typeof priorRaw === 'string' ? JSON.parse(priorRaw) : priorRaw;
+          const keyMsg = `Ваш ключ Steam (повторно): ${prior.key}` + ACTIVATION_HELP;
+          try {
+            await wb.sendChatMessage(chatID, keyMsg, replySign);
+          } catch (e) {
+            const errBody = e.response?.data || e.message;
+            console.error('[wb] resend key failed:', errBody);
+            results.push({ chatID, error: 'resend failed', detail: String(errBody).slice(0, 200) });
+            continue;
+          }
+          if (seenKey) await redis.set(seenKey, '1', { ex: 86400 });
+          await ymLib.logEvent(redis, {
+            type: 'wb_chat_key_resent', chatID, sku: prior.sku, keyTail: prior.key.slice(-4),
+          });
+          await ymLib.notifyAdmin(`🔁 <b>WB: ключ отправлен повторно</b>\nЧат <code>${chatID}</code>\nКлюч: ...${prior.key.slice(-4)}\nПокупатель прислал follow-up — повторили выдачу.`);
+          results.push({ chatID, resent: true, keyTail: prior.key.slice(-4) });
+          continue;
+        }
+      }
+
       if (!sku) {
-        // Unknown nmID — alert admin once, don't spam buyer.
+        // Unknown nmID and no prior delivery in this chat — alert admin once.
         if (rid) {
           const alertKey = `wb:unknown_nmid_alerted:${rid}`;
           if (!(await redis.get(alertKey))) {
             await redis.set(alertKey, '1', { ex: 86400 * 7 });
             await ymLib.notifyAdmin(`⚠️ <b>WB: неизвестный nmID</b>\nnmID <code>${nmID}</code>\nrid <code>${rid}</code>\nПокупатель: ${clientName}\nДобавь nmID в DEFAULT_NMID_MAP / WB_NMID_MAP и redeploy.`);
           }
+        } else {
+          // No goodCard AND no prior delivery — buyer messaging in a chat
+          // we have no record of. Alert admin once per chat.
+          const alertKey = `wb:no_context_alerted:${chatID}`;
+          if (!(await redis.get(alertKey))) {
+            await redis.set(alertKey, '1', { ex: 86400 });
+            await ymLib.notifyAdmin(`⚠️ <b>WB: чат без контекста</b>\nЧат <code>${chatID}</code>\nПокупатель ${clientName} пишет: <i>${text.slice(0, 200)}</i>\nНет goodCard в сообщении и нет предыдущей выдачи. Возможно, надо ответить вручную.`);
+          }
         }
         if (seenKey) await redis.set(seenKey, '1', { ex: 86400 });
-        results.push({ chatID, nmID, skip: 'unknown nmID' });
+        results.push({ chatID, nmID, skip: 'unknown nmID / no context' });
         continue;
       }
 
@@ -494,13 +541,17 @@ async function processChatReplies(wb, redis) {
           results.push({ chatID, rid, error: 'send key failed', detail: String(errBody).slice(0, 200) });
           continue;
         }
-        // Mark delivered (90d TTL) — both rid- and 90-day chat-message guard.
+        // Mark delivered (90d TTL) — by rid (per-purchase) and by chat
+        // (so future buyer messages in same chat can re-send if needed).
+        const deliveredRecord = JSON.stringify({
+          at: new Date().toISOString(), chatID, sku, nmID,
+          keyTail: key.slice(-4), code: match[0], clientName,
+          key, // full key — needed for resend
+        });
         if (ridDeliveredKey) {
-          await redis.set(ridDeliveredKey, JSON.stringify({
-            at: new Date().toISOString(), chatID, sku, nmID,
-            keyTail: key.slice(-4), code: match[0], clientName,
-          }), { ex: 86400 * 90 });
+          await redis.set(ridDeliveredKey, deliveredRecord, { ex: 86400 * 90 });
         }
+        await redis.set(`wb:chat_last_key:${chatID}`, deliveredRecord, { ex: 86400 * 90 });
         if (seenKey) await redis.set(seenKey, '1', { ex: 86400 });
         await ymLib.logEvent(redis, {
           type: 'wb_chat_key_sent', chatID, rid, nmID, sku,
