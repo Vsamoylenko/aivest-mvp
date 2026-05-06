@@ -1540,13 +1540,14 @@ app.get('/api/admin/wb/diag', async (req, res) => {
   const tries = [
     // confirmed working: list NEW DBS orders
     { name: 'mp_dbs_orders_new',      url: 'https://marketplace-api.wildberries.ru/api/v3/dbs/orders/new' },
-    // standard supply-flow probes (re-using /api/v3/supplies for DBS)
-    { name: 'fbs_supplies_create',    url: 'https://marketplace-api.wildberries.ru/api/v3/supplies', method: 'POST', body: { name: 'aivest-probe-' + Date.now() } },
-    { name: 'fbs_orders_status_post', url: 'https://marketplace-api.wildberries.ru/api/v3/orders/status', method: 'POST', body: { orders: [probeOrderId] } },
-    // confirm/assemble/cancel order endpoints (FBS path with DBS order)
-    { name: 'order_confirm_patch',    url: `https://marketplace-api.wildberries.ru/api/v3/orders/${probeOrderId}/confirm`, method: 'PATCH', body: {} },
-    { name: 'order_meta_patch',       url: `https://marketplace-api.wildberries.ru/api/v3/orders/${probeOrderId}/meta/sgtin`, method: 'PUT', body: { sgtins: [] } },
-    { name: 'order_cancel_patch',     url: `https://marketplace-api.wildberries.ru/api/v3/orders/${probeOrderId}/cancel`, method: 'PATCH', body: {} },
+    // DBW (renamed from DBS) endpoints — discovered via deprecation notice on /confirm
+    { name: 'dbw_orders_new',         url: 'https://marketplace-api.wildberries.ru/api/v3/dbw/orders/new' },
+    { name: 'dbw_order_confirm',      url: `https://marketplace-api.wildberries.ru/api/v3/dbw/orders/${probeOrderId}/confirm`, method: 'PATCH', body: {} },
+    { name: 'dbw_order_assemble',     url: `https://marketplace-api.wildberries.ru/api/v3/dbw/orders/${probeOrderId}/assemble`, method: 'PATCH', body: {} },
+    { name: 'dbw_order_deliver',      url: `https://marketplace-api.wildberries.ru/api/v3/dbw/orders/${probeOrderId}/deliver`, method: 'PATCH', body: {} },
+    { name: 'dbw_order_status_get',   url: `https://marketplace-api.wildberries.ru/api/v3/dbw/orders/${probeOrderId}/status` },
+    { name: 'dbw_orders_status_post', url: 'https://marketplace-api.wildberries.ru/api/v3/dbw/orders/status', method: 'POST', body: { orders: [probeOrderId] } },
+    { name: 'dbw_supplies',           url: 'https://marketplace-api.wildberries.ru/api/v3/dbw/supplies?limit=10&next=0' },
   ];
   const out = {};
   for (const t of tries) {
