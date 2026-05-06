@@ -51,12 +51,36 @@ function loadSkuMap() {
 }
 const SKU_MAP = loadSkuMap();
 
+// nmID → inventory SKU map. WB DBS-digital flow gives us only `goodCard.nmID`
+// (the WB article number) on chat events, NOT Артикул продавца. Map both of
+// the seller's known WB cards to the shared MRKT-JU4L95I3 pool.
+//   1011858308 = "Случайная игра"     (seller-art WBRANDOMRL)
+//   1009613157 = "Silver-Gold Игра"   (seller-art MRKT-JU4L95I3)
+const DEFAULT_NMID_MAP = {
+  '1011858308': 'MRKT-JU4L95I3',
+  '1009613157': 'MRKT-JU4L95I3',
+};
+function loadNmIdMap() {
+  const raw = (process.env.WB_NMID_MAP || '').trim();
+  if (!raw) return DEFAULT_NMID_MAP;
+  try {
+    return { ...DEFAULT_NMID_MAP, ...JSON.parse(raw) };
+  } catch {
+    console.warn('[wb] WB_NMID_MAP env var is not valid JSON — using defaults');
+    return DEFAULT_NMID_MAP;
+  }
+}
+const NMID_MAP = loadNmIdMap();
+
 function clean(v) { return (v == null ? '' : String(v)).trim(); }
 // Resolve WB seller-article → shared inventory pool SKU. If no alias exists,
 // fall back to the article itself (so `MRKT-…` always works without mapping).
 function resolveInventorySku(wbArticle) {
   const a = clean(wbArticle);
   return SKU_MAP[a] || a;
+}
+function resolveSkuByNmId(nmId) {
+  return NMID_MAP[String(nmId)] || null;
 }
 
 class WildberriesAPI {
@@ -151,9 +175,13 @@ class WildberriesAPI {
   }
 
   // POST /api/v1/seller/message — send text to existing chat.
-  async sendChatMessage(chatId, text) {
+  // WB requires `chatID` (capital ID) and `replySign` (signed token captured
+  // from the same chat's events/list response). Plain `chatId` no longer works.
+  async sendChatMessage(chatID, text, replySign) {
     const url = `${WB_CHAT_API}/api/v1/seller/message`;
-    const { data } = await axios.post(url, { chatId, text }, { headers: this._headers(), timeout: 15000 });
+    const body = { chatID, text };
+    if (replySign) body.replySign = replySign;
+    const { data } = await axios.post(url, body, { headers: this._headers(), timeout: 15000 });
     return data;
   }
 
@@ -333,23 +361,36 @@ async function sweepNewOrders(wb, redis) {
   return { swept: results.length, results };
 }
 
-// ── Chat-replies processing ────────────────────────────────────────────────
-// Buyer must send their "код получения" in format `ХХХ ХХХ` (3 digits + space
-// + 3 digits) before we hand over the Steam key. This sweep:
-//   1. polls /api/v1/seller/events from the last cursor (kept in Redis);
-//   2. for each new buyer message, looks up `wb:pending:<chatId>` (created
-//      at order time when the chat existed) — or, if the chat was opened
-//      AFTER the order, looks up `wb:pending_buyer:<userId>` to find the
-//      pending state;
-//   3. if message contains `\d{3}\s\d{3}` → sends the key, finalises;
-//      else → replies asking for the code in the right format.
+// ── Chat-replies processing (DBS-digital flow) ────────────────────────────
+// Reality of WB DBS-digital goods: orders DON'T appear in /api/v3/orders/new.
+// Instead, when a buyer pays, WB opens a buyer-seller chat and the buyer's
+// "Задание" surfaces only as an event with a `goodCard.nmID` reference.
+// The seller's "delivery" is sending the key in chat — that's it. No supply,
+// no order ID. Idempotency keys off `goodCard.rid` (per-purchase identifier).
+//
+// Buyer flow:
+//   1. Buyer pays, gets `код получения` in format `ХХХ ХХХ` from WB.
+//   2. Buyer writes anything in the chat. WB pushes it as an event with
+//      `eventType:"message"`, `sender:"client"`, `message.attachments.goodCard`,
+//      `message.text` and `replySign`.
+//   3. We poll /api/v1/seller/events:
+//      - if message contains `\d{3}\s\d{3}` → resolve goodCard.nmID → SKU,
+//        pop key, send via chat (with replySign), mark `wb:delivered_rid:<rid>`;
+//      - else → reply asking for the code in correct format.
 //
 // Idempotency:
-//   - cursor in Redis advances after each successful poll
-//   - per-message guard `wb:msgseen:<chatId>:<msgId>` (24h TTL)
+//   - cursor `wb:chat:cursor` advances after each successful poll
+//   - per-rid guard `wb:delivered_rid:<rid>` (90-day TTL) — no double-delivery
+//   - per-message guard `wb:msgseen:<chatID>:<eventID>` (24h TTL), set ONLY
+//     after we've taken action so we can retry on transient failures.
 const RECEIPT_CODE_RX = /\b\d{3}\s\d{3}\b/;
-const PROMPT_TEXT     = 'Пожалуйста, отправьте только код получения в формате ХХХ ХХХ (например: 123 456). После этого я сразу пришлю ключ.';
+const PROMPT_TEXT     = 'Здравствуйте! Пришлите, пожалуйста, только код получения в формате ХХХ ХХХ (например: 123 456). Сразу после этого отправлю ключ Steam.';
 const PROMPT_REPEAT_GUARD_TTL = 60; // seconds — don't spam the prompt more than once a minute per chat
+const ACTIVATION_HELP =
+  '\n\nАктивация ключа:\n' +
+  '1) Откройте Steam → Игры → Активировать через Steam.\n' +
+  '2) Или вставьте ключ на странице https://store.steampowered.com/account/registerkey\n\n' +
+  'Если ключ не подошёл — напишите в этом чате, заменим.';
 
 async function processChatReplies(wb, redis) {
   if (!wb.isConfigured()) return { processed: 0, results: [], note: 'WB not configured' };
@@ -374,141 +415,122 @@ async function processChatReplies(wb, redis) {
   const results = [];
   for (const ev of events) {
     try {
-      // Defensive — different WB API shapes carry these under different names.
-      const chatId    = ev.chatId || ev.chat?.id || ev.message?.chatId;
-      const msgId     = ev.id || ev.messageId || ev.message?.id;
-      const fromBuyer = ev.fromBuyer ?? (ev.sender === 'BUYER') ?? (ev.author === 'buyer') ?? true;
-      const text      = (ev.text || ev.message?.text || ev.body || '').toString();
+      // ── Real WB schema (as of 2026-05) ──────────────────────────────────
+      //   ev.chatID, ev.eventID, ev.eventType, ev.replySign,
+      //   ev.message: { text, addTimestamp, sender, clientName,
+      //                 attachments: { goodCard: { nmID, rid, name } } }
+      const chatID    = ev.chatID || ev.chatId || ev.chat?.id;
+      const eventID   = ev.eventID || ev.id || ev.messageId;
+      const eventType = ev.eventType || ev.type || 'message';
+      const replySign = ev.replySign || ev.message?.replySign;
+      const sender    = ev.sender || ev.message?.sender || (ev.fromBuyer ? 'client' : 'seller');
+      const text      = (ev.message?.text || ev.text || ev.body || '').toString();
+      const goodCard  = ev.message?.attachments?.goodCard || ev.goodCard || {};
+      const nmID      = goodCard.nmID || ev.nmID;
+      const rid       = goodCard.rid  || ev.rid;
+      const clientName = ev.clientName || ev.message?.clientName || '';
 
-      if (!chatId || !text) { results.push({ skip: 'no chatId/text', ev }); continue; }
-      if (!fromBuyer)        { results.push({ skip: 'not from buyer', chatId, msgId }); continue; }
+      if (eventType !== 'message') { results.push({ skip: `eventType=${eventType}`, chatID }); continue; }
+      if (!chatID)                 { results.push({ skip: 'no chatID', ev: JSON.stringify(ev).slice(0,300) }); continue; }
+      if (sender !== 'client')     { results.push({ skip: `sender=${sender}`, chatID }); continue; }
 
-      // Per-message idempotency check — but DON'T mark seen yet. We mark only
-      // after we've finished processing (sent key, sent prompt, or definitively
-      // dropped). This prevents losing a buyer's first-message-with-code if
-      // the order-sweep cron hasn't created the pending state yet — next tick
-      // will retry with the same msg.
-      const seenKey = msgId ? `wb:msgseen:${chatId}:${msgId}` : null;
+      // Per-message idempotency check. Don't mark seen yet — only after action.
+      const seenKey = eventID ? `wb:msgseen:${chatID}:${eventID}` : null;
       if (seenKey && await redis.get(seenKey)) {
-        results.push({ skip: 'already seen', chatId, msgId });
+        results.push({ skip: 'already seen', chatID, eventID });
         continue;
       }
 
-      // Look up pending order context for this chat.
-      let pendingRaw = await redis.get(`wb:pending:${chatId}`);
-      // Fallback: chat was opened after the order — look up by buyerId carried on event.
-      if (!pendingRaw) {
-        const buyerId = ev.userId || ev.user?.id || ev.buyerId || ev.message?.userId;
-        if (buyerId) {
-          const linked = await redis.get(`wb:pending_buyer:${buyerId}`);
-          if (linked) pendingRaw = await redis.get(`wb:pending:${linked}`);
-          // Also write the chat→buyer mapping forward for next time.
-          if (pendingRaw) {
-            await redis.set(`wb:pending:${chatId}`, pendingRaw, { ex: 86400 * 7 });
+      // Per-rid delivery guard — once a key is sent for this purchase, don't repeat.
+      const ridDeliveredKey = rid ? `wb:delivered_rid:${rid}` : null;
+      if (ridDeliveredKey && await redis.get(ridDeliveredKey)) {
+        // Buyer is messaging after delivery — no-op (could be questions / thanks).
+        if (seenKey) await redis.set(seenKey, '1', { ex: 86400 });
+        results.push({ chatID, rid, skip: 'rid already delivered' });
+        continue;
+      }
+
+      // Resolve product → inventory pool SKU.
+      const sku = nmID ? resolveSkuByNmId(nmID) : null;
+      if (!sku) {
+        // Unknown nmID — alert admin once, don't spam buyer.
+        if (rid) {
+          const alertKey = `wb:unknown_nmid_alerted:${rid}`;
+          if (!(await redis.get(alertKey))) {
+            await redis.set(alertKey, '1', { ex: 86400 * 7 });
+            await ymLib.notifyAdmin(`⚠️ <b>WB: неизвестный nmID</b>\nnmID <code>${nmID}</code>\nrid <code>${rid}</code>\nПокупатель: ${clientName}\nДобавь nmID в DEFAULT_NMID_MAP / WB_NMID_MAP и redeploy.`);
           }
         }
-      }
-
-      if (!pendingRaw) {
-        // No order linked to this chat YET. Don't mark seen — order-sweep
-        // cron may still create pending state on the next tick, and we want
-        // to re-evaluate this same message then.
-        results.push({ skip: 'no pending order for chat (will retry)', chatId });
+        if (seenKey) await redis.set(seenKey, '1', { ex: 86400 });
+        results.push({ chatID, nmID, skip: 'unknown nmID' });
         continue;
       }
 
-      const pending = typeof pendingRaw === 'string' ? JSON.parse(pendingRaw) : pendingRaw;
+      const match = RECEIPT_CODE_RX.exec(text);
 
-      // Two-tier validation:
-      //   1. If we stored the real WB receipt code at order time — exact match required
-      //      (normalize: strip spaces so "123 456" == "123456" == "123-456").
-      //   2. Otherwise — just check format `\d{3}\s\d{3}` (best-effort).
-      const formatMatch = RECEIPT_CODE_RX.exec(text);
-      const norm = s => String(s || '').replace(/\D/g, '');
-      const realCode = pending.realCode ? norm(pending.realCode) : null;
-      const userCodeAny = (text.match(/\d[\d\s-]{4,}\d/g) || []).map(norm).find(d => d.length === 6);
-      let match = null;
-      let codeAccepted = false;
-      if (realCode) {
-        // We know the actual code — match the buyer's typed digits exactly.
-        if (userCodeAny && userCodeAny === realCode) {
-          codeAccepted = true;
-          match = [userCodeAny.slice(0, 3) + ' ' + userCodeAny.slice(3)];
+      if (match) {
+        // ── Code OK → pop key from inventory and send. ────────────────────
+        const stockKey = `ym:keys:${sku}`;
+        const stock = await redis.llen(stockKey);
+        if (!stock) {
+          await ymLib.notifyAdmin(`⚠️ <b>WB: нет ключей для выдачи</b>\nПул <code>${sku}</code> пуст\nrid <code>${rid}</code>\nПокупатель ${clientName} прислал код <code>${match[0]}</code> — нужно срочно залить ключи.`);
+          // Don't mark seen — retry next tick after admin tops up.
+          results.push({ chatID, rid, error: 'out of stock', sku });
+          continue;
         }
-      } else if (formatMatch) {
-        codeAccepted = true;
-        match = formatMatch;
-      }
-
-      if (codeAccepted) {
-        // Code accepted — send the key.
-        const keyMsg = `Ваш ключ Steam: ${pending.key}\n\nАктивация:\n1) Откройте Steam → Игры → Активировать через Steam.\n2) Или вставьте ключ на странице https://store.steampowered.com/account/registerkey\n\nЕсли ключ не подошёл — напишите в этом чате, заменим.`;
+        const key = await ymLib.popKey(redis, sku);
+        if (!key) {
+          results.push({ chatID, rid, error: 'popKey returned empty', sku });
+          continue;
+        }
+        const keyMsg = `Ваш ключ Steam: ${key}` + ACTIVATION_HELP;
         try {
-          await wb.sendChatMessage(chatId, keyMsg);
+          await wb.sendChatMessage(chatID, keyMsg, replySign);
         } catch (e) {
-          // Don't drop the pending state if WB chat send fails — try again next tick.
+          // Restore the key — we'll retry next tick.
+          await redis.lpush(stockKey, key);
           const errBody = e.response?.data || e.message;
           console.error('[wb] sendChatMessage (key) failed:', errBody);
-          results.push({ chatId, error: 'send key failed', detail: String(errBody).slice(0, 200) });
+          results.push({ chatID, rid, error: 'send key failed', detail: String(errBody).slice(0, 200) });
           continue;
         }
-        // Finalise — clean state, update delivered record, log+notify.
-        await redis.del(`wb:pending:${chatId}`);
-        if (pending.buyerId) await redis.del(`wb:pending_buyer:${pending.buyerId}`);
-        const dkey = `wb:delivered:${pending.orderId}`;
-        const prev = await redis.get(dkey);
-        if (prev) {
-          const rec = typeof prev === 'string' ? JSON.parse(prev) : prev;
-          rec.chatDelivered = true;
-          rec.chatDeliveredAt = new Date().toISOString();
-          rec.codeMatched = match[0];
-          rec.codeVerified = !!realCode;
-          await redis.set(dkey, JSON.stringify(rec), { ex: 86400 * 90 });
+        // Mark delivered (90d TTL) — both rid- and 90-day chat-message guard.
+        if (ridDeliveredKey) {
+          await redis.set(ridDeliveredKey, JSON.stringify({
+            at: new Date().toISOString(), chatID, sku, nmID,
+            keyTail: key.slice(-4), code: match[0], clientName,
+          }), { ex: 86400 * 90 });
         }
-        await ymLib.logEvent(redis, {
-          type: 'wb_chat_key_sent', orderId: pending.orderId, chatId, code: match[0],
-          codeVerified: !!realCode, keyTail: pending.key.slice(-4),
-        });
-        const verifiedNote = realCode ? ' (код сверен с WB)' : ' (только формат)';
-        await ymLib.notifyAdmin(`✅ <b>WB: ключ отправлен в чат</b>\nЗаказ <code>${pending.orderId}</code>\nКод покупателя: <code>${match[0]}</code>${verifiedNote}\nКлюч: ...${pending.key.slice(-4)}`);
-        results.push({ chatId, orderId: pending.orderId, delivered: true, code: match[0], codeVerified: !!realCode });
         if (seenKey) await redis.set(seenKey, '1', { ex: 86400 });
-      } else if (realCode && userCodeAny && userCodeAny !== realCode) {
-        // Buyer typed *some* code but it doesn't match the real one — tell them so.
-        const wrongMsg = 'Этот код не подходит к вашему заказу. Пришлите, пожалуйста, код получения именно по этому заказу — он у вас в WB в формате ХХХ ХХХ.';
-        const guardKey = `wb:promptsent:${chatId}`;
-        if (await redis.get(guardKey)) {
-          results.push({ chatId, skip: 'wrong-code prompt rate-limited' });
-          if (seenKey) await redis.set(seenKey, '1', { ex: 86400 });
-          continue;
-        }
-        await redis.set(guardKey, '1', { ex: PROMPT_REPEAT_GUARD_TTL });
-        try {
-          await wb.sendChatMessage(chatId, wrongMsg);
-          results.push({ chatId, wrongCode: userCodeAny });
-          if (seenKey) await redis.set(seenKey, '1', { ex: 86400 });
-        } catch (e) {
-          const errBody = e.response?.data || e.message;
-          console.error('[wb] sendChatMessage (wrong-code) failed:', errBody);
-          results.push({ chatId, error: 'wrong-code reply failed', detail: String(errBody).slice(0, 200) });
-        }
+        await ymLib.logEvent(redis, {
+          type: 'wb_chat_key_sent', chatID, rid, nmID, sku,
+          code: match[0], keyTail: key.slice(-4), clientName,
+        });
+        await ymLib.notifyAdmin(
+          `✅ <b>WB: ключ отправлен в чат</b>\n` +
+          `Покупатель: ${clientName}\n` +
+          `Карточка: nmID <code>${nmID}</code> → пул <code>${sku}</code>\n` +
+          `Код: <code>${match[0]}</code>\n` +
+          `Ключ: ...${key.slice(-4)}`
+        );
+        results.push({ chatID, rid, delivered: true, code: match[0], sku, keyTail: key.slice(-4) });
       } else {
-        // No code at all — politely ask, but don't spam (1 prompt per chat per minute).
-        const guardKey = `wb:promptsent:${chatId}`;
+        // ── No code → ask politely. ──────────────────────────────────────
+        const guardKey = `wb:promptsent:${chatID}`;
         if (await redis.get(guardKey)) {
-          results.push({ chatId, skip: 'prompt rate-limited' });
           if (seenKey) await redis.set(seenKey, '1', { ex: 86400 });
+          results.push({ chatID, skip: 'prompt rate-limited' });
           continue;
         }
         await redis.set(guardKey, '1', { ex: PROMPT_REPEAT_GUARD_TTL });
         try {
-          await wb.sendChatMessage(chatId, PROMPT_TEXT);
-          results.push({ chatId, prompted: true });
+          await wb.sendChatMessage(chatID, PROMPT_TEXT, replySign);
           if (seenKey) await redis.set(seenKey, '1', { ex: 86400 });
+          results.push({ chatID, prompted: true });
         } catch (e) {
           const errBody = e.response?.data || e.message;
           console.error('[wb] sendChatMessage (prompt) failed:', errBody);
-          results.push({ chatId, error: 'prompt failed', detail: String(errBody).slice(0, 200) });
+          results.push({ chatID, error: 'prompt failed', detail: String(errBody).slice(0, 200) });
         }
       }
     } catch (e) {

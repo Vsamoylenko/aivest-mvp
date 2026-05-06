@@ -1461,6 +1461,36 @@ app.post('/api/admin/wb/stock/set', async (req, res) => {
   }
 });
 
+// POST /api/admin/wb/cursor-reset  body: { to?: 0 }
+// Forces re-poll of WB chat events from the given cursor (default 0).
+// Use after a code change in chat-replies parser to re-evaluate buffered messages.
+app.post('/api/admin/wb/cursor-reset', async (req, res) => {
+  if (!isAdminAuth(req)) return res.status(401).json({ error: 'unauthorized' });
+  const redis = getRedis();
+  if (!redis) return res.status(503).json({ error: 'KV not configured' });
+  const to = Number(req.body?.to ?? 0) || 0;
+  await redis.set('wb:chat:cursor', String(to));
+  return res.json({ success: true, cursor: to });
+});
+
+// POST /api/admin/wb/chat/send  body: { chatID, text, replySign? }
+// Manually push a message into a WB buyer chat (e.g. to deliver a key for an
+// order that pre-dates the new code).
+app.post('/api/admin/wb/chat/send', async (req, res) => {
+  if (!isAdminAuth(req)) return res.status(401).json({ error: 'unauthorized' });
+  if (!wb.isConfigured()) return res.status(503).json({ error: 'WB token not configured' });
+  const chatID    = (req.body?.chatID || req.body?.chatId || '').toString().trim();
+  const text      = (req.body?.text || '').toString();
+  const replySign = (req.body?.replySign || '').toString().trim() || undefined;
+  if (!chatID || !text) return res.status(400).json({ error: 'chatID + text required' });
+  try {
+    const r = await wb.sendChatMessage(chatID, text, replySign);
+    return res.json({ success: true, response: r });
+  } catch (e) {
+    return res.status(500).json({ success: false, error: e.response?.data || e.message });
+  }
+});
+
 // GET /api/admin/wb/diag — probe several WB endpoints and dump raw responses.
 // Helps diagnose which endpoint actually carries DBS digital orders / chat events.
 app.get('/api/admin/wb/diag', async (req, res) => {
