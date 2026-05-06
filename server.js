@@ -1513,7 +1513,7 @@ app.get('/api/admin/wb/diag', async (req, res) => {
       const { status, data } = await axios.get(t.url, { headers, timeout: 12000, validateStatus: () => true });
       // Truncate huge responses for readability.
       const str = typeof data === 'string' ? data : JSON.stringify(data);
-      out[t.name] = { status, sample: str.slice(0, 1500) };
+      out[t.name] = { status, sample: str.slice(0, 6000) };
     } catch (e) {
       out[t.name] = { error: e.message };
     }
