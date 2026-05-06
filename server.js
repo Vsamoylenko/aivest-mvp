@@ -1341,6 +1341,46 @@ app.get('/api/cron/wb-deliver', async (req, res) => {
   }
 });
 
+// GET /api/cron/wb-chat-replies — poll buyer chats for receipt codes (XXX XXX)
+// and deliver the key only after a matching code arrives. Same tri+wb-cron auth.
+app.get('/api/cron/wb-chat-replies', async (req, res) => {
+  const auth = req.headers.authorization || '';
+  const ua   = String(req.headers['user-agent'] || '');
+  const adminKey = req.headers['x-admin-key'] || req.query.key;
+  const wbSecret = (req.headers['x-wb-cron'] || req.query.s || '').toString();
+  const okCronSecret  = !!process.env.CRON_SECRET && auth === `Bearer ${process.env.CRON_SECRET}`;
+  const okVercelUA    = /vercel-cron/i.test(ua);
+  const okAdminKey    = !!process.env.ADMIN_KEY && adminKey === process.env.ADMIN_KEY;
+  const wbCronEnv     = (process.env.wbcron_secret || process.env.WBCRON_SECRET || '').trim();
+  const okWbCron      = !!wbCronEnv && (wbSecret === wbCronEnv || auth === `Bearer ${wbCronEnv}`);
+  if (!okCronSecret && !okVercelUA && !okAdminKey && !okWbCron) {
+    return res.status(401).json({ error: 'unauthorized' });
+  }
+  try {
+    const redis = getRedis();
+    if (!redis) return res.status(503).json({ error: 'KV not configured' });
+    const r = await wbLib.processChatReplies(wb, redis);
+    console.log(`[cron] WB chat replies — ${r.processed} events`);
+    return res.json({ success: true, ...r });
+  } catch (e) {
+    console.error('[cron] WB chat replies failed:', e.message);
+    return res.status(500).json({ success: false, error: String(e.message || e) });
+  }
+});
+
+// POST /api/admin/wb/chat-sweep — manual trigger for chat-replies sweep.
+app.post('/api/admin/wb/chat-sweep', async (req, res) => {
+  if (!isAdminAuth(req)) return res.status(401).json({ error: 'unauthorized' });
+  const redis = getRedis();
+  if (!redis) return res.status(503).json({ error: 'KV not configured' });
+  try {
+    const r = await wbLib.processChatReplies(wb, redis);
+    return res.json({ success: true, ...r });
+  } catch (e) {
+    return res.status(500).json({ success: false, error: e.response?.data || e.message });
+  }
+});
+
 // POST /api/admin/wb/sweep — manual trigger for the same sweep.
 app.post('/api/admin/wb/sweep', async (req, res) => {
   if (!isAdminAuth(req)) return res.status(401).json({ error: 'unauthorized' });
