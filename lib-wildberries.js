@@ -175,19 +175,16 @@ class WildberriesAPI {
   }
 
   // POST /api/v1/seller/message — send text to existing chat.
-  // WB returns 200 OK regardless of whether the body shape matched, but only
-  // populates `message.text` in the next event-stream poll if it found the
-  // text in the right field. Empirically (2026-05) WB stored the message as
-  // `{}` when we sent {chatID, text, replySign} — so we send under multiple
-  // common aliases (text/message/messageText) and let WB pick the one it
-  // actually parses. `chatID` (capital ID) and `replySign` are required.
+  // Empirically (2026-05) WB stores incoming events as `message:{text:"..."}`
+  // (a NESTED object). Sending with flat `text` / `message` / `messageText`
+  // fields produces a 200 OK but the message is recorded as `message:{}` —
+  // i.e. WB extracts text only when we mirror the event shape.
+  // Final body shape: `{ chatID, replySign, message: { text: "..." } }`.
   async sendChatMessage(chatID, text, replySign) {
     const url = `${WB_CHAT_API}/api/v1/seller/message`;
     const body = {
       chatID,
-      text,
-      message:     text,
-      messageText: text,
+      message: { text },
     };
     if (replySign) body.replySign = replySign;
     const { data } = await axios.post(url, body, { headers: this._headers(), timeout: 15000 });
