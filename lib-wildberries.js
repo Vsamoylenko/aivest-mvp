@@ -467,13 +467,24 @@ async function processChatReplies(wb, redis) {
         const priorRaw = await redis.get(`wb:chat_last_key:${chatID}`);
         if (priorRaw) {
           const prior = typeof priorRaw === 'string' ? JSON.parse(priorRaw) : priorRaw;
+          // replySign source ladder: this event → stored in prior delivery →
+          // listChats lookup. Follow-up events often omit it.
+          let replySignForResend = replySign || prior.replySign || null;
+          if (!replySignForResend) {
+            try {
+              const chats = await wb.listChats();
+              const c = chats.find(x => String(x.chatID || x.id) === String(chatID));
+              replySignForResend = c?.replySign || null;
+            } catch {}
+          }
           const keyMsg = `Ваш ключ Steam (повторно): ${prior.key}` + ACTIVATION_HELP;
           try {
-            await wb.sendChatMessage(chatID, keyMsg, replySign);
+            await wb.sendChatMessage(chatID, keyMsg, replySignForResend);
           } catch (e) {
             const errBody = e.response?.data || e.message;
-            console.error('[wb] resend key failed:', errBody);
-            results.push({ chatID, error: 'resend failed', detail: String(errBody).slice(0, 200) });
+            const errStr = typeof errBody === 'string' ? errBody : JSON.stringify(errBody);
+            console.error('[wb] resend key failed:', errStr);
+            results.push({ chatID, error: 'resend failed', detail: errStr.slice(0, 300) });
             continue;
           }
           if (seenKey) await redis.set(seenKey, '1', { ex: 86400 });
@@ -538,10 +549,12 @@ async function processChatReplies(wb, redis) {
         }
         // Mark delivered (90d TTL) — by rid (per-purchase) and by chat
         // (so future buyer messages in same chat can re-send if needed).
+        // Stash the replySign too — follow-up events often lack it, and
+        // we need it to send any subsequent message into this chat.
         const deliveredRecord = JSON.stringify({
           at: new Date().toISOString(), chatID, sku, nmID,
           keyTail: key.slice(-4), code: match[0], clientName,
-          key, // full key — needed for resend
+          key, replySign, // full key + replySign for resend
         });
         if (ridDeliveredKey) {
           await redis.set(ridDeliveredKey, deliveredRecord, { ex: 86400 * 90 });
