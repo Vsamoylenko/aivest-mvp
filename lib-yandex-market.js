@@ -27,6 +27,41 @@ const YM_API = 'https://api.partner.market.yandex.ru';
 
 function clean(v) { return (v == null ? '' : String(v)).trim(); }
 
+// SKU alias — multiple YM offerIds can share one stock pool. We sell the same
+// Steam-key inventory under many YM cards (MRKT2..MRKT41) plus the canonical
+// `MRKT-JU4L95I3`; all of them resolve to the shared pool `ym:keys:MRKT-JU4L95I3`,
+// which is also shared with Wildberries (lib-wildberries.js NMID_MAP).
+//
+// Override at deploy time via env YM_SKU_ALIAS (JSON), e.g.:
+//   YM_SKU_ALIAS={"FOO":"MRKT-JU4L95I3","BAR":"OTHER-POOL"}
+// Env entries are merged on top of the defaults (env wins per-key).
+const POOL_MRKT = 'MRKT-JU4L95I3';
+const DEFAULT_YM_SKU_ALIAS = (() => {
+  const m = { [POOL_MRKT]: POOL_MRKT };
+  // MRKT2 through MRKT41 — all share the canonical pool.
+  for (let i = 2; i <= 41; i++) m[`MRKT${i}`] = POOL_MRKT;
+  return m;
+})();
+function loadSkuAlias() {
+  const raw = (process.env.YM_SKU_ALIAS || '').trim();
+  if (!raw) return { ...DEFAULT_YM_SKU_ALIAS };
+  try {
+    const parsed = JSON.parse(raw);
+    return { ...DEFAULT_YM_SKU_ALIAS, ...parsed };
+  } catch (e) {
+    console.error('YM_SKU_ALIAS parse failed, using defaults:', e.message);
+    return { ...DEFAULT_YM_SKU_ALIAS };
+  }
+}
+const YM_SKU_ALIAS = loadSkuAlias();
+// Resolve any offerId to its shared stock-pool SKU. Unknown SKUs pass through
+// unchanged so single-pool products keep working without explicit mapping.
+function resolveStockSku(sku) {
+  const s = clean(sku);
+  if (!s) return s;
+  return YM_SKU_ALIAS[s] || s;
+}
+
 class YandexMarket {
   constructor() {
     this.token      = clean(process.env.YM_OAUTH_TOKEN);
@@ -173,16 +208,19 @@ async function processOrder(orderId, ym, redis) {
   const popped = []; // { itemId, sku, key }
   for (const it of items) {
     // Yandex item identity: `id` (line-item id), `offerId` (SKU you control).
-    const sku = String(it.offerId || it.shopSku || it.marketSku || '');
-    const key = await popKey(redis, sku);
+    // We may sell the same Steam-key pool under many offerIds — resolve via
+    // YM_SKU_ALIAS so MRKT2..MRKT41 all pop from `ym:keys:MRKT-JU4L95I3`.
+    const offerId = String(it.offerId || it.shopSku || it.marketSku || '');
+    const sku     = resolveStockSku(offerId);
+    const key     = await popKey(redis, sku);
     if (!key) {
       // Roll back: lpush back any keys we already popped for previous items.
       for (const p of popped) await redis.lpush(`ym:keys:${p.sku}`, p.key);
-      await notifyAdmin(`⚠️ <b>Я.Маркет: нет ключей</b>\nЗаказ <code>${orderId}</code>, SKU <code>${sku}</code>\nДобавь ключи через /api/admin/ym/keys`);
-      await logEvent(redis, { type: 'out_of_stock', orderId, sku });
+      await notifyAdmin(`⚠️ <b>Я.Маркет: нет ключей</b>\nЗаказ <code>${orderId}</code>, offerId <code>${offerId}</code> → пул <code>${sku}</code>\nДобавь ключи через /api/admin/ym/keys`);
+      await logEvent(redis, { type: 'out_of_stock', orderId, offerId, sku });
       return { delivered: false, reason: `no stock for ${sku}` };
     }
-    popped.push({ itemId: it.id, sku, key });
+    popped.push({ itemId: it.id, sku, offerId, key });
   }
 
   // Deliver via Yandex API.
@@ -228,8 +266,11 @@ async function processOrder(orderId, ym, redis) {
     items: popped.map(p => ({ itemId: p.itemId, sku: p.sku, keyTail: p.key.slice(-4) })),
   }), { ex: 86400 * 90 });
 
-  await notifyAdmin(`✅ <b>Я.Маркет: ключи отправлены</b>\nЗаказ <code>${orderId}</code>\n${popped.map(p => `· ${p.sku} → ...${p.key.slice(-4)}`).join('\n')}`);
-  await logEvent(redis, { type: 'delivered', orderId, items: popped.map(p => ({ sku: p.sku, keyTail: p.key.slice(-4) })) });
+  await notifyAdmin(`✅ <b>Я.Маркет: ключи отправлены</b>\nЗаказ <code>${orderId}</code>\n${popped.map(p => {
+    const label = (p.offerId && p.offerId !== p.sku) ? `${p.offerId} → ${p.sku}` : p.sku;
+    return `· ${label} → ...${p.key.slice(-4)}`;
+  }).join('\n')}`);
+  await logEvent(redis, { type: 'delivered', orderId, items: popped.map(p => ({ offerId: p.offerId, sku: p.sku, keyTail: p.key.slice(-4) })) });
 
   return { delivered: true, items: popped.map(p => ({ sku: p.sku })) };
 }
@@ -266,4 +307,6 @@ module.exports = {
   logEvent,
   recentLog,
   notifyAdmin,
+  resolveStockSku,
+  YM_SKU_ALIAS,
 };
