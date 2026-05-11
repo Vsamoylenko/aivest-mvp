@@ -99,7 +99,7 @@ function extractMetro(geoAddress = []) {
 }
 
 // ── AI Scoring ────────────────────────────────────────────────────────────────
-function calcScore({ disc, roi, grow, liq, vac }) {
+function calcScore({ disc, roi, grow, liq, vac, type }) {
   const discScore  = disc > 0 ? 30 * (1 - Math.exp(-disc / 14)) : Math.max(0, 30 + disc * 0.4);
   const roiScore   = roi > 0 ? Math.min(28, 10 * Math.log(1 + roi * 0.8)) : 0;
   const growScore  = Math.min(22, grow * 1.47);
@@ -107,7 +107,9 @@ function calcScore({ disc, roi, grow, liq, vac }) {
   const vacPenalty = vac > 5 ? (vac - 5) * 0.9 : 0;
   const rawSum     = discScore + roiScore + growScore + liqScore - vacPenalty;
   const bonus      = (discScore > 20 && roiScore > 18 && growScore > 14) ? 5 : 0;
-  return Math.min(99, Math.max(0, Math.round(rawSum + bonus)));
+  // Private houses: lower liquidity, longer exposure, harder short-term rental.
+  const categoryPenalty = (type === 'house') ? 5 : 0;
+  return Math.min(99, Math.max(0, Math.round(rawSum + bonus - categoryPenalty)));
 }
 
 function marketPpm(cityName) {
@@ -173,12 +175,29 @@ function parseOffer(raw, cityConfig) {
                   : isCommercial ? 'commercial' // re-tag commercial from flatSale
                   : type;
 
-  const disc  = mktPpm > 0 ? Math.round(((mktPpm - ppm) / mktPpm) * 100 * 10) / 10 : 0;
-  const monthlyRent = Math.round(cityConfig.rentPpm * area);
+  // For komnaty (rooms in kommunalka): Cian's `totalArea` is the WHOLE flat,
+  // not the room itself. Using it for ppm/disc gives fake "−78% to market"
+  // and inflated AI score that floods the top investment list. Extract room
+  // area from description when stated explicitly ("комната 11.5 м²");
+  // fall back to 14 m² as the typical Moscow kommunalka room size.
+  function extractRoomArea(d) {
+    if (!d) return null;
+    const re = /(?:комнат[аы]?|комнату)\s+(?:площад[а-яё]*\s+)?(\d{1,2}[.,]?\d?)\s*(?:кв\.?\s*м|м[²2])/i;
+    const m = d.match(re);
+    if (!m) return null;
+    const n = parseFloat(m[1].replace(',', '.'));
+    return (n >= 6 && n <= 40) ? n : null;
+  }
+  const isRoom = finalType === 'room';
+  const effectiveArea = isRoom ? (extractRoomArea(raw.description) || 14) : area;
+  const effectivePpm  = effectiveArea > 0 ? Math.round((price * 1e6) / effectiveArea) : 0;
+
+  const disc  = mktPpm > 0 ? Math.round(((mktPpm - effectivePpm) / mktPpm) * 100 * 10) / 10 : 0;
+  const monthlyRent = Math.round(cityConfig.rentPpm * effectiveArea);
   const vac   = estimateVacancy(finalType, cityName);
   const roi   = price > 0 ? Math.round((monthlyRent * 12 * (1 - vac / 100) / (price * 1e6)) * 100 * 10) / 10 : 0;
   const liq   = estimateLiquidity(cityName, type, metro);
-  const score = calcScore({ disc, roi, grow: cityConfig.growth, liq, vac });
+  const score = calcScore({ disc, roi, grow: cityConfig.growth, liq, vac, type: finalType });
 
   const roomsLabel = { 1: '1-комн.', 2: '2-комн.', 3: '3-комн.', 4: '4-комн.' }[raw.roomsCount] || 'Студия';
   const typeLabel  = finalType === 'newbuild' ? 'Новостройка' : finalType === 'house' ? 'Дом'
@@ -206,9 +225,10 @@ function parseOffer(raw, cityConfig) {
     title:   `${titleBase}, ${titleLoc}`,
     city:    cityName, district, metro,
     lat, lng,
-    area:    Math.round(area), floor, type: finalType, source: SOURCE_TAG,
+    area:    Math.round(effectiveArea), floor, type: finalType, source: SOURCE_TAG,
+    ...(isRoom ? { totalApartmentArea: Math.round(area) } : {}),
     price:   Math.round(price * 10) / 10,
-    ppm:     Math.round(ppm / 1000),
+    ppm:     Math.round(effectivePpm / 1000),
     mkt:     Math.round(mktPpm / 1000),
     rent:    Math.round(monthlyRent / 1000),
     vac, grow: cityConfig.growth, liq, badge, score, disc, roi,
@@ -352,24 +372,67 @@ async function scrape() {
     return null;
   }
 
-  // Always preserve non-Cian sources (e.g. lot-online 'auct') from existing file
+  // Merge with previous file: preserve all old items (don't delete on disappearance),
+  // refresh fields for items that re-appear in this scrape (price/score/photos/etc),
+  // and keep the original `addedAt` so age tracking remains accurate.
+  // Items not seen this run keep their last-known `scrapedAt` — used by the frontend
+  // "Только активные" filter to hide listings unconfirmed for >90 days.
   let finalProps = deduped;
   if (fs.existsSync(OUT_FILE)) {
     try {
-      const old = JSON.parse(fs.readFileSync(OUT_FILE, 'utf8'));
-      // Keep all non-'agg' items (aucts, dev, etc.) — our scraper only generates 'agg'
-      const preserved = (old.properties || []).filter(p => p.source !== SOURCE_TAG);
-      // If --merge: also keep old 'agg' items from OTHER cities
-      if (mergeMode && cityArg) {
-        const oldAggOthers = (old.properties || []).filter(p => p.source === SOURCE_TAG && p.city !== cityArg);
-        finalProps = [...deduped, ...oldAggOthers, ...preserved];
-        console.log(`   Merge: ${deduped.length} новых + ${oldAggOthers.length} агг.других + ${preserved.length} non-agg = ${finalProps.length}`);
-      } else {
-        finalProps = [...deduped, ...preserved];
-        if (preserved.length) console.log(`   Сохранено ${preserved.length} non-agg объектов (аукционы и т.п.)`);
+      const old   = JSON.parse(fs.readFileSync(OUT_FILE, 'utf8'));
+      const oldAll = old.properties || [];
+      // 1. Non-agg items (aucts, dev, yand, etc.) — keep untouched.
+      const preserved = oldAll.filter(p => p.source !== SOURCE_TAG);
+      // 2. Old agg items, indexed by cianId for O(1) lookup.
+      const oldAggByCianId = new Map(
+        oldAll.filter(p => p.source === SOURCE_TAG).map(p => [p.cianId, p])
+      );
+      // 3. Map of fresh items by cianId.
+      const freshByCianId = new Map(deduped.map(p => [p.cianId, p]));
+
+      // Walk old agg items: refresh those that re-appeared, keep stale ones unchanged.
+      const mergedAgg = [];
+      let refreshedCount = 0, staleCount = 0, addedCount = 0;
+      // If --merge with --city: only touch items for the target city; other cities pass through.
+      const inScope = (p) => !mergeMode || !cityArg || p.city === cityArg;
+
+      for (const oldP of oldAggByCianId.values()) {
+        if (!inScope(oldP)) {
+          mergedAgg.push(oldP);                // outside scrape scope — leave alone
+          continue;
+        }
+        const fresh = freshByCianId.get(oldP.cianId);
+        if (fresh) {
+          // Re-confirmed: take fresh fields, preserve original addedAt + id where possible.
+          mergedAgg.push({ ...fresh, addedAt: oldP.addedAt || fresh.addedAt });
+          freshByCianId.delete(oldP.cianId);   // mark as processed
+          refreshedCount++;
+        } else {
+          // Not seen this run — keep prior data + stale scrapedAt (used by activity filter).
+          mergedAgg.push(oldP);
+          staleCount++;
+        }
       }
+      // Brand-new items (didn't exist before).
+      for (const fresh of freshByCianId.values()) {
+        mergedAgg.push(fresh);
+        addedCount++;
+      }
+
+      finalProps = [...mergedAgg, ...preserved];
       finalProps.sort((a, b) => b.score - a.score);
       finalProps.forEach((p, i) => { p.id = i + 1; });
+
+      // Active = scraped within last 90 days. Frontend uses the same threshold.
+      const NOW_MS = Date.now();
+      const ACTIVE_DAYS = 90;
+      const activeCount = finalProps.filter(p =>
+        p.scrapedAt && (NOW_MS - new Date(p.scrapedAt).getTime()) / 86400000 <= ACTIVE_DAYS
+      ).length;
+
+      console.log(`   Merge: ${refreshedCount} обновлено, ${addedCount} новых, ${staleCount} не подтверждены этим прогоном, ${preserved.length} non-agg`);
+      console.log(`   Активных (≤${ACTIVE_DAYS}д): ${activeCount} / ${finalProps.length}`);
     } catch (e) { console.error('Merge error:', e.message); }
   }
 

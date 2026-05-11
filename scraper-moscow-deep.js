@@ -24,12 +24,24 @@ const SOURCE_TAG = 'agg';
 // Moscow okrug → Cian district IDs.
 // IDs verified from Cian's public search URLs (site:cian.ru SZAO produces district[0]=NN).
 // If a query returns 0 offers across all rooms, the ID is wrong — log and skip.
+// ⚠️ ВАЖНО: Cian's `district[]` filter в search-offers/v2 ОЧЕНЬ ненадёжен.
+// При probe (см. transcript 2026-05-11) даже «рабочие» ID типа 110/130/140
+// возвращают перемешанные округа (3 из 15 первых записей в правильном).
+// IDs ниже скорее всего служат как «hint», но не фильтруют строго.
+//
+// Практический эффект: глубокий проход формально по СЗАО реально вытягивает
+// city-wide Moscow. Это не критично — каждая запись хранит свой настоящий
+// `district` (раион) из `geo.address`, поэтому корректность ДАННЫХ ок,
+// просто наши «по-окружные» отчёты — это просто city-wide с лейблом.
+//
+// TODO (если надо реально таргетить): построить раион→округ map и
+// post-filter после parseOffer вместо доверия `district[]` фильтру.
 const MOSCOW_OKRUGS = {
-  // Старая Москва (within MKAD + a few exclaves like Куркино/Молжаниновский).
+  // Старая Москва (within MKAD + а few exclaves like Куркино/Молжаниновский).
   'ЦАО':   [11],    // Центральный
   'САО':   [110],   // Северный
   'СВАО':  [130],   // Северо-Восточный
-  'ВАО':   [14],    // Восточный
+  'ВАО':   [14],    // Восточный  (IDs 14/18/19/20 особо подозрительны — probe-нуть)
   'ЮВАО':  [18],    // Юго-Восточный
   'ЮАО':   [19],    // Южный
   'ЮЗАО':  [20],    // Юго-Западный
@@ -37,7 +49,6 @@ const MOSCOW_OKRUGS = {
   'СЗАО':  [140],   // Северо-Западный
   // Не подключены — пускать отдельной волной:
   //   'ЗелАО' (Зеленоград), 'НАО' / 'ТАО' (Новая Москва)
-  //   Cian district IDs нужно сверить перед добавлением (см. URL поиска по округу).
 };
 
 // Hard cap so we keep listings affordable enough to be relevant to retail
@@ -224,8 +235,25 @@ function parseOffer(raw) {
   const isCommercial = type === 'apartment' && /(торговая площадь|свободного назначения|нежилое помещение|торговое помещение)/.test(desc);
   const finalType = isShareSale ? 'room' : isCommercial ? 'commercial' : type;
 
-  const disc  = MOSCOW_PPM > 0 ? Math.round(((MOSCOW_PPM - ppm) / MOSCOW_PPM) * 100 * 10) / 10 : 0;
-  const monthlyRent = Math.round(MOSCOW_RENT_PPM * area);
+  // For komnaty (rooms in kommunalka): Cian's `totalArea` is the WHOLE flat,
+  // not the room. Using it for ppm/disc gives fake "−78% to market" and
+  // inflated score that swamps the top list. Extract room area from desc
+  // when stated explicitly ("комната 11.5 м²"); fall back to 14 m² (typical
+  // Moscow kommunalka room).
+  function extractRoomArea(d) {
+    if (!d) return null;
+    const re = /(?:комнат[аы]?|комнату)\s+(?:площад[а-яё]*\s+)?(\d{1,2}[.,]?\d?)\s*(?:кв\.?\s*м|м[²2])/i;
+    const m = d.match(re);
+    if (!m) return null;
+    const n = parseFloat(m[1].replace(',', '.'));
+    return (n >= 6 && n <= 40) ? n : null;
+  }
+  const isRoom = finalType === 'room';
+  const effectiveArea = isRoom ? (extractRoomArea(raw.description) || 14) : area;
+  const effectivePpm  = effectiveArea > 0 ? Math.round(totalRub / effectiveArea) : 0;
+
+  const disc  = MOSCOW_PPM > 0 ? Math.round(((MOSCOW_PPM - effectivePpm) / MOSCOW_PPM) * 100 * 10) / 10 : 0;
+  const monthlyRent = Math.round(MOSCOW_RENT_PPM * effectiveArea);
   const annualRent  = monthlyRent * 12;
   const roi   = totalRub > 0 ? Math.round(((annualRent - totalRub * 0.04) / totalRub) * 100 * 10) / 10 : 0;
   const grow  = 9.8;
@@ -257,11 +285,14 @@ function parseOffer(raw) {
     title: niceTitle,
     city: 'Москва',
     district, metro,
-    area: Math.round(area),
+    // For rooms: store the room's own area; preserve the full-apartment area
+    // separately so the UI can show "комната ~14м² в 75м² кв." if it wants.
+    area: Math.round(effectiveArea),
+    ...(isRoom ? { totalApartmentArea: Math.round(area) } : {}),
     floor: raw.floorNumber || '—',
     type: finalType, source: SOURCE_TAG,
     price: Math.round(price * 10) / 10,
-    ppm: Math.round(ppm / 1000),
+    ppm: Math.round(effectivePpm / 1000),
     mkt: Math.round(MOSCOW_PPM / 1000),
     rent: Math.round(monthlyRent / 1000),
     vac, grow, liq,
