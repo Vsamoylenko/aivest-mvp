@@ -137,7 +137,7 @@ const nextUA = () => UA_LIST[(uaIdx++) % UA_LIST.length];
 // trick — require scraper.js with a flag that suppresses its main(). Simpler: just
 // produce a minimal record and rely on the merge step in scraper.js to enrich.
 // FOR NOW: minimal parser sufficient for cards (matches scraper.js shape).
-function calcScore({ disc, roi, grow, liq, vac, type }) {
+function calcScore({ disc, roi, grow, liq, vac, type, floor }) {
   const discScore  = disc > 0 ? 30 * (1 - Math.exp(-disc / 14)) : Math.max(0, 30 + disc * 0.4);
   const roiScore   = roi > 0 ? Math.min(28, 10 * Math.log(1 + roi * 0.8)) : 0;
   const growScore  = Math.min(22, grow * 1.47);
@@ -146,10 +146,38 @@ function calcScore({ disc, roi, grow, liq, vac, type }) {
   const rawSum     = discScore + roiScore + growScore + liqScore - vacPenalty;
   const bonus      = (discScore > 20 && roiScore > 18 && growScore > 14) ? 5 : 0;
   const categoryPenalty = (type === 'house') ? 5 : 0;
-  return Math.min(99, Math.max(0, Math.round(rawSum + bonus - categoryPenalty)));
+  // Floor penalty for commercial: подвал / цокольный этаж резко снижает
+  // ликвидность (нет вывески, нет проходимости, не годится под ритейл/услуги).
+  // Парковки и склады из этого исключены — для них -1 норма.
+  let floorPenalty = 0;
+  if (type === 'commercial' && typeof floor === 'number' && floor < 0) floorPenalty = 12;
+  if (type === 'commercial' && typeof floor === 'number' && floor === 0) floorPenalty = 6; // цоколь
+  return Math.min(99, Math.max(0, Math.round(rawSum + bonus - categoryPenalty - floorPenalty)));
 }
-const MOSCOW_PPM = 240000;
+const MOSCOW_PPM = 240000;       // Жилье (флэт-bench)
 const MOSCOW_RENT_PPM = 850;
+// Подтипы коммерции — у каждого свой средний ppm в Москве, иначе сравнение
+// с жилым 240k₽/м² даёт всем -75-80% «дисконта» и забивает топ.
+// Источник: усреднённые данные по Москве 2024-2025 (Knight Frank, ЦИАН).
+const COMMERCIAL_PPM_BENCH = {
+  officeSale:                180000,  // офис
+  shoppingAreaSale:          250000,  // торговая площадь (стрит-ритейл / ТЦ)
+  freeAppointmentObjectSale: 100000,  // ПСН — свободное назначение
+  warehouseSale:              50000,  // склад
+  industrySale:               40000,  // производство
+  buildingSale:              150000,  // здание целиком
+  commercialSale:            120000,  // общий бакет / неклассифицированное
+  default:                   120000,
+};
+const COMMERCIAL_SUBTYPE_RU = {
+  officeSale:                'Офис',
+  shoppingAreaSale:          'Торговая площадь',
+  freeAppointmentObjectSale: 'ПСН (свободного назначения)',
+  warehouseSale:             'Склад',
+  industrySale:              'Производство',
+  buildingSale:              'Здание',
+  commercialSale:            'Коммерческое помещение',
+};
 const CATEGORY_TYPE = {
   flatSale: 'apartment', newBuildingFlatSale: 'newbuild', roomSale: 'room',
   commercialSale: 'commercial', officeSale: 'commercial',
@@ -249,17 +277,28 @@ function parseOffer(raw) {
     return (n >= 6 && n <= 40) ? n : null;
   }
   const isRoom = finalType === 'room';
+  const isCommercialType = finalType === 'commercial';
   const effectiveArea = isRoom ? (extractRoomArea(raw.description) || 14) : area;
   const effectivePpm  = effectiveArea > 0 ? Math.round(totalRub / effectiveArea) : 0;
 
-  const disc  = MOSCOW_PPM > 0 ? Math.round(((MOSCOW_PPM - effectivePpm) / MOSCOW_PPM) * 100 * 10) / 10 : 0;
+  // Choose market reference: residential 240k for housing, commercial-subtype
+  // specific bench for offices/retail/warehouse/etc. Without this, commercial
+  // ppm gets compared to residential 240k and everything shows fake "−78%".
+  const commercialSubtype = isCommercialType ? raw.category : null;
+  const subTypeLabel = commercialSubtype ? COMMERCIAL_SUBTYPE_RU[commercialSubtype] : null;
+  const marketPpm = isCommercialType
+    ? (COMMERCIAL_PPM_BENCH[commercialSubtype] ?? COMMERCIAL_PPM_BENCH.default)
+    : MOSCOW_PPM;
+
+  const disc  = marketPpm > 0 ? Math.round(((marketPpm - effectivePpm) / marketPpm) * 100 * 10) / 10 : 0;
   const monthlyRent = Math.round(MOSCOW_RENT_PPM * effectiveArea);
   const annualRent  = monthlyRent * 12;
   const roi   = totalRub > 0 ? Math.round(((annualRent - totalRub * 0.04) / totalRub) * 100 * 10) / 10 : 0;
   const grow  = 9.8;
   const liq   = metro ? 9 : 8;
-  const vac   = finalType === 'commercial' ? 6 : 4;
-  const score = calcScore({ disc, roi, grow, liq, vac, type: finalType });
+  const vac   = isCommercialType ? 6 : 4;
+  const floorNum = Number.isFinite(raw.floorNumber) ? raw.floorNumber : null;
+  const score = calcScore({ disc, roi, grow, liq, vac, type: finalType, floor: floorNum });
 
   // Build human-readable Russian title even when Cian's raw.title is missing.
   const TYPE_RU = {
@@ -269,6 +308,14 @@ function parseOffer(raw) {
   };
   const ROOMS_RU = ['Студия', '1-комн. квартира', '2-комн. квартира', '3-комн. квартира', '4-комн. квартира', '5+ комн. квартира'];
   let niceTitle = (raw.title || '').trim();
+  // Override Cian's generic title for commercial — we want subtype prefix
+  // ("Офис", "Торговая площадь", etc.) so cards aren't all "Коммерческая
+  // недвижимость". Also annotate floor for commercial: -1 → "(подвал)",
+  // 0 → "(цоколь)".
+  if (isCommercialType && subTypeLabel) {
+    const floorTag = floorNum === 0 ? ' (цоколь)' : floorNum < 0 ? ' (подвал)' : '';
+    niceTitle = subTypeLabel + floorTag;
+  }
   if (!niceTitle) {
     if (finalType === 'apartment' || finalType === 'newbuild') {
       const rc = Number(raw.roomsCount);
@@ -289,11 +336,12 @@ function parseOffer(raw) {
     // separately so the UI can show "комната ~14м² в 75м² кв." if it wants.
     area: Math.round(effectiveArea),
     ...(isRoom ? { totalApartmentArea: Math.round(area) } : {}),
+    ...(isCommercialType ? { subType: commercialSubtype, subTypeLabel } : {}),
     floor: raw.floorNumber || '—',
     type: finalType, source: SOURCE_TAG,
     price: Math.round(price * 10) / 10,
     ppm: Math.round(effectivePpm / 1000),
-    mkt: Math.round(MOSCOW_PPM / 1000),
+    mkt: Math.round(marketPpm / 1000),
     rent: Math.round(monthlyRent / 1000),
     vac, grow, liq,
     badge: disc > 12 ? 'Ниже рынка' : undefined,

@@ -99,7 +99,7 @@ function extractMetro(geoAddress = []) {
 }
 
 // ── AI Scoring ────────────────────────────────────────────────────────────────
-function calcScore({ disc, roi, grow, liq, vac, type }) {
+function calcScore({ disc, roi, grow, liq, vac, type, floor }) {
   const discScore  = disc > 0 ? 30 * (1 - Math.exp(-disc / 14)) : Math.max(0, 30 + disc * 0.4);
   const roiScore   = roi > 0 ? Math.min(28, 10 * Math.log(1 + roi * 0.8)) : 0;
   const growScore  = Math.min(22, grow * 1.47);
@@ -109,12 +109,48 @@ function calcScore({ disc, roi, grow, liq, vac, type }) {
   const bonus      = (discScore > 20 && roiScore > 18 && growScore > 14) ? 5 : 0;
   // Private houses: lower liquidity, longer exposure, harder short-term rental.
   const categoryPenalty = (type === 'house') ? 5 : 0;
-  return Math.min(99, Math.max(0, Math.round(rawSum + bonus - categoryPenalty)));
+  // Floor penalty for commercial: подвал / цокольный этаж резко снижает
+  // ликвидность (нет вывески, нет проходимости, не годится под ритейл/услуги).
+  let floorPenalty = 0;
+  if (type === 'commercial' && typeof floor === 'number' && floor < 0) floorPenalty = 12;
+  if (type === 'commercial' && typeof floor === 'number' && floor === 0) floorPenalty = 6;
+  return Math.min(99, Math.max(0, Math.round(rawSum + bonus - categoryPenalty - floorPenalty)));
 }
 
+// Residential bench per city.
 function marketPpm(cityName) {
   return { 'Москва': 240000, 'Санкт-Петербург': 185000, 'Краснодар': 105000,
            'Сочи': 280000, 'Казань': 125000, 'Новосибирск': 130000, 'Екатеринбург': 115000 }[cityName] || 130000;
+}
+// Commercial bench by Cian subtype. Moscow figures (2024-2025). Other cities
+// use these scaled by the city's residential ratio (rough but better than
+// applying residential bench to commercial which gives all "−78%" disc).
+const COMMERCIAL_PPM_BENCH_MOSCOW = {
+  officeSale:                180000,
+  shoppingAreaSale:          250000,
+  freeAppointmentObjectSale: 100000,
+  warehouseSale:              50000,
+  industrySale:               40000,
+  buildingSale:              150000,
+  commercialSale:            120000,
+  default:                   120000,
+};
+const COMMERCIAL_SUBTYPE_RU = {
+  officeSale:                'Офис',
+  shoppingAreaSale:          'Торговая площадь',
+  freeAppointmentObjectSale: 'ПСН (свободного назначения)',
+  warehouseSale:             'Склад',
+  industrySale:              'Производство',
+  buildingSale:              'Здание',
+  commercialSale:            'Коммерческое помещение',
+};
+function commercialMarketPpm(cityName, subtype) {
+  const moscowBench = COMMERCIAL_PPM_BENCH_MOSCOW[subtype] ?? COMMERCIAL_PPM_BENCH_MOSCOW.default;
+  if (cityName === 'Москва') return moscowBench;
+  // Scale by residential price ratio (e.g. SPb is ~77% of Moscow residential
+  // → commercial probably similar). Crude but better than flat residential.
+  const residentialRatio = marketPpm(cityName) / 240000;
+  return Math.round(moscowBench * residentialRatio);
 }
 function estimateLiquidity(cityName, type, metro) {
   let base = { 'Москва': 8.5, 'Санкт-Петербург': 8, 'Сочи': 7.5, 'Казань': 7,
@@ -189,20 +225,39 @@ function parseOffer(raw, cityConfig) {
     return (n >= 6 && n <= 40) ? n : null;
   }
   const isRoom = finalType === 'room';
+  const isCommercialType = finalType === 'commercial';
   const effectiveArea = isRoom ? (extractRoomArea(raw.description) || 14) : area;
   const effectivePpm  = effectiveArea > 0 ? Math.round((price * 1e6) / effectiveArea) : 0;
 
-  const disc  = mktPpm > 0 ? Math.round(((mktPpm - effectivePpm) / mktPpm) * 100 * 10) / 10 : 0;
+  // Pick market bench: residential for housing, commercial-subtype-specific
+  // for commercial. Without this, commercial ppm gets compared to residential
+  // 240k₽/м² (in Moscow) and every склад/подвал shows fake "−78%".
+  const commercialSubtype = isCommercialType ? raw.category : null;
+  const subTypeLabel = commercialSubtype ? COMMERCIAL_SUBTYPE_RU[commercialSubtype] : null;
+  const effectiveMktPpm = isCommercialType
+    ? commercialMarketPpm(cityName, commercialSubtype)
+    : mktPpm;
+
+  const disc  = effectiveMktPpm > 0 ? Math.round(((effectiveMktPpm - effectivePpm) / effectiveMktPpm) * 100 * 10) / 10 : 0;
   const monthlyRent = Math.round(cityConfig.rentPpm * effectiveArea);
   const vac   = estimateVacancy(finalType, cityName);
   const roi   = price > 0 ? Math.round((monthlyRent * 12 * (1 - vac / 100) / (price * 1e6)) * 100 * 10) / 10 : 0;
   const liq   = estimateLiquidity(cityName, type, metro);
-  const score = calcScore({ disc, roi, grow: cityConfig.growth, liq, vac, type: finalType });
+  const floorNum = Number.isFinite(raw.floorNumber) ? raw.floorNumber : null;
+  const score = calcScore({ disc, roi, grow: cityConfig.growth, liq, vac, type: finalType, floor: floorNum });
 
   const roomsLabel = { 1: '1-комн.', 2: '2-комн.', 3: '3-комн.', 4: '4-комн.' }[raw.roomsCount] || 'Студия';
-  const typeLabel  = finalType === 'newbuild' ? 'Новостройка' : finalType === 'house' ? 'Дом'
-                   : finalType === 'commercial' ? 'Коммерция' : finalType === 'land' ? 'Участок'
-                   : finalType === 'room' ? 'Комната' : finalType === 'parking' ? 'Машиноместо' : null;
+  // For commercial: prefer subtype label ("Офис"/"Склад"/"ПСН"/...) with
+  // floor annotation. For other types: keep generic Russian label.
+  let typeLabel;
+  if (isCommercialType && subTypeLabel) {
+    const floorTag = floorNum === 0 ? ' (цоколь)' : floorNum < 0 ? ' (подвал)' : '';
+    typeLabel = subTypeLabel + floorTag;
+  } else {
+    typeLabel = finalType === 'newbuild' ? 'Новостройка' : finalType === 'house' ? 'Дом'
+              : finalType === 'commercial' ? 'Коммерция' : finalType === 'land' ? 'Участок'
+              : finalType === 'room' ? 'Комната' : finalType === 'parking' ? 'Машиноместо' : null;
+  }
   const titleBase  = typeLabel || (raw.roomsCount ? roomsLabel + ' кв.' : 'Квартира');
   const titleLoc   = district || metro || cityName;
   const floor      = raw.floorNumber && raw.building?.floorsCount
@@ -227,9 +282,10 @@ function parseOffer(raw, cityConfig) {
     lat, lng,
     area:    Math.round(effectiveArea), floor, type: finalType, source: SOURCE_TAG,
     ...(isRoom ? { totalApartmentArea: Math.round(area) } : {}),
+    ...(isCommercialType ? { subType: commercialSubtype, subTypeLabel } : {}),
     price:   Math.round(price * 10) / 10,
     ppm:     Math.round(effectivePpm / 1000),
-    mkt:     Math.round(mktPpm / 1000),
+    mkt:     Math.round(effectiveMktPpm / 1000),
     rent:    Math.round(monthlyRent / 1000),
     vac, grow: cityConfig.growth, liq, badge, score, disc, roi,
     photos:  raw.photos?.map(p => p.fullUrl || p.thumbnail2Url).filter(Boolean).slice(0, 5) || [],
