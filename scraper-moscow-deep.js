@@ -25,16 +25,19 @@ const SOURCE_TAG = 'agg';
 // IDs verified from Cian's public search URLs (site:cian.ru SZAO produces district[0]=NN).
 // If a query returns 0 offers across all rooms, the ID is wrong — log and skip.
 const MOSCOW_OKRUGS = {
-  'СЗАО':  [140],   // Северо-Западный (primary focus)
-  'САО':   [110],   // Северный (primary focus)
-  // Other okrugs disabled — current pass focuses on north/north-west:
-  // 'ЦАО':   [11], 'ЗАО':   [30],
-  // 'СВАО':  [130], 'ВАО': [14], 'ЮВАО': [18], 'ЮАО': [19], 'ЮЗАО': [20]
+  'ЦАО':   [11],    // Центральный
+  'СЗАО':  [140],   // Северо-Западный
+  'САО':   [110],   // Северный
+  'ЗАО':   [30],    // Западный
+  // Other okrugs known but not active in the default rotation:
+  // 'СВАО':  [130], 'ВАО': [14], 'ЮВАО':  [18], 'ЮАО':   [19],  'ЮЗАО': [20]
 };
 
 // Hard cap so we keep listings affordable enough to be relevant to retail
 // investors — applied as `price` range in jsonQuery + post-filter.
-const PRICE_CAP_RUB = 15_000_000;
+// Override at runtime via `--max-price=5000000` (value in rubles).
+const priceCapArg = (process.argv.find(a => a.startsWith('--max-price=')) || '').replace('--max-price=', '');
+const PRICE_CAP_RUB = priceCapArg ? parseInt(priceCapArg, 10) : 15_000_000;
 
 const ROOM_SPLITS = [null, 0, 1, 2, 3, 4]; // null=all rooms, 0=studio, 1-4=rooms
 // Cian _type values verified against their public search-offers endpoint.
@@ -45,10 +48,60 @@ const QUERY_TYPES = [
   { _type: 'parkingsale',    label: 'паркинг/гаражи/машиноместа',   splitRooms: false },
 ];
 
-const okrugArg = (process.argv.find(a => a.startsWith('--okrug=')) || '').replace('--okrug=', '');
-const okrugsToRun = okrugArg
-  ? { [okrugArg]: MOSCOW_OKRUGS[okrugArg] }
-  : MOSCOW_OKRUGS;
+// CLI:
+//   --okrug=СЗАО              single okrug (legacy)
+//   --okrugs=СЗАО,САО,ЦАО     comma-separated list (preferred)
+// Unknown names are dropped with a warning.
+const okrugArg  = (process.argv.find(a => a.startsWith('--okrug=')) || '').replace('--okrug=', '');
+const okrugsArg = (process.argv.find(a => a.startsWith('--okrugs=')) || '').replace('--okrugs=', '');
+let okrugsToRun;
+if (okrugsArg) {
+  okrugsToRun = {};
+  for (const name of okrugsArg.split(',').map(s => s.trim()).filter(Boolean)) {
+    if (MOSCOW_OKRUGS[name]) okrugsToRun[name] = MOSCOW_OKRUGS[name];
+    else console.warn(`⚠️  unknown okrug "${name}" — пропускаю`);
+  }
+} else if (okrugArg) {
+  okrugsToRun = MOSCOW_OKRUGS[okrugArg] ? { [okrugArg]: MOSCOW_OKRUGS[okrugArg] } : {};
+} else {
+  okrugsToRun = MOSCOW_OKRUGS;
+}
+
+// Commercial price-bucket segmentation. Cian caps each query at 28 pages (~784
+// results); СЗАО commercial at ≤5M alone returns >540 hits across all 28 pages,
+// meaning we're losing inventory at the tail. Split the commercial sweep into
+// N price buckets so each bucket gets its own 28-page window.
+//
+// Bucket boundaries chosen so the densest segments (low-priced offices in
+// central okrugs) fit inside one bucket; widens as we climb into rare high-end
+// inventory where saturation is unlikely.
+function commercialPriceBuckets(cap) {
+  const bn = (lo, hi) => ({ lo, hi: Math.min(hi, cap) });
+  if (cap <= 5_000_000) return [
+    bn(0,         1_000_000),
+    bn(1_000_001, 2_000_000),
+    bn(2_000_001, 3_000_000),
+    bn(3_000_001, 4_000_000),
+    bn(4_000_001, 5_000_000),
+  ];
+  if (cap <= 20_000_000) return [
+    bn(0,          2_500_000),
+    bn(2_500_001,  5_000_000),
+    bn(5_000_001, 10_000_000),
+    bn(10_000_001, 15_000_000),
+    bn(15_000_001, 20_000_000),
+  ];
+  // 500M tier — 7 buckets, log-ish spacing
+  return [
+    bn(0,           5_000_000),
+    bn(5_000_001,  15_000_000),
+    bn(15_000_001, 30_000_000),
+    bn(30_000_001, 60_000_000),
+    bn(60_000_001, 100_000_000),
+    bn(100_000_001, 200_000_000),
+    bn(200_000_001, cap),
+  ].filter(b => b.lo <= b.hi);
+}
 
 // ── Reuse helpers from main scraper ────────────────────────────────────────
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
@@ -96,6 +149,27 @@ function parseOffer(raw) {
   const locs = geo.filter(a => a.type === 'location');
   const inMoscow = locs.some(l => String(l.id) === '1');
   if (!inMoscow) return null;
+
+  // ── Hard rejects before any further parsing ─────────────────────────────
+  // 1) "Арендный бизнес" / "Готовый бизнес" — Cian's `businessSale` category
+  //    is the sale of an operating BUSINESS (revenue stream), not the
+  //    underlying real estate. Investors browsing AIvest want property,
+  //    not a working laundromat — skip entirely.
+  if (raw.category === 'businessSale') return null;
+
+  // 2) Description-level guard: any commercial/apartment listing that openly
+  //    says "продажа бизнеса" / "готовый бизнес" / "действующий бизнес" /
+  //    "арендный бизнес" — same rationale, catches mis-categorised cases.
+  const descLower = (raw.description || '').toLowerCase();
+  const titleLower = (raw.title || '').toLowerCase();
+  const businessRe = /(продажа\s+бизнес|готовый\s+бизнес|действующий\s+бизнес|арендный\s+бизнес|работающий\s+бизнес)/i;
+  if (businessRe.test(descLower) || businessRe.test(titleLower)) return null;
+
+  // 3) Доля (fractional ownership). Belt-and-suspenders: explicit text match
+  //    in description OR title; numeric checks (ppm floor, disc ceiling) run
+  //    below for cases without the word.
+  const shareRe = /(продаётся\s+доля|продается\s+доля|продам\s+долю|\bдоли\b|\bдоля\b|\bдолей\b|\b\d\/\d\s+(?:доля|долей|долю)\b)/i;
+  if (shareRe.test(descLower) || shareRe.test(titleLower)) return null;
 
   const district = geo.find(a => a.type === 'raion')?.shortName
                 || geo.find(a => a.type === 'okrug')?.shortName || '';
@@ -194,7 +268,7 @@ function parseOffer(raw) {
 }
 
 // ── Fetch one page with okrug + rooms + price filters ─────────────────────
-async function fetchPage(districtIds, qtype, page, rooms) {
+async function fetchPage(districtIds, qtype, page, rooms, priceLo = 0, priceHi = PRICE_CAP_RUB) {
   const jsonQuery = {
     _type: qtype,
     engine_version: { type: 'term', value: 2 },
@@ -203,7 +277,7 @@ async function fetchPage(districtIds, qtype, page, rooms) {
     page:    { type: 'term',  value: page },
     // API-side price cap — Cian honours range filters, saves us pages of
     // unaffordable listings we'd just throw away in parseOffer anyway.
-    price:   { type: 'range', value: { gte: 0, lte: PRICE_CAP_RUB } },
+    price:   { type: 'range', value: { gte: priceLo, lte: priceHi } },
   };
   if (rooms !== null) jsonQuery.room = { type: 'terms', value: [rooms] };
 
@@ -236,14 +310,25 @@ async function fetchPage(districtIds, qtype, page, rooms) {
   for (const [okrugName, ids] of Object.entries(okrugsToRun)) {
     console.log(`📍 ${okrugName} (district[]=${ids.join(',')})`);
     for (const qt of QUERY_TYPES) {
-      const splits = qt.splitRooms ? ROOM_SPLITS : [null];
-      for (const rooms of splits) {
+      // Pagination plan:
+      //   • flatsale  → split by rooms (existing logic)
+      //   • commercialsale → split by price buckets (28-page cap bypass)
+      //   • parkingsale → single segment (volume is low)
+      const isCommercial = qt._type === 'commercialsale';
+      const splits = qt.splitRooms ? ROOM_SPLITS.map(r => ({ rooms: r })) :
+                     isCommercial ? commercialPriceBuckets(PRICE_CAP_RUB).map(b => ({ rooms: null, lo: b.lo, hi: b.hi })) :
+                     [{ rooms: null }];
+      for (const split of splits) {
+        const rooms = split.rooms;
+        const lo = split.lo ?? 0;
+        const hi = split.hi ?? PRICE_CAP_RUB;
         const roomLbl = rooms === null ? '' : rooms === 0 ? '[студия]' : `[${rooms}к]`;
-        process.stdout.write(`  ${qt.label}${roomLbl}: `);
+        const priceLbl = isCommercial ? `[${(lo/1e6).toFixed(1)}–${(hi/1e6).toFixed(1)}M]` : '';
+        process.stdout.write(`  ${qt.label}${roomLbl}${priceLbl}: `);
         let added = 0;
         for (let page = 1; page <= MAX_PAGES; page++) {
           try {
-            const offers = await fetchPage(ids, qt._type, page, rooms);
+            const offers = await fetchPage(ids, qt._type, page, rooms, lo, hi);
             if (!offers.length) { process.stdout.write(`стр.${page} пусто\n`); break; }
             let pageAdded = 0;
             for (const o of offers) {
