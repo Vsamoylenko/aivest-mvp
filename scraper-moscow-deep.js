@@ -145,7 +145,13 @@ function calcScore({ disc, roi, grow, liq, vac, type, floor }) {
   const vacPenalty = vac > 5 ? (vac - 5) * 0.9 : 0;
   const rawSum     = discScore + roiScore + growScore + liqScore - vacPenalty;
   const bonus      = (discScore > 20 && roiScore > 18 && growScore > 14) ? 5 : 0;
-  const categoryPenalty = (type === 'house') ? 5 : 0;
+  // Category-level weighting. Commercial gets a heavy penalty (-20) — per
+  // user request, commercial значимость reduced ~2× so it doesn't dominate
+  // the top-N over residential/houses. Houses get a smaller -5 (lower
+  // liquidity / long exposure / harder short-term rental).
+  const categoryPenalty = (type === 'commercial') ? 20
+                       : (type === 'house')       ? 5
+                       : 0;
   // Floor penalty for commercial: подвал / цокольный этаж резко снижает
   // ликвидность (нет вывески, нет проходимости, не годится под ритейл/услуги).
   // Парковки и склады из этого исключены — для них -1 норма.
