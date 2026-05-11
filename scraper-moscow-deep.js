@@ -25,12 +25,19 @@ const SOURCE_TAG = 'agg';
 // IDs verified from Cian's public search URLs (site:cian.ru SZAO produces district[0]=NN).
 // If a query returns 0 offers across all rooms, the ID is wrong — log and skip.
 const MOSCOW_OKRUGS = {
+  // Старая Москва (within MKAD + a few exclaves like Куркино/Молжаниновский).
   'ЦАО':   [11],    // Центральный
-  'СЗАО':  [140],   // Северо-Западный
   'САО':   [110],   // Северный
+  'СВАО':  [130],   // Северо-Восточный
+  'ВАО':   [14],    // Восточный
+  'ЮВАО':  [18],    // Юго-Восточный
+  'ЮАО':   [19],    // Южный
+  'ЮЗАО':  [20],    // Юго-Западный
   'ЗАО':   [30],    // Западный
-  // Other okrugs known but not active in the default rotation:
-  // 'СВАО':  [130], 'ВАО': [14], 'ЮВАО':  [18], 'ЮАО':   [19],  'ЮЗАО': [20]
+  'СЗАО':  [140],   // Северо-Западный
+  // Не подключены — пускать отдельной волной:
+  //   'ЗелАО' (Зеленоград), 'НАО' / 'ТАО' (Новая Москва)
+  //   Cian district IDs нужно сверить перед добавлением (см. URL поиска по округу).
 };
 
 // Hard cap so we keep listings affordable enough to be relevant to retail
