@@ -237,6 +237,11 @@ app.get('/api/debug/fs', (req, res) => {
 });
 
 // POST /api/login
+// Accepts either email or username in the `email` field — that lets users
+// who registered with a username (or admin-created accounts that don't have
+// a real mailbox) log in without changing the form. Password is verified
+// via verifyPassword which transparently handles both scrypt hashes and
+// legacy plaintext.
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
   if (!email) return res.status(400).json({ error: 'Email обязателен' });
@@ -250,17 +255,26 @@ app.post('/api/login', async (req, res) => {
 
   const rawSubs = await loadSubscribers();
   const subscribers = Array.isArray(rawSubs) ? rawSubs.filter(s => s && typeof s.email === 'string') : [];
-  const sub = subscribers.find(s => s.email.toLowerCase() === email.toLowerCase() && s.status === 'active');
+  const lookup = String(email).trim().toLowerCase();
+  const sub = subscribers.find(s =>
+    s.status === 'active' && (
+      s.email.toLowerCase() === lookup ||
+      (s.username && s.username.toLowerCase() === lookup)
+    )
+  );
   if (sub) {
-    // If subscriber has a password set, verify it; otherwise allow login by email only
-    if (sub.password && sub.password !== password) {
-      return res.status(401).json({ error: 'Неверный email или пароль' });
+    // Password check: verifyPassword handles scrypt + legacy plaintext.
+    // If password is empty/missing on the record, allow email-only login
+    // (legacy behaviour preserved for admin-created accounts without auth).
+    if (sub.password && !verifyPassword(password, sub.password)) {
+      return res.status(401).json({ error: 'Неверный логин или пароль' });
     }
-    const token = Buffer.from(`${email}:pro:${Date.now()}:${process.env.ADMIN_KEY || 'aivest-key'}`).toString('base64');
-    return res.json({ success: true, token, role: 'pro', email, activatedAt: sub.activatedAt, plan: sub.plan });
+    const principal = sub.email; // token always carries the email-ish principal
+    const token = Buffer.from(`${principal}:pro:${Date.now()}:${process.env.ADMIN_KEY || 'aivest-key'}`).toString('base64');
+    return res.json({ success: true, token, role: 'pro', email: principal, username: sub.username || null, activatedAt: sub.activatedAt, plan: sub.plan });
   }
 
-  res.status(401).json({ error: 'Неверный email или пароль' });
+  res.status(401).json({ error: 'Неверный логин или пароль' });
 });
 
 // GET /api/properties  (?mode=rent for rental listings)
@@ -454,6 +468,55 @@ app.get('/api/admin/subscribers', async (req, res) => {
     `);
   }
   res.json(subs);
+});
+
+// POST /api/admin/users
+// Create (or upsert) a fully-activated subscriber. Bypasses payment flow —
+// for comp/test/staff accounts. Body:
+//   { key, email?, username, password, plan?, name?, telegram? }
+// `plan` defaults to 'lifetime'. `email` defaults to `<username>@local` if
+// omitted, so the record satisfies the email-string filter elsewhere.
+app.post('/api/admin/users', async (req, res) => {
+  const { key, email: rawEmail, username, password, plan, name, telegram } = req.body || {};
+  if (key !== process.env.ADMIN_KEY) return res.status(403).json({ error: 'Forbidden' });
+  if (!username || !validUsername(username)) {
+    return res.status(400).json({ error: 'username 3–24 chars [a-z0-9_]' });
+  }
+  if (!password || String(password).length < 4) {
+    return res.status(400).json({ error: 'password too short' });
+  }
+
+  const planKey = plan || 'lifetime';
+  // Allow custom plans; PLAN_PRICES lookup is just for friendly label later.
+  const email = normalizeEmail(rawEmail || `${username.toLowerCase()}@local`);
+
+  const subscribers = await loadSubscribers();
+  const list = Array.isArray(subscribers) ? subscribers.filter(s => s && typeof s.email === 'string') : [];
+
+  // Find existing by username OR email
+  const existing = list.find(s =>
+    (s.username && s.username.toLowerCase() === username.toLowerCase()) ||
+    s.email.toLowerCase() === email
+  );
+
+  const record = {
+    email,
+    username,
+    name:        name || '',
+    telegram:    telegram || '',
+    plan:        planKey,
+    password:    hashPassword(password),
+    status:      'active',
+    createdAt:   existing?.createdAt || new Date().toISOString(),
+    activatedAt: existing?.activatedAt || new Date().toISOString(),
+    source:      'admin-created',
+  };
+
+  if (existing) Object.assign(existing, record);
+  else          list.push(record);
+  await saveSubscribers(list);
+
+  res.json({ success: true, action: existing ? 'updated' : 'created', email, username, plan: planKey });
 });
 
 // POST /api/admin/activate
